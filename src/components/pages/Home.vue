@@ -6,7 +6,8 @@ import Contest from '../organisms/Contest.vue';
 import Pallette from '../organisms/Pallette.vue';
 </script>
 <script>
-import { modalState } from '../../state.js';
+import { modalState, mobileDevice } from '../../state.js';
+import RatedSliderMobile from '../organisms/RatedSliderMobile.vue';
 export default
     {
         methods:
@@ -22,7 +23,8 @@ export default
     <div @click="closeModal()">
         <Hero></Hero>
         <Pallette></Pallette>
-        <RatedSlider></RatedSlider>
+        <RatedSlider v-if="!mobileDevice.isMobile"></RatedSlider>
+        <RatedSliderMobile v-if="mobileDevice.isMobile"></RatedSliderMobile>
         <div class="gallery-container">
             <NewGallery galleryUrl="/gallery/new/" galleryTitle="Новое" />
             <Contest></Contest>

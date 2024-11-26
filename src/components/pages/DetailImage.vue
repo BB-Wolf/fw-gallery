@@ -24,8 +24,9 @@
                 <p v-html="imageData.imageDescription"></p>
                 <!-- Meta Information (e.g., artist, year, dimensions) -->
                 <div class="meta-info">
-                    <span><strong>Автор:</strong> {{ $route.params.user }}</span>
-                    <span><strong>Год:</strong> {{ imageData.imagePostDate }}</span>
+                    <span><strong>Автор:</strong> <a class="author-link" :href="/author/ + $route.params.user">{{
+                        $route.params.user }}</a></span>
+                    <span><strong>Дата:</strong> {{ imageData.imagePostDate }}</span>
                     <span><strong>Разрешение:</strong> {{ imageData.imageDimension.width }}x{{
                         imageData.imageDimension.height }}
                     </span>
@@ -113,7 +114,6 @@
 <script>
 import axios from "axios";
 import markdownit from 'markdown-it';
-import { VueImageZoomer } from 'vue-image-zoomer'
 import 'vue-image-zoomer/dist/style.css';
 
 export default
@@ -127,7 +127,6 @@ export default
         },
         async created() {
             const getImageData = await axios.get('//img-fw.bb-wolf.site/console/get_detail_image.php?user=' + this.$route.params.user + '&code=' + this.$route.params.image);
-            const userTags = await axios.get(`//img-fw.bb-wolf.site/console/get_tags_user_list.php`);
             const md = markdownit();
             if (getImageData.data) {
                 this.imageData = getImageData.data;
@@ -136,9 +135,6 @@ export default
                 console.log(this.imageData.imageColors);
             }
 
-            if (userTags.data) {
-                this.userTags = userTags.data;
-            }
         },
         methods:
         {
@@ -160,5 +156,10 @@ export default
     height: 80px;
     border: 2px solid white;
     border-radius: 5px;
+}
+
+.meta-info .author-link {
+    color: white;
+    font-weight: normal;
 }
 </style>

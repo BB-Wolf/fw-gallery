@@ -1,56 +1,104 @@
+<script>
+import { TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger } from 'radix-vue'
+export default {
+    components:
+    {
+        TabsContent,
+        TabsRoot,
+        TabsList,
+        TabsTrigger,
+
+    },
+    props: {
+        userLogin: null,
+        userTitle: null,
+        userFolders: null,
+        userAvatar: null,
+        userFields: null,
+    }
+}
+</script>
 <template>
+    <TabsRoot default-value="tab1" orientation="horizontal">
+        <div class="author-tabs">
+            <TabsList aria-label="tabs example">
+                <TabsTrigger value="tab1" class="tab-button">
+                    Профиль
+                </TabsTrigger>
+                <TabsTrigger value="tab2" class="tab-button">
+                    Настройки галереи
+                </TabsTrigger>
+                <TabsTrigger value="tab3" class="tab-button">
+                    Three
+                </TabsTrigger>
+            </TabsList>
+        </div>
+        <TabsContent value="tab1">
+            <div class="profile-container">
+                <h2>Профиль</h2>
 
-    <div class="profile-container">
-        <h2>User Profile</h2>
 
-        <!-- Profile Section -->
-        <div class="profile-section">
-            <!-- Avatar -->
-            <div class="profile-avatar">
-                <img src="https://via.placeholder.com/150" alt="Avatar" class="profile-avatar">
+                <!-- Profile Section -->
+                <div class="profile-section">
+                    <!-- Avatar -->
+                    <div class="profile-avatar">
+                        <img src="https://via.placeholder.com/150" alt="Avatar" class="profile-avatar">
+                    </div>
+
+                    <!-- User Data -->
+                    <div class="user-data">
+                        <!-- Avatar Upload -->
+                        <label for="avatarUpload">Change Avatar</label>
+                        <label for="avatarUpload" class="file-upload-label">Choose file</label>
+                        <input type="file" id="avatarUpload" accept="image/*">
+
+                        <!-- Username -->
+                        <label for="username">Username</label>
+                        <input type="text" id="username" value="john_doe" required>
+
+                        <!-- Email -->
+                        <label for="email">Email</label>
+                        <input type="email" id="email" value="john_doe@example.com" required>
+                    </div>
+                </div>
+                <!-- Update Button -->
+                <button class="update-btn">Save Changes</button>
+
             </div>
 
-            <!-- User Data -->
-            <div class="user-data">
-                <!-- Avatar Upload -->
-                <label for="avatarUpload">Change Avatar</label>
-                <label for="avatarUpload" class="file-upload-label">Choose file</label>
-                <input type="file" id="avatarUpload" accept="image/*">
+        </TabsContent>
+        <TabsContent value="tab2">
+            <div class="profile-container">
+                <h2>Галерея</h2>
 
-                <!-- Username -->
-                <label for="username">Username</label>
-                <input type="text" id="username" value="john_doe" required>
+                <!-- Folders Section -->
+                <div class="folders-section">
+                    <h3>Your Folders</h3>
+                    <ul class="folders-list">
+                        <li>
+                            <span>Nature</span>
+                            <button class="file-upload-label">Edit</button>
+                        </li>
+                        <li>
+                            <span>Travel</span>
+                            <button class="file-upload-label">Edit</button>
+                        </li>
+                        <li>
+                            <span>Art</span>
+                            <button class="file-upload-label">Edit</button>
+                        </li>
+                    </ul>
+                </div>
 
-                <!-- Email -->
-                <label for="email">Email</label>
-                <input type="email" id="email" value="john_doe@example.com" required>
+                <!-- Update Button -->
+                <button class="update-btn">Save Changes</button>
+
             </div>
-        </div>
-
-        <!-- Folders Section -->
-        <div class="folders-section">
-            <h3>Your Folders</h3>
-            <ul class="folders-list">
-                <li>
-                    <span>Nature</span>
-                    <button class="file-upload-label">Edit</button>
-                </li>
-                <li>
-                    <span>Travel</span>
-                    <button class="file-upload-label">Edit</button>
-                </li>
-                <li>
-                    <span>Art</span>
-                    <button class="file-upload-label">Edit</button>
-                </li>
-            </ul>
-        </div>
-
-        <!-- Update Button -->
-        <button class="update-btn">Save Changes</button>
-
-    </div>
-
+        </TabsContent>
+        <TabsContent value="tab3">
+            Tab three content
+        </TabsContent>
+    </TabsRoot>
 </template>
 <style scoped>
 /* Container */
@@ -188,5 +236,20 @@ h2 {
 /* Hide file input */
 input[type="file"] {
     display: none;
+}
+
+.author-tabs {
+    display: flex;
+    margin-top: 20px;
+    width: 70%;
+}
+
+
+.tab-button {
+    padding: 20px;
+}
+
+.tab-button[data-state="inactive"] {
+    opacity: 0.5;
 }
 </style>

@@ -1,11 +1,11 @@
 <template>
-    <section id="pallete_of_day" class="gallery-container pallette" v-if="palette">
-        <div class="mt-20 mb-20 pallette-container" style="">
-            <div class="h2">Палитра дня: {{ palette.paletteTitle }}</div>
+    <section id="pallete_of_day" class="gallery-container pallette" style="margin:0;padding: 0;" v-if="palette">
+        <div class="pallette-container">
+            <div class="h2" style="padding-left:20px">Палитра дня: {{ palette.paletteTitle }}</div>
             <ul class="colorswatch">
-                <li v-for="color in palette.colors" :key="color.name" :style="{backgroundColor:color.hex}">
-                    {{ color.name }} <br/>
-                    {{color.hex}}
+                <li v-for="color in palette.colors" :key="color.name" :style="{ backgroundColor: color.hex }">
+                    {{ color.name }} <br />
+                    {{ color.hex }}
                 </li>
 
             </ul>
@@ -27,7 +27,6 @@
 }
 
 .colorswatch li {
-    flex: 0 20%;
     display: flex;
     text-align: center;
     justify-content: center;

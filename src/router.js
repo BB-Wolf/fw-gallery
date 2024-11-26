@@ -30,19 +30,39 @@ const rts = [
     meta: { transition: 'slide-right', requiresAuth: true }
   },
   {
-    path: '/profile/:user',
-    component: () => import('./components/pages/Personal.vue'),
-    meta: { transition: 'slide-right' }
+    path: '/author/:user',
+    component: () => import('./components/pages/AuthorPage.vue'),
+    meta: { transition: 'fade' }
+  },
+  {
+    path: '/gallery/:user/',
+    component: () => import('./components/pages/UserGallery.vue'),
+    meta: { transition: 'fade' }
   },
   {
     path: '/gallery/:user/:image/',
     component: () => import('./components/pages/DetailImage.vue'),
-    meta: { transition: 'slide-right' }
+    meta: { transition: 'fade' }
   },
   {
     path: '/upload/',
     component: () => import('./components/pages/Upload.vue'),
-    meta: { transition: 'slide-right' }
+    meta: { transition: 'fade' }
+  },
+
+  {
+    path: '/character/:character',
+    component: () => import('./components/pages/CharacterPage.vue'),
+    meta: { transition: 'fade' }
+  },
+  {
+    // path: "*",
+    path: '/:catchAll(.*)/',
+    name: 'NotFound',
+    component: () => import('./components/pages/NotFound.vue'),
+    meta: {
+      requiresAuth: false
+    }
   }
 ]
 
@@ -54,7 +74,6 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   if (to.meta.requiresAuth) {
     const token = localStorage.getItem('token')
-    console.log(token)
     if (token) {
       // User is authenticated, proceed to the route
       next()

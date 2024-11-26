@@ -1,8 +1,11 @@
 <template>
+    <div class="overlay-bg" v-show="isModalOpen.isModalLoginVisible"></div>
+
     <Transition :duration="{ enter: 500, leave: 800 }">
-        <div id="login" class="modal" v-show="isModalOpen.isModalVisible">
+        <div id="login" class="modal" v-show="isModalOpen.isModalLoginVisible">
             <div class="modal-left-column"></div>
             <div class="modal-right-column">
+                <span class="close" @click="closeModal"></span>
                 <div class="modal-title">
                     <div class="h1">Добро пожаловать</div>
                     <div>Если Вы уже регистрировались, введите Ваши данные для авторизации</div>
@@ -25,8 +28,10 @@
                     <div class="modal-oauth">
 
                     </div>
-
-                    <a href="/register">Регистрация</a>
+                    <div class="form-group" style="padding-right:0; margin-top:20px;">
+                        <button class="button-53" style="background-color:  #ffcc00;" @click="registerModal"
+                            role="button">Регистрация</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -34,6 +39,16 @@
 </template>
 
 <style scoped>
+.overlay-bg {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
 #login {
     max-width: 1200px;
     max-height: 600px;
@@ -124,7 +139,7 @@
     text-decoration: none #000000 solid;
     text-decoration-thickness: auto;
     width: 100%;
-    max-width: 460px;
+    max-width: 610px;
     position: relative;
     cursor: pointer;
     transform: rotate(-2deg);
@@ -159,6 +174,12 @@
     }
 }
 
+@media(max-width:768px) {
+    .modal-left-column {
+        display: none;
+    }
+}
+
 .v-enter-active,
 .v-leave-active {
     transition: opacity 1.5s ease;
@@ -187,43 +208,95 @@
         transform: translate(-55%, -50%);
     }
 }
+
+.close {
+    cursor: pointer;
+
+}
+
+.close:after,
+.close:before {
+    content: "";
+    height: 0px;
+    width: 20px;
+    border-top: 1px solid #000;
+    position: absolute;
+    top: 40px;
+    right: 32px;
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    border: 1px solid black;
+    border-radius: 50%;
+}
+
+.close:before {
+    right: 32px;
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.close:hover {
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=30);
+    opacity: 0.3;
+}
 </style>
 
 <script>
-import { modalState } from '../../state.js';
+import { modalState, isUserLogged } from '../../state';
+
 import axios from 'axios';
 export default {
     data() {
         return {
             isModalOpen: modalState,
+            isUser: isUserLogged.userLogged,
             login: null,
             password: null,
         }
     },
     methods:
     {
-       async sendData() {
+        closeModal() {
+            this.isModalOpen.isModalLoginVisible = false;
+        },
+        async sendData() {
             if (this.login == null || this.password == null) {
                 document.querySelector('#login').classList.add('shake-form');
                 setTimeout(() => document.querySelector('#login').classList.remove('shake-form'), 500);
                 return false;
             }
 
-            var loginRequest = await axios.post('//img-fw.bb-wolf.site/console/post_login.php',
-                {
-                    login: this.login,
-                    password: this.password
+            const formData = new FormData();
+            formData.append('login', this.login);
+            formData.append('password', this.password);
+
+            const loginRequest = await axios.post('//img-fw.bb-wolf.site/console/post_login.php',
+                formData, {
+                headers: {
+                    'Content-Type': 'application/json'
                 }
+            }
             );
             if (loginRequest.data) {
                 if (loginRequest.data.success == 'true') {
                     localStorage.setItem('token', loginRequest.data.token);
+                    modalState.isModalLoginVisible = false;
+                    isUserLogged.setLogin();
+                    location.reload();
                 } else {
                     document.querySelector('#login').classList.add('shake-form');
                     setTimeout(() => document.querySelector('#login').classList.remove('shake-form'), 500);
                     return false;
                 }
             }
+        },
+        registerModal() {
+            modalState.isModalLoginVisible = false;
+            modalState.isModalRegisterVisible = true;
         }
 
     }

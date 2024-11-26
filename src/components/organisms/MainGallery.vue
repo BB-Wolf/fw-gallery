@@ -3,6 +3,12 @@
         <a :href="galleryUrl" class="h2">{{ galleryTitle }}</a>
         <div class="image-grid">
             <div class="image-item" v-for="galleryImage in newImages" v-bind:key="galleryImage.id">
+                <div class="image-item__hover--top">
+                    <div class="image-item__author" style="height:0px; position: relative;">
+                        <div class="fav-bookmark" @click="saveToFav($event.target, galleryImage.id)"></div>
+
+                    </div>
+                </div>
                 <a :href="galleryImage.link">
                     <Image imageClass="slide" :imageSrc=galleryImage.picture
                         :imageTitle="galleryImage.title + ' от ' + galleryImage.userName" imageAlt="">
@@ -36,13 +42,30 @@ export default {
             default: 'new'
         }
     },
+    methods: {
+        async saveToFav(elm, id) {
+            const addImg = await axios.get('//img-fw.bb-wolf.site/console/get_save_to_fav.php?id=' + id);
+            if (addImg.data) {
+                elm.classList.toggle('fav-bookmark--active');
+                //
+            } else {
+                // handle global notifications
+            }
+        }
+    },
     data() {
         return {
             newImages: null
         }
     },
     async created() {
-        const gallery = await new axios.get('//img-fw.bb-wolf.site/console/get_gallery_picture.php');
+        const gallery = await new axios.get('//img-fw.bb-wolf.site/console/get_gallery_picture.php',
+            {
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem("token"),
+                }
+            }
+        );
         if (gallery.data) {
             this.newImages = gallery.data;
         }
@@ -54,7 +77,7 @@ export default {
 
 <style scoped>
 .image-grid {
-    gap: 90px;
+    gap: 10px;
 }
 
 .image-item {
@@ -68,7 +91,37 @@ export default {
     bottom: 0px;
 }
 
-.image-item__hover {
+.image-item:hover>.image-item__hover--top {
+    bottom: unset;
+    top: -50px;
+}
+
+.image-item__hover--top:hover {
+    transition: all 0.5s cubic-bezier(0.075, 0.82, 0.365, 1);
+    top: -10px !important;
+}
+
+.fav-bookmark {
+    width: 40px;
+    height: 120px;
+    background-color: rgba(255, 0, 0, 0.3);
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+}
+
+.fav-bookmark:hover {
+    background-color: rgba(255, 0, 0, 0.7);
+    transition: all 0.5s cubic-bezier(0.075, 0.82, 0.365, 1);
+
+}
+
+.fav-bookmark--active {
+    background-color: red;
+}
+
+.image-item__hover,
+.image-item__hover--top {
     display: flex;
     position: absolute;
     bottom: -1000px;
@@ -82,7 +135,7 @@ export default {
     justify-content: center;
     gap: 5px;
     color: white;
-    transition: bottom 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+    transition: all 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
 .image-item a {
