@@ -4,8 +4,10 @@
         <div class="image-grid">
             <div class="image-item" v-for="galleryImage in newImages" v-bind:key="galleryImage.id">
                 <div class="image-item__hover--top">
-                    <div class="image-item__author"><a :href="galleryImage.link">{{ galleryImage.title }}</a></div>
+                    <div class="image-item__author" style="height:0px; position: relative;">
+                        <div class="fav-bookmark" @click="saveToFav($event.target, galleryImage.id)"></div>
 
+                    </div>
                 </div>
                 <a :href="galleryImage.link">
                     <Image imageClass="slide" :imageSrc=galleryImage.picture
@@ -38,6 +40,17 @@ export default {
         {
             type: String,
             default: 'new'
+        }
+    },
+    methods: {
+        async saveToFav(elm, id) {
+            const addImg = await axios.get('//img-fw.bb-wolf.site/console/get_save_to_fav.php?id=' + id);
+            if (addImg.data) {
+                elm.classList.toggle('fav-bookmark--active');
+                //
+            } else {
+                // handle global notifications
+            }
         }
     },
     data() {
@@ -80,7 +93,31 @@ export default {
 
 .image-item:hover>.image-item__hover--top {
     bottom: unset;
-    top: 0px;
+    top: -50px;
+}
+
+.image-item__hover--top:hover {
+    transition: all 0.5s cubic-bezier(0.075, 0.82, 0.365, 1);
+    top: -10px !important;
+}
+
+.fav-bookmark {
+    width: 40px;
+    height: 120px;
+    background-color: rgba(255, 0, 0, 0.3);
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+}
+
+.fav-bookmark:hover {
+    background-color: rgba(255, 0, 0, 0.7);
+    transition: all 0.5s cubic-bezier(0.075, 0.82, 0.365, 1);
+
+}
+
+.fav-bookmark--active {
+    background-color: red;
 }
 
 .image-item__hover,
@@ -98,11 +135,8 @@ export default {
     justify-content: center;
     gap: 5px;
     color: white;
-    transition: bottom 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+    transition: all 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
-
-
-
 
 .image-item a {
     color: white;

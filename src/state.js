@@ -11,6 +11,9 @@ export const modalState = reactive({
 export const mobileDevice = reactive({ isMobile })
 export const isUserLogged = reactive({
   userLogged: !!localStorage.getItem('token'),
+  setLogin() {
+    this.userLogged = true
+  },
   async validate() {
     const tokenRequest = axios.get(
       '//img-fw.bb-wolf.site/console/get_validate_token.php?token=' + localStorage.getItem('token')

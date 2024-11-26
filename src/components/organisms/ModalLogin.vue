@@ -246,13 +246,14 @@
 </style>
 
 <script>
-import { modalState } from '../../state';
+import { modalState, isUserLogged } from '../../state';
 
 import axios from 'axios';
 export default {
     data() {
         return {
             isModalOpen: modalState,
+            isUser: isUserLogged.userLogged,
             login: null,
             password: null,
         }
@@ -284,6 +285,8 @@ export default {
                 if (loginRequest.data.success == 'true') {
                     localStorage.setItem('token', loginRequest.data.token);
                     modalState.isModalLoginVisible = false;
+                    isUserLogged.setLogin();
+                    location.reload();
                 } else {
                     document.querySelector('#login').classList.add('shake-form');
                     setTimeout(() => document.querySelector('#login').classList.remove('shake-form'), 500);

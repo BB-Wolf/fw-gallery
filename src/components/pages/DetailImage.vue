@@ -77,6 +77,7 @@
                 </div>
 
                 <!-- Ratings Section -->
+                <!--
                 <div class="ratings">
                     <label for="rating">Оцените конкурсную работу:</label>
                     <input type="radio" name="rating" value="1"> 1
@@ -84,7 +85,7 @@
                     <input type="radio" name="rating" value="3"> 3
                     <input type="radio" name="rating" value="4"> 4
                     <input type="radio" name="rating" value="5"> 5
-                </div>
+                </div>-->
 
                 <!-- Comments Section -->
                 <div class="comments-section">
