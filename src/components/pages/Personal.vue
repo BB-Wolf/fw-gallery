@@ -1,7 +1,9 @@
 <script>
 import { TabsContent, TabsList, TabsRoot, TabsTrigger } from 'radix-vue'
 import InputText from '../atoms/InputText.vue';
+import axios from 'axios';
 import SwitchButton from '../molecules/SwitchButton.vue';
+import Image from '../atoms/Image.vue';
 
 export default {
     components:
@@ -11,7 +13,8 @@ export default {
         TabsList,
         TabsTrigger,
         InputText,
-        SwitchButton
+        SwitchButton,
+        Image,
 
     },
     props: {
@@ -38,15 +41,32 @@ export default {
         },
 
     },
+    data() {
+        return {
+            userFavs: null,
+        };
+    },
+    async created() {
+        const getFavs = await new axios.get('//img-fw.bb-wolf.site/console/get_gallery_picture.php',
+            {
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem("token"),
+                }
+            }
+        );
+        if (getFavs.data) {
+            this.userFavs = getFavs.data;
+        }
+    },
     methods: {
         saveProfile() { },
         addField() {
             console.log("addField");
             let buttonAdd = document.querySelector(".add-fields");
-            let field = '<div class="newfield-container"><label>Название поля:</label><input type="text" placeholder="Введите название поля" class="new-label" ><textarea class=""></textarea></div>';
+            let field = '<div class="newfield-container"><label>Новое поле:</label><input type="text" placeholder="Введите название поля" class="new-label" ><textarea class=""></textarea></div>';
             buttonAdd.insertAdjacentHTML('beforebegin', field);
 
-        },
+        }
     }
 }
 </script>
@@ -58,13 +78,13 @@ export default {
                     <TabsTrigger value="tab1" class="tab-button">
                         Профиль
                     </TabsTrigger>
-                    <TabsTrigger value="tab3" class="tab-button">
+                    <TabsTrigger value="tab2" class="tab-button">
                         Галерея
                     </TabsTrigger>
-                    <TabsTrigger value="tab4" class="tab-button">
+                    <TabsTrigger value="tab3" class="tab-button">
                         Избранное
                     </TabsTrigger>
-                    <TabsTrigger value="tab5" class="tab-button">
+                    <TabsTrigger value="tab4" class="tab-button">
                         Статистика
                     </TabsTrigger>
                 </TabsList>
@@ -134,10 +154,10 @@ export default {
 
                     <!-- Folders Section -->
                     <div class="folders-section">
-                        <h3>Your Folders</h3>
+                        <h3>Альбомы</h3>
                         <ul class="folders-list">
                             <li>
-                                <span>Nature</span>
+                                <span>Все работы</span>
                                 <button class="file-upload-label">Edit</button>
                             </li>
                             <li>
@@ -157,7 +177,20 @@ export default {
                 </div>
             </TabsContent>
             <TabsContent value="tab3">
-                Tab three content
+                <div class="profile-container" style="height:auto;">
+                    <div class="image-grid" v-infinite-scroll="onLoadMore">
+                        <div class="image-item" v-for="galleryImage in userFavs" v-bind:key="galleryImage.id">
+                            <a :href="galleryImage.link">
+                                <Image imageClass="" :imageSrc=galleryImage.picture
+                                    :imageTitle="galleryImage.title + ' от ' + galleryImage.userName" imageAlt="">
+                                </Image>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </TabsContent>
+            <TabsContent value="tab4">
+                <div class="h1">Скоро</div>
             </TabsContent>
         </TabsRoot>
     </div>
@@ -165,7 +198,7 @@ export default {
 <style scoped>
 .add-fields {
     color: #fff;
-    background-color: #e6b800;
+    background-color: #2b919a;
     padding: 10px;
     text-align: center;
 }
@@ -321,5 +354,9 @@ input[type="file"] {
 
 .tab-button[data-state="inactive"] {
     opacity: 0.5;
+}
+
+.image-item {
+    flex: 0 350px;
 }
 </style>

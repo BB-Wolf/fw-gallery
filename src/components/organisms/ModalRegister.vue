@@ -8,16 +8,19 @@
                 <span class="close" @click="closeModal"></span>
                 <div class="modal-title">
                     <div class="h1">Добро пожаловать</div>
-                    <div>Введите Ваши данные для регистрации</div>
+                    <div>Введите Ваши данные для регистрации. <br />
+                        Мы не собираем персональные данные, пожалуйста, не используйте<br /> Ваш e-mail в качестве
+                        логина
+                    </div>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label>Логин:</label>
+                        <label>Логин (будет отображаться в качестве Автора):</label>
                         <input type="text" v-model="login" placeholder="Введите Ваш логин">
                     </div>
                     <div class="form-group">
                         <label>Пароль:</label>
-                        <input type="password" v-model="password" placeholder="Введите Ваш паароль">
+                        <input type="password" v-model="password" placeholder="Введите Ваш пароль">
                     </div>
                     <div class="form-group" style="padding-right:0; margin-top:20px;">
                         <button class="button-53" @click="sendData" role="button">Регистрация</button>
@@ -72,6 +75,11 @@
 </template>
 
 <style scoped>
+input[type='text'] {
+    background-color: #fff;
+    color: #000;
+}
+
 .overlay-bg {
     width: 100%;
     height: 100%;

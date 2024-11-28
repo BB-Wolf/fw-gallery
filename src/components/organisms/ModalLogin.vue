@@ -24,13 +24,15 @@
                     </div>
                 </div>
                 <div class="modal-foot">
-                    Войти с помощью:
+                    <a href="/access-recovery/">Забыл пароль</a>
+                    <!--  Войти с помощью:
                     <div class="modal-oauth">
-
-                    </div>
+                    
+                    </div>-->
                     <div class="form-group" style="padding-right:0; margin-top:20px;">
                         <button class="button-53" style="background-color:  #ffcc00;" @click="registerModal"
                             role="button">Регистрация</button>
+
                     </div>
                 </div>
             </div>
@@ -39,6 +41,12 @@
 </template>
 
 <style scoped>
+input[type='text'] {
+    background-color: #fff;
+    color: #000;
+
+}
+
 .overlay-bg {
     width: 100%;
     height: 100%;

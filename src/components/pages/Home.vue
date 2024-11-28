@@ -26,7 +26,7 @@ export default
         <RatedSlider v-if="!mobileDevice.isMobile"></RatedSlider>
         <RatedSliderMobile v-if="mobileDevice.isMobile"></RatedSliderMobile>
         <div class="gallery-container">
-            <NewGallery galleryUrl="/gallery/new/" galleryTitle="Новое" />
+            <NewGallery galleryUrl="/gallery/new/" galleryTitle="Новые работы" />
             <Contest></Contest>
             <NewGallery galleryUrl="gallery/top-rated/" galleryType="toprated"
                 galleryTitle="Топ добавлений в избранное" />

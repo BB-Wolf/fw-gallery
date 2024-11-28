@@ -81,7 +81,7 @@ export default
     border-radius: .375em;
     width: 3em;
     height: 1.5em;
-    background-color: #e1dacd;
+    background-color: #e94545;
     box-shadow:
         inset 0 0 .0625em .125em rgb(255 255 255 / .2),
         inset 0 .0625em .125em rgb(0 0 0 / .4),
@@ -89,7 +89,7 @@ export default
     transition: background-color .4s linear;
 
     .toggle-checkbox:checked+& {
-        background-color: #f3b519;
+        background-color: #03900d;
     }
 }
 

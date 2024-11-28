@@ -1,5 +1,11 @@
 <template>
-    12
+    <section id="404">
+        <div class="container">
+            <div class="h1">Упс! Что-то пошло не так</div>
+            <div class="error-text">Ссылка по которй Вы пришли неверная или устаревшая. Пожалуйста, вернитесь назад и
+                попробуйте снова!</div>
+        </div>
+    </section>
 </template>
 
 <script>
@@ -10,3 +16,8 @@ export default {
     }
 }
 </script>
+<style scoped>
+.error-text {
+    color: white;
+}
+</style>
