@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Detail Page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #2c2c2c;
+            color: #f4f4f4;
+            line-height: 1.6;
+        }
+
+        /* Header Section */
+        header {
+            background-color: #1a1a1a;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        header nav {
+            margin-top: 10px;
+        }
+
+        header nav a {
+            color: #f4f4f4;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 18px;
+        }
+
+        /* Main Content Container */
+        .image-detail-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        /* Two Column 70/30 Layout */
+        .image-detail {
+            display: flex;
+            flex-direction: row;
+            gap: 40px;
+        }
+
+        /* Left Column (70%): Image Preview */
+        .image-preview {
+            flex: 7;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+        }
+
+        .image-preview img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Right Column (30%): Image Info */
+        .image-info {
+            flex: 3;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+        }
+
+        .image-info h2 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .image-info p {
+            font-size: 16px;
+            margin-bottom: 20px;
+            color: #cccccc;
+        }
+
+        .meta-info {
+            font-size: 14px;
+            color: #999;
+            margin-bottom: 20px;
+        }
+
+        .meta-info span {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        /* Tags Section */
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tags span {
+            background-color: #4d4d4d;
+            color: #f4f4f4;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        /* Original size link */
+        .original-size a {
+            font-size: 16px;
+            color: #3498db;
+            text-decoration: none;
+            margin-bottom: 30px;
+        }
+
+        .original-size a:hover {
+            text-decoration: underline;
+        }
+
+        /* Ratings Section */
+        .ratings {
+            margin-bottom: 30px;
+        }
+
+        .ratings label {
+            font-size: 18px;
+            color: #cccccc;
+            margin-right: 10px;
+        }
+
+        .ratings input[type="radio"] {
+            margin-right: 5px;
+        }
+
+        /* Comments Section */
+        .comments-section {
+            margin-top: 30px;
+            width: 100%;
+        }
+
+        .comments-section h3 {
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .comments-section .comment-box {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+
+        .comment-box textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 1px solid #666;
+            background-color: #333;
+            color: #f4f4f4;
+            margin-bottom: 10px;
+        }
+
+        .comment-box button {
+            align-self: flex-end;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .comment-box button:hover {
+            background-color: #2980b9;
+        }
+
+        /* Comment List */
+        .comments-list .comment {
+            background-color: #333;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .comments-list .comment .comment-author {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #f4f4f4;
+        }
+
+        .comments-list .comment .comment-text {
+            color: #ccc;
+        }
+
+        /* More by Author Section */
+        .more-by-author {
+            margin-top: 40px;
+        }
+
+        .more-by-author h3 {
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .more-by-author .artworks {
+            display: flex;
+            gap: 20px;
+        }
+
+        .artworks .artwork-item {
+            background-color: #333;
+            border-radius: 8px;
+            padding: 10px;
+            width: 100px;
+            text-align: center;
+        }
+
+        .artworks .artwork-item img {
+            max-width: 100%;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .artworks .artwork-item p {
+            font-size: 14px;
+            color: #ccc;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .image-detail {
+                flex-direction: column;
+            }
+
+            .image-preview img {
+                max-width: 100%;
+            }
+
+            .artworks {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <h1>Art Gallery</h1>
+        <nav>
+            <a href="#">Home</a>
+            <a href="#">Gallery</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+        </nav>
+    </header>
+
+    <!-- Main Content Section -->
+    <div class="image-detail-container">
+        <div class="image-detail">
+
+            <!-- Left Column (70%): Image Preview Section -->
+            <div class="image-preview">
+                <img src="preview-image.jpg" alt="Artwork Preview">
+            </div>
+
+            <!-- Right Column (30%): Image Info Section -->
+            <div class="image-info">
+                <h2>Artwork Title</h2>
+                <p>
+                    This is a detailed description of the artwork. It can include information about the artist's
+                    inspiration, the creation process, and any other details that make the piece significant.
+                </p>
+
+                <!-- Meta Information (e.g., artist, year, dimensions) -->
+                <div class="meta-info">
+                    <span><strong>Artist:</strong> John Doe</span>
+                    <span><strong>Year:</strong> 2024</span>
+                    <span><strong>Dimensions:</strong> 24x36 inches</span>
+                    <span><strong>Medium:</strong> Oil on Canvas</span>
+                </div>
+
+                <!-- Tags Section -->
+                <div class="tags">
+                    <span>Abstract</span>
+                    <span>Modern Art</span>
+                    <span>Colorful</span>
+                    <span>Canvas</span>
+                </div>
+
+                <!-- Link to Original Size Image -->
+                <div class="original-size">
+                    <a href="original-image.jpg" target="_blank">View Original Size</a>
+                </div>
+
+                <!-- Ratings Section -->
+                <div class="ratings">
+                    <label for="rating">Rate this artwork:</label>
+                    <input type="radio" name="rating" value="1"> 1
+                    <input type="radio" name="rating" value="2"> 2
+                    <input type="radio" name="rating" value="3"> 3
+                    <input type="radio" name="rating" value="4"> 4
+                    <input type="radio" name="rating" value="5"> 5
+                </div>
+
+                <!-- Comments Section -->
+                <div class="comments-section">
+                    <h3>Comments</h3>
+
+                    <!-- Comment Box -->
+                    <div class="comment-box">
+                        <textarea placeholder="Write a comment..." rows="4"></textarea>
+                        <button type="submit">Post Comment</button>
+                    </div>
+
+                    <!-- Comments List -->
+                    <div class="comments-list">
+                        <div class="comment">
+                            <div class="comment-author">Jane Smith</div>
+                            <div class="comment-text">This artwork is stunning! I love the vibrant colors and unique
+                                style.</div>
+                        </div>
+                        <div class="comment">
+                            <div class="comment-author">John Adams</div>
+                            <div class="comment-text">Amazing piece! The use of texture is fantastic.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- More by Author Section -->
+                <div class="more-by-author">
+                    <h3>More by John Doe</h3>
+                    <div class="artworks">
+                        <div class="artwork-item">
+                            <img src="artwork1.jpg" alt="Artwork 1">
+                            <p>Artwork 1</p>
+                        </div>
+                        <div class="artwork-item">
+                            <img src="artwork2.jpg" alt="Artwork 2">
+                            <p>Artwork 2</p>
+                        </div>
+                        <div class="artwork-item">
+                            <img src="artwork3.jpg" alt="Artwork 3">
+                            <p>Artwork 3</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div> <!-- End of Right Column -->
+
+        </div>
+    </div>
+
+</body>
+
+</html>

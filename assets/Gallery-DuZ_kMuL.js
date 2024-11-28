@@ -1,0 +1,1 @@
+import{c as a,a as e,b as s,o as l,T as r,N as t}from"./index-C6QRK_23.js";const c={class:"gallery-container"},d={__name:"Gallery",setup(o){return(n,_)=>(l(),a("div",null,[e(r),s("div",c,[e(t,{galleryTitle:"Новое"})])]))}};export{d as default};

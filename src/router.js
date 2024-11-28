@@ -49,9 +49,15 @@ const rts = [
     component: () => import('./components/pages/Upload.vue'),
     meta: { transition: 'fade' }
   },
+
+  {
+    path: '/character/:character',
+    component: () => import('./components/pages/CharacterPage.vue'),
+    meta: { transition: 'fade' }
+  },
   {
     // path: "*",
-    path: '/:catchAll(.*)',
+    path: '/:catchAll(.*)/',
     name: 'NotFound',
     component: () => import('./components/pages/NotFound.vue'),
     meta: {

@@ -1,0 +1,1 @@
+import{_ as s,c as t,b as o,o as r}from"./index-C6QRK_23.js";const c={},n={class:""};function a(_,e){return r(),t("div",n,e[0]||(e[0]=[o("h1",null,"Регистрация",-1)]))}const d=s(c,[["render",a]]);export{d as default};
