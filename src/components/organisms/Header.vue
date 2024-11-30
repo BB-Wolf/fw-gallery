@@ -14,11 +14,14 @@ export default {
     data() {
         return {
             isUser: isUserLogged.userLogged,
-            nswfState: 'Clean'
+            nswfState: '0+'
         }
     },
     created() {
-        isUserLogged.validate()
+        isUserLogged.validate();
+        if (localStorage.getItem('nsfw')) {
+            this.nswfState = localStorage.getItem('nsfw');
+        }
 
     },
     methods: {
@@ -29,8 +32,33 @@ export default {
             modalState.isModalUploadVisible = true;
         },
         async switchNSFW() {
-            // const nswfReq = await axios.get('');
-
+            const nswfReq = await new axios.get('//img-fw.bb-wolf.site/console/get_switch_nsfw.php',
+                {
+                    headers: {
+                        "Authorization": "Bearer " + localStorage.getItem("token"),
+                    }
+                }
+            );
+            if (nswfReq.data) {
+                if (nswfReq.data.nsfw == 7) {
+                    this.nswfState = '0+';
+                    localStorage.setItem('token', nswfReq.data.token);
+                    localStorage.setItem('nsfw', '0+');
+                    location.reload();
+                }
+                if (nswfReq.data.nsfw == 8) {
+                    this.nswfState = '16+';
+                    localStorage.setItem('token', nswfReq.data.token);
+                    localStorage.setItem('nsfw', '16+');
+                    location.reload();
+                }
+                if (nswfReq.data.nsfw == 9) {
+                    this.nswfState = '18+';
+                    localStorage.setItem('token', nswfReq.data.token);
+                    localStorage.setItem('nsfw', '18+');
+                    location.reload();
+                }
+            }
         },
         logout() {
             localStorage.removeItem('token');
@@ -44,9 +72,9 @@ export default {
     <header>
         <a class="h1" href="/">Art Gallery</a>
         <nav>
-            <div class="nsfw-state" @click="switchNSFW">NSFW: Clean</div>
-            <a href="/main/">Gallery</a>
-            <a href="#" v-show="!isUser" @click="showLogin">Log In</a>
+            <div class="nsfw-state" @click="switchNSFW">NSFW: {{ this.nswfState }}</div>
+            <a href="/main/">Галерея</a>
+            <a href="#" v-show="!isUser" @click="showLogin">Войти</a>
             <a v-show="isUser" @click="showUpload">Загрузить</a>
             <a href="/personal/" v-show="isUser">Персональный раздел</a>
             <a v-show="isUser" @click="logout">Exit</a>

@@ -2,7 +2,7 @@
     <div class="switch">
         <label>{{ this.inputLabel }}</label>
         <span class="switch-off">Нет</span>
-        <input class="toggle-checkbox" type="checkbox" :name="this.inputName">
+        <input class="toggle-checkbox" type="checkbox" :name="this.inputName" :checked="this.isChecked">
         <div class="toggle-container">
             <div class="toggle-button">
                 <div class="toggle-button-circles-container">
@@ -27,7 +27,7 @@
 <script>
 export default
     {
-        props: ['inputLabel', 'inputName']
+        props: ['inputLabel', 'inputName', 'isChecked'],
 
     }
 </script>
@@ -68,8 +68,8 @@ export default
     position: absolute;
     z-index: 1;
     border-radius: inherit;
-    width: 100%;
-    height: 100%;
+    width: 250px;
+    height: 30px;
     opacity: 0;
     cursor: pointer;
 }

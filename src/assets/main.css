@@ -662,3 +662,19 @@ footer {
     padding: 0 20px;
   }
 }
+
+.newfield-container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+.infoFields {
+  margin-top: 20px;
+  padding: 0 20px;
+}
+
+.info-field {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}

@@ -8,20 +8,20 @@
                 <div class="author-info">
                     <div class="author-image">
                         <div class="author-image__border">
-                            <img src="">
+                            <img :src="this.userProfile.avatar">
                         </div>
                     </div>
-                    <div class="author-name">Lorem ipsum dolor sit amet consectetur adipisicing elit.</div>
-                    <div class="author-reg">Дата регистрации: 01.01.1970</div>
+                    <div class="author-name">{{ this.userProfile.user }}</div>
+                    <div class="author-reg">Дата регистрации: {{ this.userProfile.registerDate }}</div>
                 </div>
                 <div class="author-stats">
-                    <div class="author-followers"> 100
+                    <div class="author-followers"> 0
                         <div class="label">подписчиков</div>
                     </div>
-                    <div class="author-follows">12
+                    <div class="author-follows">0
                         <div class="label">подписок</div>
                     </div>
-                    <div class="author-publishes">8
+                    <div class="author-publishes"> {{ this.userProfile.totalImages }}
                         <div class="label">работ</div>
                     </div>
                 </div>
@@ -37,6 +37,12 @@
                 <div class="author-rewards">
                     <div class="block-label">Награды</div>
                     <div class="reward-block"></div>
+                </div>
+                <div class="infoFields">
+                    <div class="info-field" v-for="userField in JSON.parse(userProfile.fields)" :key="userField">
+                        <span>{{ userField.label }}</span>
+                        <span>{{ userField.value }}</span>
+                    </div>
                 </div>
             </div>
             <div class="author-tabs">
@@ -158,6 +164,11 @@ h1 {
 
 }
 
+.author-image__border img {
+
+    max-width: 100%;
+}
+
 .author-stats {
     display: flex;
     flex-direction: row;
@@ -203,6 +214,38 @@ h1 {
 #author-latest-images {
     margin-top: 20px;
 }
+
+.author-name {
+    text-align: center;
+    font-weight: bold;
+}
+
+@media (max-width:768px) {
+    .author-block {
+        width: 100%;
+    }
+
+    .author-stats {
+        flex-wrap: wrap;
+    }
+
+    .author-followers,
+    .author-follows,
+    .author-publishes {
+        width: 100%;
+    }
+
+    .author-tabs {
+        width: 100%;
+        flex-wrap: wrap;
+    }
+
+    .tab-button {
+        width: 100%;
+
+    }
+
+}
 </style>
 
 <script>
@@ -220,18 +263,6 @@ export default {
         Image
 
     },
-    props: {
-        galleryTitle: {
-            type: String,
-            default: 'Галерея'
-        },
-        galleryUrl: String,
-        galleryType:
-        {
-            type: String,
-            default: 'new'
-        }
-    },
     methods: {
         onLoadMore() {
             console.log('todo load more');
@@ -241,7 +272,18 @@ export default {
     },
     data() {
         return {
-            newImages: null
+            newImages: null,
+            galleryTitle: {
+                type: String,
+                default: 'Галерея'
+            },
+            galleryUrl: String,
+            galleryType:
+            {
+                type: String,
+                default: 'new'
+            },
+            userProfile: null,
         }
     },
     async created() {
@@ -252,8 +294,12 @@ export default {
                 }
             }
         );
+        const userReq = await new axios.get('//img-fw.bb-wolf.site/console/get_author_info.php?user=' + this.$route.params.user);
         if (gallery.data) {
             this.newImages = gallery.data;
+        }
+        if (userReq.data) {
+            this.userProfile = userReq.data;
         }
 
     },

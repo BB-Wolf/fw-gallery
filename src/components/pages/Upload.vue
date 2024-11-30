@@ -4,7 +4,7 @@
         <h2>Upload Image</h2>
         <form id="uploadForm">
             <!-- Image Upload -->
-            <label for="imageUpload">Choose an image to upload</label>
+            <label for="imageUpload">Выберите изображеие для загрузки</label>
             <input type="file" id="imageUpload" name="image" accept="image/*" required>
 
             <!-- Title -->
@@ -16,9 +16,9 @@
             <textarea id="description" name="description" placeholder="Enter a brief description" required></textarea>
 
             <!-- Folder Selection -->
-            <label for="folder">Select Folder</label>
+            <label for="folder">Выберите раздел</label>
             <select id="folder" name="folder" required>
-                <option value="">-- Select Folder --</option>
+                <option value="">-- Раздел --</option>
                 <option value="nature">Nature</option>
                 <option value="art">Art</option>
                 <option value="travel">Travel</option>
@@ -26,7 +26,7 @@
             </select>
 
             <!-- Submit Button -->
-            <button type="submit" class="submit-btn">Upload</button>
+            <button type="submit" class="submit-btn">Загрузить</button>
         </form>
     </div>
 

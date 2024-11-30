@@ -56,6 +56,11 @@ const rts = [
     meta: { transition: 'fade' }
   },
   {
+    path: '/todo/',
+    component: () => import('./components/pages/TodoPage.vue'),
+    meta: { transition: 'fade' }
+  },
+  {
     // path: "*",
     path: '/:catchAll(.*)/',
     name: 'NotFound',

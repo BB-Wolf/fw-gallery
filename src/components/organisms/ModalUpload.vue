@@ -187,6 +187,13 @@ export default {
 
 
 <style scoped>
+input[type='text'],
+textarea {
+    background-color: #fff;
+    color: #000;
+
+}
+
 .upload-container {
     width: 100%;
     padding: 0px;
