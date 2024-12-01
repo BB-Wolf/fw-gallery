@@ -51,19 +51,25 @@ export default
 </script>
 
 <template>
-    <div class="mt-20 mb-20" style="height:200px;">
+    <div class="mt-20 mb-20" style="max-height:200px;">
         <swiper-container :slides-per-view="3" :space-between="spaceBetween" :centered-slides="false"
             :pagination="false" :breakpoints="{
                 768: {
-                    slidesPerView: 3,
+                    slidesPerView: 6,
                 },
             }" @swiperprogress="onProgress" @swiperslidechange="onSlideChange">
             <swiper-slide v-for="slide in sliders" :key="slide">
                 <a :href="slide.link">
-                    <Image style="max-width: 100%;" :imageSrc=slide.picture imageTitle="" imageAlt="">
+                    <Image style="max-width: 100%;max-height: 200px;" :imageSrc=slide.picture imageTitle="" imageAlt="">
                     </Image>
                 </a>
             </swiper-slide>
         </swiper-container>
     </div>
 </template>
+
+<style scoped>
+swiper-slide {
+    max-height: 200px;
+}
+</style>

@@ -44,31 +44,13 @@
                 </div>
                 <!-- Tags Section -->
                 <div class=" tags">
-                    <span>
+                    <span v-for="tag in imageData.tags" :key="tag" @click="goToTag(tag.code)">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16px"
                             height="16px">
                             <path
                                 d="M21.41 11.58L12.42 2.59C12.24 2.42 12.02 2.3 11.77 2.23C11.53 2.16 11.27 2.13 11.01 2.13H5C3.9 2.13 3 3.03 3 4.13V10.13C3 10.39 3.03 10.65 3.11 10.89C3.18 11.13 3.3 11.36 3.47 11.54L12.46 20.53C13.05 21.12 13.98 21.12 14.58 20.53L21.41 13.71C22 13.12 22 12.18 21.41 11.58ZM7.5 7.13C6.67 7.13 6 6.46 6 5.63C6 4.8 6.67 4.13 7.5 4.13C8.33 4.13 9 4.8 9 5.63C9 6.46 8.33 7.13 7.5 7.13Z" />
                         </svg>
-                        Abstract</span>
-                    <span>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16px"
-                            height="16px">
-                            <path
-                                d="M21.41 11.58L12.42 2.59C12.24 2.42 12.02 2.3 11.77 2.23C11.53 2.16 11.27 2.13 11.01 2.13H5C3.9 2.13 3 3.03 3 4.13V10.13C3 10.39 3.03 10.65 3.11 10.89C3.18 11.13 3.3 11.36 3.47 11.54L12.46 20.53C13.05 21.12 13.98 21.12 14.58 20.53L21.41 13.71C22 13.12 22 12.18 21.41 11.58ZM7.5 7.13C6.67 7.13 6 6.46 6 5.63C6 4.8 6.67 4.13 7.5 4.13C8.33 4.13 9 4.8 9 5.63C9 6.46 8.33 7.13 7.5 7.13Z" />
-                        </svg>Modern Art</span>
-                    <span>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16px"
-                            height="16px">
-                            <path
-                                d="M21.41 11.58L12.42 2.59C12.24 2.42 12.02 2.3 11.77 2.23C11.53 2.16 11.27 2.13 11.01 2.13H5C3.9 2.13 3 3.03 3 4.13V10.13C3 10.39 3.03 10.65 3.11 10.89C3.18 11.13 3.3 11.36 3.47 11.54L12.46 20.53C13.05 21.12 13.98 21.12 14.58 20.53L21.41 13.71C22 13.12 22 12.18 21.41 11.58ZM7.5 7.13C6.67 7.13 6 6.46 6 5.63C6 4.8 6.67 4.13 7.5 4.13C8.33 4.13 9 4.8 9 5.63C9 6.46 8.33 7.13 7.5 7.13Z" />
-                        </svg>Colorful</span>
-                    <span>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16px"
-                            height="16px">
-                            <path
-                                d="M21.41 11.58L12.42 2.59C12.24 2.42 12.02 2.3 11.77 2.23C11.53 2.16 11.27 2.13 11.01 2.13H5C3.9 2.13 3 3.03 3 4.13V10.13C3 10.39 3.03 10.65 3.11 10.89C3.18 11.13 3.3 11.36 3.47 11.54L12.46 20.53C13.05 21.12 13.98 21.12 14.58 20.53L21.41 13.71C22 13.12 22 12.18 21.41 11.58ZM7.5 7.13C6.67 7.13 6 6.46 6 5.63C6 4.8 6.67 4.13 7.5 4.13C8.33 4.13 9 4.8 9 5.63C9 6.46 8.33 7.13 7.5 7.13Z" />
-                        </svg>Canvas</span>
+                        {{ tag.name }}</span>
                 </div>
 
                 <!-- Link to Original Size Image -->
@@ -133,13 +115,14 @@ export default
                 this.imageData = getImageData.data;
                 this.imageData.imageDescription = md.renderInline(this.imageData.imageDescription);
                 document.title = getImageData.data.imageTitle;
-                console.log(this.imageData.imageColors);
             }
 
         },
         methods:
         {
-
+            goToTag(code) {
+                location.href = "//img-fw.bb-wolf.site/tags/" + code;
+            }
         }
     }
 </script>

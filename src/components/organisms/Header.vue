@@ -77,7 +77,8 @@ export default {
             <a href="#" v-show="!isUser" @click="showLogin">Войти</a>
             <a v-show="isUser" @click="showUpload">Загрузить</a>
             <a href="/personal/" v-show="isUser">Персональный раздел</a>
-            <a v-show="isUser" @click="logout">Exit</a>
+            <a v-show="isUser" @click="logout">Выйти</a>
+            <a href="/todo/">TODO</a>
         </nav>
     </header>
     <ModalLogin />

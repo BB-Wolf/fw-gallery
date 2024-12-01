@@ -38,9 +38,9 @@
                     <div class="block-label">Награды</div>
                     <div class="reward-block"></div>
                 </div>
-                <div class="infoFields">
+                <div class="infoFields mb-20">
                     <div class="info-field" v-for="userField in JSON.parse(userProfile.fields)" :key="userField">
-                        <span>{{ userField.label }}</span>
+                        <span style="font-weight: 700;">{{ userField.label }} :</span>
                         <span>{{ userField.value }}</span>
                     </div>
                 </div>
@@ -64,7 +64,7 @@
                     <TabsContent value="tab1">
                         <div class="section" id="author-latest-folders">
                             <div class="h2">Разделы</div>
-                            <div class="image-grid">
+                            <!--<div class="image-grid">
                                 <div class="image-item" v-for="galleryImage in newImages" v-bind:key="galleryImage.id">
                                     <a :href="galleryImage.link">
                                         <Image imageClass="slide" :imageSrc=galleryImage.picture
@@ -73,7 +73,7 @@
                                         </Image>
                                     </a>
                                 </div>
-                            </div>
+                            </div>-->
                         </div>
                         <div class="section" id="author-latest-images">
                             <div class="h2">Изображения основной галереи</div>
@@ -85,6 +85,18 @@
                                             imageAlt="">
                                         </Image>
                                     </a>
+                                </div>
+                                <div class="wait-container" style="margin:0 auto;">
+                                    <div class="lds-roller" v-if="!this.responseData">
+                                        <div></div>
+                                        <div></div>
+                                        <div></div>
+                                        <div></div>
+                                        <div></div>
+                                        <div></div>
+                                        <div></div>
+                                        <div></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -111,6 +123,29 @@
     </div>
 </template>
 <style scoped>
+.wait-container {
+    flex: 100%;
+    text-align: center;
+    display: none;
+}
+
+.wait-container--active {
+    display: block;
+}
+
+
+
+.lds-roller div:after {
+    content: ' ';
+    display: block;
+    position: absolute;
+    width: 7.2px;
+    height: 7.2px;
+    border-radius: 50%;
+    background: rgb(149 149 149);
+    margin: -3.6px 0 0 -3.6px;
+}
+
 header {
     opacity: 0 !important;
     display: none;
@@ -242,6 +277,8 @@ h1 {
 
     .tab-button {
         width: 100%;
+        padding: 20px;
+
 
     }
 
@@ -265,9 +302,22 @@ export default {
     },
     methods: {
         onLoadMore() {
-            console.log('todo load more');
-            // const length = data.value.length + 1
-            //  data.value.push(...Array.from({ length: 5 }, (_, i) => length + i))
+            window.onscroll = async () => {
+                let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;
+                if (bottomOfWindow && !this.isFinish) {
+                    // document.querySelector('.wait-container').classList.add('wait-container--active');
+                    const getMore = await axios.get('//img-fw.bb-wolf.site/console/get_gallery_picture.php?offset=' + this.offset + '&user=' + this.userProfile.id);
+                    if (getMore.data) {
+                        if (getMore.data.length == 0) {
+                            this.isFinish = true;
+                        }
+                        this.offset += 1;
+                        var currentImages = this.newImages;
+                        this.newImages = [...currentImages, ...getMore.data];
+                        //        document.querySelector('.wait-container').classList.remove('wait-container--active');
+                    }
+                }
+            }
         }
     },
     data() {
@@ -284,25 +334,32 @@ export default {
                 default: 'new'
             },
             userProfile: null,
+            offset: 1,
         }
     },
     async created() {
-        const gallery = await new axios.get('//img-fw.bb-wolf.site/console/get_gallery_picture.php',
+        const userReq = await new axios.get('//img-fw.bb-wolf.site/console/get_author_info.php?user=' + this.$route.params.user);
+
+        if (userReq.data) {
+            this.userProfile = userReq.data;
+        }
+
+    },
+    async mounted() {
+        const gallery = await new axios.get('//img-fw.bb-wolf.site/console/get_gallery_picture.php?offset=' + this.offset + '&user=' + this.userProfile.id,
             {
                 headers: {
                     "Authorization": "Bearer " + localStorage.getItem("token"),
                 }
             }
         );
-        const userReq = await new axios.get('//img-fw.bb-wolf.site/console/get_author_info.php?user=' + this.$route.params.user);
         if (gallery.data) {
             this.newImages = gallery.data;
         }
-        if (userReq.data) {
-            this.userProfile = userReq.data;
-        }
+        this.onLoadMore();
 
     },
+
 }
 
 </script>
