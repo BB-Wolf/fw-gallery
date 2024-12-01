@@ -340,13 +340,10 @@ export default {
     async created() {
         const userReq = await new axios.get('//img-fw.bb-wolf.site/console/get_author_info.php?user=' + this.$route.params.user);
 
+        
         if (userReq.data) {
             this.userProfile = userReq.data;
-        }
-
-    },
-    async mounted() {
-        const gallery = await new axios.get('//img-fw.bb-wolf.site/console/get_gallery_picture.php?offset=' + this.offset + '&user=' + this.userProfile.id,
+            const gallery = await new axios.get('//img-fw.bb-wolf.site/console/get_gallery_picture.php?offset=' + this.offset + '&user=' + this.userProfile.id,
             {
                 headers: {
                     "Authorization": "Bearer " + localStorage.getItem("token"),
@@ -356,6 +353,11 @@ export default {
         if (gallery.data) {
             this.newImages = gallery.data;
         }
+        }
+
+    },
+    async mounted() {
+
         this.onLoadMore();
 
     },
