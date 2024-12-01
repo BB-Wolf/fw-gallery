@@ -8,7 +8,7 @@ import NewGallery from '../organisms/NewGallery.vue';
     <div>
         <Tags />
         <div class="gallery-container">
-            <NewGallery galleryType="main" galleryTitle="Новое" />
+            <NewGallery galleryTitle="Новое" />
         </div>
     </div>
 </template>

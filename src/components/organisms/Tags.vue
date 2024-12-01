@@ -24,7 +24,7 @@ import axios from 'axios';
 export default
     {
         async created() {
-            const mainTagsReq = await axios.get(`//img-fw.bb-wolf.site/console/get_tags_list.php`, {
+            const mainTagsReq = await axios.get(`//img-fw.bb-wolf.site/console/get_main_tags_list.php`, {
             });
             const userTagsReq = await axios.get(`//img-fw.bb-wolf.site/console/get_tags_user_list.php`);
 

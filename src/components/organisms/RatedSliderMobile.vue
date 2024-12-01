@@ -51,7 +51,7 @@ export default
 </script>
 
 <template>
-    <div class="mt-20" style="height:200px;">
+    <div class="mt-20 mb-20" style="height:200px;">
         <swiper-container :slides-per-view="3" :space-between="spaceBetween" :centered-slides="false"
             :pagination="false" :breakpoints="{
                 768: {

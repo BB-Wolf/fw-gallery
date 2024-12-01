@@ -19,6 +19,18 @@
                     <div class="image-item__title"><b>Автор:</b> {{ galleryImage.userName }}</div>
                 </div>
             </div>
+            <div class="wait-container" style="margin:0 auto;">
+                <div class="lds-roller" v-if="!this.responseData">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -28,7 +40,8 @@ import Image from '../atoms/Image.vue';
 
 export default {
     components: {
-        Image
+        Image,
+
     },
     props: {
         galleryTitle: {
@@ -36,11 +49,6 @@ export default {
             default: 'Галерея'
         },
         galleryUrl: String,
-        galleryType:
-        {
-            type: String,
-            default: 'new'
-        }
     },
     methods: {
         async saveToFav(elm, id) {
@@ -51,11 +59,31 @@ export default {
             } else {
                 // handle global notifications
             }
+        },
+        onLoadMore() {
+            window.onscroll = async () => {
+                let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;
+                if (bottomOfWindow && !this.isFinish) {
+                    document.querySelector('.wait-container').classList.add('wait-container--active');
+                    const getMore = await axios.get('//img-fw.bb-wolf.site/console/get_gallery_picture.php?offset=' + this.offset);
+                    if (getMore.data) {
+                        if (getMore.data.length == 0) {
+                            this.isFinish = true;
+                        }
+                        this.offset += 1;
+                        var currentImages = this.newImages;
+                        this.newImages = [...currentImages, ...getMore.data];
+                        document.querySelector('.wait-container').classList.remove('wait-container--active');
+                    }
+                }
+            }
         }
     },
     data() {
         return {
-            newImages: null
+            newImages: null,
+            offset: 2,
+            isFinish: false
         }
     },
     async created() {
@@ -69,8 +97,10 @@ export default {
         if (gallery.data) {
             this.newImages = gallery.data;
         }
-
     },
+    mounted() {
+        this.onLoadMore();
+    }
 }
 
 </script>
@@ -141,5 +171,28 @@ export default {
 .image-item a {
     color: white;
     font-weight: bold;
+}
+
+.wait-container {
+    flex: 100%;
+    text-align: center;
+    display: none;
+}
+
+.wait-container--active {
+    display: block;
+}
+
+
+
+.lds-roller div:after {
+    content: ' ';
+    display: block;
+    position: absolute;
+    width: 7.2px;
+    height: 7.2px;
+    border-radius: 50%;
+    background: rgb(149 149 149);
+    margin: -3.6px 0 0 -3.6px;
 }
 </style>
