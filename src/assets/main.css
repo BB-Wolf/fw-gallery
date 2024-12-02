@@ -670,7 +670,8 @@ footer {
 }
 .infoFields {
   margin-top: 20px;
-  padding: 0 20px;
+  margin-bottom: 20px;
+  color: white;
 }
 
 .info-field {
@@ -787,5 +788,58 @@ footer {
 
   100% {
     transform: rotate(360deg);
+  }
+}
+
+.block-label {
+  padding-left: 20px;
+}
+
+.tab-button {
+  padding: 20px;
+}
+
+.tab-button[data-state='inactive'] {
+  opacity: 0.5;
+}
+
+#author-latest-images {
+  margin-top: 20px;
+}
+
+.author-name {
+  text-align: center;
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .author-block {
+    width: 100%;
+  }
+
+  .author-stats {
+    flex-wrap: wrap;
+  }
+
+  .author-followers,
+  .author-follows,
+  .author-publishes {
+    width: 100%;
+  }
+
+  .author-tabs {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .tab-button {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .infoFields {
+    flex-wrap: wrap;
+    flex-direction: column;
+    display: flex;
   }
 }
