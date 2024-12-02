@@ -148,7 +148,7 @@ export default {
         <TabsRoot default-value="tab1" orientation="horizontal">
             <div class="author-tabs">
                 <TabsList aria-label="tabs example">
-                    <TabsTrigger value="tab1" class="tab-button">
+                    <TabsTrigger value="tab1" class="tab-button" style="padding:20px;">
                         Профиль
                     </TabsTrigger>
                     <TabsTrigger value="tab2" class="tab-button">
