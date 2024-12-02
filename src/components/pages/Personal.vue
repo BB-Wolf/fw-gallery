@@ -459,15 +459,6 @@ input[type="file"] {
     width: 70%;
 }
 
-
-.tab-button {
-    padding: 20px;
-}
-
-.tab-button[data-state="inactive"] {
-    opacity: 0.5;
-}
-
 .image-item {
     flex: 0 350px;
 }

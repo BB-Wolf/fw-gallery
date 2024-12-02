@@ -238,13 +238,6 @@ h1 {
     padding-left: 20px;
 }
 
-.tab-button {
-    padding: 20px;
-}
-
-.tab-button[data-state="inactive"] {
-    opacity: 0.5;
-}
 
 #author-latest-images {
     margin-top: 20px;
@@ -270,17 +263,6 @@ h1 {
         width: 100%;
     }
 
-    .author-tabs {
-        width: 100%;
-        flex-wrap: wrap;
-    }
-
-    .tab-button {
-        width: 100%;
-        padding: 20px;
-
-
-    }
 
 }
 </style>
