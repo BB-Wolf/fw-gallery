@@ -832,7 +832,7 @@ footer {
     flex-wrap: wrap;
   }
 
-  .tab-button {
+  .author-tabs .tab-button {
     width: 100%;
     padding: 20px !important;
   }
