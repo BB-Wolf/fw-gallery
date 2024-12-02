@@ -148,7 +148,7 @@ export default {
         <TabsRoot default-value="tab1" orientation="horizontal">
             <div class="author-tabs">
                 <TabsList aria-label="tabs example">
-                    <TabsTrigger value="tab1" class="bg-white px-5 h-[45px] flex-1 flex items-center justify-center text-[15px] leading-none text-mauve11 select-none  rounded-tr-md hover:text-grass11 data-[state=active]:text-grass11 outline-none cursor-default focus-visible:relative focus-visible:shadow-[0_0_0_2px] focus-visible:shadow-black" style="padding:20px;">
+                    <TabsTrigger value="tab1" class="tab-button">
                         Профиль
                     </TabsTrigger>
                     <TabsTrigger value="tab2" class="tab-button">
