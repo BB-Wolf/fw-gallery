@@ -453,11 +453,6 @@ input[type="file"] {
     display: none;
 }
 
-.author-tabs {
-    display: flex;
-    margin-top: 20px;
-    width: 70%;
-}
 
 .image-item {
     flex: 0 350px;
