@@ -109,7 +109,13 @@ export default
             }
         },
         async created() {
-            const getImageData = await axios.get('//img-fw.bb-wolf.site/console/get_detail_image.php?user=' + this.$route.params.user + '&code=' + this.$route.params.image);
+            const getImageData = await axios.get('//img-fw.bb-wolf.site/console/get_detail_image.php?user=' + this.$route.params.user + '&code=' + this.$route.params.image,
+                {
+                    headers: {
+                        "Authorization": "Bearer " + localStorage.getItem("token"),
+                    }
+                }
+            );
             const md = markdownit();
             if (getImageData.data) {
                 this.imageData = getImageData.data;

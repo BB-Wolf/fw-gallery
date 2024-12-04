@@ -11,7 +11,7 @@
 export default {
     data() {
         return {
-            hasNotification: true,
+            hasNotification: false,
             activeClass: 'footer-bell--active',
             activeBellClass: 'footer-bell--notification'
         };

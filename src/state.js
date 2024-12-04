@@ -9,6 +9,10 @@ export const modalState = reactive({
 })
 
 export const mobileDevice = reactive({ isMobile })
+export const notifications = reactive({
+  notificationsCount: 0
+})
+
 export const isUserLogged = reactive({
   userLogged: !!localStorage.getItem('token'),
   setLogin() {
