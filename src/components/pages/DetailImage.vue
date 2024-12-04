@@ -121,7 +121,7 @@ export default
         methods:
         {
             goToTag(code) {
-                location.href = "//img-fw.bb-wolf.site/tags/" + code;
+                location.href = "/tags/" + code;
             }
         }
     }

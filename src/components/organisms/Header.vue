@@ -2,14 +2,16 @@
 import ModalLogin from './ModalLogin.vue';
 import ModalRegister from './ModalRegister.vue';
 import ModalUpload from './ModalUpload.vue';
+import ModalUploadMobile from './ModalUploadMobile.vue';
 import axios from 'axios';
-import { modalState, isUserLogged } from '../../state';
+import { modalState, isUserLogged,mobileDevice } from '../../state.js';
 
 export default {
     components: {
         ModalLogin,
         ModalRegister,
-        ModalUpload
+        ModalUpload,
+        ModalUploadMobile
     },
     data() {
         return {
@@ -83,7 +85,8 @@ export default {
     </header>
     <ModalLogin />
     <ModalRegister />
-    <ModalUpload />
+    <ModalUpload v-if="!mobileDevice"/>
+    <ModalUploadMobile v-if="mobileDevice"/>
 </template>
 <style>
 /* CSS */
