@@ -53,7 +53,11 @@ export default {
     },
     methods: {
         async saveToFav(elm, id) {
-            const addImg = await axios.get('//img-fw.bb-wolf.site/console/get_save_to_fav.php?id=' + id);
+            const addImg = await axios.get('//img-fw.bb-wolf.site/console/get_save_to_fav.php?id=' + id, {
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem("token"),
+                }
+            });
             if (addImg.data) {
                 elm.parentNode.parentNode.classList.toggle('fav-bookmark--active');
                 //
