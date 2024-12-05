@@ -5,7 +5,6 @@
             <div class="image-item" v-for="galleryImage in newImages" v-bind:key="galleryImage.id">
                 <div class="image-item__hover--top">
                     <div class="image-item__author" style="height:0px; position: relative;">
-                        <!-- <div class="add-to-fav fav-button" @click="saveToFav(galleryImage.id)">Сохранить</div>-->
                         <div class="fav-bookmark" @click="saveToFav($event.target, galleryImage.id)">
                             <svg fill="#000000" width="60px" height="60px" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">

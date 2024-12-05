@@ -60,7 +60,7 @@ export default {
         async saveToFav(elm, id) {
             const addImg = await axios.get('//img-fw.bb-wolf.site/console/get_save_to_fav.php?id=' + id);
             if (addImg.data) {
-                elm.classList.toggle('fav-bookmark--active');
+                elm.parentNode.parentNode.classList.toggle('fav-bookmark--active');
                 //
             } else {
                 // handle global notifications
@@ -135,25 +135,6 @@ export default {
 .image-item__hover--top:hover {
     transition: all 0.5s cubic-bezier(0.075, 0.82, 0.365, 1);
     top: -10px !important;
-}
-
-.fav-bookmark {
-    width: 40px;
-    height: 120px;
-    background-color: rgba(255, 0, 0, 0.3);
-    position: absolute;
-    right: 10px;
-    cursor: pointer;
-}
-
-.fav-bookmark:hover {
-    background-color: rgba(255, 0, 0, 0.7);
-    transition: all 0.5s cubic-bezier(0.075, 0.82, 0.365, 1);
-
-}
-
-.fav-bookmark--active {
-    background-color: red;
 }
 
 .image-item__hover,
