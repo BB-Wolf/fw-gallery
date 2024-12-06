@@ -159,7 +159,7 @@ export default
                 this.searchOpen = !this.searchOpen;
             },
             filterTags() {
-                console.log(this.tags);
+
             }
         }
     }

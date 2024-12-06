@@ -8,6 +8,8 @@ import Pallette from '../organisms/Pallette.vue';
 <script>
 import { modalState, mobileDevice } from '../../state.js';
 import RatedSliderMobile from '../organisms/RatedSliderMobile.vue';
+import AuthorsOfWeek from '../organisms/AuthorsOfWeek.vue';
+import AuthorsOfWeekMobile from '../organisms/AuthorsOfWeekMobile.vue';
 export default
     {
         methods:
@@ -22,6 +24,8 @@ export default
 <template>
     <div @click="closeModal()">
         <Hero></Hero>
+        <AuthorsOfWeek v-if="!mobileDevice.isMobile"></AuthorsOfWeek>
+        <AuthorsOfWeekMobile v-if="mobileDevice.isMobile">></AuthorsOfWeekMobile>
         <Pallette></Pallette>
         <RatedSlider v-if="!mobileDevice.isMobile"></RatedSlider>
         <RatedSliderMobile v-if="mobileDevice.isMobile"></RatedSliderMobile>
