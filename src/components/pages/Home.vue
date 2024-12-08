@@ -4,6 +4,7 @@ import RatedSlider from '../organisms/RatedSlider.vue';
 import NewGallery from '../organisms/NewGallery.vue';
 import Contest from '../organisms/Contest.vue';
 import Pallette from '../organisms/Pallette.vue';
+import ComicsPreview from '../organisms/ComicsPreview.vue';
 </script>
 <script>
 import { modalState, mobileDevice } from '../../state.js';
@@ -24,11 +25,18 @@ export default
 <template>
     <div @click="closeModal()">
         <Hero></Hero>
-        <AuthorsOfWeek v-if="!mobileDevice.isMobile"></AuthorsOfWeek>
-        <AuthorsOfWeekMobile v-if="mobileDevice.isMobile">></AuthorsOfWeekMobile>
-        <Pallette></Pallette>
-        <RatedSlider v-if="!mobileDevice.isMobile"></RatedSlider>
-        <RatedSliderMobile v-if="mobileDevice.isMobile"></RatedSliderMobile>
+        <section id="authors-block">
+            <AuthorsOfWeek v-if="!mobileDevice.isMobile"></AuthorsOfWeek>
+            <AuthorsOfWeekMobile v-if="mobileDevice.isMobile">></AuthorsOfWeekMobile>
+        </section>
+        <section id="palette-block">
+            <Pallette></Pallette>
+            <RatedSlider v-if="!mobileDevice.isMobile"></RatedSlider>
+            <RatedSliderMobile v-if="mobileDevice.isMobile"></RatedSliderMobile>
+        </section>
+        <section id="comics">
+            <ComicsPreview></ComicsPreview>
+        </section>
         <div class="gallery-container">
             <NewGallery galleryUrl="/gallery/new/" galleryTitle="Новые работы" />
             <Contest></Contest>
@@ -38,4 +46,8 @@ export default
     </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+section {
+    margin-bottom: 160px;
+}
+</style>
