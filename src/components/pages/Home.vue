@@ -5,6 +5,7 @@ import NewGallery from '../organisms/NewGallery.vue';
 import Contest from '../organisms/Contest.vue';
 import Pallette from '../organisms/Pallette.vue';
 import ComicsPreview from '../organisms/ComicsPreview.vue';
+import ComicsPreviewMobile from '../organisms/ComicsPreviewMobile.vue';
 </script>
 <script>
 import { modalState, mobileDevice } from '../../state.js';
@@ -27,15 +28,15 @@ export default
         <Hero></Hero>
         <section id="authors-block">
             <AuthorsOfWeek v-if="!mobileDevice.isMobile"></AuthorsOfWeek>
-            <AuthorsOfWeekMobile v-if="mobileDevice.isMobile">></AuthorsOfWeekMobile>
         </section>
         <section id="palette-block">
             <Pallette></Pallette>
             <RatedSlider v-if="!mobileDevice.isMobile"></RatedSlider>
             <RatedSliderMobile v-if="mobileDevice.isMobile"></RatedSliderMobile>
         </section>
-        <section id="comics">
-            <ComicsPreview></ComicsPreview>
+        <section id="comics" style="margin-bottom: 0;">
+            <ComicsPreview v-if="!mobileDevice.isMobile"></ComicsPreview>
+            <ComicsPreviewMobile v-if="mobileDevice.isMobile"></ComicsPreviewMobile>
         </section>
         <div class="gallery-container">
             <NewGallery galleryUrl="/gallery/new/" galleryTitle="Новые работы" />
@@ -48,6 +49,6 @@ export default
 
 <style scoped>
 section {
-    margin-bottom: 160px;
+    margin-bottom: 80px;
 }
 </style>

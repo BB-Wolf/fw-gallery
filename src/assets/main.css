@@ -193,7 +193,7 @@ a {
 }
 
 li {
-  flex: 1;
+  /* flex: 1; */
 }
 
 .rated-slider li {

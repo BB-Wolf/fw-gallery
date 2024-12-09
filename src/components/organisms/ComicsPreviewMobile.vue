@@ -22,11 +22,6 @@
                 </div>
                 <div class="card__face--overlay">
                     <div class="card__title">Комикс 1</div>
-                    <div class="card__short-desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis
-                        officiis
-                        eum itaque blanditiis voluptate soluta ut, corrupti fuga molestias sint aut repellat, nam
-                        aliquam.
-                        Dignissimos iusto placeat tempora omnis libero!</div>
                     <a class="card__link" href="">Перейти к комиксу</a>
                 </div>
             </div>
@@ -80,7 +75,7 @@ export default {
 }
 
 .card:hover>.card__face--overlay {
-    top: 10px !important;
+    top: 0px !important;
     transition: 0.5s ease-in-out;
 
 }
@@ -124,7 +119,7 @@ export default {
     color: rgb(255, 221, 72);
     font-weight: bold;
     display: block;
-    padding: 60px 15px 0px 15px;
+    padding: 40px 15px 0px 15px;
 
 }
 
@@ -144,6 +139,7 @@ swiper-container {
         background-color: rgba(0, 0, 0, 0.5);
         position: absolute;
         height: 120px !important;
+        width: 100%;
     }
 
 }

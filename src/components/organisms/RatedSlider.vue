@@ -40,3 +40,4 @@ export default
         </li>
     </ul>
 </template>
+<style scoped></style>
