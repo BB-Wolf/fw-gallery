@@ -10,7 +10,18 @@ export const modalState = reactive({
 
 export const mobileDevice = reactive({ isMobile })
 export const notifications = reactive({
-  notificationsCount: 0
+  notificationsCount: 0,
+  notificationList: null,
+  generateNotification(nTitle, nBody) {
+    this.notificationsCount += 1
+    this.notificationList.push({ title: nTitle, body: nBody })
+  },
+  async checkNotification() {
+    const notifyData = await new axios.get('//img-fw.bb-wolf.site/console/get_notifications.php')
+    if (notifyData.data) {
+      this.notificationsCount = notifyData.data.length
+    }
+  }
 })
 
 export const isUserLogged = reactive({

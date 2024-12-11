@@ -4,6 +4,7 @@ import InputText from '../atoms/InputText.vue';
 import axios from 'axios';
 import SwitchButton from '../molecules/SwitchButton.vue';
 import Image from '../atoms/Image.vue';
+import { notifications } from '@/state';
 
 export default {
     components:
@@ -24,6 +25,7 @@ export default {
         return {
             userFavs: null,
             rawFile: null,
+            file: null,
             userLogin: null,
             userTitle: null,
             userFolders: null,
@@ -69,12 +71,14 @@ export default {
 
         },
         onAvatarUpload(e) {
-            var file = e.target.files || e.dataTransfer.files;
+            this.file = e.target.files || e.dataTransfer.files;
+            var file = this.file;
             if (!file.length) {
                 return;
             }
             this.rawFile = file[0];
         },
+
         async saveAvatar() {
             var avatarData = new FormData();
             avatarData.append('file', this.rawFile);
@@ -85,6 +89,14 @@ export default {
             });
             if (request.data) {
                 this.responseData = request.data;
+                if (this.responseData.status == 'success') {
+                    let img = document.querySelector('img.profile-avatar');
+                    if (img) {
+                        img.src = URL.createObjectURL(new File(this.file, this.file.name));
+                        notifications.generateNotification('good', 'body');
+                    }
+
+                }
             }
 
 
@@ -269,13 +281,25 @@ export default {
                                     <img src="https://i.loli.net/2019/11/23/cnKl1Ykd5rZCVwm.jpg" />
                                 </div>
                                 <div class="card__face card__face--overlay">
+                                    <div class="card__title">Все работы</div>
+                                    <div class="card__short-desc">Здесь лежат все ваши работы, которые не привязаны ни к
+                                        одному альбому</div>
+                                    <a class="card__link" href="/personal/folder/all/">Перейти к альбому</a>
+
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card__face card__face--front">
+                                    <img src="https://i.loli.net/2019/11/23/cnKl1Ykd5rZCVwm.jpg" />
+                                </div>
+                                <div class="card__face card__face--overlay">
                                     <div class="card__title">Комикс 1</div>
                                     <div class="card__short-desc">Lorem ipsum dolor sit amet, consectetur adipisicing
                                         elit. Quis officiis
                                         eum itaque blanditiis voluptate soluta ut, corrupti fuga molestias sint aut
                                         repellat, nam aliquam.
                                         Dignissimos iusto placeat tempora omnis libero!</div>
-                                    <a class="card__link" href="">Перейти к комиксу</a>
+                                    <a class="card__link" href="/personal/folder/comic1/">Перейти к альбому</a>
 
                                 </div>
                             </div>
@@ -289,9 +313,6 @@ export default {
                             </div>
                         </div>
                     </div>
-
-                    <!-- Update Button -->
-                    <button class="update-btn" @click="saveProfile">Сохранить изменения</button>
 
                 </div>
             </TabsContent>
@@ -479,7 +500,7 @@ input[type="file"] {
     margin-bottom: 20px;
 }
 
-<style scoped>.comics-container {
+.comics-container {
     padding: 0 15px;
     display: flex;
     perspective: 800px;

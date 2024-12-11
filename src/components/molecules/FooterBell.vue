@@ -8,10 +8,11 @@
     </div>
 </template>
 <script>
+import { notifications } from '@/state';
 export default {
     data() {
         return {
-            hasNotification: false,
+            hasNotification: notifications.notificationsCount,
             activeClass: 'footer-bell--active',
             activeBellClass: 'footer-bell--notification'
         };
