@@ -1,6 +1,7 @@
 <script setup>
 import Tags from '../organisms/Tags.vue';
 import MainGallery from '../organisms/MainGallery.vue';
+import GalleryBlock from '../organisms/GalleryBlock.vue';
 
 </script>
 
@@ -8,7 +9,7 @@ import MainGallery from '../organisms/MainGallery.vue';
     <div>
         <Tags />
         <div class="gallery-container">
-            <MainGallery galleryType="main" galleryTitle="Новое" />
+            <GalleryBlock needInfinty="y" galleryType="main" galleryTitle="Новое" />
         </div>
     </div>
 </template>

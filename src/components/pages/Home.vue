@@ -12,6 +12,7 @@ import { modalState, mobileDevice } from '../../state.js';
 import RatedSliderMobile from '../organisms/RatedSliderMobile.vue';
 import AuthorsOfWeek from '../organisms/AuthorsOfWeek.vue';
 import AuthorsOfWeekMobile from '../organisms/AuthorsOfWeekMobile.vue';
+import GalleryBlock from '../organisms/GalleryBlock.vue';
 export default
     {
         methods:
@@ -39,9 +40,9 @@ export default
             <ComicsPreviewMobile v-if="mobileDevice.isMobile"></ComicsPreviewMobile>
         </section>
         <div class="gallery-container">
-            <NewGallery galleryUrl="/gallery/new/" galleryTitle="Новые работы" />
+            <GalleryBlock :needInfinity="false" galleryUrl="/gallery/new/" galleryTitle="Новые работы" />
             <Contest></Contest>
-            <NewGallery galleryUrl="gallery/top-rated/" galleryType="toprated"
+            <GalleryBlock galleryUrl="gallery/top-rated/" galleryType="toprated"
                 galleryTitle="Топ добавлений в избранное" />
         </div>
         <!--        <section id="switch">
