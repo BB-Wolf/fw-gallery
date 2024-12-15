@@ -66,6 +66,11 @@ const rts = [
     meta: { transition: 'fade' }
   },
   {
+    path: '/test/',
+    component: () => import('./components/pages/TestPage.vue'),
+    meta: { transition: 'fade' }
+  },
+  {
     // path: "*",
     path: '/:catchAll(.*)/',
     name: 'NotFound',
