@@ -30,7 +30,7 @@
             <div class="left-block">
                 <div class="h2">{{ this.currentImage.title }}</div>
                 <img :src="this.currentImage.picture">
-                <div class="btn"> 23</div>
+                <button class="btn btn--update">Изменить изображение</button>
             </div>
             <div class="right-block">
                 <div class="group">
@@ -52,6 +52,12 @@
                     <Multiselect v-model="tags" placeholder="Выберите теги" :filter-results="false" :min-chars="2"
                         :resolve-on-load="false" :mode="'multiple'"></Multiselect>
                 </div>
+                <div class="group mt-20">
+                    <div class="btn btn--success">Сохранить</div>
+                </div>
+                <div class="group mt-20">
+                    <div class="btn btn--danger" @click="validateDelete">Удалить</div>
+                </div>
             </div>
         </div>
     </section>
@@ -60,6 +66,7 @@
 import axios from 'axios';
 import Multiselect from '@vueform/multiselect'
 import Image from '../atoms/Image.vue';
+import { notifications } from '@/state';
 
 export default {
     components: {
@@ -83,6 +90,42 @@ export default {
                 const element = document.getElementById("single-image-edit");
                 element.scrollIntoView({ behavior: "smooth" });
             }, 500);
+
+        },
+        validateDelete() {
+            let result = prompt("Are you sure you want to delete? Type 'delete' to remove image");
+            if (result === 'delete') {
+                const sendDeleteRequest = axios.get('//img-fw.bb-wolf.site/console/get_delete_image.php',
+                    {
+                        headers: {
+                            "Authorization": "Bearer " + localStorage.getItem("token"),
+                        }
+
+                    }
+                );
+                if (sendDeleteRequest.data && sendDeleteRequest.data.status == 'success') {
+                    let url;
+                    if (this.$route.params.name == 'all') {
+                        url = '//img-fw.bb-wolf.site/console/get_gallery_picture.php?user=' + localStorage.getItem('token');
+                    } else {
+                        url = '//img-fw.bb-wolf.site/console/get_gallery_picture.php?user=y';
+                    }
+                    const getImagesList = new axios.get(url, {
+                        headers: {
+                            "Authorization": "Bearer " + localStorage.getItem("token"),
+                        }
+                    });
+                    if (getImagesList.data) {
+                        this.imagesList = getImagesList.data;
+                    }
+                } else {
+                    let errorText = '';
+                    if (sendDeleteRequest.data) { errorText = sendDeleteRequest.data.text; } else {
+                        errorText = 'Произошла ошибка удаления файла. Попробуйте еще раз';
+                    }
+                    notifications.generateNotification('bad', errorText);
+                }
+            }
 
         }
     },

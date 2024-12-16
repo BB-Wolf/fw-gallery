@@ -11,10 +11,12 @@ export const modalState = reactive({
 export const mobileDevice = reactive({ isMobile })
 export const notifications = reactive({
   notificationsCount: 0,
-  notificationList: null,
+  notificationList: [],
   generateNotification(nTitle, nBody) {
-    this.notificationsCount += 1
-    this.notificationList.push({ title: nTitle, body: nBody })
+    this.notificationsCount = this.notificationsCount + 1
+    this.notificationList = [...this.notificationList, ...[{ title: nTitle, body: nBody }]]
+    console.log(this.notificationList)
+    console.log(this.notificationsCount)
   },
   async checkNotification() {
     const notifyData = await new axios.get('//img-fw.bb-wolf.site/console/get_notifications.php')

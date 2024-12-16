@@ -41,7 +41,6 @@ export default
         </section>
         <div class="gallery-container">
             <GalleryBlock :needInfinity="false" galleryUrl="/gallery/new/" galleryTitle="Новые работы" />
-            <Contest></Contest>
             <GalleryBlock galleryUrl="gallery/top-rated/" galleryType="toprated"
                 galleryTitle="Топ добавлений в избранное" />
         </div>

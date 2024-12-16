@@ -207,7 +207,7 @@ export default {
         }
     },
     mounted() {
-        if (this.needInfinty=='y') {
+        if (this.needInfinty == 'y') {
             this.onLoadMore();
         }
     }
