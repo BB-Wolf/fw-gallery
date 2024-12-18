@@ -95,10 +95,9 @@
 </template>
 
 <script>
-import axios from "axios";
 import markdownit from 'markdown-it';
 import 'vue-image-zoomer/dist/style.css';
-
+import DetailImageApi from '@/api/DetailImage.js';
 export default
     {
         data() {
@@ -108,20 +107,17 @@ export default
                 commentsData: null,
             }
         },
-        async created() {
-            const getImageData = await axios.get('//img-fw.bb-wolf.site/console/get_detail_image.php?user=' + this.$route.params.user + '&code=' + this.$route.params.image,
-                {
-                    headers: {
-                        "Authorization": "Bearer " + localStorage.getItem("token"),
-                    }
+        mounted() {
+            const md = markdownit();
+            DetailImageApi.getDetailImage(this.$route.params.user, this.$route.params.image, localStorage.getItem("token")).then(
+                data => {
+                    console.log(data);
+                    this.imageData = data.data;
+                    this.imageData.imageDescription = md.renderInline(this.imageData.imageDescription);
+                    document.title = this.imageData.imageTitle;
                 }
             );
-            const md = markdownit();
-            if (getImageData.data) {
-                this.imageData = getImageData.data;
-                this.imageData.imageDescription = md.renderInline(this.imageData.imageDescription);
-                document.title = getImageData.data.imageTitle;
-            }
+
 
         },
         methods:
