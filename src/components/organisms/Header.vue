@@ -85,8 +85,9 @@ export default {
     </header>
     <ModalLogin />
     <ModalRegister />
-    <ModalUpload v-if="!mobileDevice"/>
-    <ModalUploadMobile v-if="mobileDevice"/>
+    <!--<ModalUpload v-if="!mobileDevice"/>
+    <ModalUploadMobile v-if="mobileDevice"/>-->
+    <ModalUploadMobile></ModalUploadMobile>
 </template>
 <style>
 /* CSS */
