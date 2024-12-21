@@ -5,7 +5,8 @@ import { isMobile } from 'mobile-device-detect'
 export const modalState = reactive({
   isModalLoginVisible: false,
   isModalRegisterVisible: false,
-  isModalUploadVisible: false
+  isModalUploadVisible: false,
+  isModalMobileUploadVisible: false
 })
 
 export const mobileDevice = reactive({ isMobile })

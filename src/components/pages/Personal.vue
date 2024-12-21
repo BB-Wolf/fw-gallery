@@ -275,7 +275,20 @@ export default {
                     <!-- Folders Section -->
                     <div class="folders-section">
                         <h3>Альбомы</h3>
+
                         <div class="comics-container mt-20 mb-20">
+                            <div class="card"
+                                style="box-shadow: 0px 0px 4px 1px rgba(255,255,255,0.1);background-color: rgba(0,0,0,0.4);">
+                                <div class="card__face card__face--front"
+                                    style="display: flex;justify-content: center;align-items: center;">
+                                    <div class="card__title"></div>
+                                    <div class="circle" @click="createFolder"><span class="plus"></span> </div>
+                                </div>
+                                <div class="card__face card__face--overlay"
+                                    style="display: flex;justify-content: center;align-items: center;">
+                                    <div class="card__title" @click="createFolder">Создать папку</div>
+                                </div>
+                            </div>
                             <div class="card">
                                 <div class="card__face card__face--front">
                                     <img src="https://i.loli.net/2019/11/23/cnKl1Ykd5rZCVwm.jpg" />
@@ -345,6 +358,50 @@ textarea {
     background-color: #2b919a;
     padding: 10px;
     text-align: center;
+}
+
+.circle {
+    border: 2px solid #ffeb36;
+    width: 80px;
+    height: 80px;
+    border-radius: 100%;
+    position: relative;
+    margin: 4px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.circle .plus:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 0 1px;
+    background: #ffeb36;
+}
+
+.circle .plus:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 0 1px;
+
+    background: #ffeb36;
+}
+
+.circle .plus:before {
+    width: 2px;
+    margin: 12px auto;
+}
+
+.circle .plus:after {
+    margin: auto 12px;
+    height: 2px;
 }
 
 /* Container */

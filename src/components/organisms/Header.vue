@@ -4,7 +4,7 @@ import ModalRegister from './ModalRegister.vue';
 import ModalUpload from './ModalUpload.vue';
 import ModalUploadMobile from './ModalUploadMobile.vue';
 import axios from 'axios';
-import { modalState, isUserLogged,mobileDevice } from '../../state.js';
+import { modalState, isUserLogged, mobileDevice } from '../../state.js';
 
 export default {
     components: {
@@ -16,7 +16,8 @@ export default {
     data() {
         return {
             isUser: isUserLogged.userLogged,
-            nswfState: '0+'
+            nswfState: '0+',
+            userDevice: mobileDevice
         }
     },
     created() {
@@ -31,7 +32,13 @@ export default {
             modalState.isModalLoginVisible = true;
         },
         showUpload() {
-            modalState.isModalUploadVisible = true;
+            console.log(mobileDevice.isMobile);
+            if (mobileDevice.isMobile) {
+                modalState.isModalMobileUploadVisible = true;
+
+            } else {
+                modalState.isModalUploadVisible = true;
+            }
         },
         async switchNSFW() {
             const nswfReq = await new axios.get('//img-fw.bb-wolf.site/console/get_switch_nsfw.php',
@@ -85,9 +92,8 @@ export default {
     </header>
     <ModalLogin />
     <ModalRegister />
-    <!--<ModalUpload v-if="!mobileDevice"/>
-    <ModalUploadMobile v-if="mobileDevice"/>-->
-    <ModalUploadMobile></ModalUploadMobile>
+    <ModalUpload v-if="!userDevice.isMobile" />
+    <ModalUploadMobile v-if="userDevice.isMobile" />
 </template>
 <style>
 /* CSS */

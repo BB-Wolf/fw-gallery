@@ -836,3 +836,38 @@ footer {
 .btn--danger:hover {
   background-color: #ca1313;
 }
+
+.btn--primary {
+  background-color: #999;
+}
+
+.btn--primary:hover {
+  background-color: #353535;
+}
+.btn--info {
+  background-color: #2980b9;
+}
+
+.btn--info:hover {
+  background-color: #3498db;
+}
+
+.btn--warning {
+}
+.btn-link {
+}
+
+.btn--default__outline {
+}
+.btn--primary__outline {
+}
+.btn--success__outline {
+}
+.btn--nfo__outline {
+}
+.btn-warning__outline {
+}
+.btn--danger__outline {
+}
+.btn--link__outline {
+}
