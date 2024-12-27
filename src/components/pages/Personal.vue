@@ -284,10 +284,6 @@ export default {
                                     <div class="card__title"></div>
                                     <div class="circle" @click="createFolder"><span class="plus"></span> </div>
                                 </div>
-                                <div class="card__face card__face--overlay"
-                                    style="display: flex;justify-content: center;align-items: center;">
-                                    <div class="card__title" @click="createFolder">Создать папку</div>
-                                </div>
                             </div>
                             <div class="card">
                                 <div class="card__face card__face--front">
