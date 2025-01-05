@@ -16,15 +16,14 @@ export const notifications = reactive({
   generateNotification(nTitle, nBody) {
     this.notificationsCount = this.notificationsCount + 1
     this.notificationList = [...this.notificationList, ...[{ title: nTitle, body: nBody }]]
-    console.log(this.notificationList)
-    console.log(this.notificationsCount)
   },
   async checkNotification() {
     const notifyData = await new axios.get('//img-fw.bb-wolf.site/console/get_notifications.php')
     if (notifyData.data) {
       this.notificationsCount = notifyData.data.length
     }
-  }
+  },
+  showNotificationModal: false
 })
 
 export const isUserLogged = reactive({

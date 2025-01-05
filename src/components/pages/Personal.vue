@@ -4,7 +4,7 @@ import InputText from '../atoms/InputText.vue';
 import axios from 'axios';
 import SwitchButton from '../molecules/SwitchButton.vue';
 import Image from '../atoms/Image.vue';
-import { notifications } from '@/state';
+import { notifications,mobileDevice } from '@/state';
 
 export default {
     components:
@@ -18,9 +18,6 @@ export default {
         Image,
 
     },
-    props: {
-
-    },
     data() {
         return {
             userFavs: null,
@@ -32,6 +29,8 @@ export default {
             userAvatar: null,
             userFields: null,
             userStatus: null,
+            userDevice: mobileDevice,
+            mobileBtnClass: 'btn btn--default'
         };
     },
     async created() {
@@ -48,6 +47,15 @@ export default {
             this.userFields = JSON.parse(getUserProfile.data.userFields);
             this.userStatus = JSON.parse(getUserProfile.data.status);
         }
+        const getUserFolders = await new axios.get('//img-fw.bb-wolf.site/console/get_user_folders.php', {
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem("token"),
+                }
+            });
+
+           if(getUserFolders.data){
+            this.userFolders = getUserFolders.data;
+           } 
 
     },
     methods: {
@@ -160,16 +168,16 @@ export default {
         <TabsRoot default-value="tab1" orientation="horizontal">
             <div class="author-tabs">
                 <TabsList aria-label="tabs example">
-                    <TabsTrigger value="tab1" class="tab-button">
+                    <TabsTrigger value="tab1" class="tab-button" :class="[{ [mobileBtnClass]: userDevice.isMobile}]">
                         Профиль
                     </TabsTrigger>
-                    <TabsTrigger value="tab2" class="tab-button">
+                    <TabsTrigger value="tab2" class="tab-button" :class="[{ [mobileBtnClass]: userDevice.isMobile}]">
                         Галерея
                     </TabsTrigger>
-                    <TabsTrigger value="tab3" class="tab-button" @click="getFavs">
+                    <TabsTrigger value="tab3" class="tab-button" :class="[{ [mobileBtnClass]: userDevice.isMobile}]" @click="getFavs">
                         Избранное
                     </TabsTrigger>
-                    <TabsTrigger value="tab4" class="tab-button">
+                    <TabsTrigger value="tab4" class="tab-button" :class="[{ [mobileBtnClass]: userDevice.isMobile}]">
                         Статистика
                     </TabsTrigger>
                 </TabsList>
@@ -271,12 +279,10 @@ export default {
             <TabsContent value="tab2">
                 <div class="profile-container">
                     <h2>Галерея</h2>
-
                     <!-- Folders Section -->
                     <div class="folders-section">
                         <h3>Альбомы</h3>
-
-                        <div class="comics-container mt-20 mb-20">
+                        <div class="comics-container mt-20 mb-20 flex-wrap">
                             <div class="card"
                                 style="box-shadow: 0px 0px 4px 1px rgba(255,255,255,0.1);background-color: rgba(0,0,0,0.4);">
                                 <div class="card__face card__face--front"
@@ -297,27 +303,14 @@ export default {
 
                                 </div>
                             </div>
-                            <div class="card">
+                            <div class="card" v-for="folder in this.userFolders" :key="folder.id">
                                 <div class="card__face card__face--front">
-                                    <img src="https://i.loli.net/2019/11/23/cnKl1Ykd5rZCVwm.jpg" />
+                                    <img :src=folder.picture />
                                 </div>
                                 <div class="card__face card__face--overlay">
-                                    <div class="card__title">Комикс 1</div>
-                                    <div class="card__short-desc">Lorem ipsum dolor sit amet, consectetur adipisicing
-                                        elit. Quis officiis
-                                        eum itaque blanditiis voluptate soluta ut, corrupti fuga molestias sint aut
-                                        repellat, nam aliquam.
-                                        Dignissimos iusto placeat tempora omnis libero!</div>
-                                    <a class="card__link" href="/personal/folder/comic1/">Перейти к альбому</a>
-
-                                </div>
-                            </div>
-                            <div class="card">
-                                <div class="card__face card__face--front">
-                                    <img src="https://i.loli.net/2019/11/16/FLnzi5Kq4tkRZSm.jpg" />
-                                </div>
-                                <div class="card__face card__face--back">
-                                    <img src="https://i.loli.net/2019/10/18/buDT4YS6zUMfHst.jpg" />
+                                    <div class="card__title">{{folder.name}}</div>
+                                    <div class="card__short-desc">{{folder.description}}</div>
+                                    <a class="card__link" :href="'/personal/folder/'+folder.code+'/'">Перейти к альбому</a>
                                 </div>
                             </div>
                         </div>

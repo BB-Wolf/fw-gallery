@@ -1,5 +1,5 @@
 <template>
-    <div class="footer-bell"
+    <div @click="toggleBell" class="footer-bell"
         :class="[{ [activeClass]: hasNotification.notificationsCount > 0, [activeBellClass]: hasNotification.notificationsCount > 0 }]">
         <svg :class="[{ [activeBellClass]: hasNotification.notificationsCount }]" fill=" #ffffff" width="60px"
             height="60px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -17,6 +17,13 @@ export default {
             activeClass: 'footer-bell--active',
             activeBellClass: 'footer-bell--notification'
         };
+    },
+    methods:
+    {
+        toggleBell()
+        {
+            notifications.showNotificationModal = !notifications.showNotificationModal;
+        }
     }
 }
 </script>
@@ -28,7 +35,7 @@ export default {
     height: 80px;
     position: fixed;
     bottom: -80px;
-    right: 80px;
+    right: 10px;
     background-color: rgb(9, 4, 15);
     box-shadow: 0px 0px 10px 1px rgba(255, 255, 255, 0.3);
     border-top-left-radius: 5px;

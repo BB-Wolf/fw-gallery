@@ -11,22 +11,54 @@
             </div>
         </div>
     </section>
+
     <section id="all-images-list" v-if="this.$route.params.name != 'all'">
         <div class="profile-container">
             <h2>Альбом {{ this.$route.params.name }}</h2>
+            <div class="edit-block">
+                <div class="btn btn--info mb-10" @click="editFolder">Редактировать папку</div>
+            </div>
+            <section id="edit-folder" v-if="this.mode == 'folder'">
+                <div class="profile-container d-flex g-20 flex-wrap">
+                    <div class="left-block">
+                        <div class="h2">{{ this.folderName }}</div>
+                        <img :src="this.folderImage">
+                        <div class="form-group">
+                            <label>Загрузить новое изображение</label>
+                            <input type="file" name="folderNewImage" @change="newFolderImage">
+                        </div>
+                    </div>
+                    <div class="right-block">
+                        <div class="group">
+                            <label>Название</label>
+                            <input type='text' v-model="folderName">
+                        </div>
+                        <div class="group">
+                            <label>Описание</label>
+                            <textarea v-model="folderDescription"> </textarea>
+                        </div>
+                        <div class="form-groupp">
+                            <button class="btn btn--update" @click="saveFolder">Сохранить изменения</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="form-group">
+                <div class="h2">Работы в разделе</div>
+                <div class="muted mt-20" style="color:rgba(255,255,255,0.5)">Нажмите на изображение для редактирования</div>
+            </div>
             <div class="image-grid">
                 <div class="image-item" v-for="galleryImage in imagesList" v-bind:key="galleryImage.id">
-                    <a :href="galleryImage.link">
-                        <Image imageClass="slide" :imageSrc=galleryImage.picture
-                            :imageTitle="galleryImage.title + ' от ' + galleryImage.userName" imageAlt="">
-                        </Image>
-                    </a>
+                    <Image @click="editPicture(galleryImage.id)" imageClass="slide" :imageSrc=galleryImage.picture
+                        :imageTitle="galleryImage.title + ' от ' + galleryImage.userName" imageAlt="">
+                    </Image>
                 </div>
             </div>
         </div>
     </section>
+
     <section id="single-image-edit" v-if="this.currentImage">
-        <div class="profile-container d-flex g-20">
+        <div class="profile-container d-flex g-20 flex-wrap">
             <div class="left-block">
                 <div class="h2">{{ this.currentImage.title }}</div>
                 <img :src="this.currentImage.picture">
@@ -35,7 +67,7 @@
             <div class="right-block">
                 <div class="group">
                     <label>Название</label>
-                    <input type='text' :value=this.currentImage.title>
+                    <input type='text' v-model="this.currentImage.title">
                 </div>
                 <div class="group">
                     <label>Описание</label>
@@ -43,17 +75,20 @@
                 </div>
                 <div class="group">
                     <label>Теги</label>
-                    <Multiselect v-model="tags" placeholder="Выберите теги" :filter-results="false" :min-chars="2"
-                        :resolve-on-load="false" :mode="'multiple'" :delay="3" :close-on-select="true" :limit="10"
-                        :searchable="true"></Multiselect>
+                    <input type="text" v-model="tags" class="taglist">
                 </div>
                 <div class="group">
                     <label>Раздел</label>
-                    <Multiselect v-model="tags" placeholder="Выберите теги" :filter-results="false" :min-chars="2"
-                        :resolve-on-load="false" :mode="'multiple'"></Multiselect>
+                    <select v-model="folder">
+                        <template v-for="userfolder in this.folders" :key="userfolder.id">
+                            <option :value="userfolder.id" v-if="this.currentImage.folder == userfolder.id"
+                                :selected="true">{{ userfolder.name }}</option>
+                            <option :value="userfolder.id" v-else>{{ userfolder.name }}</option>
+                        </template>
+                    </select>
                 </div>
                 <div class="group mt-20">
-                    <div class="btn btn--success">Сохранить</div>
+                    <div class="btn btn--success" @click="saveImage">Сохранить</div>
                 </div>
                 <div class="group mt-20">
                     <div class="btn btn--danger" @click="validateDelete">Удалить</div>
@@ -77,9 +112,86 @@ export default {
         return {
             imagesList: [],
             currentImage: null,
+            tags: null,
+            folder: null,
+            folders: [],
+            title: null,
+            description: null,
+            mode: null,
+            folderName: null,
+            folderImage: null,
+            folderDescription: null,
+            folderIsComic: null
         }
     },
     methods: {
+        newFolderImage(e) {
+            e.preventDefault();
+            this.folderPictureNew = e.file;
+        },
+        async editFolder() {
+            this.mode = 'folder';
+            const getFolderInfo = await new axios.get('//img-fw.bb-wolf.site/console/get_folder_info.php?folder=' + this.$route.params.name,
+                {
+                    headers: {
+                        "Authorization": "Bearer " + localStorage.getItem("token"),
+                    }
+                }
+            );
+            if (getFolderInfo.data) {
+                if (getFolderInfo.data) {
+                    this.folderName = getFolderInfo.data.name;
+                    this.folderDescription = getFolderInfo.data.description;
+                    this.folderIsComic = getFolderInfo.data.isComic;
+                    this.folderImage = getFolderInfo.data.picture;
+                } else {
+                    notifications.generateNotification('bad', 'Ошибка получения информации о папке');
+                }
+            }
+        },
+        async saveFolder() {
+            const folderForm = new FormData();
+            folderForm.append('code',this.$route.params.name);
+            folderForm.append('name', this.folderName);
+            folderForm.append('description', this.folderDescription);
+            if (this.folderPictureNew) {
+                folderForm.append('image', this.folderPictureNew);
+            }
+            let request = await axios.post('//img-fw.bb-wolf.site/console/post_update_folder.php',folderForm,
+                {
+                    headers:
+                    {
+                        "Authorization": "Bearer "+ localStorage.getItem('token'),
+                    }
+                }
+            )
+            if (request.data.status == 'success') {
+                notifications.generateNotification('good', request.data.text);
+            } else {
+                notifications.generateNotification('bad', 'Ошибка обновления данных');
+            }
+
+
+        },
+        async saveImage() {
+            const formImage = new FormData();
+            formImage.append('id', this.currentImage.id);
+            formImage.append('title', this.currentImage.title);
+            formImage.append('description', this.currentImage.description);
+            formImage.append('tags', this.tags);
+            formImage.append('folder', this.folder);
+            const request = await axios.post('//img-fw.bb-wolf.site/console/put_image_update.php', formImage, {
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem("token"),
+                }
+            });
+            if (request.data.status == 'success') {
+                notifications.generateNotification('good', request.data.text);
+            } else {
+                notifications.generateNotification('bad', request.data.text);
+            }
+
+        },
         editPicture(img) {
             for (let i = 0; i < this.imagesList.length; i++) {
                 if (this.imagesList[i].id == img) {
@@ -134,7 +246,7 @@ export default {
         if (this.$route.params.name == 'all') {
             url = '//img-fw.bb-wolf.site/console/get_gallery_picture.php?user=' + localStorage.getItem('token');
         } else {
-            url = '//img-fw.bb-wolf.site/console/get_gallery_picture.php?user=y';
+            url = '//img-fw.bb-wolf.site/console/get_gallery_picture.php?user='+localStorage.getItem('token')+'&folder='+this.$route.params.name;
         }
         const getImagesList = await new axios.get(url, {
             headers: {
@@ -143,6 +255,17 @@ export default {
         });
         if (getImagesList.data) {
             this.imagesList = getImagesList.data;
+        }
+        const getFoldersList = await new axios.get('//img-fw.bb-wolf.site/console/get_user_folders.php',
+            {
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem("token"),
+                }
+            }
+        );
+
+        if (getFoldersList.data) {
+            this.folders = getFoldersList.data;
         }
     }
 }
@@ -169,14 +292,6 @@ label {
     font-size: 24px;
 }
 
-.d-flex {
-    display: flex;
-}
-
-.g-20 {
-    gap: 20px;
-}
-
 .left-block {
     flex: 1;
 }
@@ -188,5 +303,10 @@ label {
 
 .right-block {
     flex: 3;
+}
+
+select {
+    width: 100%;
+    padding: 20px;
 }
 </style>
