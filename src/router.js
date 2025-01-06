@@ -35,6 +35,11 @@ const rts = [
     meta: { transition: 'slide-right', requiresAuth: true }
   },
   {
+    path: '/personal/folder/create/',
+    component: () => import('./components/pages/PersonalFolderCreate.vue'),
+    meta: { transition: 'slide-right', requiresAuth: true }
+  },
+  {
     path: '/author/:user',
     component: () => import('./components/pages/AuthorPage.vue'),
     meta: { transition: 'fade' }

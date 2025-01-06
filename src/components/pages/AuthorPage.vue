@@ -48,16 +48,20 @@
             <div class="author-tabs">
                 <TabsRoot default-value="tab1" orientation="horizontal">
                     <TabsList aria-label="tabs">
-                        <TabsTrigger value="tab1" class="tab-button">
+                        <TabsTrigger value="tab1" class="tab-button"
+                            :class="[{ [mobileBtnClass]: userDevice.isMobile }]">
                             Последние работы
                         </TabsTrigger>
-                        <TabsTrigger value="tab2" class="tab-button">
+                        <TabsTrigger value="tab2" class="tab-button"
+                            :class="[{ [mobileBtnClass]: userDevice.isMobile }]">
                             Все работы
                         </TabsTrigger>
-                        <TabsTrigger value="tab3" class="tab-button">
+                        <TabsTrigger value="tab3" class="tab-button"
+                            :class="[{ [mobileBtnClass]: userDevice.isMobile }]">
                             Избранное
                         </TabsTrigger>
-                        <TabsTrigger value="tab4" class="tab-button">
+                        <TabsTrigger value="tab4" class="tab-button"
+                            :class="[{ [mobileBtnClass]: userDevice.isMobile }]">
                             Страничка автора
                         </TabsTrigger>
                     </TabsList>
@@ -271,7 +275,8 @@ h1 {
 import { TabsContent, TabsList, TabsRoot, TabsTrigger } from 'radix-vue'
 import axios from 'axios';
 import Image from '../atoms/Image.vue';
-import { vInfiniteScroll } from '@vueuse/components';
+import { notifications, mobileDevice } from '@/state';
+
 export default {
     components:
     {
@@ -317,24 +322,26 @@ export default {
             },
             userProfile: null,
             offset: 1,
+            userDevice: mobileDevice,
+            mobileBtnClass: 'btn btn--default'
         }
     },
     async created() {
         const userReq = await new axios.get('//img-fw.bb-wolf.site/console/get_author_info.php?user=' + this.$route.params.user);
 
-        
+
         if (userReq.data) {
             this.userProfile = userReq.data;
             const gallery = await new axios.get('//img-fw.bb-wolf.site/console/get_gallery_picture.php?offset=' + this.offset + '&user=' + this.userProfile.id,
-            {
-                headers: {
-                    "Authorization": "Bearer " + localStorage.getItem("token"),
+                {
+                    headers: {
+                        "Authorization": "Bearer " + localStorage.getItem("token"),
+                    }
                 }
+            );
+            if (gallery.data) {
+                this.newImages = gallery.data;
             }
-        );
-        if (gallery.data) {
-            this.newImages = gallery.data;
-        }
         }
 
     },

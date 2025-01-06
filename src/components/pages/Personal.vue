@@ -4,7 +4,7 @@ import InputText from '../atoms/InputText.vue';
 import axios from 'axios';
 import SwitchButton from '../molecules/SwitchButton.vue';
 import Image from '../atoms/Image.vue';
-import { notifications,mobileDevice } from '@/state';
+import { notifications, mobileDevice } from '@/state';
 
 export default {
     components:
@@ -48,14 +48,14 @@ export default {
             this.userStatus = JSON.parse(getUserProfile.data.status);
         }
         const getUserFolders = await new axios.get('//img-fw.bb-wolf.site/console/get_user_folders.php', {
-                headers: {
-                    "Authorization": "Bearer " + localStorage.getItem("token"),
-                }
-            });
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("token"),
+            }
+        });
 
-           if(getUserFolders.data){
+        if (getUserFolders.data) {
             this.userFolders = getUserFolders.data;
-           } 
+        }
 
     },
     methods: {
@@ -159,7 +159,10 @@ export default {
 
 
         },
-        saveTags() { }
+        saveTags() { },
+        createFolder() {
+            location.href = '/personal/folder/create/';
+        }
     }
 }
 </script>
@@ -168,16 +171,17 @@ export default {
         <TabsRoot default-value="tab1" orientation="horizontal">
             <div class="author-tabs">
                 <TabsList aria-label="tabs example">
-                    <TabsTrigger value="tab1" class="tab-button" :class="[{ [mobileBtnClass]: userDevice.isMobile}]">
+                    <TabsTrigger value="tab1" class="tab-button" :class="[{ [mobileBtnClass]: userDevice.isMobile }]">
                         Профиль
                     </TabsTrigger>
-                    <TabsTrigger value="tab2" class="tab-button" :class="[{ [mobileBtnClass]: userDevice.isMobile}]">
+                    <TabsTrigger value="tab2" class="tab-button" :class="[{ [mobileBtnClass]: userDevice.isMobile }]">
                         Галерея
                     </TabsTrigger>
-                    <TabsTrigger value="tab3" class="tab-button" :class="[{ [mobileBtnClass]: userDevice.isMobile}]" @click="getFavs">
+                    <TabsTrigger value="tab3" class="tab-button" :class="[{ [mobileBtnClass]: userDevice.isMobile }]"
+                        @click="getFavs">
                         Избранное
                     </TabsTrigger>
-                    <TabsTrigger value="tab4" class="tab-button" :class="[{ [mobileBtnClass]: userDevice.isMobile}]">
+                    <TabsTrigger value="tab4" class="tab-button" :class="[{ [mobileBtnClass]: userDevice.isMobile }]">
                         Статистика
                     </TabsTrigger>
                 </TabsList>
@@ -308,9 +312,10 @@ export default {
                                     <img :src=folder.picture />
                                 </div>
                                 <div class="card__face card__face--overlay">
-                                    <div class="card__title">{{folder.name}}</div>
-                                    <div class="card__short-desc">{{folder.description}}</div>
-                                    <a class="card__link" :href="'/personal/folder/'+folder.code+'/'">Перейти к альбому</a>
+                                    <div class="card__title">{{ folder.name }}</div>
+                                    <div class="card__short-desc">{{ folder.description }}</div>
+                                    <a class="card__link" :href="'/personal/folder/' + folder.code + '/'">Перейти к
+                                        альбому</a>
                                 </div>
                             </div>
                         </div>

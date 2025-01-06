@@ -2,6 +2,8 @@
     <section id="all-images-list" v-if="this.$route.params.name == 'all'">
         <div class="profile-container">
             <h2>Все изображения</h2>
+            <div class="muted mt-20" style="color:rgba(255,255,255,0.5)">Нажмите на изображение для редактирования</div>
+
             <div class="image-grid">
                 <div class="image-item" v-for="galleryImage in imagesList" v-bind:key="galleryImage.id">
                     <Image @click="editPicture(galleryImage.id)" imageClass="slide" :imageSrc=galleryImage.picture
@@ -16,6 +18,7 @@
         <div class="profile-container">
             <h2>Альбом {{ this.$route.params.name }}</h2>
             <div class="edit-block">
+                <div class="btn btn--primary mb-10" @click="addImageToFolder">Загрузить работу в папку</div>
                 <div class="btn btn--info mb-10" @click="editFolder">Редактировать папку</div>
             </div>
             <section id="edit-folder" v-if="this.mode == 'folder'">
@@ -43,9 +46,51 @@
                     </div>
                 </div>
             </section>
+
+            <section id="edit-folder" v-if="this.mode == 'newImage'">
+                <div class="profile-container d-flex g-20 flex-wrap">
+                    <div class="left-block">
+                        <div class="h2">{{ this.currentImage.title }}</div>
+                        <img :src="this.currentImage.picture">
+                        <button class="btn btn--update">Загрузить изображение</button>
+                    </div>
+                    <div class="right-block">
+                        <div class="group">
+                            <label>Название</label>
+                            <input type='text' v-model="this.currentImage.title">
+                        </div>
+                        <div class="group">
+                            <label>Описание</label>
+                            <textarea v-model="this.currentImage.description"> </textarea>
+                        </div>
+                        <div class="group">
+                            <label>Теги</label>
+                            <input type="text" v-model="tags" class="taglist">
+                        </div>
+                        <div class="group">
+                            <label>Раздел</label>
+                            <select v-model="folder">
+                                <template v-for="userfolder in this.folders" :key="userfolder.id">
+                                    <option :value="userfolder.id" v-if="this.currentImage.folder == userfolder.id"
+                                        :selected="true">{{ userfolder.name }}</option>
+                                    <option :value="userfolder.id" v-else>{{ userfolder.name }}</option>
+                                </template>
+                            </select>
+                        </div>
+                        <div class="group mt-20">
+                            <div class="btn btn--success" @click="saveImage">Сохранить</div>
+                        </div>
+                        <div class="group mt-20">
+                            <div class="btn btn--danger" @click="validateDelete">Удалить</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <div class="form-group">
                 <div class="h2">Работы в разделе</div>
-                <div class="muted mt-20" style="color:rgba(255,255,255,0.5)">Нажмите на изображение для редактирования</div>
+                <div class="muted mt-20" style="color:rgba(255,255,255,0.5)">Нажмите на изображение для редактирования
+                </div>
             </div>
             <div class="image-grid">
                 <div class="image-item" v-for="galleryImage in imagesList" v-bind:key="galleryImage.id">
@@ -57,7 +102,7 @@
         </div>
     </section>
 
-    <section id="single-image-edit" v-if="this.currentImage">
+    <section id="single-image-edit" v-if="this.currentImage && this.mode != 'newImage'">
         <div class="profile-container d-flex g-20 flex-wrap">
             <div class="left-block">
                 <div class="h2">{{ this.currentImage.title }}</div>
@@ -116,18 +161,31 @@ export default {
             folder: null,
             folders: [],
             title: null,
-            description: null,
+            description: '',
             mode: null,
             folderName: null,
             folderImage: null,
-            folderDescription: null,
+            folderDescription: '',
             folderIsComic: null
         }
     },
     methods: {
+        addImageToFolder() {
+            this.mode = 'newImage';
+            this.currentImage = {
+                'title': '',
+                'picture': '',
+                'description': ''
+            };
+        },
         newFolderImage(e) {
-            e.preventDefault();
-            this.folderPictureNew = e.file;
+            let file = e.target.files || e.dataTransfer.files;
+            if (!file.length) {
+                notifications.generateNotification('bad', 'Ошибка загрузки изображения');
+
+                return;
+            }
+            this.folderPictureNew = file[0];
         },
         async editFolder() {
             this.mode = 'folder';
@@ -150,18 +208,22 @@ export default {
             }
         },
         async saveFolder() {
+            if (this.folderName == '' || this.folderName == null) {
+                notifications.generateNotification('bad', 'Заполните поле название');
+                return false;
+            }
             const folderForm = new FormData();
-            folderForm.append('code',this.$route.params.name);
+            folderForm.append('code', this.$route.params.name);
             folderForm.append('name', this.folderName);
             folderForm.append('description', this.folderDescription);
             if (this.folderPictureNew) {
                 folderForm.append('image', this.folderPictureNew);
             }
-            let request = await axios.post('//img-fw.bb-wolf.site/console/post_update_folder.php',folderForm,
+            let request = await axios.post('//img-fw.bb-wolf.site/console/post_update_folder.php', folderForm,
                 {
                     headers:
                     {
-                        "Authorization": "Bearer "+ localStorage.getItem('token'),
+                        "Authorization": "Bearer " + localStorage.getItem('token'),
                     }
                 }
             )
@@ -246,7 +308,7 @@ export default {
         if (this.$route.params.name == 'all') {
             url = '//img-fw.bb-wolf.site/console/get_gallery_picture.php?user=' + localStorage.getItem('token');
         } else {
-            url = '//img-fw.bb-wolf.site/console/get_gallery_picture.php?user='+localStorage.getItem('token')+'&folder='+this.$route.params.name;
+            url = '//img-fw.bb-wolf.site/console/get_gallery_picture.php?user=' + localStorage.getItem('token') + '&folder=' + this.$route.params.name;
         }
         const getImagesList = await new axios.get(url, {
             headers: {
