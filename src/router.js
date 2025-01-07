@@ -76,6 +76,11 @@ const rts = [
     meta: { transition: 'fade' }
   },
   {
+    path: '/comics/:name',
+    component: () => import('./components/pages/ComicsFolder.vue'),
+    meta: { transition: 'slide-right' }
+  },
+  {
     // path: "*",
     path: '/:catchAll(.*)/',
     name: 'NotFound',

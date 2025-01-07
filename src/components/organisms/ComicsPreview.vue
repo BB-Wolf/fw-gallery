@@ -1,41 +1,39 @@
 <template>
-    <div class="comics-container" style="justify-content: flex-start;">
-        <div class="h2">Новые выпуски комиксов</div>
+    <div class="comics-wrapper" v-show="this.activeComicsList">
+        <div class="comics-container" style="justify-content: flex-start;">
+            <div class="h2">Новые выпуски комиксов</div>
+        </div>
+        <swiper-container :slides-per-view="8" :space-between="spaceBetween" :centered-slides="false"
+            :pagination="false" :breakpoints="{
+                320: {
+                    slidesPerView: 1
+                },
+                768: {
+                    slidesPerView: 1
+                },
+                1024:
+                {
+                    slidesPerView: 4
+                }
+            }" @swiperprogress="onProgress" @swiperslidechange="onSlideChange">
+            <swiper-slide v-for="slide in activeComicsList" :key="slide.name">
+                <div class="card">
+                    <div class="card__face card__face--front">
+                        <img :src="slide.picture" />
+                    </div>
+                    <div class="card__face--overlay">
+                        <div class="card__title">{{slide.name }}</div>
+                        <div class="card__short-desc">{{slide.description}}</div>
+                        <a class="card__link" :href="'/comics/'+slide.code">Перейти к комиксу</a>
+                    </div>
+                </div>
+            </swiper-slide>
+        </swiper-container>
     </div>
-    <swiper-container :slides-per-view="8" :space-between="spaceBetween" :centered-slides="false" :pagination="false"
-        :breakpoints="{
-            320: {
-                slidesPerView: 1
-            },
-            768: {
-                slidesPerView: 1
-            },
-            1024:
-            {
-                slidesPerView: 4
-            }
-        }" @swiperprogress="onProgress" @swiperslidechange="onSlideChange">
-        <swiper-slide v-for="slide in 10" :key="slide">
-            <div class="card">
-                <div class="card__face card__face--front">
-                    <img src="https://i.loli.net/2019/11/16/FLnzi5Kq4tkRZSm.jpg" />
-                </div>
-                <div class="card__face--overlay">
-                    <div class="card__title">Комикс 1</div>
-                    <div class="card__short-desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis
-                        officiis
-                        eum itaque blanditiis voluptate soluta ut, corrupti fuga molestias sint aut repellat, nam
-                        aliquam.
-                        Dignissimos iusto placeat tempora omnis libero!</div>
-                    <a class="card__link" href="">Перейти к комиксу</a>
-                </div>
-            </div>
-        </swiper-slide>
-    </swiper-container>
 </template>
 
 <script>
-
+import axios from 'axios';
 import { register } from 'swiper/element/bundle';
 // register Swiper custom elements
 register();
@@ -55,6 +53,17 @@ export default {
             onProgress,
             onSlideChange,
         };
+    },
+    data() {
+        return {
+            activeComicsList: null
+        }
+    },
+    async mounted() {
+        let getComics = await new axios.get('//img-fw.bb-wolf.site/console/get_comics_list.php');
+        if (getComics.data) {
+            this.activeComicsList = getComics.data;
+        }
     }
 
 }
@@ -106,7 +115,8 @@ export default {
     top: -800px !important;
     background-color: rgba(0, 0, 0, 0.5);
     position: absolute;
-    height: max-content
+    height: 100%;
+    width:100%;
 }
 
 .card__title {

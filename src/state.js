@@ -9,6 +9,10 @@ export const modalState = reactive({
   isModalMobileUploadVisible: false
 })
 
+export const siteVersion = reactive({
+   currentState:'gallery'
+});
+
 export const mobileDevice = reactive({ isMobile })
 export const notifications = reactive({
   notificationsCount: 0,
