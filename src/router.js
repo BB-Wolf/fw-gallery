@@ -81,7 +81,7 @@ const rts = [
     meta: { transition: 'slide-right' }
   },
   {
-    path: '/comics/:name/:page',
+    path: '/comics/:name/:page/',
     component: () => import('./components/pages/ComicsDetailPage.vue'),
     meta: { transition: 'slide-right' }
   },

@@ -12,7 +12,7 @@
                 accusamus recusandae eum pariatur consequuntur voluptate incidunt vel molestiae autem iure asperiores
                 nisi repellendus, expedita alias?
 
-                <a href="" class="btn btn--primary mt-20" style="display: block; color:white">Начать чтение</a>
+                <a :href="'/comics/'+this.$route.params.name+'/1/'" class="btn btn--primary mt-20" style="display: block; color:white">Начать чтение</a>
             </div>
             <div class="comics-info">
                 <div class="central-block">

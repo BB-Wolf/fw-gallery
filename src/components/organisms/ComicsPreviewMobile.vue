@@ -145,7 +145,7 @@ swiper-container {
 
 @media screen and (max-width:768px) {
     swiper-container {
-        height: 120px;
+        height: 320px;
         padding: 0 20px;
     }
 
@@ -153,7 +153,7 @@ swiper-container {
         top: -800px !important;
         background-color: rgba(0, 0, 0, 0.5);
         position: absolute;
-        height: 120px !important;
+        height: 280px !important;
         width: 100%;
     }
 
