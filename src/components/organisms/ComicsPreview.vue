@@ -22,9 +22,9 @@
                         <img :src="slide.picture" />
                     </div>
                     <div class="card__face--overlay">
-                        <div class="card__title">{{slide.name }}</div>
-                        <div class="card__short-desc">{{slide.description}}</div>
-                        <a class="card__link" :href="'/comics/'+slide.code">Перейти к комиксу</a>
+                        <div class="card__title">{{ slide.name }}</div>
+                        <div class="card__short-desc">{{ slide.description }}</div>
+                        <a class="card__link" :href="'/comics/' + slide.code">Перейти к комиксу</a>
                     </div>
                 </div>
             </swiper-slide>
@@ -77,7 +77,7 @@ export default {
 
 .card {
     position: relative;
-    height: 100%;
+    height: 380px;
     color: white;
     cursor: pointer;
     transition: 1s ease-in-out;
@@ -89,7 +89,7 @@ export default {
 }
 
 .card:hover>.card__face--overlay {
-    top: 10px !important;
+    top: 0px !important;
     transition: 0.5s ease-in-out;
 
 }
@@ -107,21 +107,25 @@ export default {
 
 .card .card__face img {
     max-width: 100%;
-    -o-object-fit: cover;
-    object-fit: cover;
+    max-height: 420px;
+    -o-object-fit: contain;
+    object-fit: contain;
 }
 
 .card__face--overlay {
     top: -800px !important;
     background-color: rgba(0, 0, 0, 0.5);
     position: absolute;
+    max-height: 420px;
     height: 100%;
-    width:100%;
+    width: 100%;
 }
 
 .card__title {
     padding: 20px 15px 0px 15px;
-    font-weight: bold
+    font-weight: bold;
+    font-size: 32px;
+    text-align: center;
 }
 
 .card__short-desc {
@@ -135,7 +139,7 @@ export default {
     font-weight: bold;
     display: block;
     padding: 60px 15px 0px 15px;
-
+    text-align: center;
 }
 
 swiper-container {
