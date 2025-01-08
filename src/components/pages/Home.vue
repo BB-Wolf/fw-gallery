@@ -44,54 +44,11 @@ export default
             <GalleryBlock galleryUrl="gallery/top-rated/" galleryType="toprated"
                 galleryTitle="Топ добавлений в избранное" />
         </div>
-        <!--        <section id="switch">
-            <div class="switch-container">
-                <div class="switch-tab switch-tab--active" title="gallery">Галерея</div>
-                <div class="switch-tab" title='texts'>Тексты</div>
-                <div class="switch-tab" title="3d">3D</div>
-            </div>
-        </section>-->
     </div>
 </template>
 
 <style scoped>
 section {
     margin-bottom: 80px;
-}
-
-.switch-container {
-    margin: 0 auto;
-    width: 400px;
-    height: 60px;
-    border-radius: 25px;
-    background-color: white;
-    display: flex;
-    flex-wrap: nowrap;
-    flex-direction: row;
-    position: fixed;
-    bottom: 100px;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 0 10px;
-    justify-content: space-evenly;
-    cursor: pointer;
-    z-index: 10;
-}
-
-.switch-container .switch-tab {
-    text-align: center;
-    flex: 1;
-    height: 50px;
-    border-radius: 20px;
-    align-self: center;
-    transition: all 0.5s cubic-bezier(0.77, 0, 0.175, 1);
-    color: black;
-    align-content: center;
-}
-
-.switch-container .switch-tab--active {
-    background-color: black;
-    color: white;
-    transition: all 0.5s cubic-bezier(0.77, 0, 0.175, 1);
 }
 </style>
