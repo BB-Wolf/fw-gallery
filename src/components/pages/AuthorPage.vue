@@ -269,6 +269,10 @@ h1 {
 
 
 }
+
+.infoFields {
+    padding: 0 20px;
+}
 </style>
 
 <script>

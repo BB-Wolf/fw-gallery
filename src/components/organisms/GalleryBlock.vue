@@ -49,7 +49,7 @@
 }
 
 .gallery-wrapper {
-    max-width: 95%;
+    padding: 0 20px;
     margin: 0 auto;
 }
 
@@ -113,6 +113,10 @@
 @media only screen and (max-width:600px) {
     .gallery-item {
         width: 100%;
+    }
+
+    .gallery-wrapper {
+        padding: 0;
     }
 }
 

@@ -1,15 +1,11 @@
 <script setup>
 import Hero from '../organisms/Hero.vue';
-import RatedSlider from '../organisms/RatedSlider.vue';
-import NewGallery from '../organisms/NewGallery.vue';
-import ComicsPreview from '../organisms/ComicsPreview.vue';
-import ComicsPreviewMobile from '../organisms/ComicsPreviewMobile.vue';
+
 </script>
 <script>
 import { modalState, mobileDevice } from '../../state.js';
-import RatedSliderMobile from '../organisms/RatedSliderMobile.vue';
 import AuthorsOfWeek from '../organisms/AuthorsOfWeek.vue';
-import AuthorsOfWeekMobile from '../organisms/AuthorsOfWeekMobile.vue';
+
 export default
     {
         methods:

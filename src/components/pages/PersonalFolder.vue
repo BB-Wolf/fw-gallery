@@ -6,7 +6,7 @@
 
             <div class="image-grid">
                 <div class="image-item" v-for="galleryImage in imagesList" v-bind:key="galleryImage.id">
-                    <Image @click="editPicture(galleryImage.id)" imageClass="slide" :imageSrc=galleryImage.picture
+                    <Image  @click="editPicture(galleryImage.id)" imageClass="slide" :imageSrc=galleryImage.picture
                         :imageTitle="galleryImage.title + ' от ' + galleryImage.userName" imageAlt="">
                     </Image>
                 </div>
@@ -93,10 +93,13 @@
                 </div>
             </div>
             <div class="image-grid">
-                <div class="image-item" v-for="galleryImage in imagesList" v-bind:key="galleryImage.id">
-                    <Image @click="editPicture(galleryImage.id)" imageClass="slide" :imageSrc=galleryImage.picture
+                <div  :style="'order:'+galleryImage.fsort+';'"  class="image-item" v-for="galleryImage in imagesList" v-bind:key="galleryImage.id">
+                    <Image style="order:{{ this.galleryImage.fsort }}" @click="editPicture(galleryImage.id)" imageClass="slide" :imageSrc=galleryImage.picture
                         :imageTitle="galleryImage.title + ' от ' + galleryImage.userName" imageAlt="">
                     </Image>
+                    <div class="form-group">
+                        <input typee="text" v-model=galleryImage.fsort>
+                    </div>
                 </div>
             </div>
         </div>

@@ -85,7 +85,6 @@ header nav a,
 .gallery-container {
   max-width: 100%;
   margin: 40px auto;
-  padding: 0 20px;
 }
 
 h2 {
@@ -748,9 +747,8 @@ footer {
 }
 
 @media (max-width: 768px) {
-
-  .h2{
-    padding-left:0px !important;
+  .h2 {
+    padding-left: 0px !important;
   }
   .author-block {
     width: 100%;

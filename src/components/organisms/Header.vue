@@ -85,7 +85,7 @@ export default {
             <a href="/main/">Галерея</a>
             <a href="#" v-show="!isUser" @click="showLogin">Войти</a>
             <a v-show="isUser" @click="showUpload">Загрузить</a>
-            <a href="/personal/" v-show="isUser">Персональный раздел</a>
+            <a href="/personal/" v-show="isUser">Профиль</a>
             <a v-show="isUser" @click="logout">Выйти</a>
             <a href="/todo/">TODO</a>
         </nav>
