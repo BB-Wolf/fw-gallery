@@ -31,10 +31,24 @@
         </div>
     </div>
 </template>
+<script>
+import axios from "axios";
+
+export default{
+    data()
+    {
+        return {
+            totalPages:null,
+            currentPage: this.$route.params.page,
+            comments: null,
+        }
+    }
+}
+</script>
 <style scoped>
 .comic-container {
     width: 100%;
-    max-width: 1800px;
+    max-width: 1200px;
     margin: 20px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     border-radius: 8px;
@@ -46,6 +60,7 @@
 .comic-image {
     width: 100%;
     display: block;
+    aspect-ratio:850/1200;
 }
 
 .navigation {
