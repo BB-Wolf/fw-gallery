@@ -30,6 +30,7 @@ export default {
             userFields: null,
             userStatus: null,
             userDevice: mobileDevice,
+            userChars: null,
             mobileBtnClass: 'btn btn--default'
         };
     },
@@ -59,6 +60,20 @@ export default {
 
     },
     methods: {
+        async getChars(){
+            let getUserChars = await new axios.get('//img-fw.bb-wolf.site/console/get_user_character.php',
+                {
+                    headers:{
+                        "Authorization": "Bearer "+ localStorage.getItem('token')
+                    }
+                }
+            );
+            if(getUserChars.data){
+                this.userChars = getUserChars.data;
+            }else{
+                notifications.generateNotification('bad','Ошибка загрузки списка персонажей')
+            }
+        },
         async getFavs() {
             const getFavs = await new axios.get('//img-fw.bb-wolf.site/console/get_user_favs.php?user=' + this.userLogin,
                 {
@@ -76,6 +91,9 @@ export default {
             let buttonAdd = document.querySelector(".add-fields");
             let field = '<div class="newfield-container"><label class="newfield-label">Новое поле:</label><input type="text" placeholder="Введите название поля" class="new-label" ><textarea class=""></textarea></div>';
             buttonAdd.insertAdjacentHTML('beforebegin', field);
+
+        },
+        newCharacterAvatar(e){
 
         },
         onAvatarUpload(e) {
@@ -140,7 +158,7 @@ export default {
                     };
                 }
             }
-            console.log(infoFields);
+
             let mergedArray = [...newFields, ...infoFields];
             fieldsData.append('fields', JSON.stringify(mergedArray));
             fieldsData.append('username', document.querySelector('#username').value);
@@ -181,7 +199,7 @@ export default {
                         @click="getFavs">
                         Избранное
                     </TabsTrigger>
-                    <TabsTrigger value="tab4" class="tab-button" :class="[{ [mobileBtnClass]: userDevice.isMobile }]">
+                    <TabsTrigger @click="getChars" value="tab4" class="tab-button" :class="[{ [mobileBtnClass]: userDevice.isMobile }]">
                         Персонажи
                     </TabsTrigger>
                     <TabsTrigger value="tab5" class="tab-button" :class="[{ [mobileBtnClass]: userDevice.isMobile }]">
@@ -196,7 +214,8 @@ export default {
                     <div class="profile-section">
                         <!-- Avatar -->
                         <div class="profile-avatar">
-                            <img :src="this.userAvatar" alt="Avatar" class="profile-avatar">
+                            <img :src="this.userAvatar" @click="$refs.characterImage.click()" alt="Avatar" class="profile-avatar">
+                            <input type="file" name="avatar" ref="characterImage" @change="newCharacterAvatar" style="display:none;">
                         </div>
                         <div class="user-data">
 
@@ -372,6 +391,18 @@ export default {
                                 </div>
                                 <!-- Add Custom Field Button -->
                                 <button class="add-field-btn" id="addFieldButton">Добавить поле</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="character-container">
+                        <div class="image-grid" v-infinite-scroll="onLoadMore">
+                            <div class="image-item" v-for="galleryImage in userChars" v-bind:key="galleryImage">
+                                <a :href="galleryImage.link">
+                                    <Image imageClass="" :imageSrc=galleryImage.picture
+                                        :imageTitle="galleryImage.title + ' от ' + galleryImage.userName" imageAlt="">
+                                    </Image>
+                                </a>
                             </div>
                         </div>
                     </div>

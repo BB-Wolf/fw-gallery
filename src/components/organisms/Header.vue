@@ -79,7 +79,7 @@ export default {
 
 <template>
     <header>
-        <a class="h1" href="/">Art Gallery</a>
+        <a class="h1" href="/">Furry World. Галерея</a>
         <nav>
             <div class="nsfw-state" @click="switchNSFW">NSFW: {{ this.nswfState }}</div>
             <a href="/main/">Галерея</a>
