@@ -7,7 +7,7 @@
         <!-- Navigation -->
         <div class="navigation">
             <a href="#" id="prev-slide">&laquo; Назад</a>
-            <span id="page-info">Страница 1 из 10</span>
+            <span id="page-info">Страница {{currentPageNum}} из 10</span>
             <a href="#" id="next-slide">Вперед &raquo;</a>
         </div>
 
@@ -39,8 +39,21 @@ export default{
     {
         return {
             totalPages:null,
-            currentPage: this.$route.params.page,
+            currentPage: null,
+            currentPageNum: this.$route.params.page,
             comments: null,
+        }
+    },
+    async mounted()
+    {
+        let getComicsImage = await axios.get('//img-fw.bb-wolf.site/console/get_comics_image.php?code='+this.$route.params.name)
+        if(getComicsImage.data){
+            this.currentPage = getComicsImage.data;
+        }
+
+        let getComicsImageComments = await axios.get('//img-fw.bb-wolf.site/console/get_comics_comments.php?code='+this.$route.params.name+'&page='+this.$route.params.page);
+        if(getComicsImageComments.data){
+            this.comments = getComicsImageComments.data;
         }
     }
 }
@@ -53,7 +66,7 @@ export default{
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     border-radius: 8px;
     overflow: hidden;
-    margin: 0 auto;
+    margin: 0px auto 60px auto;
     padding: 20px;
 }
 
