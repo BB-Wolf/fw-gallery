@@ -31,6 +31,8 @@
                         imageData.imageDimension.height }}
                     </span>
                     <span><strong>Раздел:</strong> {{ imageData.imageFolder }}</span>
+                    <span><strong>Просмотров: </strong> {{ imageData.watches }}</span>
+                    <span><strong>В избранном у: </strong> {{ imageData.likes }}</span>
                 </div>
 
                 <div class="palette">
@@ -57,7 +59,6 @@
                 <div class="original-size">
                     <a :href="imageData.imageLink" target="_blank">Открыть оригинал</a>
                 </div>
-
                 <!-- Ratings Section -->
                 <!--
                 <div class="ratings">

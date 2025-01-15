@@ -86,6 +86,11 @@ const rts = [
     meta: { transition: 'slide-right' }
   },
   {
+    path: '/legal/',
+    component: () => import('./components/pages/Legal.vue'),
+    meta: { transition: 'slide-right' }
+  },
+  {
     // path: "*",
     path: '/:catchAll(.*)/',
     name: 'NotFound',

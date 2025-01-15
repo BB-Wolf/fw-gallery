@@ -214,8 +214,7 @@ export default {
                     <div class="profile-section">
                         <!-- Avatar -->
                         <div class="profile-avatar">
-                            <img :src="this.userAvatar" @click="$refs.characterImage.click()" alt="Avatar" class="profile-avatar">
-                            <input type="file" name="avatar" ref="characterImage" @change="newCharacterAvatar" style="display:none;">
+                            <img :src="this.userAvatar" alt="Avatar" class="profile-avatar">
                         </div>
                         <div class="user-data">
 
@@ -367,7 +366,11 @@ export default {
                         </div>
 
                         <!-- Character Image -->
+                        <div @click="$refs.characterImage.click()">
                         <img src="https://via.placeholder.com/200" alt="Character Image" class="character-image">
+                        <input type="file" ref="characterImage" style="display: none" @change="newCharacterAvatar">
+                        </div>
+
                         <div class="character-info-wrapper">
                             <!-- Character Information -->
                             <div class="character-info" id="characterInfo">

@@ -18,9 +18,24 @@ export default {
             <div class="switch-tab" title='texts'>Тексты</div>
         </div>
     </section>
-    <footer></footer>
+    <footer>
+        <div class="footer-container">
+            <div class="footer-item">
+                <a href="/legal/">Правила и политики</a>
+            </div>
+        </div>
+    </footer>
     <FooterBell></FooterBell>
     <ModalNotification></ModalNotification>
 </template>
 
-<style scoped></style>
+<style scoped>
+.footer-container {
+    display: flex;
+    justify-content:space-between;
+    flex-direction:column;
+    flex-wrap:wrap;
+    width:100%;
+    padding:15px 20px;
+}
+</style>

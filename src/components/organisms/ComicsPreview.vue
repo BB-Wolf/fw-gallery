@@ -77,7 +77,8 @@ export default {
 
 .card {
     position: relative;
-    height: 380px;
+    width: 420px;
+    height: 480px;
     color: white;
     cursor: pointer;
     transition: 1s ease-in-out;
@@ -106,19 +107,19 @@ export default {
 }
 
 .card .card__face img {
-    max-width: 100%;
-    max-height: 420px;
-    -o-object-fit: contain;
-    object-fit: contain;
+    width: 420px;
+    height: 480px;
+    -o-object-fit: cover;
+    object-fit: cover;
+    padding:10px;
 }
 
 .card__face--overlay {
     top: -800px !important;
     background-color: rgba(0, 0, 0, 0.5);
     position: absolute;
-    max-height: 420px;
-    height: 100%;
-    width: 100%;
+    width: 420px;
+    height: 480px;
 }
 
 .card__title {
@@ -143,7 +144,7 @@ export default {
 }
 
 swiper-container {
-    height: 420px;
+    height: 480px;
     padding: 0 20px;
 }
 

@@ -54,7 +54,7 @@
       <div class="right-block">
         <div class="comments-wrapper">
           <div class="publish-date">Дата публикации: 01.01.1970</div>
-          <div class="publish-pages">Всего страниц: 0</div>
+          <div class="publish-pages">Всего страниц: {{this.comics.totalImages}}</div>
           <div class="publish-author">Автор:</div>
         </div>
       </div>
