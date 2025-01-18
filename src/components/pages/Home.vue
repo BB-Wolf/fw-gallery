@@ -38,18 +38,14 @@ export default
             <ComicsPreviewMobile v-if="mobileDevice.isMobile"></ComicsPreviewMobile>
         </section>
         <div class="gallery-container">
-            <GalleryBlock class="section-container" :needInfinity="false" galleryUrl="/gallery/new/"
-                galleryTitle="Новые работы" />
-            <GalleryBlock class="section-container" galleryUrl="gallery/top-rated/" galleryType="toprated"
-                galleryTitle="Топ добавлений в избранное" />
+            <GalleryBlock class="section-container" :needInfinity="false" galleryUrl="/main/"
+                galleryTitle="Последние работы" />
         </div>
     </div>
 </template>
 
 <style scoped>
-section {
-
-}
+section {}
 
 .section-container {
     max-width: 95%;

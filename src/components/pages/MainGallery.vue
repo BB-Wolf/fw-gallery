@@ -1,6 +1,5 @@
 <script setup>
 import Tags from '../organisms/Tags.vue';
-import MainGallery from '../organisms/MainGallery.vue';
 import GalleryBlock from '../organisms/GalleryBlock.vue';
 
 </script>
