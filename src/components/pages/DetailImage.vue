@@ -45,7 +45,7 @@
                     </ul>
                 </div>
                 <!-- Tags Section -->
-                <div class=" tags">
+                <div class="tags">
                     <span v-for="tag in imageData.tags" :key="tag" @click="goToTag(tag.code)">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16px"
                             height="16px">
@@ -59,16 +59,15 @@
                 <div class="original-size">
                     <a :href="imageData.imageLink" target="_blank">Открыть оригинал</a>
                 </div>
-                <!-- Ratings Section -->
-                <!--
-                <div class="ratings">
-                    <label for="rating">Оцените конкурсную работу:</label>
-                    <input type="radio" name="rating" value="1"> 1
-                    <input type="radio" name="rating" value="2"> 2
-                    <input type="radio" name="rating" value="3"> 3
-                    <input type="radio" name="rating" value="4"> 4
-                    <input type="radio" name="rating" value="5"> 5
-                </div>-->
+                <div class="form-group mt-20">
+                    <div class="btn btn--default add-to-fav" v-show="!this.imageData.isFav" @click="addToFav">В
+                        избранное
+                    </div>
+                    <div class="btn btn--update add-to-fav" v-show="this.imageData.isFav" @click="removeFav">Удалить
+                        из
+                        избранного</div>
+                    <!--<div class="btn btn--info">Подписаться</div>-->
+                </div>
 
                 <!-- Comments Section -->
                 <div class="comments-section">
@@ -96,9 +95,11 @@
 </template>
 
 <script>
+import axios from 'axios';
 import markdownit from 'markdown-it';
 import 'vue-image-zoomer/dist/style.css';
 import DetailImageApi from '@/api/DetailImage.js';
+import { notifications } from '@/state';
 export default
     {
         data() {
@@ -125,6 +126,41 @@ export default
         {
             goToTag(code) {
                 location.href = "/tags/" + code;
+            },
+            async addToFav() {
+                let addImg = await new axios.get('//img-fw.bb-wolf.site/console/get_save_to_fav.php?id=' + this.imageData.imageID, {
+                    headers: {
+                        'Authorization': "Bearer " + localStorage.getItem('token')
+                    }
+                }
+                );
+                if (addImg.data) {
+                    let favBtn = document.querySelector('.add-to-fav')
+                    favBtn.innerHTML = 'Добавлено';
+                    favBtn.classList.add('btn--success');
+                    favBtn.classList.remove('btn--default');
+                    //
+                } else {
+                    notifications.generateNotifications('bad', 'Ошибка добавления в избранное');
+                }
+            },
+            async removeFav() {
+                let removeImg = await new axios.get('//img-fw.bb-wolf.site/console/get_remove_fav.php?id=' + this.imageData.imageID,
+                    {
+                        headers: {
+                            'Authorization': "Bearer " + localStorage.getItem('token')
+                        }
+                    }
+                );
+                if (removeImg.data) {
+                    let favBtn = document.querySelector('.add-to-fav')
+                    favBtn.innerHTML = 'Добавлено';
+                    favBtn.classList.add('btn--success');
+                    favBtn.classList.remove('btn--default');
+                    //
+                } else {
+                    notifications.generateNotifications('bad', 'Ошибка удаления из избранного');
+                }
             }
         }
     }
@@ -148,5 +184,11 @@ export default
 .meta-info .author-link {
     color: white;
     font-weight: normal;
+}
+
+.form-group {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
 }
 </style>

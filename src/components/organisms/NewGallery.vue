@@ -13,7 +13,7 @@
                     </div>
                 </div>
                 <a :href="galleryImage.link">
-                    <Image imageClass="slide" :imageSrc=galleryImage.picture
+                    <Image imageClass="slide" :imageSrc=galleryImage.preview
                         :imageTitle="galleryImage.title + ' от ' + galleryImage.userName" imageAlt="">
                     </Image>
                 </a>

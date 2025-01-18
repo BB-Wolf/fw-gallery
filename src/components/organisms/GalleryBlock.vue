@@ -15,7 +15,7 @@
                             </div>
                         </div>
                         <a :href="item.link">
-                            <Image imageClass="slide" :imageSrc=item.picture
+                            <Image imageClass="slide" :imageSrc=item.preview
                                 :imageTitle="item.title + ' от ' + item.userName" imageAlt="">
                             </Image>
                         </a>

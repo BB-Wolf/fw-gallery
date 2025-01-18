@@ -46,7 +46,13 @@ export default {
             this.userLogin = getUserProfile.data.user;
             this.userAvatar = getUserProfile.data.avatar;
             this.userFields = JSON.parse(getUserProfile.data.userFields);
-            this.userStatus = JSON.parse(getUserProfile.data.status);
+            this.userStatus = getUserProfile.data.status;
+            if (this.userStatus.types.length > 0) {
+                for (let i = 0; i < this.userStatus.types.length; i++) {
+                    this.userStatus;
+                }
+            }
+            console.log(this.userStatus.types);
         }
         const getUserFolders = await new axios.get('//img-fw.bb-wolf.site/console/get_user_folders.php', {
             headers: {
@@ -60,18 +66,18 @@ export default {
 
     },
     methods: {
-        async getChars(){
+        async getChars() {
             let getUserChars = await new axios.get('//img-fw.bb-wolf.site/console/get_user_character.php',
                 {
-                    headers:{
-                        "Authorization": "Bearer "+ localStorage.getItem('token')
+                    headers: {
+                        "Authorization": "Bearer " + localStorage.getItem('token')
                     }
                 }
             );
-            if(getUserChars.data){
+            if (getUserChars.data) {
                 this.userChars = getUserChars.data;
-            }else{
-                notifications.generateNotification('bad','Ошибка загрузки списка персонажей')
+            } else {
+                notifications.generateNotification('bad', 'Ошибка загрузки списка персонажей')
             }
         },
         async getFavs() {
@@ -93,7 +99,7 @@ export default {
             buttonAdd.insertAdjacentHTML('beforebegin', field);
 
         },
-        newCharacterAvatar(e){
+        newCharacterAvatar(e) {
 
         },
         onAvatarUpload(e) {
@@ -121,11 +127,8 @@ export default {
                         img.src = URL.createObjectURL(new File(this.file, this.file.name));
                         notifications.generateNotification('good', 'body');
                     }
-
                 }
             }
-
-
         },
         removeField(e) {
             e.event.target.remove;
@@ -174,8 +177,16 @@ export default {
 
         },
         saveStatus(status) {
-
-
+            let saveStatusRequest = new axios.get('//img-fw.bb-wolf.site/console/get_update_user_status.php?mode=' + status + '&token=' + localStorage.getItem('token'));
+            if (saveStatusRequest.data) {
+                if (saveStatusRequest.data.status == 'success') {
+                    notifications.generateNotification('good', saveStatusRequest.data.text);
+                } else {
+                    notifications.generateNotification('bad', saveStatusRequest.data.text);
+                }
+            } else {
+                notifications.generateNotification('bad', 'Ошибка обновления данных, попробуйте еще раз');
+            }
         },
         saveTags() { },
         createFolder() {
@@ -199,7 +210,8 @@ export default {
                         @click="getFavs">
                         Избранное
                     </TabsTrigger>
-                    <TabsTrigger @click="getChars" value="tab4" class="tab-button" :class="[{ [mobileBtnClass]: userDevice.isMobile }]">
+                    <TabsTrigger @click="getChars" value="tab4" class="tab-button"
+                        :class="[{ [mobileBtnClass]: userDevice.isMobile }]">
                         Персонажи
                     </TabsTrigger>
                     <TabsTrigger value="tab5" class="tab-button" :class="[{ [mobileBtnClass]: userDevice.isMobile }]">
@@ -259,15 +271,16 @@ export default {
                             </SwitchButton>
                         </div>
                         <div class="user-data">
-                            <SwitchButton :inputLabel='"Беру трейды"' :inputName="'trades'" @click="saveStatus('comm')">
+                            <SwitchButton :inputLabel='"Беру трейды"' :inputName="'trades'"
+                                @click="saveStatus('trades')">
                             </SwitchButton>
                         </div>
                         <div class="user-data">
                             <SwitchButton :inputLabel='"Беру реквесты"' :inputName="'requests'"
-                                @click="saveStatus('comm')"> </SwitchButton>
+                                @click="saveStatus('requests')"> </SwitchButton>
                         </div>
                         <div class="user-data">
-                            <SwitchButton :inputLabel='"Рисую NSFW"' :inputName="'nsfw'" @click="saveStatus('comm')">
+                            <SwitchButton :inputLabel='"Рисую NSFW"' :inputName="'nsfw'" @click="saveStatus('nsfw')">
                             </SwitchButton>
                         </div>
                     </div>
@@ -367,8 +380,9 @@ export default {
 
                         <!-- Character Image -->
                         <div @click="$refs.characterImage.click()">
-                        <img src="https://via.placeholder.com/200" alt="Character Image" class="character-image">
-                        <input type="file" ref="characterImage" style="display: none" @change="newCharacterAvatar">
+                            <img src="https://via.placeholder.com/200" alt="Нажмите чтобы загрузить фото"
+                                class="character-image">
+                            <input type="file" ref="characterImage" style="display: none" @change="newCharacterAvatar">
                         </div>
 
                         <div class="character-info-wrapper">
@@ -376,21 +390,25 @@ export default {
                             <div class="character-info" id="characterInfo">
                                 <div class="field">
                                     <label for="age">Имя</label>
-                                    <input type="text" id="age" v-model="charName" placeholder="Enter age">
+                                    <input type="text" id="age" v-model="charName" placeholder="Введите имя">
                                 </div>
 
                                 <div class="field">
                                     <label for="age">Возраст</label>
-                                    <input type="text" id="age" v-model="charAge" placeholder="Enter age">
+                                    <input type="text" id="age" v-model="charAge"
+                                        placeholder="Введите возраст персонажа">
                                 </div>
                                 <div class="field">
                                     <label for="occupation">Вид</label>
-                                    <input type="text" id="occupation" v-model="charSpecie"
-                                        placeholder="Enter occupation">
+                                    <input type="text" id="occupation" v-model="charSpecie" placeholder="Введите вид">
                                 </div>
                                 <div class="field">
-                                    <label for="age">Био</label>
-                                    <input type="text" id="age" v-model="charBio" placeholder="Enter age">
+                                    <label for="age">Краткое био</label>
+                                    <input type="text" id="age" v-model="charBio" placeholder="Краткое био">
+                                </div>
+                                <div class="field">
+                                    <label for="age">Полное био</label>
+                                    <textarea v-model="charFullStory" placeholder="Полное био"></textarea>
                                 </div>
                                 <!-- Add Custom Field Button -->
                                 <button class="add-field-btn" id="addFieldButton">Добавить поле</button>
@@ -736,6 +754,7 @@ input[type="file"] {
     display: flex;
     flex-direction: column;
     gap: 15px;
+    width: 100%;
 }
 
 .character-info label {

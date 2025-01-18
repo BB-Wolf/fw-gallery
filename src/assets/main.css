@@ -362,9 +362,10 @@ li:is(:hover, :focus-within) + li {
 
 .image-preview img {
   max-width: 100%;
-  height: auto;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  height: auto;
+  object-fit: cover;
 }
 
 /* Right Column (30%): Image Info */
@@ -533,7 +534,7 @@ li:is(:hover, :focus-within) + li {
 .artworks .artwork-item img {
   max-width: 100%;
   border-radius: 5px;
-  margin-bottom: 10px;
+  height: 190px;
 }
 
 .artworks .artwork-item p {

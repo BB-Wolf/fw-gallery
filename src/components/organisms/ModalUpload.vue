@@ -38,24 +38,20 @@
                         <input type="text" v-model="title">
                     </div>
                     <div class="upload-description">
-                        <label>Описание (поддерживается Markdown разметка)</label>
+                        <label>Описание</label>
+                        <div class="muted">поддерживается Markdown разметка</div>
                         <textarea v-model="description" class="upload-description"></textarea>
                     </div>
-                    <div class="upload-tags">
+                    <div class="new-upload-tags">
                         <label>Теги</label>
-                        <vue3-tags-input v-model:tags="tags" v-model="tag" :select="true" :select-items="selectItems"
-                            @on-select="handleSelectedTag" @on-tags-changed="handleChangeTag"
-                            @keyup.space="createNewTag" placeholder="Select the tag">
-                            <template #item="{ tag, index }">
-                                {{ tag.text }}
-                            </template>
-                            <template #no-data>
-                                No Data
-                            </template>
-                            <template #select-item="tag">
-                                {{ tag.text }}
-                            </template>
-                        </vue3-tags-input>
+                        <div class="muted">Нажмите Tab для заполнения</div>
+                        <input type="text" class="new-upload-item">
+                    </div>
+                    <div class="upload-character">
+                        <div>
+                            <label>Персонажи</label>
+                            <Multiselect v-model="character" :options="characterOptions" :max=-1 />
+                        </div>
                     </div>
                     <div class="upload-rate">
                         <div>
@@ -81,13 +77,14 @@
 <script>
 import { modalState } from '../../state';
 import Multiselect from '@vueform/multiselect'
-import Vue3TagsInput from 'vue3-tags-input';
+
+import Tagify from '@yaireo/tagify'
 
 import axios from 'axios';
 export default {
     components: {
         Multiselect,
-        Vue3TagsInput
+        Tagify
     },
     data() {
         return {
@@ -104,6 +101,7 @@ export default {
                 '16+',
                 '18+',
             ],
+            characterOptions: null,
             userFolder: null,
             tags: [],
             tag: '',
@@ -114,14 +112,30 @@ export default {
 
         }
     },
-    async created() {
-        // const mainTagsReq = await axios.get(`//img-fw.bb-wolf.site/console/get_upload_tags.php`, {
-        // });
-        // const [mainTags] = await Promise.all([mainTagsReq]);
+    async mounted() {
 
-        // if (mainTags.data) {
-        //     this.selectItems = mainTags.data;
-        // }
+        let tagsList = await axios.get('//img-fw.bb-wolf.site/console/get_upload_tags.php');
+        let inputElem = document.querySelector('.new-upload-item') // the 'input' element which will be transformed into a Tagify component
+        let tagTagify = new Tagify(inputElem,
+            {
+                whitelist: tagsList.data,
+                dropdown: {
+                    classname: "color-blue",
+                    enabled: 1,              // show the dropdown immediately on focus
+                    position: "text",         // place the dropdown near the typed text
+                    closeOnSelect: false,          // keep the dropdown open after selecting a suggestion
+                    searchKeys: ["text"] //  fuzzy-search matching for those whitelist items' properties
+
+                },
+            }
+        );
+
+        let charList = await axios.get('//img-fw.bb-wolf.site/console/get_user_characters.php', {
+            headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
+        });
+        if (charList.data) {
+            this.characterOptions = charList.data;
+        }
     },
     methods:
     {
@@ -142,6 +156,11 @@ export default {
             formData.append('description', this.description);
             formData.append('rate', this.rate);
             //    formData.append('folder', this.folder);
+            let tagsList = document.querySelectorAll('tag');
+            for (let i = 0; i < tagsList.length; i++) {
+                this.tags[i] = tagsList[i].title;
+                console.log(tagsList[i].title);
+            }
             formData.append('tags', JSON.stringify(this.tags));
             formData.append('file', this.rawFile);
             const request = await axios.post('//img-fw.bb-wolf.site/console/post_image_create.php', formData, {
@@ -181,11 +200,21 @@ export default {
             modalState.isModalLoginVisible = false;
             modalState.isModalRegisterVisible = false;
 
-        }, handleSelectedTag(tag) {
+        },
+        handleSelectedTag(tag) {
             this.tags.push(tag);
         },
         createNewTag() {
-            this.tags.push({ text: document.querySelector('.v3ti-new-tag').value });
+
+            for (let i = 0; i <= this.tags.length; i++) {
+                if (this.tags[i]) {
+                    if (this.tags[i].text != document.querySelector('.v3ti-new-tag').value) {
+                        this.tags.push({ text: document.querySelector('.v3ti-new-tag').value.trim() });
+                    } else {
+                        document.querySelector('.v3ti-new-tag').value = '';
+                    }
+                }
+            }
         },
         handleChangeTag(tags) {
             this.tags = tags;
@@ -210,7 +239,7 @@ textarea {
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
-    gap: 20px;
+    gap: 10px;
     justify-content: space-around;
 }
 
@@ -467,5 +496,11 @@ textarea {
     height: 90%;
     align-items: center;
 }
+
+.new-upload-tags {
+    display: flex;
+    flex-direction: column;
+}
 </style>
 <style src="@vueform/multiselect/themes/default.css"></style>
+<style src="@yaireo/tagify/dist/tagify.css"></style>
