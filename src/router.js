@@ -1,14 +1,21 @@
 import { createWebHistory, createRouter } from 'vue-router'
+import { siteVersion } from './state'
 
-import HomeView from './components/pages/Home.vue'
 
-const rts = [
-  { path: '/', component: HomeView, meta: { transition: 'fade' } },
+let rts = [];
+
+if(siteVersion.currentState == 'gallery'){
+
+   rts = [
+  {
+     path: '/', component: ()=>import('./components/pages/Home.vue'), meta: { transition: 'fade' } 
+    },
   {
     path: '/main/',
     component: () => import('./components/pages/MainGallery.vue'),
     meta: { transition: 'fade' }
   },
+  
   {
     path: '/register/',
     component: () => import('./components/pages/Register.vue'),
@@ -100,6 +107,10 @@ const rts = [
     }
   }
 ]
+}else{
+   rts = [];
+
+}
 
 const router = createRouter({
   history: createWebHistory(),
