@@ -8,9 +8,8 @@ export default {
         ModalNotification
     },
     methods: {
-        switchMode(mode)
-        {
-                siteVersion.currentState = mode;
+        switchMode(mode) {
+            siteVersion.currentState = mode;
         }
     }
 }
@@ -36,10 +35,10 @@ export default {
 <style scoped>
 .footer-container {
     display: flex;
-    justify-content:space-between;
-    flex-direction:column;
-    flex-wrap:wrap;
-    width:100%;
-    padding:15px 20px;
+    justify-content: space-between;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+    padding: 15px 20px;
 }
 </style>
