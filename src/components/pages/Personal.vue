@@ -31,7 +31,13 @@ export default {
             userStatus: null,
             userDevice: mobileDevice,
             userChars: null,
-            mobileBtnClass: 'btn btn--default'
+            mobileBtnClass: 'btn btn--default',
+            charName: '',
+            charAge: '',
+            charBio: '',
+            charSpecie: '',
+            charFullStory: '',
+            charAvatar: null,
         };
     },
     async created() {
@@ -66,8 +72,30 @@ export default {
 
     },
     methods: {
+        async saveCharacter() {
+            let formData = new FormData();
+            formData.append('name', this.charName);
+            formData.append('age', this.charAge);
+            formData.append('species', this.charSpecie);
+            formData.append('short', this.charBio);
+            formData.append('full', this.charFullStory);
+            formData.append('file', this.charAvatar);
+
+            let saveFormData = await new axios.post('//img-fw.bb-wolf.site/console/post_create_character.php', formData, {
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem("token"),
+                }
+            });
+
+            if (saveFormData.data) {
+                notifications.generateNotification(saveFormData.data.status, saveFormData.data.text);
+
+            } else {
+                notifications.generateNotification('bad', 'Ошибка сохранения персонажа')
+            }
+        },
         async getChars() {
-            let getUserChars = await new axios.get('//img-fw.bb-wolf.site/console/get_user_character.php',
+            let getUserChars = await new axios.get('//img-fw.bb-wolf.site/console/get_user_characters.php',
                 {
                     headers: {
                         "Authorization": "Bearer " + localStorage.getItem('token')
@@ -100,6 +128,8 @@ export default {
 
         },
         newCharacterAvatar(e) {
+            let avatarFile = e.target.files || e.dataTransfer.files;
+            this.charAvatar = avatarFile[0];
 
         },
         onAvatarUpload(e) {
@@ -411,19 +441,22 @@ export default {
                                     <textarea v-model="charFullStory" placeholder="Полное био"></textarea>
                                 </div>
                                 <!-- Add Custom Field Button -->
-                                <button class="add-field-btn" id="addFieldButton">Добавить поле</button>
+                                <div class="btn btn--success" id="addFieldButton" @click="saveCharacter">Сохранить</div>
+
                             </div>
                         </div>
                     </div>
 
-                    <div class="character-container">
+                    <div class="character-container character-container__right">
+
                         <div class="image-grid" v-infinite-scroll="onLoadMore">
                             <div class="image-item" v-for="galleryImage in userChars" v-bind:key="galleryImage">
-                                <a :href="galleryImage.link">
+                                <a :href="'/author/' + this.userLogin + '/characters/' + galleryImage.code">
                                     <Image imageClass="" :imageSrc=galleryImage.picture
                                         :imageTitle="galleryImage.title + ' от ' + galleryImage.userName" imageAlt="">
                                     </Image>
                                 </a>
+                                <div class="character__name">{{ galleryImage.char.name }}</div>
                             </div>
                         </div>
                     </div>
@@ -638,6 +671,13 @@ input[type="file"] {
 
 .image-item {
     flex: 0 350px;
+    background-color: unset;
+    flex-direction: column;
+    text-align: center;
+}
+
+.character__name {
+    color: white;
 }
 
 .hint {
@@ -711,6 +751,15 @@ input[type="file"] {
 
 }
 
+
+
+#character {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 40px;
+}
+
 /* Basic styling */
 .character-info-wrapper {
     display: flex;
@@ -724,6 +773,10 @@ input[type="file"] {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.character-container__right {
+    max-width: 1200px;
 }
 
 /* Header section for name */

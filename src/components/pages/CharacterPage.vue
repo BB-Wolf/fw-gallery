@@ -1,14 +1,14 @@
 <script>
-export default{
+export default {
     data() {
         return {
-                charAge:null,
-                charName:null,
-                charSpecie:null,
-                charOwner:null,
-                charBio:null,
-                charFields:null,
-                charAvatar:null,
+            charAge: null,
+            charName: null,
+            charSpecie: null,
+            charOwner: null,
+            charBio: null,
+            charFields: null,
+            charAvatar: null,
         }
     }
 }
@@ -16,147 +16,124 @@ export default{
 <template>
 
     <section id="character">
+
         <div class="character-container">
-            <div class="character-header">
-                <h1>Character Name</h1>
-            </div>
-            
             <!-- Character Image -->
-            <img src="https://via.placeholder.com/200" alt="Character Image" class="character-image">
-            <div class="character-info-wrapper">
-                <!-- Character Information -->
-                <div class="character-info" id="characterInfo">
-                    <div class="field">
-                        <label for="age">Имя</label>
-                        <input type="text" id="age" v-model="charName" placeholder="Enter age">
-                    </div>
-                    
-                    <div class="field">
-                        <label for="age">Возраст</label>
-                        <input type="text" id="age" v-model="charAge" placeholder="Enter age">
-                    </div>
-                    <div class="field">
-                        <label for="occupation">Вид</label>
-                        <input type="text" id="occupation" v-model="charSpecie" placeholder="Enter occupation">
-                    </div>
-                    <div class="field">
-                        <label for="age">Био</label>
-                        <input type="text" id="age" v-model="charBio" placeholder="Enter age">
-                    </div>
-                        <!-- Add Custom Field Button -->
-                    <button class="add-field-btn" id="addFieldButton">Add Custom Field</button>
+            <img src="http://img-fw.bb-wolf.site/upload/uf/782/r1xykcg1p3e6nv183f1knj1s22fw2m2j.jpg"
+                alt="Character Image" class="character-image">
+
+            <div class="author-image">
+                <div class="author-image__border">
+                    <img src="http://img-fw.bb-wolf.site/upload/uf/782/r1xykcg1p3e6nv183f1knj1s22fw2m2j.jpg">
                 </div>
+            </div>
+            <!-- Character Info -->
+            <div class="character-info">
+                <h1 id="character-name">Character Name</h1>
+                <p id="character-age">Age: 25</p>
+                <p id="character-short-bio">A brief summary about the character goes here.</p>
+            </div>
+
+            <!-- Character Full Bio -->
+            <div class="character-bio">
+                <h2>Full Biography</h2>
+                <p id="character-full-bio">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis
+                    velit non auctor fermentum. Nullam vel felis eu elit porttitor tristique. Integer aliquam, nunc vel
+                    pulvinar tincidunt, nisl mi sollicitudin eros, ac facilisis neque enim in metus. Vivamus egestas,
+                    orci nec convallis sodales, ligula nulla eleifend quam, a tincidunt magna libero vitae quam.</p>
             </div>
         </div>
     </section>
 
 </template>
 <style scoped>
-/* Basic styling */
-.character-info-wrapper {
-    display: flex;
-}
-
-/* Main container */
 .character-container {
-    background-color: #2b2b2b;
-    max-width: 600px;
     width: 100%;
-    padding: 20px;
+    max-width: 1900px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
 }
 
-/* Header section for name */
-.character-header {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.character-header h1 {
-    color: #ffcc00;
-    font-size: 1.8em;
-    margin: 0;
-}
-
-/* Character image */
 .character-image {
     width: 100%;
-    max-width: 200px;
-    border-radius: 8px;
-    margin: 0 auto;
-    display: block;
-    background-color: #444;
-    margin-bottom: 20px;
+    max-height: 600px;
+    object-fit: cover;
+    object-position: 0% 10%;
 }
 
-/* Personal Data Section */
 .character-info {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+    padding: 20px;
+    text-align: center;
 }
 
-.character-info label {
-    color: #ddd;
-    font-weight: bold;
+.character-info h1 {
+    margin: 10px 0;
+    font-size: 24px;
 }
 
-.character-info input[type="text"] {
-    width: 100%;
-    padding: 10px;
-    border-radius: 5px;
-    background-color: #1f1f1f;
-    color: #fff;
-    border: 1px solid #444;
-    outline: none;
+.character-info p {
+    margin: 5px 0;
     font-size: 16px;
+    color: #555;
 }
 
-.character-info input[type="text"]:focus {
-    border-color: #ffcc00;
-}
-
-/* Add custom field button */
-.add-field-btn {
-    background-color: #ffcc00;
-    color: #2b2b2b;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
+.character-bio {
     width: 100%;
-    margin-top: 20px;
-    transition: background-color 0.3s ease;
+    padding: 20px;
 }
 
-.add-field-btn:hover {
-    background-color: #e6b800;
+.character-bio h2 {
+    margin-bottom: 10px;
+    font-size: 20px;
+    color: #333;
 }
 
-/* Custom Field Styling */
-.custom-field {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
+.character-bio p {
+    font-size: 16px;
+    color: #555;
+    line-height: 1.6;
 }
 
-/* Remove button for custom fields */
-.remove-field-btn {
-    background-color: #444;
-    color: #ffcc00;
-    padding: 5px;
-    border: none;
-    cursor: pointer;
-    font-size: 14px;
-    border-radius: 3px;
-    align-self: flex-start;
-    margin-top: 5px;
+@media (max-width: 600px) {
+    .character-info h1 {
+        font-size: 20px;
+    }
+
+    .character-info p,
+    .character-bio p {
+        font-size: 14px;
+    }
+
+    .character-bio h2 {
+        font-size: 18px;
+    }
+
+    .author-image {
+        display: none;
+    }
 }
 
-.remove-field-btn:hover {
-    background-color: #ffcc00;
-    color: #2b2b2b;
+
+.author-image__border {
+    border-radius: 50%;
+    overflow: hidden;
+    width: 200px;
+    height: 200px;
+    border: 1px solid #ededed;
+    margin: 10px auto;
+    position: absolute;
+    left: 60px;
+    top: 480px;
+}
+
+.author-image__border img {
+
+    max-width: 100%;
 }
 </style>
