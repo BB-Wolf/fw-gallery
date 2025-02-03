@@ -47,7 +47,7 @@
                         <div class="muted">Нажмите Tab для заполнения</div>
                         <input type="text" class="new-upload-item">
                     </div>
-                    <div class="upload-character">
+                    <div class="upload-character" @click="loadChars">
                         <div>
                             <label>Персонажи</label>
                             <Multiselect v-model="character" :options="characterOptions" :max=-1 />
@@ -129,16 +129,17 @@ export default {
                 },
             }
         );
-
-        let charList = await axios.get('//img-fw.bb-wolf.site/console/get_user_characters.php', {
-            headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
-        });
-        if (charList.data) {
-            this.characterOptions = charList.data;
-        }
     },
     methods:
     {
+        async loadChars() {
+            let charList = await axios.get('//img-fw.bb-wolf.site/console/get_user_characters.php', {
+                headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
+            });
+            if (charList.data) {
+                this.characterOptions = charList.data;
+            }
+        },
         closeModal() {
             this.isModalOpen.isModalUploadVisible = false;
         },
