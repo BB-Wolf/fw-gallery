@@ -37,7 +37,7 @@ export default {
 
             <!-- Character Full Bio -->
             <div class="character-bio">
-                <h2>Full Biography</h2>
+                <h2>Полное Био</h2>
                 <p id="character-full-bio">
                     {{this.charData.char.full}}
                 </p>
