@@ -73,20 +73,23 @@
                 <div class="comments-section">
                     <h3>Комментарии</h3>
 
-                    <!-- Comment Box -->
-                    <div class="comment-box">
-                        <textarea placeholder="Напишите комментарий..." rows="4" v-model="comment"></textarea>
-                        <button type="submit" class="send-comment" @click="sendComment">Отправить сообщение</button>
-                    </div>
-
                     <!-- Comments List -->
                     <div class="comments-list">
                         <div class="comment" v-for="comment in commentsData" :key="comment.id">
-                            <div class="comment-author">{{ comment.author }}</div>
+                            <div class="comment-author">{{ comment.author }} </div>
+                            <div class="comment-text">{{ comment.time }}</div>
+                            <div class="comment-text"></div>
+                            <div class="comment-text"></div>
                             <div class="comment-text">{{ comment.text }}</div>
                         </div>
 
                     </div>
+                                        <!-- Comment Box -->
+                  <div class="comment-box">
+                        <textarea placeholder="Напишите комментарий..." rows="4" v-model="comment"></textarea>
+                        <button type="submit" class="send-comment" @click="sendComment">Отправить сообщение</button>
+                    </div>
+
                 </div>
             </div> <!-- End of Right Column -->
 
@@ -110,6 +113,12 @@ export default
                 comment: null,
             }
         },
+        async created(){
+            let comments = await new axios.get('//furry-world.ru/console/get_image_comment.php?image='+this.$route.params.image)
+            if(comments.data){
+                this.commentsData = comments.data;
+            }
+        },
         mounted() {
             const md = markdownit();
             DetailImageApi.getDetailImage(this.$route.params.user, this.$route.params.image, localStorage.getItem("token")).then(
@@ -120,7 +129,6 @@ export default
                     document.title = this.imageData.imageTitle;
                 }
             );
-
 
         },
         methods:
