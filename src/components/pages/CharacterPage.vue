@@ -1,14 +1,15 @@
 <script>
+import axios from 'axios';
 export default {
     data() {
         return {
-            charAge: null,
-            charName: null,
-            charSpecie: null,
-            charOwner: null,
-            charBio: null,
-            charFields: null,
-            charAvatar: null,
+            charData:null
+        }
+    },
+    async created() {
+        let characterData =  await new axios.get('//img-fw.bb-wolf.site/console/get_character_info.php?user='+this.$route.params.owner+'&character=' + this.$route.params.character);
+        if (characterData.data) {
+            this.charData = characterData.data
         }
     }
 }
@@ -17,30 +18,33 @@ export default {
 
     <section id="character">
 
-        <div class="character-container">
+        <div class="character-container" v-if="this.charData">
             <!-- Character Image -->
-            <img src="http://img-fw.bb-wolf.site/upload/uf/782/r1xykcg1p3e6nv183f1knj1s22fw2m2j.jpg"
+            <img :src=this.charData.picture
                 alt="Character Image" class="character-image">
 
             <div class="author-image">
                 <div class="author-image__border">
-                    <img src="http://img-fw.bb-wolf.site/upload/uf/782/r1xykcg1p3e6nv183f1knj1s22fw2m2j.jpg">
+                    <img :src="this.charData.picture">
                 </div>
             </div>
             <!-- Character Info -->
             <div class="character-info">
-                <h1 id="character-name">Character Name</h1>
-                <p id="character-age">Age: 25</p>
-                <p id="character-short-bio">A brief summary about the character goes here.</p>
+                <h1 id="character-name">{{ this.charData.char.name }}</h1>
+                <p id="character-age">Возраст: {{this.charData.char.age}}</p>
+                <p id="character-short-bio">{{this.charData.char.short}}</p>
             </div>
 
             <!-- Character Full Bio -->
             <div class="character-bio">
                 <h2>Full Biography</h2>
-                <p id="character-full-bio">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque venenatis
-                    velit non auctor fermentum. Nullam vel felis eu elit porttitor tristique. Integer aliquam, nunc vel
-                    pulvinar tincidunt, nisl mi sollicitudin eros, ac facilisis neque enim in metus. Vivamus egestas,
-                    orci nec convallis sodales, ligula nulla eleifend quam, a tincidunt magna libero vitae quam.</p>
+                <p id="character-full-bio">
+                    {{this.charData.char.full}}
+                </p>
+            </div>
+
+            <div class="character-gallery">
+                <h2>Галерея персонажа</h2>
             </div>
         </div>
     </section>

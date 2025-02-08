@@ -13,14 +13,14 @@
           style="display: block; color: white"
           >Начать чтение</a>
       </div>
-      <div class="comics-info">
+      <div class="comics-info" v-if="this.comics.listOfSlides">
         <div class="central-block">
           <div class="slide__title">Перейти к странице</div>
           <div class="slides-container">
-            <div v-for="slide in 10" :key="slide" class="pagepreview-slide">
+            <div v-for="slide in this.comics.listOfSlides" :key="slide" class="pagepreview-slide" style="order:{{ slide.order }}">
               <a href="">
                 <img
-                  src="http://img-fw.bb-wolf.site/upload/uf/782/r1xykcg1p3e6nv183f1knj1s22fw2m2j.jpg"
+                  :src=slide.picture
                 />
                 <span>1</span>
               </a>

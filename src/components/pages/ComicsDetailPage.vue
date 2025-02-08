@@ -1,7 +1,7 @@
 <template>
     <div class="comic-container">
         <!-- Comic Image -->
-        <img src="http://img-fw.bb-wolf.site/upload/uf/782/r1xykcg1p3e6nv183f1knj1s22fw2m2j.jpg" alt="Comic Page"
+        <img :src="this.currentPage.picture" alt="Comic Page"
             class="comic-image">
 
         <!-- Navigation -->
