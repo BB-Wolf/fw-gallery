@@ -31,6 +31,7 @@ export default {
             <!-- Character Info -->
             <div class="character-info">
                 <h1 id="character-name">{{ this.charData.char.name }}</h1>
+                <p id="character-age">Вид: {{this.charData.char.specie}}</p>
                 <p id="character-age">Возраст: {{this.charData.char.age}}</p>
                 <p id="character-short-bio">{{this.charData.char.short}}</p>
             </div>

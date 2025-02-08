@@ -5,6 +5,7 @@ import axios from 'axios';
 import SwitchButton from '../molecules/SwitchButton.vue';
 import Image from '../atoms/Image.vue';
 import { notifications, mobileDevice } from '@/state';
+import Multiselect from '@vueform/multiselect'
 
 export default {
     components:
@@ -16,6 +17,7 @@ export default {
         InputText,
         SwitchButton,
         Image,
+        Multiselect
 
     },
     data() {
@@ -72,6 +74,16 @@ export default {
 
     },
     methods: {
+        async fetchTags(tag) {
+                const lookUpTag = await axios.get('//furry-world.ru/console/get_search_tags.php?q=' + tag);
+
+                if (lookUpTag.data) {
+                    document.querySelector('.filter-go').classList.add('filter-go--active');
+                    return lookUpTag.data;
+                } else {
+                    //  return { label: 'По запросу ничего не найдено' };
+                }
+            },
         async saveCharacter() {
             let formData = new FormData();
             formData.append('name', this.charName);
@@ -320,6 +332,14 @@ export default {
                     <div class="h1">Управление тегами</div>
                     <div class="profile-section">
                         <!-- User Data -->
+                        <div v-if="this.searchOpen" class="tag-container">
+            <Multiselect v-model="tags" placeholder="Выберите теги" :filter-results="false" :min-chars="2"
+                :resolve-on-load="false" :mode="'multiple'" :delay="3" :close-on-select="true" :limit="10"
+                :searchable="true" :options="async function(query) {
+    return await fetchTags(query)
+  }" />
+        </div>
+
                         <div class="user-data">
                             <div class="add-fields" @click="saveTags">Сохранить</div>
                         </div>
@@ -409,9 +429,8 @@ export default {
                         </div>
 
                         <!-- Character Image -->
-                        <div @click="$refs.characterImage.click()">
-                            <img src="https://via.placeholder.com/200" alt="Нажмите чтобы загрузить фото"
-                                class="character-image">
+                        <div @click="$refs.characterImage.click()" class="btn btn-default">
+                            Нажмите чтобы загрузить изображение
                             <input type="file" ref="characterImage" style="display: none" @change="newCharacterAvatar">
                         </div>
 
