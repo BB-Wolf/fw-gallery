@@ -40,7 +40,9 @@ export default {
 
 <style scoped>
 #switch {
-    opacity: 0.3;
+    opacity: 0.9;
+    position:relative;
+    z-index:99999;
 
     &:hover {
         opacity: 1;
