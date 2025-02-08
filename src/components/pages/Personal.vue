@@ -280,7 +280,7 @@ export default {
 
                             <input type="text" id="username" value="{{this.userLogin}}" class="infoFieldVal-username"
                                 v-model="this.userLogin" required>
-                            <div class="infoFields" v-if="userFields.length > 0">
+                            <div class="infoFields" v-if="userFields">
                                 <InputText v-for="userField in userFields" :key="userField"
                                     :inputLabel="userField.label" :inputValue="userField.value"
                                     :inputClass="'infoFieldVal'"> </InputText>
