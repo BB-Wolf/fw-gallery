@@ -13,16 +13,17 @@
           style="display: block; color: white"
           >Начать чтение</a>
       </div>
-      <div class="comics-info" v-if="this.comics.listOfSlides">
+      <div class="comics-info" v-if="this.comics.listOfPreview">
         <div class="central-block">
           <div class="slide__title">Перейти к странице</div>
           <div class="slides-container">
-            <div v-for="slide in this.comics.listOfSlides" :key="slide" class="pagepreview-slide" style="order:{{ slide.order }}">
-              <a href="">
+            <div v-for="slide in this.comics.listOfPreview" :key="slide" class="pagepreview-slide" style="order:{{ slide.sort }}">
+              
+              <a :href="this.$route.params.name+'/'+slide.sort">
                 <img
                   :src=slide.picture
                 />
-                <span>1</span>
+                <span>{{slide.sort}}</span>
               </a>
             </div>
           </div>
@@ -55,7 +56,7 @@
         <div class="comments-wrapper">
           <div class="publish-date">Дата публикации: 01.01.1970</div>
           <div class="publish-pages">Всего страниц: {{this.comics.totalImages}}</div>
-          <div class="publish-author">Автор:</div>
+          <div class="publish-author">Автор: {{this.comics.author}}</div>
         </div>
       </div>
     </div>

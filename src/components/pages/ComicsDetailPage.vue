@@ -4,10 +4,10 @@
         <img :src="this.currentPage.imageLink" alt="Страница комикса" class="comic-image">
 
         <!-- Navigation -->
-        <div class="navigation" v-if="this.currentPage.page > this.currentPage.totalPages">
-            <a href="#" id="prev-slide" v-show="this.currentPage.page > this.currentPage.totalPages">&laquo; Назад</a>
+        <div class="navigation">
+            <a :href="'./'+(this.currentPage.page-1)" id="prev-slide" v-show="this.currentPage.page >= this.currentPage.totalPages">&laquo; Назад</a>
             <span id="page-info">Страница {{ this.currentPage.page }} из {{ this.currentPage.totalPages }}</span>
-            <a href="#" id="next-slide" v-if="this.currentPage.page <= this.currentPage.totalPages">Вперед &raquo;</a>
+            <a :href="'../'+this.currentPage.nextpage.title" id="next-slide" v-if="this.currentPage.page < this.currentPage.totalPages">Вперед &raquo;</a>
         </div>
 
         <div class="comments-section">
