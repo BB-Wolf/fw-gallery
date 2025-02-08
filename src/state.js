@@ -22,7 +22,7 @@ export const notifications = reactive({
     this.notificationList = [...this.notificationList, ...[{ title: nTitle, body: nBody }]]
   },
   async checkNotification() {
-    const notifyData = await new axios.get('//img-fw.bb-wolf.site/console/get_notifications.php')
+    const notifyData = await new axios.get('//furry-world.ru/console/get_notifications.php')
     if (notifyData.data) {
       this.notificationsCount = notifyData.data.length
     }
@@ -37,7 +37,7 @@ export const isUserLogged = reactive({
   },
   async validate() {
     const tokenRequest = axios.get(
-      '//img-fw.bb-wolf.site/console/get_validate_token.php?token=' + localStorage.getItem('token')
+      '//furry-world.ru/console/get_validate_token.php?token=' + localStorage.getItem('token')
     )
     const response = await tokenRequest
     if (response.data) {

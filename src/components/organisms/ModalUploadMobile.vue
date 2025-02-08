@@ -230,7 +230,7 @@ export default {
             formData.append('file', this.rawFile);
             formData.append('rate', this.rate);
 
-            const request = await axios.post('//img-fw.bb-wolf.site/console/post_image_create.php', formData, {
+            const request = await axios.post('//furry-world.ru/console/post_image_create.php', formData, {
                 headers: {
                     "Authorization": "Bearer " + localStorage.getItem("token"),
                 }

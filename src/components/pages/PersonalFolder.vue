@@ -207,7 +207,7 @@ export default {
         },
         async editFolder() {
             this.mode = 'folder';
-            const getFolderInfo = await new axios.get('//img-fw.bb-wolf.site/console/get_folder_info.php?folder=' + this.$route.params.name,
+            const getFolderInfo = await new axios.get('//furry-world.ru/console/get_folder_info.php?folder=' + this.$route.params.name,
                 {
                     headers: {
                         "Authorization": "Bearer " + localStorage.getItem("token"),
@@ -237,7 +237,7 @@ export default {
             if (this.folderPictureNew) {
                 folderForm.append('image', this.folderPictureNew);
             }
-            let request = await axios.post('//img-fw.bb-wolf.site/console/post_update_folder.php', folderForm,
+            let request = await axios.post('//furry-world.ru/console/post_update_folder.php', folderForm,
                 {
                     headers:
                     {
@@ -262,7 +262,7 @@ export default {
             formImage.append('folder', this.folder);
             formImage.append('file',this.newImage);
             formImage.append('fsort',this.fsort);
-            const request = await axios.post('//img-fw.bb-wolf.site/console/post_image_create.php', formImage, {
+            const request = await axios.post('//furry-world.ru/console/post_image_create.php', formImage, {
                 headers: {
                     "Authorization": "Bearer " + localStorage.getItem("token"),
                 }
@@ -281,7 +281,7 @@ export default {
             formImage.append('description', this.currentImage.description);
             formImage.append('tags', this.tags);
             formImage.append('folder', this.folder);
-            const request = await axios.post('//img-fw.bb-wolf.site/console/put_image_update.php', formImage, {
+            const request = await axios.post('//furry-world.ru/console/put_image_update.php', formImage, {
                 headers: {
                     "Authorization": "Bearer " + localStorage.getItem("token"),
                 }
@@ -308,7 +308,7 @@ export default {
         validateDelete() {
             let result = prompt("Are you sure you want to delete? Type 'delete' to remove image");
             if (result === 'delete') {
-                const sendDeleteRequest = axios.get('//img-fw.bb-wolf.site/console/get_delete_image.php',
+                const sendDeleteRequest = axios.get('//furry-world.ru/console/get_delete_image.php',
                     {
                         headers: {
                             "Authorization": "Bearer " + localStorage.getItem("token"),
@@ -319,9 +319,9 @@ export default {
                 if (sendDeleteRequest.data && sendDeleteRequest.data.status == 'success') {
                     let url;
                     if (this.$route.params.name == 'all') {
-                        url = '//img-fw.bb-wolf.site/console/get_gallery_picture.php?user=' + localStorage.getItem('token');
+                        url = '//furry-world.ru/console/get_gallery_picture.php?user=' + localStorage.getItem('token');
                     } else {
-                        url = '//img-fw.bb-wolf.site/console/get_gallery_picture.php?user=y';
+                        url = '//furry-world.ru/console/get_gallery_picture.php?user=y';
                     }
                     const getImagesList = new axios.get(url, {
                         headers: {
@@ -345,9 +345,9 @@ export default {
     async created() {
         let url;
         if (this.$route.params.name == 'all') {
-            url = '//img-fw.bb-wolf.site/console/get_gallery_picture.php?user=' + localStorage.getItem('token');
+            url = '//furry-world.ru/console/get_gallery_picture.php?user=' + localStorage.getItem('token');
         } else {
-            url = '//img-fw.bb-wolf.site/console/get_gallery_picture.php?user=' + localStorage.getItem('token') + '&folder=' + this.$route.params.name;
+            url = '//furry-world.ru/console/get_gallery_picture.php?user=' + localStorage.getItem('token') + '&folder=' + this.$route.params.name;
         }
         const getImagesList = await new axios.get(url, {
             headers: {
@@ -357,7 +357,7 @@ export default {
         if (getImagesList.data) {
             this.imagesList = getImagesList.data;
         }
-        const getFoldersList = await new axios.get('//img-fw.bb-wolf.site/console/get_user_folders.php',
+        const getFoldersList = await new axios.get('//furry-world.ru/console/get_user_folders.php',
             {
                 headers: {
                     "Authorization": "Bearer " + localStorage.getItem("token"),

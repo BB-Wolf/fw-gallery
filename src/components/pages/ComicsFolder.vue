@@ -81,7 +81,7 @@ export default {
   },
   async created() {
     let getComicsData = await new axios.get(
-      '//img-fw.bb-wolf.site/console/get_comics_folder.php?code=' + this.$route.params.name
+      '//furry-world.ru/console/get_comics_folder.php?code=' + this.$route.params.name
     )
     if (getComicsData.data) {
       this.comics = getComicsData.data

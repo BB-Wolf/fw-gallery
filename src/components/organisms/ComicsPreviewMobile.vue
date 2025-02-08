@@ -60,7 +60,7 @@ export default {
         }
     },
     async mounted() {
-        let getComics = await new axios.get('//img-fw.bb-wolf.site/console/get_comics_list.php');
+        let getComics = await new axios.get('//furry-world.ru/console/get_comics_list.php');
         if (getComics.data) {
             this.activeComicsList = getComics.data;
         }

@@ -337,7 +337,7 @@ export default {
                 return false;
             }
 
-            let registerRequest = await axios.post('//img-fw.bb-wolf.site/console/post_register.php',
+            let registerRequest = await axios.post('//furry-world.ru/console/post_register.php',
                 {
                     login: this.login,
                     password: this.password

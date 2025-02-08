@@ -7,7 +7,7 @@ export default {
         }
     },
     async created() {
-        let characterData =  await new axios.get('//img-fw.bb-wolf.site/console/get_character_info.php?user='+this.$route.params.owner+'&character=' + this.$route.params.character);
+        let characterData =  await new axios.get('//furry-world.ru/console/get_character_info.php?user='+this.$route.params.owner+'&character=' + this.$route.params.character);
         if (characterData.data) {
             this.charData = characterData.data
         }

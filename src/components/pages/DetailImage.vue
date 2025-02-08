@@ -134,7 +134,7 @@ export default
                 formData.append('comment',this.comment);
                 formData.append('user',localStorage.getItem('token'));
 
-                let sendComment = await new axios.post('//img-fw.bb-wolf.site/console/post_image_comment.php',formData,{
+                let sendComment = await new axios.post('//furry-world.ru/console/post_image_comment.php',formData,{
                     headers: {
                         'Authorization': "Bearer " + localStorage.getItem('token')
                     }
@@ -149,7 +149,7 @@ export default
                 location.href = "/tags/" + code;
             },
             async addToFav() {
-                let addImg = await new axios.get('//img-fw.bb-wolf.site/console/get_save_to_fav.php?id=' + this.imageData.imageID, {
+                let addImg = await new axios.get('//furry-world.ru/console/get_save_to_fav.php?id=' + this.imageData.imageID, {
                     headers: {
                         'Authorization': "Bearer " + localStorage.getItem('token')
                     }
@@ -166,7 +166,7 @@ export default
                 }
             },
             async removeFav() {
-                let removeImg = await new axios.get('//img-fw.bb-wolf.site/console/get_remove_fav.php?id=' + this.imageData.imageID,
+                let removeImg = await new axios.get('//furry-world.ru/console/get_remove_fav.php?id=' + this.imageData.imageID,
                     {
                         headers: {
                             'Authorization': "Bearer " + localStorage.getItem('token')

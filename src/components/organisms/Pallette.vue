@@ -50,7 +50,7 @@ export default {
         }
     },
     async created() {
-        const request = await new axios.get('//img-fw.bb-wolf.site/console/get_pallette_of_day.php');
+        const request = await new axios.get('//furry-world.ru/console/get_pallette_of_day.php');
         if (request.data) {
             this.palette = request.data;
         }

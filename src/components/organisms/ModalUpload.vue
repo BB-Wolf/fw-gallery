@@ -114,7 +114,7 @@ export default {
     },
     async mounted() {
 
-        let tagsList = await axios.get('//img-fw.bb-wolf.site/console/get_upload_tags.php');
+        let tagsList = await axios.get('//furry-world.ru/console/get_upload_tags.php');
         let inputElem = document.querySelector('.new-upload-item') // the 'input' element which will be transformed into a Tagify component
         let tagTagify = new Tagify(inputElem,
             {
@@ -133,7 +133,7 @@ export default {
     methods:
     {
         async loadChars() {
-            let charList = await axios.get('//img-fw.bb-wolf.site/console/get_user_characters.php', {
+            let charList = await axios.get('//furry-world.ru/console/get_user_characters.php', {
                 headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
             });
             if (charList.data) {
@@ -164,7 +164,7 @@ export default {
             }
             formData.append('tags', JSON.stringify(this.tags));
             formData.append('file', this.rawFile);
-            const request = await axios.post('//img-fw.bb-wolf.site/console/post_image_create.php', formData, {
+            const request = await axios.post('//furry-world.ru/console/post_image_create.php', formData, {
                 headers: {
                     "Authorization": "Bearer " + localStorage.getItem("token"),
                 }

@@ -47,7 +47,7 @@ export default {
         }
     },
     async created() {
-        const authorListGet = await new axios.get('//img-fw.bb-wolf.site/console/get_ranked_author_list.php');
+        const authorListGet = await new axios.get('//furry-world.ru/console/get_ranked_author_list.php');
         if (authorListGet.data) {
             this.authorList = authorListGet.data;
         }

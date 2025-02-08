@@ -41,7 +41,7 @@ export default {
             }
         },
         async switchNSFW() {
-            const nswfReq = await new axios.get('//img-fw.bb-wolf.site/console/get_switch_nsfw.php',
+            const nswfReq = await new axios.get('//furry-world.ru/console/get_switch_nsfw.php',
                 {
                     headers: {
                         "Authorization": "Bearer " + localStorage.getItem("token"),

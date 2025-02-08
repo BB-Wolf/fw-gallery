@@ -282,7 +282,7 @@ export default {
             formData.append('login', this.login);
             formData.append('password', this.password);
 
-            const loginRequest = await axios.post('//img-fw.bb-wolf.site/console/post_login.php',
+            const loginRequest = await axios.post('//furry-world.ru/console/post_login.php',
                 formData, {
                 headers: {
                     'Content-Type': 'application/json'

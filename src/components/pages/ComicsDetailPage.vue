@@ -44,12 +44,12 @@ export default {
         }
     },
     async created() {
-        let getComicsImage = await axios.get('//img-fw.bb-wolf.site/console/get_comics_image.php?code=' + this.$route.params.name + '&page=' + this.$route.params.page)
+        let getComicsImage = await axios.get('//furry-world.ru/console/get_comics_image.php?code=' + this.$route.params.name + '&page=' + this.$route.params.page)
         if (getComicsImage.data) {
             this.currentPage = getComicsImage.data;
         }
 
-        let getComicsImageComments = await axios.get('//img-fw.bb-wolf.site/console/get_comics_comments.php?code=' + this.$route.params.name + '&page=' + this.$route.params.page);
+        let getComicsImageComments = await axios.get('//furry-world.ru/console/get_comics_comments.php?code=' + this.$route.params.name + '&page=' + this.$route.params.page);
         if (getComicsImageComments.data) {
             this.comments = getComicsImageComments.data;
         }

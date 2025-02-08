@@ -7,7 +7,7 @@ export default
             Image
         },
         async created() {
-            const sliders = await axios.get(`//img-fw.bb-wolf.site/console/get_mainpage_featured.php`);
+            const sliders = await axios.get(`//furry-world.ru/console/get_mainpage_featured.php`);
             if (sliders.data) {
                 this.sliders = sliders.data;
                 if (sliders.data.length < 10 && sliders.data != '') {

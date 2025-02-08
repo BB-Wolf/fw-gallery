@@ -41,7 +41,7 @@ export default {
         };
     },
     async created() {
-        const getUserProfile = await new axios.get('//img-fw.bb-wolf.site/console/get_user_profile.php',
+        const getUserProfile = await new axios.get('//furry-world.ru/console/get_user_profile.php',
             {
                 headers: {
                     "Authorization": "Bearer " + localStorage.getItem("token"),
@@ -60,7 +60,7 @@ export default {
             }
             console.log(this.userStatus.types);
         }
-        const getUserFolders = await new axios.get('//img-fw.bb-wolf.site/console/get_user_folders.php', {
+        const getUserFolders = await new axios.get('//furry-world.ru/console/get_user_folders.php', {
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("token"),
             }
@@ -81,7 +81,7 @@ export default {
             formData.append('full', this.charFullStory);
             formData.append('file', this.charAvatar);
 
-            let saveFormData = await new axios.post('//img-fw.bb-wolf.site/console/post_create_character.php', formData, {
+            let saveFormData = await new axios.post('//furry-world.ru/console/post_create_character.php', formData, {
                 headers: {
                     "Authorization": "Bearer " + localStorage.getItem("token"),
                 }
@@ -95,7 +95,7 @@ export default {
             }
         },
         async getChars() {
-            let getUserChars = await new axios.get('//img-fw.bb-wolf.site/console/get_user_characters.php',
+            let getUserChars = await new axios.get('//furry-world.ru/console/get_user_characters.php',
                 {
                     headers: {
                         "Authorization": "Bearer " + localStorage.getItem('token')
@@ -109,7 +109,7 @@ export default {
             }
         },
         async getFavs() {
-            const getFavs = await new axios.get('//img-fw.bb-wolf.site/console/get_user_favs.php?user=' + this.userLogin,
+            const getFavs = await new axios.get('//furry-world.ru/console/get_user_favs.php?user=' + this.userLogin,
                 {
                     headers: {
                         "Authorization": "Bearer " + localStorage.getItem("token"),
@@ -144,7 +144,7 @@ export default {
         async saveAvatar() {
             var avatarData = new FormData();
             avatarData.append('file', this.rawFile);
-            const request = await axios.post('//img-fw.bb-wolf.site/console/post_update_profile.php?mode=avatar', avatarData, {
+            const request = await axios.post('//furry-world.ru/console/post_update_profile.php?mode=avatar', avatarData, {
                 headers: {
                     "Authorization": "Bearer " + localStorage.getItem("token"),
                 }
@@ -195,7 +195,7 @@ export default {
             let mergedArray = [...newFields, ...infoFields];
             fieldsData.append('fields', JSON.stringify(mergedArray));
             fieldsData.append('username', document.querySelector('#username').value);
-            const request = await axios.post('//img-fw.bb-wolf.site/console/post_update_profile.php?mode=fields', fieldsData, {
+            const request = await axios.post('//furry-world.ru/console/post_update_profile.php?mode=fields', fieldsData, {
                 headers: {
                     "Authorization": "Bearer " + localStorage.getItem("token"),
                 }
@@ -207,7 +207,7 @@ export default {
 
         },
         saveStatus(status) {
-            let saveStatusRequest = new axios.get('//img-fw.bb-wolf.site/console/get_update_user_status.php?mode=' + status + '&token=' + localStorage.getItem('token'));
+            let saveStatusRequest = new axios.get('//furry-world.ru/console/get_update_user_status.php?mode=' + status + '&token=' + localStorage.getItem('token'));
             if (saveStatusRequest.data) {
                 if (saveStatusRequest.data.status == 'success') {
                     notifications.generateNotification('good', saveStatusRequest.data.text);

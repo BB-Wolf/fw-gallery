@@ -52,7 +52,7 @@ export default {
     },
     methods: {
         async saveToFav(elm, id) {
-            const addImg = await axios.get('//img-fw.bb-wolf.site/console/get_save_to_fav.php?id=' + id);
+            const addImg = await axios.get('//furry-world.ru/console/get_save_to_fav.php?id=' + id);
             if (addImg.data) {
                 elm.classList.toggle('fav-bookmark--active');
                 //
@@ -65,7 +65,7 @@ export default {
                 let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;
                 if (bottomOfWindow && !this.isFinish) {
                     document.querySelector('.wait-container').classList.add('wait-container--active');
-                    const getMore = await axios.get('//img-fw.bb-wolf.site/console/get_gallery_picture.php?offset=' + this.offset)+'&tag='+this.$route.params.tag;
+                    const getMore = await axios.get('//furry-world.ru/console/get_gallery_picture.php?offset=' + this.offset)+'&tag='+this.$route.params.tag;
                     if (getMore.data) {
                         if (getMore.data.length == 0) {
                             this.isFinish = true;
@@ -87,7 +87,7 @@ export default {
         }
     },
     async mounted() {
-        const gallery = await new axios.get('//img-fw.bb-wolf.site/console/get_gallery_picture.php?tag='+this.$route.params.tag,
+        const gallery = await new axios.get('//furry-world.ru/console/get_gallery_picture.php?tag='+this.$route.params.tag,
             {
                 headers: {
                     "Authorization": "Bearer " + localStorage.getItem("token"),

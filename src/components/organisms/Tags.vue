@@ -113,9 +113,9 @@ export default
             Multiselect
         },
         async created() {
-            const mainTagsReq = await axios.get(`//img-fw.bb-wolf.site/console/get_main_tags_list.php`, {
+            const mainTagsReq = await axios.get(`//furry-world.ru/console/get_main_tags_list.php`, {
             });
-            const userTagsReq = await axios.get(`//img-fw.bb-wolf.site/console/get_tags_user_list.php`);
+            const userTagsReq = await axios.get(`//furry-world.ru/console/get_tags_user_list.php`);
 
             const [mainTags, userTags] = await Promise.all([mainTagsReq, userTagsReq]);
 
@@ -139,7 +139,7 @@ export default
         methods:
         {
             async fetchTags(tag) {
-                const lookUpTag = await axios.get('//img-fw.bb-wolf.site/console/get_search_tags.php?q=' + tag);
+                const lookUpTag = await axios.get('//furry-world.ru/console/get_search_tags.php?q=' + tag);
 
                 if (lookUpTag.data) {
                     document.querySelector('.filter-go').classList.add('filter-go--active');

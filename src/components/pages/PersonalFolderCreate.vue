@@ -79,7 +79,7 @@ export default {
             if (this.folderPictureNew) {
                 folderForm.append('image', this.folderPicture);
             }
-            let request = await axios.post('//img-fw.bb-wolf.site/console/post_create_folder.php', folderForm,
+            let request = await axios.post('//furry-world.ru/console/post_create_folder.php', folderForm,
                 {
                     headers:
                     {
