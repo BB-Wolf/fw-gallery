@@ -1,14 +1,13 @@
 <template>
-    <div class="comic-container">
+    <div class="comic-container" v-show="this.currentPage">
         <!-- Comic Image -->
-        <img :src="this.currentPage.picture" alt="Comic Page"
-            class="comic-image">
+        <img :src="this.currentPage.imageLink" alt="Страница комикса" class="comic-image">
 
         <!-- Navigation -->
-        <div class="navigation">
-            <a href="#" id="prev-slide">&laquo; Назад</a>
-            <span id="page-info">Страница {{currentPageNum}} из 10</span>
-            <a href="#" id="next-slide">Вперед &raquo;</a>
+        <div class="navigation" v-if="this.currentPage.page > this.currentPage.totalPages">
+            <a href="#" id="prev-slide" v-show="this.currentPage.page > this.currentPage.totalPages">&laquo; Назад</a>
+            <span id="page-info">Страница {{ this.currentPage.page }} из {{ this.currentPage.totalPages }}</span>
+            <a href="#" id="next-slide" v-if="this.currentPage.page <= this.currentPage.totalPages">Вперед &raquo;</a>
         </div>
 
         <div class="comments-section">
@@ -16,7 +15,7 @@
 
             <!-- Comment Box -->
             <div class="comment-box">
-                <textarea placeholder="Напишите комментарий..." rows="4"></textarea>
+                <textarea placeholder="Напишите комментарий..." rows="4" v-model="userComment"></textarea>
                 <button type="submit">Отправить сообщение</button>
             </div>
 
@@ -34,26 +33,30 @@
 <script>
 import axios from "axios";
 
-export default{
-    data()
-    {
+export default {
+    data() {
         return {
-            totalPages:null,
+            totalPages: null,
             currentPage: null,
             currentPageNum: this.$route.params.page,
             comments: null,
+            userComment: null
         }
     },
-    async mounted()
-    {
-        let getComicsImage = await axios.get('//img-fw.bb-wolf.site/console/get_comics_image.php?code='+this.$route.params.name)
-        if(getComicsImage.data){
+    async created() {
+        let getComicsImage = await axios.get('//img-fw.bb-wolf.site/console/get_comics_image.php?code=' + this.$route.params.name + '&page=' + this.$route.params.page)
+        if (getComicsImage.data) {
             this.currentPage = getComicsImage.data;
         }
 
-        let getComicsImageComments = await axios.get('//img-fw.bb-wolf.site/console/get_comics_comments.php?code='+this.$route.params.name+'&page='+this.$route.params.page);
-        if(getComicsImageComments.data){
+        let getComicsImageComments = await axios.get('//img-fw.bb-wolf.site/console/get_comics_comments.php?code=' + this.$route.params.name + '&page=' + this.$route.params.page);
+        if (getComicsImageComments.data) {
             this.comments = getComicsImageComments.data;
+        }
+    },
+    methods: {
+        createComment() {
+            //
         }
     }
 }
@@ -73,7 +76,7 @@ export default{
 .comic-image {
     width: 100%;
     display: block;
-    aspect-ratio:850/1200;
+    aspect-ratio: 850/1200;
 }
 
 .navigation {

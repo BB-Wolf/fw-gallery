@@ -6,7 +6,7 @@
 
             <div class="image-grid">
                 <div class="image-item" v-for="galleryImage in imagesList" v-bind:key="galleryImage.id">
-                    <Image  @click="editPicture(galleryImage.id)" imageClass="slide" :imageSrc=galleryImage.picture
+                    <Image @click="editPicture(galleryImage.id)" imageClass="slide" :imageSrc=galleryImage.picture
                         :imageTitle="galleryImage.title + ' от ' + galleryImage.userName" imageAlt="">
                     </Image>
                 </div>
@@ -47,12 +47,15 @@
                 </div>
             </section>
 
-            <section id="edit-folder" v-if="this.mode == 'newImage'">
+            <section id="addinto-folder" v-if="this.mode == 'newImage'">
                 <div class="profile-container d-flex g-20 flex-wrap">
                     <div class="left-block">
-                        <div class="h2">{{ this.currentImage.title }}</div>
-                        <img :src="this.currentImage.picture">
-                        <button class="btn btn--update">Загрузить изображение</button>
+                        <div @click="$refs.characterImage.click()">
+                            <div class="h2" style="cursor:pointer; font-size:18px;">Нажмите чтобы загрузить изображение</div>
+                            <img :src="this.newImageRaw" alt="Нажмите чтобы загрузить фото"
+                                class="character-image">
+                            <input type="file" ref="characterImage" style="display: none" @change="newImageUpload">
+                        </div>
                     </div>
                     <div class="right-block">
                         <div class="group">
@@ -64,24 +67,19 @@
                             <textarea v-model="this.currentImage.description"> </textarea>
                         </div>
                         <div class="group">
+                            <label>Номер страницы</label>
+                            <input type='text' v-model="this.fsort">
+                        </div>
+                        <div class="group">
                             <label>Теги</label>
                             <input type="text" v-model="tags" class="taglist">
                         </div>
                         <div class="group">
                             <label>Раздел</label>
-                            <select v-model="folder">
-                                <template v-for="userfolder in this.folders" :key="userfolder.id">
-                                    <option :value="userfolder.id" v-if="this.currentImage.folder == userfolder.id"
-                                        :selected="true">{{ userfolder.name }}</option>
-                                    <option :value="userfolder.id" v-else>{{ userfolder.name }}</option>
-                                </template>
-                            </select>
+                            <div style="color:white">{{this.$route.params.name}}</div>
                         </div>
                         <div class="group mt-20">
-                            <div class="btn btn--success" @click="saveImage">Сохранить</div>
-                        </div>
-                        <div class="group mt-20">
-                            <div class="btn btn--danger" @click="validateDelete">Удалить</div>
+                            <div class="btn btn--success" @click="createImage">Сохранить</div>
                         </div>
                     </div>
                 </div>
@@ -93,12 +91,14 @@
                 </div>
             </div>
             <div class="image-grid">
-                <div  :style="'order:'+galleryImage.fsort+';'"  class="image-item" v-for="galleryImage in imagesList" v-bind:key="galleryImage.id">
-                    <Image style="order:{{ this.galleryImage.fsort }}" @click="editPicture(galleryImage.id)" imageClass="slide" :imageSrc=galleryImage.picture
+                <div :style="'order:' + galleryImage.fsort + ';'" class="image-item" v-for="galleryImage in imagesList"
+                    v-bind:key="galleryImage.id">
+                    <Image style="order:{{ this.galleryImage.fsort }}" @click="editPicture(galleryImage.id)"
+                        imageClass="slide" :imageSrc=galleryImage.picture
                         :imageTitle="galleryImage.title + ' от ' + galleryImage.userName" imageAlt="">
                     </Image>
                     <div class="form-group">
-                        <input typee="text" v-model=galleryImage.fsort>
+                        <input type="text" v-model=galleryImage.fsort>
                     </div>
                 </div>
             </div>
@@ -161,7 +161,7 @@ export default {
             imagesList: [],
             currentImage: null,
             tags: null,
-            folder: null,
+            folder: this.$route.params.name,
             folders: [],
             title: null,
             description: '',
@@ -169,17 +169,32 @@ export default {
             folderName: null,
             folderImage: null,
             folderDescription: '',
-            folderIsComic: null
+            folderIsComic: null,
+            newImage: null,
+            newImageRaw:null,
+            fsort: null,
         }
     },
     methods: {
         addImageToFolder() {
             this.mode = 'newImage';
+            this.folder = this.$route.params.name;
             this.currentImage = {
                 'title': '',
                 'picture': '',
                 'description': ''
             };
+        },
+        newImageUpload(e) {
+            let file = e.target.files || e.dataTransfer.files;
+            if (!file.length) {
+                notifications.generateNotification('bad', 'Ошибка загрузки изображения');
+
+                return;
+            }
+            this.newImage = file[0];
+            this.newImageRaw = URL.createObjectURL(new File(file, file.name));
+
         },
         newFolderImage(e) {
             let file = e.target.files || e.dataTransfer.files;
@@ -236,6 +251,27 @@ export default {
                 notifications.generateNotification('bad', 'Ошибка обновления данных');
             }
 
+
+        },
+        async createImage() {
+            const formImage = new FormData();
+            formImage.append('id', this.currentImage.id);
+            formImage.append('title', this.currentImage.title);
+            formImage.append('description', this.currentImage.description);
+            formImage.append('tags', this.tags);
+            formImage.append('folder', this.folder);
+            formImage.append('file',this.newImage);
+            formImage.append('fsort',this.fsort);
+            const request = await axios.post('//img-fw.bb-wolf.site/console/post_image_create.php', formImage, {
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem("token"),
+                }
+            });
+            if (request.data.status == 'success') {
+                notifications.generateNotification('good', request.data.text);
+            } else {
+                notifications.generateNotification('bad', request.data.text);
+            }
 
         },
         async saveImage() {
@@ -373,5 +409,10 @@ label {
 select {
     width: 100%;
     padding: 20px;
+}
+
+.image-item {
+    flex-direction: column;
+    background-color: unset;
 }
 </style>

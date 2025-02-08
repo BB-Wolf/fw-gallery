@@ -75,8 +75,8 @@
 
                     <!-- Comment Box -->
                     <div class="comment-box">
-                        <textarea placeholder="Напишите комментарий..." rows="4"></textarea>
-                        <button type="submit">Отправить сообщение</button>
+                        <textarea placeholder="Напишите комментарий..." rows="4" v-model="comment"></textarea>
+                        <button type="submit" class="send-comment" @click="sendComment">Отправить сообщение</button>
                     </div>
 
                     <!-- Comments List -->
@@ -107,6 +107,7 @@ export default
                 imageData: null,
                 moreData: null,
                 commentsData: null,
+                comment: null,
             }
         },
         mounted() {
@@ -124,6 +125,26 @@ export default
         },
         methods:
         {
+            async sendComment(){
+                let sendBtn = document.querySelector('.send-comment');
+                sendBtn.disabled = true;
+                sendBtn.style.backgroundColor = '#999';
+                let formData = new FormData();
+                formData.append('image',this.$route.params.image);
+                formData.append('comment',this.comment);
+                formData.append('user',localStorage.getItem('token'));
+
+                let sendComment = await new axios.post('//img-fw.bb-wolf.site/console/post_image_comment.php',formData,{
+                    headers: {
+                        'Authorization': "Bearer " + localStorage.getItem('token')
+                    }
+                }
+                )
+                if(sendComment.data){
+                    //
+                }
+
+            },
             goToTag(code) {
                 location.href = "/tags/" + code;
             },

@@ -266,6 +266,7 @@ li:is(:hover, :focus-within) + li {
   justify-content: center;
   display: flex;
   width: 72%;
+  flex-wrap: wrap;
 }
 
 .spacer {
@@ -544,6 +545,9 @@ li:is(:hover, :focus-within) + li {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  .tag-container {
+    width: 100%;
+  }
   .image-detail {
     flex-direction: column;
   }
@@ -780,6 +784,7 @@ footer {
     flex-direction: column;
     display: flex;
     padding-left: 20px;
+    row-gap: 10px;
   }
 }
 /***/
@@ -921,4 +926,28 @@ footer {
   background-color: black;
   color: white;
   transition: all 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.infoFieldVal {
+  padding: 10px;
+}
+
+.switch-container .switch-tab--soon {
+  position: relative;
+}
+.switch-container .switch-tab--soon::after {
+  content: 'soon';
+  position: absolute;
+  background: yellow;
+  top: -20px;
+  right: 0;
+  border-radius: 50%;
+  padding: 5px;
+  font-size: 10px;
+}
+
+@media only screen and (max-width: 600px) {
+  #main-gallery .gallery-wrapper {
+    padding: 0 15px !important;
+  }
 }

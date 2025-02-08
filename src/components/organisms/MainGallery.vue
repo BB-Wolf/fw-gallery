@@ -1,5 +1,5 @@
 <template>
-    <div class="section" id="latest-images">
+    <div class="section main-gallery" id="latest-images">
         <a :href="galleryUrl" class="h2">{{ galleryTitle }}</a>
         <div class="image-grid">
             <div class="image-item" v-for="galleryImage in newImages" v-bind:key="galleryImage.id">
@@ -181,5 +181,10 @@ export default {
     border-radius: 50%;
     background: rgb(149 149 149);
     margin: -3.6px 0 0 -3.6px;
+}
+
+.main-gallery .gallery-wrapper {
+padding-left:10px;
+padding-right:10px;
 }
 </style>

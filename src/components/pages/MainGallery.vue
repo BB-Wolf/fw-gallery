@@ -7,10 +7,11 @@ import GalleryBlock from '../organisms/GalleryBlock.vue';
 <template>
     <div>
         <Tags />
-        <div class="gallery-container">
+        <div class="gallery-container" id="main-gallery">
             <GalleryBlock needInfinty="y" galleryType="main" galleryTitle="Новое" />
         </div>
     </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+</style>
