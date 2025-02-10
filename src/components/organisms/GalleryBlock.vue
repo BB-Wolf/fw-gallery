@@ -6,7 +6,7 @@
                 <template #default="{ item, index }">
                     <div class="gallery-item">
                         <div class="gallery-item__hover--top">
-                            <div class="fav-bookmark" @click="saveToFav($event.target, galleryImage.id)">
+                            <div class="fav-bookmark" @click="saveToFav($event.target, item.id)">
                                 <svg fill="#000000" width="60px" height="60px" viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <path
@@ -158,7 +158,13 @@ export default {
     },
     methods: {
         async saveToFav(elm, id) {
-            const addImg = await axios.get('//furry-world.ru/console/get_save_to_fav.php?id=' + id);
+            const addImg = await axios.get('//furry-world.ru/console/get_save_to_fav.php?id=' + id,
+                {
+                    headers: {
+                        "Authorization": "Bearer " + localStorage.getItem("token"),
+                    }
+                }
+            );
             if (addImg.data) {
                 elm.parentNode.parentNode.classList.toggle('fav-bookmark--active');
                 //

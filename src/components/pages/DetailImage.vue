@@ -84,8 +84,8 @@
                         </div>
 
                     </div>
-                                        <!-- Comment Box -->
-                  <div class="comment-box">
+                    <!-- Comment Box -->
+                    <div class="comment-box">
                         <textarea placeholder="Напишите комментарий..." rows="4" v-model="comment"></textarea>
                         <button type="submit" class="send-comment" @click="sendComment">Отправить сообщение</button>
                     </div>
@@ -113,9 +113,9 @@ export default
                 comment: null,
             }
         },
-        async created(){
-            let comments = await new axios.get('//furry-world.ru/console/get_image_comment.php?image='+this.$route.params.image)
-            if(comments.data){
+        async created() {
+            let comments = await new axios.get('//furry-world.ru/console/get_image_comment.php?image=' + this.$route.params.image)
+            if (comments.data) {
                 this.commentsData = comments.data;
             }
         },
@@ -133,22 +133,22 @@ export default
         },
         methods:
         {
-            async sendComment(){
+            async sendComment() {
                 let sendBtn = document.querySelector('.send-comment');
                 sendBtn.disabled = true;
                 sendBtn.style.backgroundColor = '#999';
                 let formData = new FormData();
-                formData.append('image',this.$route.params.image);
-                formData.append('comment',this.comment);
-                formData.append('user',localStorage.getItem('token'));
+                formData.append('image', this.$route.params.image);
+                formData.append('comment', this.comment);
+                formData.append('user', localStorage.getItem('token'));
 
-                let sendComment = await new axios.post('//furry-world.ru/console/post_image_comment.php',formData,{
+                let sendComment = await new axios.post('//furry-world.ru/console/post_image_comment.php', formData, {
                     headers: {
                         'Authorization': "Bearer " + localStorage.getItem('token')
                     }
                 }
                 )
-                if(sendComment.data){
+                if (sendComment.data) {
                     //
                 }
 

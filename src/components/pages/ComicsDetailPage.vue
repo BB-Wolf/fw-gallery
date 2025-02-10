@@ -5,19 +5,15 @@
 
         <!-- Navigation -->
         <div class="navigation">
-            <a :href="'./'+(this.currentPage.page-1)" id="prev-slide" v-show="this.currentPage.page >= this.currentPage.totalPages">&laquo; Назад</a>
+            <a :href="'./' + (this.currentPage.page - 1)" id="prev-slide"
+                v-show="this.currentPage.page >= this.currentPage.totalPages">&laquo; Назад</a>
             <span id="page-info">Страница {{ this.currentPage.page }} из {{ this.currentPage.totalPages }}</span>
-            <a :href="'../'+this.currentPage.nextpage.title" id="next-slide" v-if="this.currentPage.page < this.currentPage.totalPages">Вперед &raquo;</a>
+            <a :href="'../' + this.currentPage.nextpage.title" id="next-slide"
+                v-if="this.currentPage.page < this.currentPage.totalPages">Вперед &raquo;</a>
         </div>
 
         <div class="comments-section">
             <h3>Комментарии</h3>
-
-            <!-- Comment Box -->
-            <div class="comment-box">
-                <textarea placeholder="Напишите комментарий..." rows="4" v-model="userComment"></textarea>
-                <button type="submit">Отправить сообщение</button>
-            </div>
 
             <!-- Comments List -->
             <div class="comments-list">
@@ -25,7 +21,12 @@
                     <div class="comment-author">{{ comment.author }}</div>
                     <div class="comment-text">{{ comment.text }}</div>
                 </div>
+            </div>
 
+            <!-- Comment Box -->
+            <div class="comment-box">
+                <textarea placeholder="Напишите комментарий..." rows="4" v-model="comment"></textarea>
+                <button type="submit" class="send-comment" @click="sendComment">Отправить сообщение</button>
             </div>
         </div>
     </div>
@@ -55,9 +56,26 @@ export default {
         }
     },
     methods: {
-        createComment() {
-            //
-        }
+        async sendComment() {
+            let sendBtn = document.querySelector('.send-comment');
+            sendBtn.disabled = true;
+            sendBtn.style.backgroundColor = '#999';
+            let formData = new FormData();
+            formData.append('image', this.$route.params.image);
+            formData.append('comment', this.comment);
+            formData.append('user', localStorage.getItem('token'));
+
+            let sendComment = await new axios.post('//furry-world.ru/console/post_comic_detail_comment.php', formData, {
+                headers: {
+                    'Authorization': "Bearer " + localStorage.getItem('token')
+                }
+            }
+            )
+            if (sendComment.data) {
+                //
+            }
+
+        },
     }
 }
 </script>
