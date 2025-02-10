@@ -174,18 +174,23 @@ export default {
         },
         onLoadMore() {
             window.onscroll = async () => {
-                let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;
-                if (bottomOfWindow && !this.isFinish) {
-                    document.querySelector('.wait-container').classList.add('wait-container--active');
-                    const getMore = await axios.get('//furry-world.ru/console/get_gallery_picture.php?offset=' + this.offset);
-                    if (getMore.data) {
-                        if (getMore.data.length == 0) {
-                            this.isFinish = true;
+                console.log(this.isLoading);
+                if (!this.isLoading) {
+                    let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;
+                    if (bottomOfWindow && !this.isFinish) {
+                        this.isLoading = true;
+                        document.querySelector('.wait-container').classList.add('wait-container--active');
+                        const getMore = await axios.get('//furry-world.ru/console/get_gallery_picture.php?offset=' + this.offset);
+                        if (getMore.data) {
+                            if (getMore.data.length == 0) {
+                                this.isFinish = true;
+                            }
+                            this.offset += 1;
+                            var currentImages = this.newImages;
+                            this.newImages = [...currentImages, ...getMore.data];
+                            document.querySelector('.wait-container').classList.remove('wait-container--active');
+                            this.isLoading = false;
                         }
-                        this.offset += 1;
-                        var currentImages = this.newImages;
-                        this.newImages = [...currentImages, ...getMore.data];
-                        document.querySelector('.wait-container').classList.remove('wait-container--active');
                     }
                 }
             }
@@ -195,7 +200,8 @@ export default {
         return {
             newImages: null,
             offset: 2,
-            isFinish: false
+            isFinish: false,
+            isLoading: false,
         }
     },
     async created() {

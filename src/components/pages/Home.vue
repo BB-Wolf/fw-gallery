@@ -47,6 +47,10 @@ export default
 <style scoped>
 section {}
 
+#palette-block {
+    margin-top: 40px;
+}
+
 .section-container {
     max-width: 95%;
     margin: 50px auto;
