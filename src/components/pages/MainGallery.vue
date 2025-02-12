@@ -40,9 +40,9 @@ export default {
     <div>
         <Tags />
         <div class="gallery-switch">
-            <div class="switch-item" :class="[{ ['switch-item--active']: this.currentState == 'gallery' }]"
+            <div class="switch-item" :class="[{ ['switch-item--active']: currentState == 'gallery' }]"
                 @click="switchGallery('gallery', $event)">Арты</div>
-            <div class="switch-item" :class="[{ ['switch-item--active']: this.currentState == 'comics' }]"
+            <div class="switch-item" :class="[{ ['switch-item--active']: currentState == 'comics' }]"
                 @click="switchGallery('comics', $event)">Комиксы</div>
         </div>
         <div class="gallery-container" id="main-gallery">
