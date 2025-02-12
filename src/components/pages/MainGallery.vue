@@ -8,7 +8,7 @@ import ComicBlock from '../organisms/ComicBlock.vue';
 export default {
     data() {
         return {
-            currentState: localStorage.getItem('galleryMode')
+            currentState: 'gallery'
         }
     },
     created() {
