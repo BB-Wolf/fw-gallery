@@ -24,7 +24,7 @@
                     <div class="card__face--overlay">
                         <div class="card__title">{{ slide.name }}</div>
                         <div class="card__short-desc">{{ slide.description }}</div>
-                        <a class="card__link" :href="'/comics/' + slide.code">Перейти к комиксу</a>
+                        <a class="card__link" :href="'/comics/' + slide.author + '/' + slide.code">Перейти к комиксу</a>
                     </div>
                 </div>
             </swiper-slide>
