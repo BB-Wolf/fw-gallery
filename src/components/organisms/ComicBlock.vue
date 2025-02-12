@@ -1,18 +1,11 @@
 <template>
-    <div class="section" id="latest-images">
+    <div class="section" id="latest-comics">
         <a :href="galleryUrl" class="h2">{{ galleryTitle }}</a>
         <div class="gallery-wrapper">
             <masonry-wall v-if="newImages" :items="newImages" :ssr-columns="0" :column-width="300" :gap="16">
                 <template #default="{ item, index }">
                     <div class="gallery-item">
                         <div class="gallery-item__hover--top">
-                            <div class="fav-bookmark" @click="saveToFav($event.target, item.id)">
-                                <svg fill="#000000" width="60px" height="60px" viewBox="0 0 24 24"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M14 20.408c-.492.308-.903.546-1.192.709-.153.086-.308.17-.463.252h-.002a.75.75 0 01-.686 0 16.709 16.709 0 01-.465-.252 31.147 31.147 0 01-4.803-3.34C3.8 15.572 1 12.331 1 8.513 1 5.052 3.829 2.5 6.736 2.5 9.03 2.5 10.881 3.726 12 5.605 13.12 3.726 14.97 2.5 17.264 2.5 20.17 2.5 23 5.052 23 8.514c0 3.818-2.801 7.06-5.389 9.262A31.146 31.146 0 0114 20.408z" />
-                                </svg>
-                            </div>
                         </div>
                         <a :href="item.link">
                             <Image imageClass="slide" :imageSrc=item.preview
@@ -157,29 +150,15 @@ export default {
         }
     },
     methods: {
-        async saveToFav(elm, id) {
-            const addImg = await axios.get('//furry-world.ru/console/get_save_to_fav.php?id=' + id,
-                {
-                    headers: {
-                        "Authorization": "Bearer " + localStorage.getItem("token"),
-                    }
-                }
-            );
-            if (addImg.data) {
-                elm.parentNode.parentNode.classList.toggle('fav-bookmark--active');
-                //
-            } else {
-                // handle global notifications
-            }
-        },
         onLoadMore() {
             window.onscroll = async () => {
+                console.log(this.isLoading);
                 if (!this.isLoading) {
                     let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;
                     if (bottomOfWindow && !this.isFinish) {
                         this.isLoading = true;
                         document.querySelector('.wait-container').classList.add('wait-container--active');
-                        const getMore = await axios.get('//furry-world.ru/console/get_gallery_picture.php?offset=' + this.offset);
+                        const getMore = await axios.get('//furry-world.ru/console/get_new_comics.php?offset=' + this.offset);
                         if (getMore.data) {
                             if (getMore.data.length == 0) {
                                 this.isFinish = true;
@@ -204,7 +183,7 @@ export default {
         }
     },
     async created() {
-        const gallery = await new axios.get('//furry-world.ru/console/get_gallery_picture.php',
+        const gallery = await new axios.get('//furry-world.ru/console/get_new_comics.php',
             {
                 headers: {
                     "Authorization": "Bearer " + localStorage.getItem("token"),

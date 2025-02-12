@@ -83,12 +83,12 @@ if (siteVersion.currentState == 'gallery') {
       meta: { transition: 'fade' }
     },
     {
-      path: '/comics/:name/',
+      path: '/comics/:author/:name/',
       component: () => import('./components/pages/ComicsFolder.vue'),
       meta: { transition: 'slide-right' }
     },
     {
-      path: '/comics/:name/:page/',
+      path: '/comics/:author/:name/:page/',
       component: () => import('./components/pages/ComicsDetailPage.vue'),
       meta: { transition: 'slide-right' }
     },

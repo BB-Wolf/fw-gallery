@@ -7,23 +7,19 @@
       <div class="comics-layout" :style="getBackgrounds"></div>
       <div class="comics-preview">
         {{ this.comics.description }}
-        <a
-          :href="'/comics/' + this.$route.params.name + '/1/'"
-          class="btn btn--primary mt-20"
-          style="display: block; color: white"
-          >Начать чтение</a>
+        <a :href="'/comics/' + this.$route.params.author + '/' + this.$route.params.name + '/1/'"
+          class="btn btn--primary mt-20" style="display: block; color: white">Начать чтение</a>
       </div>
       <div class="comics-info" v-if="this.comics.listOfPreview">
         <div class="central-block">
           <div class="slide__title">Перейти к странице</div>
           <div class="slides-container">
-            <div v-for="slide in this.comics.listOfPreview" :key="slide" class="pagepreview-slide" style="order:{{ slide.sort }}">
-              
-              <a :href="this.$route.params.name+'/'+slide.sort">
-                <img
-                  :src=slide.picture
-                />
-                <span>{{slide.sort}}</span>
+            <div v-for="slide in this.comics.listOfPreview" :key="slide" class="pagepreview-slide"
+              style="order:{{ slide.sort }}">
+
+              <a :href="this.$route.params.author + '/' + this.$route.params.name + '/' + slide.sort">
+                <img :src=slide.picture />
+                <span>{{ slide.sort }}</span>
               </a>
             </div>
           </div>
@@ -54,9 +50,9 @@
       </div>
       <div class="right-block">
         <div class="comments-wrapper">
-          <div class="publish-date">Дата публикации: 01.01.1970</div>
-          <div class="publish-pages">Всего страниц: {{this.comics.totalImages}}</div>
-          <div class="publish-author">Автор: {{this.comics.author}}</div>
+          <div class="publish-date">Последнее обновление: </div>
+          <div class="publish-pages">Всего страниц: {{ this.comics.totalImages }}</div>
+          <div class="publish-author">Автор: {{ this.comics.author }}</div>
         </div>
       </div>
     </div>
@@ -70,15 +66,15 @@ export default {
   data() {
     return {
       comics: { description: null, name: null, picture: '' },
-    
+
     }
   },
-  computed:{
+  computed: {
     getBackgrounds() {
-        return {
+      return {
         backgroundImage: 'url("' + this.comics.picture + '")'
-        }
       }
+    }
   },
   async created() {
     let getComicsData = await new axios.get(
