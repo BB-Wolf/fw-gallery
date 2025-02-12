@@ -12,10 +12,10 @@ export default {
         }
     },
     created() {
-        console.log(this.currentState);
-        if (this.currentState == '' || this.currentState == null) {
-            this.currentState = 'gallery';
-        }
+        // console.log(this.currentState);
+        // if (this.currentState == '' || this.currentState == null) {
+        //     this.currentState = 'gallery';
+        // }
     },
     methods:
     {
