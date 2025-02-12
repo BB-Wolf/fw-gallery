@@ -8,14 +8,14 @@ import ComicBlock from '../organisms/ComicBlock.vue';
 export default {
     data() {
         return {
-            currentState: 'gallery'
+            currentState: localStorage.getItem('galleryMode')
         }
     },
-    mounted() {
+    created() {
         console.log(this.currentState);
-        // if (this.currentState == '' || this.currentState == null) {
-        //     this.currentState = 'gallery';
-        // }
+        if (this.currentState == '' || this.currentState == null) {
+            this.currentState = 'gallery';
+        }
     },
     methods:
     {
@@ -40,12 +40,16 @@ export default {
     <div>
         <Tags />
         <div class="gallery-switch">
-            <div class="switch-item" @click="switchGallery('gallery', $event)">Арты</div>
-            <div class="switch-item" @click="switchGallery('comics', $event)">Комиксы</div>
+            <div class="switch-item" :class="[{ ['switch-item--active']: this.currentState == 'gallery' }]"
+                @click="switchGallery('gallery', $event)">Арты</div>
+            <div class="switch-item" :class="[{ ['switch-item--active']: this.currentState == 'comics' }]"
+                @click="switchGallery('comics', $event)">Комиксы</div>
         </div>
         <div class="gallery-container" id="main-gallery">
-            <GalleryBlock v-if="currentState == 'gallery'" needInfinty="y" galleryType="main" galleryTitle="Новое" />
-            <ComicBlock v-if="currentState == 'comics'" needInfinty="y" galleryType="main" galleryTitle="Новое" />
+            <GalleryBlock v-if="currentState == 'gallery'" needInfinty="y" galleryType="main"
+                galleryTitle="Новые работы художников" />
+            <ComicBlock v-if="currentState == 'comics'" needInfinty="y" galleryType="main"
+                galleryTitle="Новые и обновления в комиксах" />
         </div>
     </div>
 </template>
