@@ -5,17 +5,17 @@
 
         <!-- Navigation -->
         <div class="navigation">
-            <a :href="'./' + (this.currentPage.page - 1)" id="prev-slide"
-                v-show="this.currentPage.page >= this.currentPage.totalPages">&laquo; Назад</a>
+            <a :href="'./' + this.currentPage.prevpage.title" id="prev-slide" v-show="this.currentPage.prevpage">&laquo;
+                Назад</a>
             <span id="page-info">Страница {{ this.currentPage.page }} из {{ this.currentPage.totalPages }}</span>
-            <a :href="'../' + this.currentPage.nextpage.title" id="next-slide"
-                v-if="this.currentPage.page < this.currentPage.totalPages">Вперед &raquo;</a>
+            <a :href="'./' + this.currentPage.nextpage.title" id="next-slide" v-if="this.currentPage.nextpage">Вперед
+                &raquo;</a>
         </div>
 
+        <!--
         <div class="comments-section">
             <h3>Комментарии</h3>
-
-            <!-- Comments List -->
+            
             <div class="comments-list">
                 <div class="comment" v-for="comment in commentsData" :key="comment.id">
                     <div class="comment-author">{{ comment.author }}</div>
@@ -23,12 +23,11 @@
                 </div>
             </div>
 
-            <!-- Comment Box -->
             <div class="comment-box">
                 <textarea placeholder="Напишите комментарий..." rows="4" v-model="comment"></textarea>
                 <button type="submit" class="send-comment" @click="sendComment">Отправить сообщение</button>
             </div>
-        </div>
+        </div>-->
     </div>
 </template>
 <script>
@@ -94,7 +93,7 @@ export default {
 .comic-image {
     width: 100%;
     display: block;
-    aspect-ratio: 850/1200;
+    /* aspect-ratio: 850/1200; */
 }
 
 .navigation {

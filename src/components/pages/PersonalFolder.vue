@@ -51,9 +51,9 @@
                 <div class="profile-container d-flex g-20 flex-wrap">
                     <div class="left-block">
                         <div @click="$refs.characterImage.click()">
-                            <div class="h2" style="cursor:pointer; font-size:18px;">Нажмите чтобы загрузить изображение</div>
-                            <img :src="this.newImageRaw" alt="Нажмите чтобы загрузить фото"
-                                class="character-image">
+                            <div class="h2" style="cursor:pointer; font-size:18px;">Нажмите чтобы загрузить изображение
+                            </div>
+                            <img :src="this.newImageRaw" alt="Нажмите чтобы загрузить фото" class="character-image">
                             <input type="file" ref="characterImage" style="display: none" @change="newImageUpload">
                         </div>
                     </div>
@@ -76,7 +76,7 @@
                         </div>
                         <div class="group">
                             <label>Раздел</label>
-                            <div style="color:white">{{this.$route.params.name}}</div>
+                            <div style="color:white">{{ this.$route.params.name }}</div>
                         </div>
                         <div class="group mt-20">
                             <div class="btn btn--success" @click="createImage">Сохранить</div>
@@ -98,7 +98,9 @@
                         :imageTitle="galleryImage.title + ' от ' + galleryImage.userName" imageAlt="">
                     </Image>
                     <div class="form-group">
-                        <input type="text" v-model=galleryImage.fsort>
+                        <label>Номер страницы</label>
+                        <input type="text" :data-image-id=galleryImage.id @change="changeOrder($event)"
+                            v-model=galleryImage.fsort>
                     </div>
                 </div>
             </div>
@@ -171,11 +173,23 @@ export default {
             folderDescription: '',
             folderIsComic: null,
             newImage: null,
-            newImageRaw:null,
+            newImageRaw: null,
             fsort: null,
         }
     },
     methods: {
+        changeOrder(event) {
+            setTimeout(async function () {
+                let eventVal = event.target.value;
+                let sendChangeOrder = await new axios.get('//furry-world.ru/console/get_change_comic_page_order.php?image=' + event.target.dataset.imageId + '&sort=' + eventVal, {
+                    headers:
+                    {
+                        "Authorization": "Bearer " + localStorage.getItem("token"),
+                    }
+                })
+            }, 500);
+
+        },
         addImageToFolder() {
             this.mode = 'newImage';
             this.folder = this.$route.params.name;
@@ -260,8 +274,8 @@ export default {
             formImage.append('description', this.currentImage.description);
             formImage.append('tags', this.tags);
             formImage.append('folder', this.folder);
-            formImage.append('file',this.newImage);
-            formImage.append('fsort',this.fsort);
+            formImage.append('file', this.newImage);
+            formImage.append('fsort', this.fsort);
             const request = await axios.post('//furry-world.ru/console/post_image_create.php', formImage, {
                 headers: {
                     "Authorization": "Bearer " + localStorage.getItem("token"),

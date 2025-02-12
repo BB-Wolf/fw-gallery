@@ -7,7 +7,7 @@
       <div class="comics-layout" :style="getBackgrounds"></div>
       <div class="comics-preview">
         {{ this.comics.description }}
-        <a :href="'/comics/' + this.$route.params.author + '/' + this.$route.params.name + '/1/'"
+        <a :href="'/comics/' + this.$route.params.author + '/' + this.$route.params.name + '/' + this.comics.firstPage + '/'"
           class="btn btn--primary mt-20" style="display: block; color: white">Начать чтение</a>
       </div>
       <div class="comics-info" v-if="this.comics.listOfPreview">
@@ -17,7 +17,7 @@
             <div v-for="slide in this.comics.listOfPreview" :key="slide" class="pagepreview-slide"
               style="order:{{ slide.sort }}">
 
-              <a :href="this.$route.params.author + '/' + this.$route.params.name + '/' + slide.sort">
+              <a :href="'/comics/' + this.$route.params.author + '/' + this.$route.params.name + '/' + slide.sort">
                 <img :src=slide.picture />
                 <span>{{ slide.sort }}</span>
               </a>
@@ -96,12 +96,10 @@ export default {
 }
 
 .left-block {
-  /* grid-area: 3 / 1 / 4 / 2; */
   color: white;
 }
 
 .right-block {
-  /* grid-area: 3 / 2 / 4 / 3; */
   color: white;
 }
 
@@ -144,7 +142,6 @@ export default {
 .comics-body {
   display: grid;
   grid-template-columns: 1fr 2fr;
-  /* grid-template-rows: repeat(2, 1fr); */
   grid-column-gap: 0px;
   grid-row-gap: 0px;
 }
