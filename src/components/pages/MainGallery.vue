@@ -11,7 +11,7 @@ export default {
             currentState: 'gallery'
         }
     },
-    created() {
+    mounted() {
         console.log(this.currentState);
         if (this.currentState == '' || this.currentState == null) {
             this.currentState = 'gallery';
