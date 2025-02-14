@@ -8,7 +8,7 @@
             <a :href="'./' + this.currentPage.prevpage.title" id="prev-slide" v-show="this.currentPage.prevpage">&laquo;
                 Назад</a>
             <span id="page-info">Страница {{ this.currentPage.page }} из {{ this.currentPage.totalPages }}</span>
-            <a :href="'./' + this.currentPage.nextpage.title" id="next-slide" v-if="this.currentPage.nextpage">Вперед
+            <a :href="'../' + this.currentPage.nextpage.title" id="next-slide" v-if="this.currentPage.nextpage">Вперед
                 &raquo;</a>
         </div>
 
