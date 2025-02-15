@@ -11,8 +11,9 @@
                     <div class="artworks" v-if="imageData">
                         <div class="artwork-item" v-for="image in imageData.imageOther" :value="image.value"
                             :key="image.value">
-                            <img :src=image alt="">
-
+                            <a :href="image.link">
+                            <img :src=image.picture alt="">
+                            </a>
                         </div>
                     </div>
                 </div>
