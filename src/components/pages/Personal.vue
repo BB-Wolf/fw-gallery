@@ -432,7 +432,7 @@ export default {
                             <!-- Character Information -->
                             <div class="character-info" id="characterInfo">
                                 <div class="field">
-                                    <label for="age">Имя</label>
+                                    <label for="age">Имя (макс. 256 символов)</label>
                                     <input type="text" id="age" v-model="charName" placeholder="Введите имя">
                                 </div>
 
@@ -442,15 +442,15 @@ export default {
                                         placeholder="Введите возраст персонажа">
                                 </div>
                                 <div class="field">
-                                    <label for="occupation">Вид</label>
+                                    <label for="occupation">Вид (макс. 256 символов)</label>
                                     <input type="text" id="occupation" v-model="charSpecie" placeholder="Введите вид">
                                 </div>
                                 <div class="field">
-                                    <label for="age">Краткое био</label>
+                                    <label for="age">Краткое био (макс. 5000 символов)</label>
                                     <input type="text" id="age" v-model="charBio" placeholder="Краткое био">
                                 </div>
                                 <div class="field">
-                                    <label for="age">Полное био</label>
+                                    <label for="age">Полное био (нет ограничений по символам)</label>
                                     <textarea v-model="charFullStory" placeholder="Полное био"></textarea>
                                 </div>
                                 <!-- Add Custom Field Button -->
