@@ -82,6 +82,7 @@ export default {
     )
     if (getComicsData.data) {
       this.comics = getComicsData.data
+      document.title ="Фурри Мир. Комикс "+getComicsData.data.name;
     } else {
       notifications.generateNotification('bad', 'Ошибка получения данных')
     }

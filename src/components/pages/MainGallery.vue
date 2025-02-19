@@ -15,6 +15,8 @@ export default {
         if (this.currentState == '' || this.currentState == null) {
             this.currentState = 'gallery';
         }
+        document.title ="Фурри Мир, Галерея новых работ";
+
     },
     methods:
     {

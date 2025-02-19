@@ -44,7 +44,6 @@
                 <div class="step-item" v-if="this.step == 3">
                     <div class="h2">Предпросмотр</div>
                     <div class="form-group">
-                        <label>Название работы</label>
                         <div>{{ title }}</div>
                     </div>
                     <div class="form-group">

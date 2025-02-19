@@ -7,11 +7,13 @@
             <div class="modal-right-column" v-if="!responseData.success">
                 <span class="close" @click="closeModal"></span>
                 <div class="modal-title">
+                    <noindex>
                     <div class="h1">Добро пожаловать</div>
                     <div>Введите Ваши данные для регистрации. <br />
                         Мы не собираем персональные данные, пожалуйста, не используйте<br /> Ваш e-mail в качестве
                         логина
                     </div>
+                    </noindex>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">

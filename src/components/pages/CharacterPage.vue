@@ -9,6 +9,7 @@ export default {
     async created() {
         let characterData =  await new axios.get('//furry-world.ru/console/get_character_info.php?user='+this.$route.params.owner+'&character=' + this.$route.params.character);
         if (characterData.data) {
+            document.title ="Фурри Мир, Персонаж "+characterData.data.char.name;
             this.charData = characterData.data
         }
     }
