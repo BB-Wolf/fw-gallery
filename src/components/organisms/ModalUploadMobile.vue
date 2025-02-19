@@ -149,7 +149,7 @@
 
 .steps-container .steps-image__peview {
     width: 100%;
-    max-width: 320px;
+    max-width: 180px;
     margin: 0 auto;
 }
 
