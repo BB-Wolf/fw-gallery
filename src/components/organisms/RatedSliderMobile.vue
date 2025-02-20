@@ -52,6 +52,8 @@ export default
 
 <template>
     <div class="mt-20 mb-20" style="max-height:200px;">
+
+        <div class="h2">Изображения в палитре дня</div>
         <swiper-container :slides-per-view="3" :space-between="spaceBetween" :centered-slides="false"
             :pagination="false" :breakpoints="{
                 768: {

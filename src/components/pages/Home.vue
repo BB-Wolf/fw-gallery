@@ -24,7 +24,7 @@ export default
 
 <template>
     <div @click="closeModal()">
-<!--        <Hero></Hero> -->
+        <!--        <Hero></Hero> -->
         <section id="palette-block">
             <Pallette></Pallette>
             <RatedSlider class="section-container" v-if="!mobileDevice.isMobile"></RatedSlider>

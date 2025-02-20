@@ -31,6 +31,7 @@ export default
 </script>
 
 <template>
+    <div class="h2">Изображения в палитре дня</div>
     <ul class="rated-slider" v-if="sliders">
         <li class="rated-slide" v-for="slide in sliders" :key="slide">
             <a :href="slide.link">

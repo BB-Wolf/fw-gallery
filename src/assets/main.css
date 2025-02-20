@@ -146,6 +146,9 @@ h2 {
   object-fit: cover;
   transition: all 0.2s ease;
 }
+.rated-slide img:hover {
+  object-fit: contain;
+}
 
 ul {
   display: flex;
