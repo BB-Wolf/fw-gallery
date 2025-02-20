@@ -27,9 +27,9 @@ export default
         <!--        <Hero></Hero> -->
         <section id="palette-block">
             <Pallette></Pallette>
-            <RatedSlider class="section-container" v-if="!mobileDevice.isMobile"></RatedSlider>
-            <RatedSliderMobile class="section-container" v-if="mobileDevice.isMobile"></RatedSliderMobile>
         </section>
+        <RatedSlider class="section-container" v-if="!mobileDevice.isMobile"></RatedSlider>
+        <RatedSliderMobile class="section-container" v-if="mobileDevice.isMobile"></RatedSliderMobile>
         <section id="authors-block" class="section-container">
             <AuthorsOfWeek v-if="!mobileDevice.isMobile"></AuthorsOfWeek>
         </section>

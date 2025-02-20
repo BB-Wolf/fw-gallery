@@ -181,7 +181,7 @@ export default {
             image: null,
             imageRaw: null,
             title: null,
-            description: null,
+            description: '',
             tags: null,
             folder: null,
             rate: null,
@@ -196,7 +196,7 @@ export default {
     methods:
     {
         exitModal() {
-            let result = confirm("Are you sure you want to close modal?");
+            let result = confirm("Вы точно хотите закрыть окно?");
             if (result) {
                 this.isModalOpen.isModalMobileUploadVisible = false;
             }
@@ -223,10 +223,10 @@ export default {
             this.sending = true;
             let formData = new FormData();
             formData.append('title', this.title);
-            formData.append('description', this.title);
-            formData.append('folder', this.title);
-            formData.append('tags', this.title);
-            formData.append('file', this.rawFile);
+            formData.append('description', this.description);
+            formData.append('folder', this.folder);
+            formData.append('tags', this.tags);
+            formData.append('file', this.imageRaw);
             formData.append('rate', this.rate);
 
             const request = await axios.post('//furry-world.ru/console/post_image_create.php', formData, {
@@ -237,12 +237,12 @@ export default {
 
             if (request.data) {
                 if (request.data.status == 'success') {
-                    notifications.generateNotification('good', 'all good');
+                    notifications.generateNotification('good', 'Загрузка прошла успешно');
                 } else {
-                    notifications.generateNotification('bad', 'all good');
+                    notifications.generateNotification('bad', 'что-то пошло не так');
                 }
             } else {
-                notifications.generateNotification('bad', 'all bad');
+                notifications.generateNotification('bad', 'что-то пошло не так');
             }
         }
     }

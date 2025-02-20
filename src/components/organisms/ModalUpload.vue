@@ -44,7 +44,7 @@
                     </div>
                     <div class="new-upload-tags">
                         <label>Теги</label>
-                        <div class="muted">Нажмите Tab для заполнения</div>
+                        <div class="muted">Укажите теги через пробел</div>
                         <input type="text" class="new-upload-item">
                     </div>
                     <div class="upload-character" @click="loadChars">
@@ -115,20 +115,20 @@ export default {
     async mounted() {
 
         let tagsList = await axios.get('//furry-world.ru/console/get_upload_tags.php');
-        let inputElem = document.querySelector('.new-upload-item') // the 'input' element which will be transformed into a Tagify component
-        let tagTagify = new Tagify(inputElem,
-            {
-                whitelist: tagsList.data,
-                dropdown: {
-                    classname: "color-blue",
-                    enabled: 1,              // show the dropdown immediately on focus
-                    position: "text",         // place the dropdown near the typed text
-                    closeOnSelect: false,          // keep the dropdown open after selecting a suggestion
-                    searchKeys: ["text"] //  fuzzy-search matching for those whitelist items' properties
+        // let inputElem = document.querySelector('.new-upload-item') // the 'input' element which will be transformed into a Tagify component
+        // let tagTagify = new Tagify(inputElem,
+        //     {
+        //         whitelist: tagsList.data,
+        //         dropdown: {
+        //             classname: "color-blue",
+        //             enabled: 1,              // show the dropdown immediately on focus
+        //             position: "text",         // place the dropdown near the typed text
+        //             closeOnSelect: false,          // keep the dropdown open after selecting a suggestion
+        //             searchKeys: ["text"] //  fuzzy-search matching for those whitelist items' properties
 
-                },
-            }
-        );
+        //         },
+        //     }
+        // );
     },
     methods:
     {
@@ -298,7 +298,7 @@ textarea {
 
 #login {
     max-width: 1200px;
-    max-height: 700px;
+    max-height: 80vh;
     height: 100%;
     width: 100%;
     left: 50%;
@@ -341,7 +341,7 @@ textarea {
 
 
 .modal-right-column input {
-    padding: 20px;
+    padding: 10px;
     width: 100%;
 }
 
@@ -350,6 +350,8 @@ textarea {
     width: 100%;
     padding: 0 40px 0px 0px;
     height: 100%;
+    overflow-y: auto;
+
 }
 
 .form-group {
