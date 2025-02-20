@@ -8,7 +8,8 @@ import TagGallery from '../organisms/TagGallery.vue';
     <div>
         <Tags />
         <div class="gallery-container">
-            <TagGallery galleryType="main" :galleryTitle="'Фильтр по тегу ' + this.$route.params.filter" />
+            <TagGallery galleryType="main" :galleryTitle="'Фильтр по тегу ' + $route.params.filter"
+                :galleryTag="$route.params.filter" />
         </div>
     </div>
 </template>

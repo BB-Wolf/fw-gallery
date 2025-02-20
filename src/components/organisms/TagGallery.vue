@@ -21,7 +21,7 @@
                         </a>
                         <div class="gallery-item__hover">
                             <div class="gallery-item__author"><a :href="item.link">{{ item.title
-                                    }}</a></div>
+                            }}</a></div>
                             <div class="gallery-item__title"><b>Автор:</b> <a :href="'/author/' + item.userName">{{
                                 item.userName }}</a></div>
                         </div>
@@ -60,6 +60,7 @@ export default {
             default: 'Галерея'
         },
         galleryUrl: String,
+        galleryTag: String
     },
     methods: {
         async saveToFav(elm, id) {
@@ -78,7 +79,7 @@ export default {
                     if (bottomOfWindow && !this.isFinish) {
                         this.isLoading = true;
                         document.querySelector('.wait-container').classList.add('wait-container--active');
-                        const getMore = await axios.get('//furry-world.ru/console/get_gallery_picture.php?offset=' + this.offset) + '&tag=' + this.$route.params.filter;
+                        const getMore = await axios.get('//furry-world.ru/console/get_gallery_picture.php?offset=' + this.offset) + '&tag=' + this.galleryTag;
                         if (getMore.data) {
                             if (getMore.data.length == 0) {
                                 this.isFinish = true;
@@ -103,7 +104,7 @@ export default {
         }
     },
     async mounted() {
-        const gallery = await new axios.get('//furry-world.ru/console/get_gallery_picture.php?tag=' + this.$route.params.filter,
+        const gallery = await new axios.get('//furry-world.ru/console/get_gallery_picture.php?tag=' + this.galleryTag,
             {
                 headers: {
                     "Authorization": "Bearer " + localStorage.getItem("token"),
