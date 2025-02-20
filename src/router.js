@@ -27,7 +27,7 @@ if (siteVersion.currentState == 'gallery') {
       meta: { transition: 'slide-left' }
     },
     {
-      path: '/tags/:tag',
+      path: '/tags/:filter',
       component: () => import('./components/pages/TagDetail.vue'),
       meta: { transition: 'slide-left' }
     },
