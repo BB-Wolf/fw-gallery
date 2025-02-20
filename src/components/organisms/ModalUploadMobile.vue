@@ -47,7 +47,6 @@
                         <div>{{ title }}</div>
                     </div>
                     <div class="form-group">
-                        <label>Изображение</label>
                         <div class="steps-image__peview" v-if="image">
                             <img :src="this.image">
                         </div>
@@ -167,6 +166,7 @@
 import Multiselect from '@vueform/multiselect'
 import { modalState } from '../../state';
 import { notifications } from '@/state';
+import axios from 'axios';
 
 export default {
     components:
