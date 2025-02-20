@@ -3,8 +3,12 @@
     <div id="login" class="modal" v-show="isModalOpen.isModalUploadVisible">
         <div class="modal-left-column">
             <div class="upload-zone" @dragover="dragover" @dragleave="dragleave" @drop="drop">
-                <input type="file" name="file" ref="file" accept=".gif,.webp, .jpg, .jpeg, .png">
-                <div class="upload-header" v-if="!file">Перенесите изображение сюда</div>
+                <input type="file" name="file" ref="file" @change="drop" accept=".gif,.webp, .jpg, .jpeg, .png">
+                <div class="upload-header" v-if="!file">Перенесите изображение
+                    <span class="upload-clicker" @click="$refs.file.click()">
+                        или нажмите здесь</span>
+                </div>
+
                 <div class="upload-image" v-if="file">
                     <img :src="file">
                 </div>
@@ -45,7 +49,7 @@
                     <div class="new-upload-tags">
                         <label>Теги</label>
                         <div class="muted">Укажите теги через пробел</div>
-                        <input type="text" class="new-upload-item">
+                        <input type="text" v-model="tags" class="new-upload-item">
                     </div>
                     <div class="upload-character" @click="loadChars">
                         <div>
@@ -90,7 +94,7 @@ export default {
         return {
             isModalOpen: modalState,
             title: null,
-            description: null,
+            description: '',
             isDragging: false,
             file: this.rawFile,
             rawFile: null,
@@ -244,6 +248,11 @@ textarea {
     justify-content: space-around;
 }
 
+.upload-clicker {
+    text-decoration: underline 1px #000;
+    cursor: pointer;
+}
+
 .upload-zone input[type="file"] {
     display: none;
 }
@@ -298,7 +307,7 @@ textarea {
 
 #login {
     max-width: 1200px;
-    max-height: 80vh;
+    max-height: 85vh;
     height: 100%;
     width: 100%;
     left: 50%;

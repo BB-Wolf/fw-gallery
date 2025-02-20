@@ -12,7 +12,7 @@
                         <div class="artwork-item" v-for="image in imageData.imageOther" :value="image.value"
                             :key="image.value">
                             <a :href="image.link">
-                            <img :src=image.picture alt="">
+                                <img :src=image.picture alt="">
                             </a>
                         </div>
                     </div>
@@ -128,7 +128,7 @@ export default
                     this.imageData = data.data;
                     this.imageData.imageDescription = md.renderInline(this.imageData.imageDescription);
                     document.title = this.imageData.imageTitle;
-                    document.querySelector('meta[name="description"]').setAttribute("content", 'Автор: '+ this.imageData.imageAuthor+' ' +this.imageData.imageDescription);
+                    document.querySelector('meta[name="description"]').setAttribute("content", 'Автор: ' + this.imageData.imageAuthor + ' ' + this.imageData.imageDescription);
                 }
             );
 
@@ -221,5 +221,13 @@ export default
     display: flex;
     gap: 20px;
     justify-content: space-between;
+}
+
+.tags {
+    align-content: center;
+}
+
+.tags span {
+    cursor: pointer;
 }
 </style>
