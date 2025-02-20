@@ -332,7 +332,8 @@ export default {
     },
     async created() {
         const userReq = await new axios.get('//furry-world.ru/console/get_author_info.php?user=' + this.$route.params.user);
-        document.title ="Фурри Мир, Страничка зудохника "+this.$route.params.user;
+        document.title = "Фурри Мир, Страничка худохника " + this.$route.params.user;
+        document.querySelector('meta[name="description"]').setAttribute("content", 'Художник, работы худржника, арты от ' + this.$route.params.user);
 
         if (userReq.data) {
             this.userProfile = userReq.data;
