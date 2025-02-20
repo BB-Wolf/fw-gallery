@@ -238,6 +238,8 @@ export default {
             if (request.data) {
                 if (request.data.status == 'success') {
                     notifications.generateNotification('good', 'Загрузка прошла успешно');
+                    this.isModalOpen.isModalMobileUploadVisible = false;
+
                 } else {
                     notifications.generateNotification('bad', 'что-то пошло не так');
                 }
