@@ -196,11 +196,13 @@ export default {
                 var vals = infoFieildsContainer.querySelectorAll('.infoFieldVal');
 
                 for (let i = 0; i < labels.length; i++) {
-                    infoFields[i] = {
-                        type: "text",
-                        label: labels[i].innerHTML,
-                        value: vals[i].value
-                    };
+                    if (vals[i].value != '') {
+                        infoFields[i] = {
+                            type: "text",
+                            label: labels[i].innerHTML,
+                            value: vals[i].value
+                        };
+                    }
                 }
             }
 
@@ -296,6 +298,7 @@ export default {
                                 <InputText v-for="userField in userFields" :key="userField"
                                     :inputLabel="userField.label" :inputValue="userField.value"
                                     :inputClass="'infoFieldVal'"> </InputText>
+
                             </div>
                             <div class="add-fields" @click="addField">Добавить поле</div>
                         </div>

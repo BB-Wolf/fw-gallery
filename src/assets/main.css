@@ -954,3 +954,8 @@ footer {
     padding: 0 15px !important;
   }
 }
+
+.muted {
+  font-size: 14px;
+  color: #919191;
+}
