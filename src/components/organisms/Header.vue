@@ -81,13 +81,14 @@ export default {
     <header>
         <a class="h1" href="/">Фурри Мир</a>
         <nav>
-            <div class="nsfw-state" @click="switchNSFW">NSFW: {{ this.nswfState }}</div>
+            <div class="nsfw-state"
+                :class="[{ ['nsfw-state--clean']: nswfState == '0+', ['nsfw-state--mild']: nswfState == '16+', ['nsfw-state--notsafe']: nswfState == '18+' }]"
+                @click="switchNSFW">Ценз: {{ this.nswfState }}</div>
             <a href="/main/">Галерея</a>
             <a href="#" v-show="!isUser" @click="showLogin">Войти</a>
             <a v-show="isUser" @click="showUpload">Загрузить</a>
             <a href="/personal/" v-show="isUser">Профиль</a>
             <a v-show="isUser" @click="logout">Выйти</a>
-            <a href="/todo/">TODO</a>
         </nav>
     </header>
     <ModalLogin />
@@ -96,6 +97,48 @@ export default {
     <ModalUploadMobile v-if="userDevice.isMobile" />
 </template>
 <style>
+.nsfw-state {
+    position: relative;
+}
+
+@media (min-width:768px) {
+    .nsfw-state--clean::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        transform: translate(-80px, -22px);
+        background: url('../../assets/images/volk.png') 0 0;
+        background-size: contain;
+        z-index: 10;
+        height: 80px;
+        width: 80px;
+    }
+
+    .nsfw-state--mild::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        transform: translate(-80px, -22px);
+        background: url('../../assets/images/volk4.png') 0 0;
+        background-size: contain;
+        z-index: 10;
+        height: 80px;
+        width: 80px;
+    }
+
+    .nsfw-state--notsafe::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        transform: translate(-80px, -22px);
+        background: url('../../assets/images/volk5.png') 0 0;
+        background-size: contain;
+        z-index: 10;
+        height: 80px;
+        width: 80px;
+    }
+}
+
 /* CSS */
 .search {
     background-color: #272727;

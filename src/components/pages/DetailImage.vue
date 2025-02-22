@@ -127,7 +127,7 @@ export default
                     console.log(data);
                     this.imageData = data.data;
                     this.imageData.imageDescription = md.renderInline(this.imageData.imageDescription);
-                    document.title = this.imageData.imageTitle;
+                    document.title = this.imageData.imageTitle + ', ' + this.imageData.imageDescription;
                     let keywords = this.imageData.tags.map(function (elem) {
                         return elem.name;
                     }).join(",");
