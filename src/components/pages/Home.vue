@@ -32,6 +32,7 @@ export default
         <RatedSliderMobile class="section-container" v-if="mobileDevice.isMobile"></RatedSliderMobile>
         <section id="authors-block" class="section-container">
             <AuthorsOfWeek v-if="!mobileDevice.isMobile"></AuthorsOfWeek>
+            <AuthorsOfWeekMobile v-if="mobileDevice.isMobile"></AuthorsOfWeekMobile>
         </section>
         <section id="comics" style="margin-bottom: 0;" class="section-container">
             <ComicsPreview v-if="!mobileDevice.isMobile"></ComicsPreview>

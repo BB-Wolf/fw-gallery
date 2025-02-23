@@ -1,7 +1,7 @@
 <template>
-    <section id="author-week" class="mt-20 mb-20" v-if="authorList">
+    <section id="author-week" class="mt-20 mb-20">
         <div class="h2">Художники недели</div>
-        <div class="portrait-container">
+        <div class="portrait-container" v-if="authorList">
             <swiper-container :slides-per-view="3" :space-between="spaceBetween" :centered-slides="false"
                 :pagination="false" :breakpoints="{
                     768: {
@@ -16,6 +16,25 @@
                     </div>
                 </swiper-slide>
             </swiper-container>
+        </div>
+        <div class="portrait-container--empty" style="width:90%;justify-content: unset;">
+            <div class="portrait-options-noone">
+                <div class="portrait-dragon">
+                    <img src="../../assets/images/drakon6.png">
+                </div>
+                <div>
+                    <div class="h2" style="padding: 0;"> Увы, на этой неделе здесь нет отличившихся художников. </div>
+                    <p class="mt-20">Как попасть в этот блок? Есть несколько способов.</p>
+                    <ul style="display: flex; flex-direction: column;">
+                        <li>1. Оставлять больше работ за прошлую неделю</li>
+                        <li> 2. Каждый арт совпадающий с палитрой дня - приносит баллы. По результату баллов прошлого
+                            дня -
+                            можно
+                            попасть в этот блок.</li>
+                        <li>3. Участвовать в конкурсах от администрации</li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </section>
 </template>
@@ -32,7 +51,6 @@ export default {
         };
 
         const onSlideChange = (e) => {
-            console.log('slide changed')
         }
 
         return {
@@ -65,6 +83,20 @@ export default {
     padding-top: 20px;
 }
 
+.portrait-container--empty {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    gap: 10px;
+}
+
+.portrait-container--empty {
+    margin: 40px 0px 0px 0px;
+}
+
+
 .portrait-card {
     color: white;
     text-align: center;
@@ -90,5 +122,23 @@ export default {
 .portrait-card-author {
     padding-top: 10px;
     font-weight: bold;
+}
+
+.portrait-options-noone {
+    position: relative;
+    text-align: left;
+    color: white;
+    margin: 0;
+}
+
+.portrait-options-noone {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.portrait-dragon {}
+
+.portrait-dragon img {
+    max-width: 100%;
 }
 </style>
