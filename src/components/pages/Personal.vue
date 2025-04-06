@@ -33,6 +33,10 @@ export default {
             userStatus: null,
             userDevice: mobileDevice,
             userChars: null,
+            userComms: false,
+            userTrades: false,
+            userRequests: false,
+            userDrawNsfw: false,
             mobileBtnClass: 'btn btn--default',
             charName: '',
             charAge: '',
@@ -57,7 +61,16 @@ export default {
             this.userStatus = getUserProfile.data.status;
             if (this.userStatus.types.length > 0) {
                 for (let i = 0; i < this.userStatus.types.length; i++) {
-                    this.userStatus;
+                    console.log(this.userStatus.types[i]);
+                    if (this.userStatus.types[i] == 'comm') {
+                        this.userComms = true;
+                    } else if (this.userStatus.types[i] == 'trades') {
+                        this.userTrades = true;
+                    } else if (this.userStatus.types[i] == 'requests') {
+                        this.userRequests = true;
+                    } else if (this.userStatus.types[i] == 'nsfw') {
+                        this.userDrawNsfw = true;
+                    }
                 }
             }
             console.log(this.userStatus.types);
@@ -312,20 +325,22 @@ export default {
                     <div class="profile-section" style="flex-wrap: wrap;">
                         <!-- User Data -->
                         <div class="user-data">
-                            <SwitchButton :inputLabel='"Беру заказы"' :inputName="'comms'" @click="saveStatus('comm')">
+                            <SwitchButton :isChecked="userComms" :inputLabel='"Беру заказы"' :inputName="'comms'"
+                                @click="saveStatus('comm')">
                             </SwitchButton>
                         </div>
                         <div class="user-data">
-                            <SwitchButton :inputLabel='"Беру трейды"' :inputName="'trades'"
+                            <SwitchButton :isChecked="userTrades" :inputLabel='"Беру трейды"' :inputName="'trades'"
                                 @click="saveStatus('trades')">
                             </SwitchButton>
                         </div>
                         <div class="user-data">
-                            <SwitchButton :inputLabel='"Беру реквесты"' :inputName="'requests'"
-                                @click="saveStatus('requests')"> </SwitchButton>
+                            <SwitchButton :isChecked="userRequests" :inputLabel='"Беру реквесты"'
+                                :inputName="'requests'" @click="saveStatus('requests')"> </SwitchButton>
                         </div>
                         <div class="user-data">
-                            <SwitchButton :inputLabel='"Рисую NSFW"' :inputName="'nsfw'" @click="saveStatus('nsfw')">
+                            <SwitchButton :isChecked="userDrawNsfw" :inputLabel='"Рисую NSFW"' :inputName="'nsfw'"
+                                @click="saveStatus('nsfw')">
                             </SwitchButton>
                         </div>
                     </div>

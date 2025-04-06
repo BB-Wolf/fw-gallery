@@ -283,6 +283,7 @@ export default {
             });
             if (request.data.status == 'success') {
                 notifications.generateNotification('good', request.data.text);
+                this.mode = 'all';
             } else {
                 notifications.generateNotification('bad', request.data.text);
             }
@@ -320,9 +321,9 @@ export default {
 
         },
         validateDelete() {
-            let result = prompt("Are you sure you want to delete? Type 'delete' to remove image");
+            let result = prompt("Вы точно хотите удалить изображение? Напишите 'delete' для удаления (без кавычек)");
             if (result === 'delete') {
-                const sendDeleteRequest = axios.get('//furry-world.ru/console/get_delete_image.php',
+                const sendDeleteRequest = axios.get('//furry-world.ru/console/get_delete_image.php?image=' + this.currentImage.id,
                     {
                         headers: {
                             "Authorization": "Bearer " + localStorage.getItem("token"),
@@ -345,12 +346,13 @@ export default {
                     if (getImagesList.data) {
                         this.imagesList = getImagesList.data;
                     }
+                    this.mode = 'all';
                 } else {
                     let errorText = '';
                     if (sendDeleteRequest.data) { errorText = sendDeleteRequest.data.text; } else {
                         errorText = 'Произошла ошибка удаления файла. Попробуйте еще раз';
                     }
-                    notifications.generateNotification('bad', errorText);
+                    notifications.generateNotification('Ошибка', errorText);
                 }
             }
 
