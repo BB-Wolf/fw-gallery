@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "paths": {
+      "gallery/*": ["../gallery/src/*"],
+      "novel*": ["../novel/src/*"],
+      "main/*": ["./src/*"]
+    }
+  },
+  "exclude": ["node_modules", "dist"]
+}
