@@ -8,11 +8,11 @@
                 <span class="close" @click="closeModal"></span>
                 <div class="modal-title">
                     <noindex>
-                    <div class="h1">Добро пожаловать</div>
-                    <div>Введите Ваши данные для регистрации. <br />
-                        Мы не собираем персональные данные, пожалуйста, не используйте<br /> Ваш e-mail в качестве
-                        логина
-                    </div>
+                        <div class="h1">Добро пожаловать</div>
+                        <div>Введите Ваши данные для регистрации. <br />
+                            Мы не собираем персональные данные, пожалуйста, не используйте<br /> Ваш e-mail в качестве
+                            логина
+                        </div>
                     </noindex>
                 </div>
                 <div class="modal-body">
@@ -112,7 +112,7 @@ input[type='text'] {
 .modal-left-column {
     max-width: 500px;
     width: 100%;
-    background: url('../../assets/images/login_bg.jpg') no-repeat;
+    background: url('@gallery/assets/images/login_bg.jpg') no-repeat;
     background-size: cover;
 
 }
@@ -312,7 +312,7 @@ input[type='text'] {
 </style>
 
 <script>
-import { modalState } from '../../state';
+import { modalState } from '@main/state';
 
 import axios from 'axios';
 export default {

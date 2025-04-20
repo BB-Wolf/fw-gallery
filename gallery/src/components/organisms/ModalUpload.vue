@@ -79,7 +79,7 @@
 </template>
 
 <script>
-import { modalState } from '../../state';
+import { modalState } from '@main/state';
 import Multiselect from '@vueform/multiselect'
 
 import Tagify from '@yaireo/tagify'
