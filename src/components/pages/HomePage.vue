@@ -69,11 +69,7 @@ h2 {
 .news {}
 
 .gallery-images,
-.comics-covers {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 1rem;
-}
+.comics-covers {}
 
 .gallery-images img,
 .comics-covers img {
@@ -116,15 +112,20 @@ footer {
 </style>
 <template>
     <section class="hero">
-
+        <div></div>
     </section>
     <section class="section news" id="news">
         <div class="section-container">
             <h2>Новости проекта</h2>
             <div class="news-article">
-                <h3>Небольшие обновления в дизайне сайта</h3>
-                <p>Мы выпустили новую версию нашего сайта<br />
-                    Немного пререработали дизайн, добавили новые разделы сайта и улучшили навигацию.</p>
+                <h3>Всем привет! На связи Sian</h3>
+                <p>За прошедшее время удалось немного переработать дизайн проекта.<br />
+                    Сделать отдельную главную страницу с новостями проекта.
+                    Так же со временем на главной странице планируется размещать обзоры на работы комиксистов.
+                    Переводы.<br />
+                    И потихоньку готовлюсь запускать раздел для авторов.
+                    В общем, зовите друзей. Будет весело :3
+                </p>
             </div>
         </div>
     </section>
@@ -140,10 +141,7 @@ footer {
             <h2>Галерея</h2>
             <div class="muted">Топ по просмотрам за день</div>
             <div class="gallery-images">
-                <img src="https://via.placeholder.com/300x200" alt="Галерея 1" />
-                <img src="https://via.placeholder.com/300x200" alt="Галерея 2" />
-                <img src="https://via.placeholder.com/300x200" alt="Галерея 3" />
-                <img src="https://via.placeholder.com/300x200" alt="Галерея 4" />
+                <GalleryBlock needInfinty="m" galleryType="main" galleryTitle="" />
             </div>
         </div>
     </section>
@@ -153,10 +151,20 @@ footer {
             <h2>Комиксы</h2>
             <div class="muted">Последние обновления</div>
             <div class="comics-covers">
-                <img src="https://via.placeholder.com/150x220" alt="Комикс 1" />
-                <img src="https://via.placeholder.com/150x220" alt="Комикс 2" />
-                <img src="https://via.placeholder.com/150x220" alt="Комикс 3" />
+                <ComicsList needInfinty="m" galleryType="main" galleryTitle="" />
             </div>
         </div>
     </section>
 </template>
+<script>
+import GalleryBlock from '@main/components/organisms/GalleryBlock.vue';
+import ComicsList from '@main/components/organisms/ComicsList.vue';
+export default
+    {
+        components:
+        {
+            GalleryBlock,
+            ComicsList
+        },
+    }
+</script>

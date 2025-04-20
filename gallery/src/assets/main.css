@@ -70,8 +70,8 @@ header nav a,
 .hero {
   background-image: url('@gallery/assets/images/hero-image.jpg');
   background-size: cover;
-  background-position: center;
-  height: 400px;
+  background-position: center -30px;
+  height: 620px;
   display: flex;
   justify-content: center;
   align-items: center;

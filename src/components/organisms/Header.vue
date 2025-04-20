@@ -65,8 +65,8 @@ export default {
                 :class="[{ ['nsfw-state--clean']: nswfState == '0+', ['nsfw-state--mild']: nswfState == '16+', ['nsfw-state--notsafe']: nswfState == '18+' }]"
                 @click="switchNSFW">Ценз: {{ this.nswfState }}</div>
             <a href="/gallery/">Галерея</a>
-            <a href="/comics/">Комиксы</a>
-            <a href="/novel/">Рассказы</a>
+            <a href="/gallery/comics/">Комиксы</a>
+            <!--  <a href="/novel/">Рассказы</a>-->
             <a href="#" v-show="!isUser" @click="showLogin">Войти</a>
             <a href="/gallery/personal/" v-show="isUser">Профиль</a>
             <a v-show="isUser" @click="logout">Выйти</a>
@@ -88,7 +88,7 @@ export default {
         position: absolute;
         left: 0;
         transform: translate(-80px, -22px);
-        background: url('../../assets/images/volk.png') 0 0;
+        background: url('@gallery/assets/images/volk.png') 0 0;
         background-size: contain;
         z-index: 10;
         height: 80px;
@@ -100,7 +100,7 @@ export default {
         position: absolute;
         left: 0;
         transform: translate(-80px, -22px);
-        background: url('../../assets/images/volk4.png') 0 0;
+        background: url('@gallery/assets/images/volk4.png') 0 0;
         background-size: contain;
         z-index: 10;
         height: 80px;
@@ -112,7 +112,7 @@ export default {
         position: absolute;
         left: 0;
         transform: translate(-80px, -22px);
-        background: url('../../assets/images/volk5.png') 0 0;
+        background: url('@gallery/assets/images/volk5.png') 0 0;
         background-size: contain;
         z-index: 10;
         height: 80px;
