@@ -33,7 +33,7 @@
 import axios from 'axios';
 import Multiselect from '@vueform/multiselect'
 import Image from '../atoms/Image.vue';
-import { notifications } from '@/state';
+import { notifications } from '@main/state';
 import SwitchButton from '../molecules/SwitchButton.vue';
 
 export default {
