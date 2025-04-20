@@ -77,7 +77,7 @@ input[type='text'] {
 .modal-left-column {
     max-width: 500px;
     width: 100%;
-    background: url('../../assets/images/modal_bg.jpg') no-repeat;
+    background: url('@gallery/assets/images/modal_bg.jpg') no-repeat;
     background-size: cover;
 
 }
@@ -254,7 +254,7 @@ input[type='text'] {
 </style>
 
 <script>
-import { modalState, isUserLogged } from '../../state';
+import { modalState, isUserLogged } from '@main/state';
 
 import axios from 'axios';
 export default {

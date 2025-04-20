@@ -21,25 +21,13 @@
                         </a>
                         <div class="gallery-item__hover">
                             <div class="gallery-item__author"><a :href="item.link">{{ item.title
-                                    }}</a></div>
+                            }}</a></div>
                             <div class="gallery-item__title"><b>Автор:</b> <a :href="'/author/' + item.userName">{{
                                 item.userName }}</a></div>
                         </div>
                     </div>
                 </template>
             </masonry-wall>
-            <div class="wait-container" style="margin:0 auto;">
-                <div class="lds-roller" v-if="!this.responseData">
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                </div>
-            </div>
         </div>
     </div>
 </template>

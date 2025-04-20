@@ -1,9 +1,10 @@
 <script>
-import axios from 'axios';
-import { modalState, isUserLogged, mobileDevice } from '../../state.js';
+import { modalState, isUserLogged, mobileDevice } from '@main/state';
+import ModalLogin from '@gallery/components/organisms/ModalLogin.vue';
 
 export default {
     components: {
+        ModalLogin
     },
     data() {
         return {
@@ -19,42 +20,14 @@ export default {
         }
 
     },
-    methods: {
-        async switchNSFW() {
-            const nswfReq = await new axios.get('//furry-world.ru/console/get_switch_nsfw.php',
-                {
-                    headers: {
-                        "Authorization": "Bearer " + localStorage.getItem("token"),
-                    }
-                }
-            );
-            if (nswfReq.data) {
-                if (nswfReq.data.nsfw == 7) {
-                    this.nswfState = '0+';
-                    localStorage.setItem('token', nswfReq.data.token);
-                    localStorage.setItem('nsfw', '0+');
-                    location.reload();
-                }
-                if (nswfReq.data.nsfw == 8) {
-                    this.nswfState = '16+';
-                    localStorage.setItem('token', nswfReq.data.token);
-                    localStorage.setItem('nsfw', '16+');
-                    location.reload();
-                }
-                if (nswfReq.data.nsfw == 9) {
-                    this.nswfState = '18+';
-                    localStorage.setItem('token', nswfReq.data.token);
-                    localStorage.setItem('nsfw', '18+');
-                    location.reload();
-                }
-            }
-        },
-        logout() {
-            localStorage.removeItem('token');
+    methods:
+    {
+        showLogin() {
+            modalState.isModalLoginVisible = true;
         }
-
     }
-};
+}
+    ;
 </script>
 
 <template>
@@ -74,8 +47,6 @@ export default {
     </header>
     <ModalLogin />
     <ModalRegister />
-    <ModalUpload v-if="!userDevice.isMobile" />
-    <ModalUploadMobile v-if="userDevice.isMobile" />
 </template>
 <style>
 .nsfw-state {

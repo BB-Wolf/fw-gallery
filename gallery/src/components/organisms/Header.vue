@@ -4,7 +4,7 @@ import ModalRegister from './ModalRegister.vue';
 import ModalUpload from './ModalUpload.vue';
 import ModalUploadMobile from './ModalUploadMobile.vue';
 import axios from 'axios';
-import { modalState, isUserLogged, mobileDevice } from '../../state.js';
+import { modalState, isUserLogged, mobileDevice } from '@main/state.js';
 
 export default {
     components: {
@@ -91,7 +91,9 @@ export default {
             <a v-show="isUser" @click="logout">Выйти</a>
         </nav>
     </header>
-    <ModalLogin />
+    <div>
+        <ModalLogin />
+    </div>
     <ModalRegister />
     <ModalUpload v-if="!userDevice.isMobile" />
     <ModalUploadMobile v-if="userDevice.isMobile" />
