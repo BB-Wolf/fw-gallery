@@ -229,12 +229,18 @@ rts = [
   },
 
   {
-    path: '/gallery/:catchAll(.*)/',
-    name: 'NotFound',
-    component: () => import('@gallery/components/pages/NotFound.vue'),
-    meta: {
-      requiresAuth: false
-    }
+    path: '/:catchAll(.*)/',
+    component: () => import('@main/layouts/MainPageLayout.vue'),
+    children: [
+      {
+        name: 'NotFound',
+        path: '/:catchAll(.*)/',
+        component: () => import('@gallery/components/pages/NotFound.vue'),
+        meta: {
+          requiresAuth: false
+        }
+      }
+    ]
   }
 ]
 
