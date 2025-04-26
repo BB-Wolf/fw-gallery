@@ -229,7 +229,7 @@ rts = [
   },
 
   {
-    path: '/:catchAll(.*)/',
+    path: '/:catchAll(.*)',
     component: () => import('@main/layouts/MainPageLayout.vue'),
     children: [
       {
