@@ -39,9 +39,10 @@ export default {
                 @click="switchNSFW">Ценз: {{ this.nswfState }}</div>
             <a href="/gallery/">Галерея</a>
             <a href="/gallery/comics/">Комиксы</a>
+            <a href="/novel/">Рассказы</a>
             <!--  <a href="/novel/">Рассказы</a>-->
             <a href="#" v-show="!isUser" @click="showLogin">Войти</a>
-            <a href="/gallery/personal/" v-show="isUser">Профиль</a>
+            <a href='/personal/' v-show="isUser">Профиль</a>
             <a v-show="isUser" @click="logout">Выйти</a>
         </nav>
     </header>

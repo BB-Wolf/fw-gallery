@@ -1,13 +1,10 @@
 <script>
-import ModalLogin from './ModalLogin.vue';
-import ModalRegister from './ModalRegister.vue';
-import axios from 'axios';
-import { modalState, isUserLogged, mobileDevice } from '../../state.js';
+import { modalState, isUserLogged, mobileDevice } from '@main/state';
+import ModalLogin from '@gallery/components/organisms/ModalLogin.vue';
 
 export default {
     components: {
-        ModalLogin,
-        ModalRegister,
+        ModalLogin
     },
     data() {
         return {
@@ -23,56 +20,29 @@ export default {
         }
 
     },
-    methods: {
+    methods:
+    {
         showLogin() {
             modalState.isModalLoginVisible = true;
-        },
-        async switchNSFW() {
-            const nswfReq = await new axios.get('//img-fw.bb-wolf.site/console/get_switch_nsfw.php',
-                {
-                    headers: {
-                        "Authorization": "Bearer " + localStorage.getItem("token"),
-                    }
-                }
-            );
-            if (nswfReq.data) {
-                if (nswfReq.data.nsfw == 7) {
-                    this.nswfState = '0+';
-                    localStorage.setItem('token', nswfReq.data.token);
-                    localStorage.setItem('nsfw', '0+');
-                    location.reload();
-                }
-                if (nswfReq.data.nsfw == 8) {
-                    this.nswfState = '16+';
-                    localStorage.setItem('token', nswfReq.data.token);
-                    localStorage.setItem('nsfw', '16+');
-                    location.reload();
-                }
-                if (nswfReq.data.nsfw == 9) {
-                    this.nswfState = '18+';
-                    localStorage.setItem('token', nswfReq.data.token);
-                    localStorage.setItem('nsfw', '18+');
-                    location.reload();
-                }
-            }
-        },
-        logout() {
-            localStorage.removeItem('token');
         }
-
     }
-};
+}
+    ;
 </script>
 
 <template>
     <header>
-        <a class="h1" href="/">Furry World. Истории</a>
+        <a class="h1" href="/">Фурри Мир</a>
         <nav>
-            <div class="nsfw-state" @click="switchNSFW">NSFW: {{ this.nswfState }}</div>
-            <a href="/stories/">Все истории</a>
+            <div class="nsfw-state"
+                :class="[{ ['nsfw-state--clean']: nswfState == '0+', ['nsfw-state--mild']: nswfState == '16+', ['nsfw-state--notsafe']: nswfState == '18+' }]"
+                @click="switchNSFW">Ценз: {{ this.nswfState }}</div>
+            <a href="/gallery/">Галерея</a>
+            <a href="/gallery/comics/">Комиксы</a>
+            <a href="/novel/">Рассказы</a>
+            <!--  <a href="/novel/">Рассказы</a>-->
             <a href="#" v-show="!isUser" @click="showLogin">Войти</a>
-            <a v-show="isUser" href="/personal/stories/">Мои работы</a>
-            <a href="/personal/" v-show="isUser">Профиль</a>
+            <a href='/novel/personal/' v-show="isUser">Профиль</a>
             <a v-show="isUser" @click="logout">Выйти</a>
         </nav>
     </header>
@@ -80,6 +50,48 @@ export default {
     <ModalRegister />
 </template>
 <style>
+.nsfw-state {
+    position: relative;
+}
+
+@media (min-width:768px) {
+    .nsfw-state--clean::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        transform: translate(-80px, -22px);
+        background: url('@gallery/assets/images/volk.png') 0 0;
+        background-size: contain;
+        z-index: 10;
+        height: 80px;
+        width: 80px;
+    }
+
+    .nsfw-state--mild::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        transform: translate(-80px, -22px);
+        background: url('@gallery/assets/images/volk4.png') 0 0;
+        background-size: contain;
+        z-index: 10;
+        height: 80px;
+        width: 80px;
+    }
+
+    .nsfw-state--notsafe::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        transform: translate(-80px, -22px);
+        background: url('@gallery/assets/images/volk5.png') 0 0;
+        background-size: contain;
+        z-index: 10;
+        height: 80px;
+        width: 80px;
+    }
+}
+
 /* CSS */
 .search {
     background-color: #272727;

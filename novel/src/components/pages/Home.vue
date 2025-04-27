@@ -2,115 +2,62 @@
 import Hero from '../organisms/Hero.vue';
 </script>
 <script>
-import { modalState, mobileDevice } from '../../state.js';
-import AuthorsOfWeek from '../organisms/AuthorsOfWeek.vue';
-import AuthorsOfWeekMobile from '../organisms/AuthorsOfWeekMobile.vue';
-import { Editor, EditorContent } from '@tiptap/vue-3'
-import StarterKit from '@tiptap/starter-kit'
+import { modalState, mobileDevice } from '@main/state.js';
 import Multiselect from '@vueform/multiselect';
+import axios from 'axios';
 
 export default
     {
         components: {
-            EditorContent,
             Multiselect
         },
-        methods:
-        {
-            closeModal() {
-                modalState.isModalVisible = false;
-            },
-            switchTab(btn, e) {
-                if (btn.target.classList.contains('block-btn--active')) {
-                    btn.target.classList.remove('block-btn--active');
-                } else {
-                    btn.target.classList.add('block-btn--active');
-                }
-                if (e == 'rate') this.showRate = !this.showRate;
-                if (e == 'genre') this.showGenre = !this.showGenre;
-                if (e == 'character') this.showCharacter = !this.showCharacter;
-                if (e == 'cover') this.showCover = !this.showCover;
-            }
-        }, data() {
+        data() {
             return {
-                editor: null,
-                charList: '',
-                genre: '',
-                fandom: '',
-                cover: null,
-                coverRaw: null,
-                rate: [0, 12, 16, 18, 21],
-                setting: null,
-                activeTab: 'main',
-                showGenre: false,
-                showRate: false,
-                showFandom: false,
-                showSetting: false,
-                showCharacter: false,
-                showCover: false
+                novelList: null,
             }
         },
-
-        mounted() {
-            this.editor = new Editor({
-                content: "Начните писать текст...",
-                extensions: [StarterKit],
-            })
+        async created() {
+            let response = await new axios('//furry-world.ru/console/novel/get_novel_list.php'); // Замените на ваш API
+            if (response.data && response.data.status != 'error') {
+                this.novelList = response.data;
+            } else {
+                //console.error('Ошибка получения данных:', response.statusText);
+            }
         },
-
-        beforeUnmount() {
-            this.editor.destroy()
-        },
-
 
     }</script>
 
 <template>
-    <div @click="closeModal()">
-        <section id="authors-block" class="section-container">
-            <AuthorsOfWeek v-if="!mobileDevice.isMobile"></AuthorsOfWeek>
-        </section>
-        <section id="new-stories">
-            <div class="tab-block">
-                <div class="btn block-btn block-btn--active">Основное</div>
-                <div class="btn block-btn" @click="switchTab($event, 'cover')">Обложка</div>
-                <div class="btn block-btn" @click="switchTab($event, 'character')">Персонажи</div>
-                <div class="btn block-btn" @click="switchTab($event, 'genre')">Жанр</div>
-                <div class="btn block-btn" @click="switchTab($event, 'rate')">Рейтинг</div>
+    <main v-if="novelList != null" class="catalog">
+        <div v-for="novel in novelList" :key="novel" class="novel-card" style="--i: 1;">
+            <img class="novel-image" :src="novel.cover" alt="{{ novel.title }}">
+            <div class="novel-content">
+                <h2 class="novel-title">{{ novel.title }}</h2>
+                <p class="novel-description">{{ novel.description }}</p>
+                <a :href="'/novel/' + novel.author + '/' + novel.code + '/'" class="novel-link">Читать</a>
             </div>
-            <div class="content-block">
-                <div class="tab__title mt-20 mb-20">Редактор текста</div>
-                <div class="tab__character" v-if="showCover">
-                    <label>Загрузите обложку </label>
-                    <img :src="cover">
-                    <div class="btn btn--warning" @click="this.$refs.file.click()">Загрузить изображение</div>
-                    <input type="file" ref="file">
+        </div>
+    </main>
+    <main v-if="novelList == null" class="catalog">
+        <section id="author-week" class="mt-20">
+            <div class="portrait-container--empty" style="justify-content: unset;">
+                <div class="portrait-options-noone">
+                    <div class="portrait-dragon">
+                        <img style="max-width: 200px;" src="@gallery/assets/images/drakon6.png">
+                    </div>
                 </div>
-                <div class="tab__character" v-if="showCharacter">
-                    <label>Список персонажей, указывайте через запятую </label>
-                    <input type="text" v-model="charList">
+                <div class="portrait-container--empty" style="width:60%;justify-content: unset;">
+
+                    <div>
+                        <div class="h2" style="padding: 0;"> Увы, кажется произошла какая-то ошибка. </div>
+                        <p class="mt-20">Возможно, что мы не смогли получить данные или же в библиотеке пока пусто.</p>
+                        <p class="">Но Вы можете помочь проекту оставив свои работы</p>
+
+                    </div>
                 </div>
-                <div class="tab__rate" v-if="showRate">
-                    <label for="">Рейтинг</label>
-                    <Multiselect :options="rate"></Multiselect>
-                </div>
-                <div class="tab__type" v-if="showGenre">
-                    <label>Жанр</label>
-                    <input type="text" v-model="genre">
-                    <label>Фэндом</label>
-                    <input type="text" v-model="fandom">
-                </div>
-                <div class="tab_setting" v-if="showSetting">
-                    <label for="">Сеттинг</label><input type="text" v-model="setting">
-                </div>
-                <div class="mt-60">
-                    <editor-content :content="''" :editor="editor" />
-                </div>
-                <div class="btn btn--info mt-20" @click="saveDraft">Сохранить в черновик</div>
-                <div class="btn btn--success mt-20" @click="saveWork">Сохранить</div>
             </div>
         </section>
-    </div>
+    </main>
 </template>
 
 <style scoped>
@@ -126,61 +73,146 @@ input[type="file"] {
     color: black;
 }
 
-.tab-block {
+.catalog {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+    padding: 2rem;
+    animation: fadeIn 2s ease forwards;
+}
+
+.novel-card {
+    background-color: #292929;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: slideUp 1s ease forwards;
+    animation-delay: calc(var(--i) * 0.2s);
+}
+
+.novel-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.8);
+}
+
+.novel-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.novel-content {
+    padding: 1rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.novel-title {
+    font-size: 1.3rem;
+    margin: 0 0 0.5rem;
+    color: #e0e0e0;
+}
+
+.novel-description {
+    font-size: 0.95rem;
+    color: #b0b0b0;
+    flex-grow: 1;
+}
+
+.novel-link {
+    margin-top: 1rem;
+    display: inline-block;
+    background-color: #444;
+    color: #f0f0f0;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    text-decoration: none;
+    text-align: center;
+    transition: background-color 0.3s;
+}
+
+.novel-link:hover {
+    background-color: #666;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 600px) {
+    header {
+        font-size: 1.6rem;
+    }
+}
+
+#author-week {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.portrait-container,
+.portrait-container--empty {
+    width: 80%;
+    margin: 0 auto;
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
     gap: 10px;
 }
 
-.tab-block .btn {
-    border-radius: 1px;
+.portrait-container--empty {
+    margin: 40px 0px 0px 0px;
 }
 
-.tab-block .block-btn {
-    background: #4f4f4f;
-}
-
-.tab-block .block-btn:hover {
-    background: white;
-}
-
-.tab-block .block-btn--active {
-    background: white;
-}
-
-
-
-.section-container {
-    max-width: 95%;
-    margin: 50px auto;
-    background-color: #2b2b2b;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-
-}
-
-#new-stories {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr;
-    padding: 0 20px;
-}
-
-.right-block__tab {
-    width: 100%;
-    max-width: 1200px;
-    padding: 0 20px;
-}
-
-.right-block__tab .tab__title {
-    padding: 0 10px;
+.portrait-card {
     color: white;
-    background: rgba(255, 255, 255, 0.3);
+    text-align: center;
 }
 
-.mt-60 {
-    margin-top: 60px;
+.portrait-border {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    box-shadow: 0px 0px 1px 5px rgba(255, 255, 255, 0.8);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+}
+
+.portrait-border img {
+    max-width: 100%;
+}
+
+.portrait-card-author {
+    padding-top: 10px;
+    font-weight: bold;
 }
 </style>
 

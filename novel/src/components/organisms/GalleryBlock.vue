@@ -21,7 +21,7 @@
                         </a>
                         <div class="gallery-item__hover">
                             <div class="gallery-item__author"><a :href="item.link">{{ item.title
-                                    }}</a></div>
+                            }}</a></div>
                             <div class="gallery-item__title"><b>Автор:</b> <a :href="'/author/' + item.userName">{{
                                 item.userName }}</a></div>
                         </div>

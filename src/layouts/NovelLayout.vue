@@ -1,5 +1,5 @@
 <script setup>
-import Header from '@main/components/organisms/Header.vue';
+import Header from '@novel/components/organisms/Header.vue';
 import Footer from '@gallery/components/organisms/Footer.vue';
 </script>
 <script>

@@ -10,6 +10,11 @@ rts = [
         name: 'Home',
         path: '',
         component: () => import('@main/components/pages/HomePage.vue')
+      },
+      {
+        name: 'Personal',
+        path: '/personal/',
+        component: () => import('@main/components/pages/Personal.vue')
       }
     ],
     meta: { transition: 'fade' }
@@ -224,8 +229,25 @@ rts = [
   // ###### End of gallery section ######
   {
     path: '/novel/',
-    component: () => import('@novel/components/pages/Home.vue'),
-    meta: { transition: 'slide-right' }
+    component: () => import('@main/layouts/NovelLayout.vue'),
+    children: [
+      {
+        name: 'Main',
+        path: '/novel/',
+        component: () => import('@novel/components/pages/Home.vue'),
+        meta: { transition: 'slide-right' }
+      },
+      {
+        name: 'Detail',
+        path: '/novel/:author/:name/:page/',
+        component: () => import('@novel/components/pages/StoryDetail.vue')
+      },
+      {
+        name: 'PersonalNovel',
+        path: '/novel/personal/',
+        component: () => import('@novel/components/pages/Personal.vue')
+      }
+    ]
   },
 
   {

@@ -4,7 +4,7 @@ import InputText from '../atoms/InputText.vue';
 import axios from 'axios';
 import SwitchButton from '../molecules/SwitchButton.vue';
 import Image from '../atoms/Image.vue';
-import { notifications, mobileDevice } from '@/state';
+import { notifications, mobileDevice } from '@main/state';
 
 export default {
     components:
