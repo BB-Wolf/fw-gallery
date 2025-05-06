@@ -12,12 +12,12 @@ export default
             }
         },
         async created() {
-            let novelData = await new axios('//furry-world.ru/console/novel/get_novel.php?code=' + this.$route.params.name);
+            let novelData = await new axios('//furry-world.ru/console/novel/get_novel.php?code=' + this.$route.params.name + '&page=' + this.$route.params.page);
             if (novelData.data) {
                 this.novelTitle = novelData.data.title;
                 this.novelText = novelData.data.text;
-                this.nextPage = novelData.data.nextPage;
-                this.prevPage = novelData.data.prevPage;
+                this.nextPage = novelData.data.next;
+                this.prevPage = novelData.data.prev;
             }
         },
     }
@@ -26,17 +26,15 @@ export default
     <div class="content">
         <div class="story-title">{{ novelTitle }}</div>
 
-        <div class="story-text">
-            {{ novelText }}
-        </div>
+        <div class="story-text" v-html="novelText"></div>
     </div>
     <div class="pagination">
         <a v-if="this.prevPage"
-            :href="'/novel/' + this.$route.params.author + '/' + this.$route.params.name + '/page/' + this.prevPage + '/'">&laquo;
+            :href="'/novel/' + this.$route.params.author + '/' + this.$route.params.name + '/' + this.prevPage + '/'">&laquo;
             Назад</a>
         <a v-if="this.title" href="#" class="current">{{ this.$route.params.page }}</a>
         <a v-if="this.nextPage"
-            :href="'/novel/' + this.$route.params.author + '/' + this.$route.params.name + '/page/' + this.nextPage + '/'">>Вперёд
+            :href="'/novel/' + this.$route.params.author + '/' + this.$route.params.name + '/' + this.nextPage + '/'">Вперёд
             &raquo;</a>
     </div>
 </template>

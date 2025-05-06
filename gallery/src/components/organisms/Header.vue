@@ -84,7 +84,7 @@ export default {
             <div class="nsfw-state"
                 :class="[{ ['nsfw-state--clean']: nswfState == '0+', ['nsfw-state--mild']: nswfState == '16+', ['nsfw-state--notsafe']: nswfState == '18+' }]"
                 @click="switchNSFW">Ценз: {{ this.nswfState }}</div>
-            <a href="/gallery/main/">Галерея</a>
+            <a href="/gallery/main/">Все работы</a>
             <a href="#" v-show="!isUser" @click="showLogin">Войти</a>
             <a v-show="isUser" @click="showUpload">Загрузить</a>
             <a href="/gallery/personal/" v-show="isUser">Профиль</a>

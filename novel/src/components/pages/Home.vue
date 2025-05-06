@@ -13,10 +13,10 @@ export default
         },
         data() {
             return {
-                novelList: null,
+                novelList: '',
             }
         },
-        async created() {
+        async mounted() {
             let response = await new axios('//furry-world.ru/console/novel/get_novel_list.php'); // Замените на ваш API
             if (response.data && response.data.status != 'error') {
                 this.novelList = response.data;
@@ -33,8 +33,8 @@ export default
             <img class="novel-image" :src="novel.cover" alt="{{ novel.title }}">
             <div class="novel-content">
                 <h2 class="novel-title">{{ novel.title }}</h2>
-                <p class="novel-description">{{ novel.description }}</p>
-                <a :href="'/novel/' + novel.author + '/' + novel.code + '/'" class="novel-link">Читать</a>
+                <p class="novel-description" v-html="novel.description"></p>
+                <a :href="'/novel/' + novel.author + '/' + novel.code + '/1/'" class="novel-link">Читать</a>
             </div>
         </div>
     </main>

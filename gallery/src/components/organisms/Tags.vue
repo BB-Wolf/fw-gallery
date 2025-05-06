@@ -1,41 +1,39 @@
 <template>
     <nav class="tags">
-        <div class="radio-inputs">
-            <label class="radio">
-                <input type="radio" name="radio" value="all" checked="" v-on:click="reloadData('all')">
-                <span class="name">Основные теги</span>
-            </label>
-            <label class="radio">
-                <input type="radio" name="radio" value="user" v-on:click="reloadData('user')">
-                <span class="name">Избранные теги</span>
-            </label>
-            <div class="search-tag" @click="enableSearch">
-                <svg fill="#000000" height="30px" width="30px" version="1.1" id="Capa_1"
-                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                    viewBox="0 0 488.4 488.4" xml:space="preserve">
-                    <g>
-                        <g>
-                            <path d="M0,203.25c0,112.1,91.2,203.2,203.2,203.2c51.6,0,98.8-19.4,134.7-51.2l129.5,129.5c2.4,2.4,5.5,3.6,8.7,3.6
+        <div v-if="!this.searchOpen" class="tags-wrapper">
+            <div class="tags-scroll">
+                <a v-for="tag in tags" v-bind:key="tag.link" :href="tag.link">{{ tag.title }}</a>
+                <div class="radio-inputs">
+                    <div class="search-tag" @click="enableSearch">
+                        <svg fill="#000000" height="30px" width="30px" version="1.1" id="Capa_1"
+                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                            viewBox="0 0 488.4 488.4" xml:space="preserve">
+                            <g>
+                                <g>
+                                    <path d="M0,203.25c0,112.1,91.2,203.2,203.2,203.2c51.6,0,98.8-19.4,134.7-51.2l129.5,129.5c2.4,2.4,5.5,3.6,8.7,3.6
 			s6.3-1.2,8.7-3.6c4.8-4.8,4.8-12.5,0-17.3l-129.6-129.5c31.8-35.9,51.2-83,51.2-134.7c0-112.1-91.2-203.2-203.2-203.2
 			S0,91.15,0,203.25z M381.9,203.25c0,98.5-80.2,178.7-178.7,178.7s-178.7-80.2-178.7-178.7s80.2-178.7,178.7-178.7
 			S381.9,104.65,381.9,203.25z" />
-                        </g>
-                    </g>
-                </svg>
+                                </g>
+                            </g>
+                        </svg>
+                    </div>
+                </div>
             </div>
         </div>
-        <div v-if="!this.searchOpen" class="tag-container">
-            <a v-for=" tag in tags" v-bind:key="tag.link" :href="tag.link">{{ tag.title }}</a>
+        <div v-if="this.searchOpen" class="tags-wrapper" style="overflow: unset;">
+            <div v-if="this.searchOpen" class="tag-container">
+                <Multiselect v-model="tags" placeholder="Начните вводить текст" :filter-results="false" :min-chars="2"
+                    :resolve-on-load="false" :mode="'multiple'" :delay="3" :close-on-select="true" :limit="10"
+                    :searchable="true" :options="async function (query) {
+                        return await fetchTags(query)
+                    }" />
+                <div class="radio-inputs">
+                    <div class="search-tag close-btn" @click="resetSearch"></div>
+                </div>
+            </div>
         </div>
-
-        <div v-if="this.searchOpen" class="tag-container">
-            <Multiselect v-model="tags" placeholder="Выберите теги" :filter-results="false" :min-chars="2"
-                :resolve-on-load="false" :mode="'multiple'" :delay="3" :close-on-select="true" :limit="10"
-                :searchable="true" :options="async function(query) {
-    return await fetchTags(query)
-  }" />
-        </div>
-        <div class="filter-go" @click="filterTags()">Фильтр</div>
+        <div v-if="!this.searchOpen" class="filter-go" @click="filterTags()">Фильтр</div>
 
 
     </nav>
@@ -157,6 +155,10 @@ export default
             },
             enableSearch() {
                 this.searchOpen = !this.searchOpen;
+            },
+            resetSearch() {
+                this.searchOpen = false;
+                this.tags = this.mainTags;
             },
             filterTags() {
 

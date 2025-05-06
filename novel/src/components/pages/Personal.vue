@@ -5,6 +5,7 @@ import axios from 'axios';
 import SwitchButton from '../molecules/SwitchButton.vue';
 import Image from '../atoms/Image.vue';
 import { notifications, mobileDevice } from '@main/state';
+import Multiselect from '@vueform/multiselect'
 
 export default {
     components:
@@ -16,6 +17,7 @@ export default {
         InputText,
         SwitchButton,
         Image,
+        Multiselect
 
     },
     data() {
@@ -31,11 +33,21 @@ export default {
             userStatus: null,
             userDevice: mobileDevice,
             userChars: null,
-            mobileBtnClass: 'btn btn--default'
+            userComms: false,
+            userTrades: false,
+            userRequests: false,
+            userDrawNsfw: false,
+            mobileBtnClass: 'btn btn--default',
+            charName: '',
+            charAge: '',
+            charBio: '',
+            charSpecie: '',
+            charFullStory: '',
+            charAvatar: null,
         };
     },
     async created() {
-        const getUserProfile = await new axios.get('//img-fw.bb-wolf.site/console/get_user_profile.php',
+        const getUserProfile = await new axios.get('//furry-world.ru/console/get_user_profile.php',
             {
                 headers: {
                     "Authorization": "Bearer " + localStorage.getItem("token"),
@@ -49,12 +61,21 @@ export default {
             this.userStatus = getUserProfile.data.status;
             if (this.userStatus.types.length > 0) {
                 for (let i = 0; i < this.userStatus.types.length; i++) {
-                    this.userStatus;
+                    console.log(this.userStatus.types[i]);
+                    if (this.userStatus.types[i] == 'comm') {
+                        this.userComms = true;
+                    } else if (this.userStatus.types[i] == 'trades') {
+                        this.userTrades = true;
+                    } else if (this.userStatus.types[i] == 'requests') {
+                        this.userRequests = true;
+                    } else if (this.userStatus.types[i] == 'nsfw') {
+                        this.userDrawNsfw = true;
+                    }
                 }
             }
             console.log(this.userStatus.types);
         }
-        const getUserFolders = await new axios.get('//img-fw.bb-wolf.site/console/get_user_folders.php', {
+        const getUserFolders = await new axios.get('//furry-world.ru/console/novel/get_novel_list_by_author.php?id=' + this.userLogin, {
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("token"),
             }
@@ -66,22 +87,18 @@ export default {
 
     },
     methods: {
-        async getChars() {
-            let getUserChars = await new axios.get('//img-fw.bb-wolf.site/console/get_user_character.php',
-                {
-                    headers: {
-                        "Authorization": "Bearer " + localStorage.getItem('token')
-                    }
-                }
-            );
-            if (getUserChars.data) {
-                this.userChars = getUserChars.data;
+        async fetchTags(tag) {
+            const lookUpTag = await axios.get('//furry-world.ru/console/get_search_tags.php?q=' + tag);
+
+            if (lookUpTag.data) {
+                document.querySelector('.filter-go').classList.add('filter-go--active');
+                return lookUpTag.data;
             } else {
-                notifications.generateNotification('bad', 'Ошибка загрузки списка персонажей')
+                //  return { label: 'По запросу ничего не найдено' };
             }
         },
         async getFavs() {
-            const getFavs = await new axios.get('//img-fw.bb-wolf.site/console/get_user_favs.php?user=' + this.userLogin,
+            const getFavs = await new axios.get('//furry-world.ru/console/get_user_favs.php?user=' + this.userLogin,
                 {
                     headers: {
                         "Authorization": "Bearer " + localStorage.getItem("token"),
@@ -100,6 +117,8 @@ export default {
 
         },
         newCharacterAvatar(e) {
+            let avatarFile = e.target.files || e.dataTransfer.files;
+            this.charAvatar = avatarFile[0];
 
         },
         onAvatarUpload(e) {
@@ -114,7 +133,7 @@ export default {
         async saveAvatar() {
             var avatarData = new FormData();
             avatarData.append('file', this.rawFile);
-            const request = await axios.post('//img-fw.bb-wolf.site/console/post_update_profile.php?mode=avatar', avatarData, {
+            const request = await axios.post('//furry-world.ru/console/post_update_profile.php?mode=avatar', avatarData, {
                 headers: {
                     "Authorization": "Bearer " + localStorage.getItem("token"),
                 }
@@ -154,18 +173,20 @@ export default {
                 var vals = infoFieildsContainer.querySelectorAll('.infoFieldVal');
 
                 for (let i = 0; i < labels.length; i++) {
-                    infoFields[i] = {
-                        type: "text",
-                        label: labels[i].innerHTML,
-                        value: vals[i].value
-                    };
+                    if (vals[i].value != '') {
+                        infoFields[i] = {
+                            type: "text",
+                            label: labels[i].innerHTML,
+                            value: vals[i].value
+                        };
+                    }
                 }
             }
 
             let mergedArray = [...newFields, ...infoFields];
             fieldsData.append('fields', JSON.stringify(mergedArray));
             fieldsData.append('username', document.querySelector('#username').value);
-            const request = await axios.post('//img-fw.bb-wolf.site/console/post_update_profile.php?mode=fields', fieldsData, {
+            const request = await axios.post('//furry-world.ru/console/post_update_profile.php?mode=fields', fieldsData, {
                 headers: {
                     "Authorization": "Bearer " + localStorage.getItem("token"),
                 }
@@ -177,7 +198,7 @@ export default {
 
         },
         saveStatus(status) {
-            let saveStatusRequest = new axios.get('//img-fw.bb-wolf.site/console/get_update_user_status.php?mode=' + status + '&token=' + localStorage.getItem('token'));
+            let saveStatusRequest = new axios.get('//furry-world.ru/console/get_update_user_status.php?mode=' + status + '&token=' + localStorage.getItem('token'));
             if (saveStatusRequest.data) {
                 if (saveStatusRequest.data.status == 'success') {
                     notifications.generateNotification('good', saveStatusRequest.data.text);
@@ -190,7 +211,7 @@ export default {
         },
         saveTags() { },
         createFolder() {
-            location.href = '/personal/folder/create/';
+            location.href = '/gallery/personal/folder/create/';
         }
     }
 }
@@ -204,15 +225,11 @@ export default {
                         Профиль
                     </TabsTrigger>
                     <TabsTrigger value="tab2" class="tab-button" :class="[{ [mobileBtnClass]: userDevice.isMobile }]">
-                        Галерея
+                        Рассказы
                     </TabsTrigger>
                     <TabsTrigger value="tab3" class="tab-button" :class="[{ [mobileBtnClass]: userDevice.isMobile }]"
                         @click="getFavs">
                         Избранное
-                    </TabsTrigger>
-                    <TabsTrigger @click="getChars" value="tab4" class="tab-button"
-                        :class="[{ [mobileBtnClass]: userDevice.isMobile }]">
-                        Персонажи
                     </TabsTrigger>
                     <TabsTrigger value="tab5" class="tab-button" :class="[{ [mobileBtnClass]: userDevice.isMobile }]">
                         Статистика
@@ -250,10 +267,11 @@ export default {
 
                             <input type="text" id="username" value="{{this.userLogin}}" class="infoFieldVal-username"
                                 v-model="this.userLogin" required>
-                            <div class="infoFields" v-if="userFields.length > 0">
+                            <div class="infoFields" v-if="userFields">
                                 <InputText v-for="userField in userFields" :key="userField"
                                     :inputLabel="userField.label" :inputValue="userField.value"
                                     :inputClass="'infoFieldVal'"> </InputText>
+
                             </div>
                             <div class="add-fields" @click="addField">Добавить поле</div>
                         </div>
@@ -262,85 +280,13 @@ export default {
                     <button class="update-btn" @click="saveFields">Сохранить</button>
 
                 </div>
-                <div class="profile-container" style="">
-                    <div class="h1">Статус</div>
-                    <div class="profile-section" style="flex-wrap: wrap;">
-                        <!-- User Data -->
-                        <div class="user-data">
-                            <SwitchButton :inputLabel='"Беру заказы"' :inputName="'comms'" @click="saveStatus('comm')">
-                            </SwitchButton>
-                        </div>
-                        <div class="user-data">
-                            <SwitchButton :inputLabel='"Беру трейды"' :inputName="'trades'"
-                                @click="saveStatus('trades')">
-                            </SwitchButton>
-                        </div>
-                        <div class="user-data">
-                            <SwitchButton :inputLabel='"Беру реквесты"' :inputName="'requests'"
-                                @click="saveStatus('requests')"> </SwitchButton>
-                        </div>
-                        <div class="user-data">
-                            <SwitchButton :inputLabel='"Рисую NSFW"' :inputName="'nsfw'" @click="saveStatus('nsfw')">
-                            </SwitchButton>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="profile-container">
-                    <div class="h1">Управление тегами</div>
-                    <div class="profile-section">
-                        <!-- User Data -->
-                        <div class="user-data">
-                            <div class="add-fields" @click="saveTags">Сохранить</div>
-                        </div>
-                    </div>
-                    <!-- Update Button -->
-                    <button class="update-btn" @click="saveFields">Сохранить</button>
-
-                </div>
-
-                <div class="profile-container" style="">
-                    <div class="h1">Связанные галереи для автопостинга (coming soon)</div>
-                    <div class="profile-section" style="flex-wrap: wrap;">
-                        <div class="user-data">
-                            <label>Telegam</label>
-                            <label>DeviantArt</label>
-                            <label>VK</label>
-                        </div>
-                    </div>
-                    <!-- Update Button -->
-                    <button class="update-btn">Сохранить</button>
-
-                </div>
-
             </TabsContent>
             <TabsContent value="tab2">
                 <div class="profile-container">
-                    <h2>Галерея</h2>
+                    <h2>Рассказы</h2>
                     <!-- Folders Section -->
                     <div class="folders-section">
-                        <h3>Альбомы</h3>
                         <div class="comics-container mt-20 mb-20 flex-wrap">
-                            <div class="card"
-                                style="box-shadow: 0px 0px 4px 1px rgba(255,255,255,0.1);background-color: rgba(0,0,0,0.4);">
-                                <div class="card__face card__face--front"
-                                    style="display: flex;justify-content: center;align-items: center;">
-                                    <div class="card__title"></div>
-                                    <div class="circle" @click="createFolder"><span class="plus"></span> </div>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <div class="card__face card__face--front">
-                                    <img src="https://i.loli.net/2019/11/23/cnKl1Ykd5rZCVwm.jpg" />
-                                </div>
-                                <div class="card__face card__face--overlay">
-                                    <div class="card__title">Все работы</div>
-                                    <div class="card__short-desc">Здесь лежат все ваши работы, которые не привязаны ни к
-                                        одному альбому</div>
-                                    <a class="card__link" href="/personal/folder/all/">Перейти к альбому</a>
-
-                                </div>
-                            </div>
                             <div class="card" v-for="folder in this.userFolders" :key="folder.id">
                                 <div class="card__face card__face--front">
                                     <img :src=folder.picture />
@@ -348,8 +294,8 @@ export default {
                                 <div class="card__face card__face--overlay">
                                     <div class="card__title">{{ folder.name }}</div>
                                     <div class="card__short-desc">{{ folder.description }}</div>
-                                    <a class="card__link" :href="'/personal/folder/' + folder.code + '/'">Перейти к
-                                        альбому</a>
+                                    <a class="card__link"
+                                        :href="'/novel/personal/story/' + folder.code + '/'">Редактировать</a>
                                 </div>
                             </div>
                         </div>
@@ -379,9 +325,8 @@ export default {
                         </div>
 
                         <!-- Character Image -->
-                        <div @click="$refs.characterImage.click()">
-                            <img src="https://via.placeholder.com/200" alt="Нажмите чтобы загрузить фото"
-                                class="character-image">
+                        <div @click="$refs.characterImage.click()" class="btn btn-default">
+                            Нажмите чтобы загрузить изображение
                             <input type="file" ref="characterImage" style="display: none" @change="newCharacterAvatar">
                         </div>
 
@@ -389,7 +334,7 @@ export default {
                             <!-- Character Information -->
                             <div class="character-info" id="characterInfo">
                                 <div class="field">
-                                    <label for="age">Имя</label>
+                                    <label for="age">Имя (макс. 256 символов)</label>
                                     <input type="text" id="age" v-model="charName" placeholder="Введите имя">
                                 </div>
 
@@ -399,31 +344,34 @@ export default {
                                         placeholder="Введите возраст персонажа">
                                 </div>
                                 <div class="field">
-                                    <label for="occupation">Вид</label>
+                                    <label for="occupation">Вид (макс. 256 символов)</label>
                                     <input type="text" id="occupation" v-model="charSpecie" placeholder="Введите вид">
                                 </div>
                                 <div class="field">
-                                    <label for="age">Краткое био</label>
+                                    <label for="age">Краткое био (макс. 5000 символов)</label>
                                     <input type="text" id="age" v-model="charBio" placeholder="Краткое био">
                                 </div>
                                 <div class="field">
-                                    <label for="age">Полное био</label>
+                                    <label for="age">Полное био (нет ограничений по символам)</label>
                                     <textarea v-model="charFullStory" placeholder="Полное био"></textarea>
                                 </div>
                                 <!-- Add Custom Field Button -->
-                                <button class="add-field-btn" id="addFieldButton">Добавить поле</button>
+                                <div class="btn btn--success" id="addFieldButton" @click="saveCharacter">Сохранить</div>
+
                             </div>
                         </div>
                     </div>
 
-                    <div class="character-container">
+                    <div class="character-container character-container__right">
+
                         <div class="image-grid" v-infinite-scroll="onLoadMore">
                             <div class="image-item" v-for="galleryImage in userChars" v-bind:key="galleryImage">
-                                <a :href="galleryImage.link">
+                                <a :href="'/gallery/author/' + this.userLogin + '/characters/' + galleryImage.code">
                                     <Image imageClass="" :imageSrc=galleryImage.picture
                                         :imageTitle="galleryImage.title + ' от ' + galleryImage.userName" imageAlt="">
                                     </Image>
                                 </a>
+                                <div class="character__name">{{ galleryImage.char.name }}</div>
                             </div>
                         </div>
                     </div>
@@ -638,6 +586,13 @@ input[type="file"] {
 
 .image-item {
     flex: 0 350px;
+    background-color: unset;
+    flex-direction: column;
+    text-align: center;
+}
+
+.character__name {
+    color: white;
 }
 
 .hint {
@@ -711,6 +666,15 @@ input[type="file"] {
 
 }
 
+
+
+#character {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 40px;
+}
+
 /* Basic styling */
 .character-info-wrapper {
     display: flex;
@@ -724,6 +688,10 @@ input[type="file"] {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.character-container__right {
+    max-width: 1200px;
 }
 
 /* Header section for name */

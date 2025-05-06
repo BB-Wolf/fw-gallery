@@ -25,15 +25,21 @@
             </div>
         </div>
         <div v-if="!this.searchOpen" class="tag-container">
-            <a v-for=" tag in tags" v-bind:key="tag.link" :href="tag.link">{{ tag.title }}</a>
+            <a v-for="tag in tags" v-bind:key="tag.link" :href="tag.link">{{ tag.title }}</a>
+        </div>
+        <div v-if="!this.searchOpen" class="tags-wrapper">
+            <div class="tags-scroll">
+                <a v-for="tag in tags" v-bind:key="tag.link" :href="tag.link">{{ tag.title }}</a>
+                <!-- Добавь ещё тегов по вкусу -->
+            </div>
         </div>
 
         <div v-if="this.searchOpen" class="tag-container">
             <Multiselect v-model="tags" placeholder="Выберите теги" :filter-results="false" :min-chars="2"
                 :resolve-on-load="false" :mode="'multiple'" :delay="3" :close-on-select="true" :limit="10"
-                :searchable="true" :options="async function(query) {
-    return await fetchTags(query)
-  }" />
+                :searchable="true" :options="async function (query) {
+                    return await fetchTags(query)
+                }" />
         </div>
         <div class="filter-go" @click="filterTags()">Фильтр</div>
 

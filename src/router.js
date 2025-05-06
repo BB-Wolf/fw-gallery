@@ -246,6 +246,16 @@ rts = [
         name: 'PersonalNovel',
         path: '/novel/personal/',
         component: () => import('@novel/components/pages/Personal.vue')
+      },
+      {
+        name: 'PersonalNovelAdd',
+        path: '/novel/personal/add',
+        component: () => import('@novel/components/pages/PersonalAddNovel.vue')
+      },
+      {
+        name: 'PersonalNovelEdit',
+        path: '/novel/personal/story/:code/',
+        component: () => import('@novel/components/pages/PersonalEditNovel.vue')
       }
     ]
   },
