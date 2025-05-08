@@ -9,6 +9,8 @@ export default
                 nextPage: null,
                 prevPage: null,
                 novelText: '',
+                novelChars: '',
+                novelGenre: '',
             }
         },
         async created() {
@@ -18,6 +20,7 @@ export default
                 this.novelText = novelData.data.text;
                 this.nextPage = novelData.data.next;
                 this.prevPage = novelData.data.prev;
+                this.novelChars = novelData.data.characters;
             }
         },
     }
@@ -25,6 +28,10 @@ export default
 <template>
     <div class="content">
         <div class="story-title">{{ novelTitle }}</div>
+        <div class="story-chars" v-if="this.$route.params.page == 1">
+            <span class="muted">Персонажи:</span>
+            {{ novelChars }}
+        </div>
 
         <div class="story-text" v-html="novelText"></div>
     </div>
@@ -61,6 +68,14 @@ export default
     margin-bottom: 40px;
     white-space: pre-wrap;
     color: white;
+}
+
+.story-chars,
+.story-chars a {
+    font-size: 1.1em;
+    margin-bottom: 20px;
+    color: #e0e0e0;
+
 }
 
 .pagination {

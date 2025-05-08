@@ -47,8 +47,8 @@ export default
                 formData.append('genre', this.genre);
                 formData.append('fandom', this.fandom);
                 formData.append('charList', this.charList);
-                formData.append('rate', this.rate);
-                formData.append('draft', 'y');
+                formData.append('rate', this.storyRate);
+                formData.append('draft', 1);
 
                 if (this.cover) {
                     formData.append('cover', this.cover);
@@ -77,7 +77,7 @@ export default
                 formData.append('genre', this.genre);
                 formData.append('fandom', this.fandom);
                 formData.append('charList', this.charList);
-                formData.append('rate', this.rate);
+                formData.append('rate', this.storyRate);
 
                 if (this.cover) {
                     formData.append('cover', this.cover);
@@ -95,6 +95,29 @@ export default
                     }
                 });
             },
+            async deleteWork() {
+                let result = prompt("Вы точно хотите удалить изображение? Напишите 'удалить' для удаления (без кавычек)");
+                if (result === 'удалить') {
+                    let sendDeleteRequest = await new axios.get('//furry-world.ru/console/novel/get_delete_novel.php?id=' + this.$route.params.code,
+                        {
+                            headers: {
+                                "Authorization": "Bearer " + localStorage.getItem("token"),
+                            }
+
+                        }
+                    );
+                    if (sendDeleteRequest.data && sendDeleteRequest.data.status == 'success') {
+                        window.location.href = '/novel/personal/';
+                    } else {
+                        let errorText = '';
+                        if (sendDeleteRequest.data) { errorText = sendDeleteRequest.data.text; } else {
+                            errorText = 'Произошла ошибка удаления. Попробуйте еще раз';
+                        }
+                        notifications.generateNotification('Ошибка', errorText);
+                    }
+                }
+
+            }
         },
         data() {
             return {
@@ -115,10 +138,12 @@ export default
                 showSetting: false,
                 showCharacter: false,
                 showCover: false,
+                storyRate: 13,
                 pairing: '',
                 genres: [],
                 fandoms: [],
-                loaded: false
+                draft: '',
+                loaded: false,
             }
         },
 
@@ -139,9 +164,11 @@ export default
                 this.charList = novelData.data.charList;
                 this.genre = novelData.data.genre;
                 this.fandom = novelData.data.fandom;
+                this.charList = novelData.data.characters;
                 this.coverRaw = novelData.data.cover;
-                this.rate = novelData.data.rate;
+                this.storyRate = novelData.data.rate;
                 this.pairing = novelData.data.pairing;
+                this.draft = novelData.data.draft;
                 this.editor = new Editor({
                     content: novelData.data.content,
                     extensions: [StarterKit],
@@ -194,7 +221,7 @@ export default
                 </div>
                 <div class="tab__rate mt-20 section-container" v-if="showRate">
                     <label for="">Рейтинг</label>
-                    <Multiselect :options="rate"></Multiselect>
+                    <Multiselect :options="rate" v-model="storyRate"></Multiselect>
                 </div>
                 <div class="tab__type mt-20 section-container" v-if="showGenre">
                     <label>Жанр</label>
@@ -207,8 +234,11 @@ export default
                 </div>
                 <div class="mt-10 section-container">
                     <editor-content :content="''" :editor="editor" />
-                    <div class="btn btn--info mt-20" @click="saveDraft">Сохранить в черновик</div>
-                    <div class="btn btn--success mt-20" @click="saveWork">Сохранить</div>
+                    <div v-if="draft == 1" class="btn btn--info mt-20" @click="saveDraft">Сохранить черновик</div>
+                    <div v-if="draft == 0" class="btn btn--info mt-20" @click="saveDraft">Переместить в черновик и
+                        сохранить</div>
+                    <div class="btn btn--success mt-20" @click="saveWork">Сохранить и опубликовать</div>
+                    <div class="btn btn--danger mt-20" @click="deleteWork">Удалить</div>
                 </div>
             </div>
         </section>

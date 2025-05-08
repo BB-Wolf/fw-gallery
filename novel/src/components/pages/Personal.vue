@@ -316,68 +316,6 @@ export default {
                     </div>
                 </div>
             </TabsContent>
-            <TabsContent value="tab4">
-                <div class="h1">Ваши персонажи</div>
-                <section id="character">
-                    <div class="character-container">
-                        <div class="character-header">
-                            <h1>Добавить нового персонажа</h1>
-                        </div>
-
-                        <!-- Character Image -->
-                        <div @click="$refs.characterImage.click()" class="btn btn-default">
-                            Нажмите чтобы загрузить изображение
-                            <input type="file" ref="characterImage" style="display: none" @change="newCharacterAvatar">
-                        </div>
-
-                        <div class="character-info-wrapper">
-                            <!-- Character Information -->
-                            <div class="character-info" id="characterInfo">
-                                <div class="field">
-                                    <label for="age">Имя (макс. 256 символов)</label>
-                                    <input type="text" id="age" v-model="charName" placeholder="Введите имя">
-                                </div>
-
-                                <div class="field">
-                                    <label for="age">Возраст</label>
-                                    <input type="text" id="age" v-model="charAge"
-                                        placeholder="Введите возраст персонажа">
-                                </div>
-                                <div class="field">
-                                    <label for="occupation">Вид (макс. 256 символов)</label>
-                                    <input type="text" id="occupation" v-model="charSpecie" placeholder="Введите вид">
-                                </div>
-                                <div class="field">
-                                    <label for="age">Краткое био (макс. 5000 символов)</label>
-                                    <input type="text" id="age" v-model="charBio" placeholder="Краткое био">
-                                </div>
-                                <div class="field">
-                                    <label for="age">Полное био (нет ограничений по символам)</label>
-                                    <textarea v-model="charFullStory" placeholder="Полное био"></textarea>
-                                </div>
-                                <!-- Add Custom Field Button -->
-                                <div class="btn btn--success" id="addFieldButton" @click="saveCharacter">Сохранить</div>
-
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="character-container character-container__right">
-
-                        <div class="image-grid" v-infinite-scroll="onLoadMore">
-                            <div class="image-item" v-for="galleryImage in userChars" v-bind:key="galleryImage">
-                                <a :href="'/gallery/author/' + this.userLogin + '/characters/' + galleryImage.code">
-                                    <Image imageClass="" :imageSrc=galleryImage.picture
-                                        :imageTitle="galleryImage.title + ' от ' + galleryImage.userName" imageAlt="">
-                                    </Image>
-                                </a>
-                                <div class="character__name">{{ galleryImage.char.name }}</div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-            </TabsContent>
             <TabsContent value="tab5">
                 <div class="h1">Скоро</div>
             </TabsContent>
