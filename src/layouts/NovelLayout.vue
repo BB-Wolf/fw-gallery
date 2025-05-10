@@ -1,6 +1,6 @@
 <script setup>
 import Header from '@novel/components/organisms/Header.vue';
-import Footer from '@gallery/components/organisms/Footer.vue';
+import Footer from '@novel/components/organisms/Footer.vue';
 </script>
 <script>
 export default

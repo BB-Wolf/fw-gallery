@@ -238,6 +238,12 @@ rts = [
         meta: { transition: 'slide-right' }
       },
       {
+        name: 'MainPagination',
+        path: '/novel/:page/',
+        component: () => import('@novel/components/pages/Home.vue'),
+        meta: { transition: 'slide-right' }
+      },
+      {
         name: 'Detail',
         path: '/novel/:author/:name/:page/',
         component: () => import('@novel/components/pages/StoryDetail.vue')

@@ -227,10 +227,10 @@ export default {
                     <TabsTrigger value="tab2" class="tab-button" :class="[{ [mobileBtnClass]: userDevice.isMobile }]">
                         Рассказы
                     </TabsTrigger>
-                    <TabsTrigger value="tab3" class="tab-button" :class="[{ [mobileBtnClass]: userDevice.isMobile }]"
+                    <!--  <TabsTrigger value="tab3" class="tab-button" :class="[{ [mobileBtnClass]: userDevice.isMobile }]"
                         @click="getFavs">
                         Избранное
-                    </TabsTrigger>
+                    </TabsTrigger>-->
                     <TabsTrigger value="tab5" class="tab-button" :class="[{ [mobileBtnClass]: userDevice.isMobile }]">
                         Статистика
                     </TabsTrigger>

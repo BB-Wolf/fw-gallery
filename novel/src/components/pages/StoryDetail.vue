@@ -11,12 +11,15 @@ export default
                 novelText: '',
                 novelChars: '',
                 novelGenre: '',
+                novelTags: '',
             }
         },
         async created() {
             let novelData = await new axios('//furry-world.ru/console/novel/get_novel.php?code=' + this.$route.params.name + '&page=' + this.$route.params.page);
             if (novelData.data) {
                 this.novelTitle = novelData.data.title;
+                this.novelGenre = novelData.data.genre;
+                this.novelTags = novelData.data.tags;
                 this.novelText = novelData.data.text;
                 this.nextPage = novelData.data.next;
                 this.prevPage = novelData.data.prev;
@@ -28,9 +31,20 @@ export default
 <template>
     <div class="content">
         <div class="story-title">{{ novelTitle }}</div>
-        <div class="story-chars" v-if="this.$route.params.page == 1">
-            <span class="muted">Персонажи:</span>
-            {{ novelChars }}
+        <div class="story-block section-container" v-if="this.$route.params.page == 1">
+            <div class="story-chars">
+                <span class="">Персонажи: </span>
+                <span class="">{{ novelChars }}</span>
+            </div>
+            <div class="story-genre">
+                <span class="">Жанр: </span>
+                {{ novelGenre }}
+            </div>
+            <div class="story-tags">
+                <span class="">Теги: </span>
+                <span class="">{{ novelTags }}</span>
+            </div>
+
         </div>
 
         <div class="story-text" v-html="novelText"></div>
@@ -67,7 +81,19 @@ export default
     font-size: 1.1em;
     margin-bottom: 40px;
     white-space: pre-wrap;
+    color: rgb(208, 208, 208);
+}
+
+.story-block {
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     color: white;
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
 }
 
 .story-chars,

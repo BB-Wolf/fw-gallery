@@ -9,7 +9,7 @@ export default {
     },
     methods: {
         switchMode(mode) {
-            siteVersion.currentState = mode;
+            window.location.href = '/' + mode + '/';
         }
     }
 }
@@ -18,9 +18,7 @@ export default {
     <section id="switch">
         <div class="switch-container">
             <div class="switch-tab switch-tab--active" @click="switchMode('gallery')" title="gallery">Галерея</div>
-            <div class="switch-tab switch-tab--soon" @click="switchMode('novel')" title='texts'>Тексты</div>
-            <div class="switch-tab switch-tab--soon" @click="switchMode('rp')" title='texts'>RP</div>
-            <div class="switch-tab switch-tab--soon" @click="switchMode('3d')" title='texts'>3D</div>
+            <div class="switch-tab " @click="switchMode('novel')" title='texts'>Тексты</div>
         </div>
     </section>
     <footer>

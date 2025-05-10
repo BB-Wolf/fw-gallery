@@ -107,6 +107,7 @@ export default
                 coverRaw: null,
                 rate: [0, 12, 16, 18, 21],
                 setting: null,
+                tags: '',
                 activeTab: 'main',
                 showGenre: false,
                 showRate: false,
@@ -167,11 +168,11 @@ export default
                 <div class="tab__character mt-20 section-container" v-if="showCover">
                     <label v-if="cover == null">Загрузите обложку </label>
                     <img class="cover" :src="this.coverRaw">
-                    <div class="btn btn--warning" @click="this.$refs.file.click()">Загрузить изображение</div>
-                    <input type="file" @change="buildPreview" ref="file">
+                    <div class="btn btn--warning" @click="this.$refs.file.click()">Загрузить изображение (не более
+                        5 мб.)</div> <input type="file" @change="buildPreview" ref="file">
                 </div>
                 <div class="tab__character mt-20 section-container" v-if="showCharacter">
-                    <label>Список персонажей, указывайте через запятую </label>
+                    <label>Список персонажей (указываются через запятую) </label>
                     <input type="text" v-model="charList">
                 </div>
                 <div class="tab__rate mt-20 section-container" v-if="showRate">
@@ -184,8 +185,8 @@ export default
                     <div class="mt-20" style="display: flex; flex-wrap: nowrap; gap: 10px;">
                         <div v-for="astag in genre" :key="astag" class="btn">{{ astag }}</div>
                     </div>
-                    <label>Пейринг</label>
-                    <input type="text" v-model="pairing">
+                    <label>Теги (указываются через запятую)</label>
+                    <input type="text" v-model="tags">
                 </div>
                 <div class="mt-10 section-container">
                     <editor-content :content="''" :editor="editor" />

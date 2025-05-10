@@ -140,6 +140,7 @@ export default
                 showCover: false,
                 storyRate: 13,
                 pairing: '',
+                tags: '',
                 genres: [],
                 fandoms: [],
                 draft: '',
@@ -168,6 +169,7 @@ export default
                 this.coverRaw = novelData.data.cover;
                 this.storyRate = novelData.data.rate;
                 this.pairing = novelData.data.pairing;
+                this.tags = novelData.data.tags;
                 this.draft = novelData.data.draft;
                 this.editor = new Editor({
                     content: novelData.data.content,
@@ -196,7 +198,7 @@ export default
                 <div class="btn block-btn block-btn--active">Основное</div>
                 <div class="btn block-btn" @click="switchTab($event, 'cover')">Обложка</div>
                 <div class="btn block-btn" @click="switchTab($event, 'character')">Персонажи</div>
-                <div class="btn block-btn" @click="switchTab($event, 'genre')">Жанр/Пейринг</div>
+                <div class="btn block-btn" @click="switchTab($event, 'genre')">Жанр/Теги</div>
                 <div class="btn block-btn" @click="switchTab($event, 'rate')">Рейтинг</div>
             </div>
             <div class="content-block">
@@ -212,11 +214,12 @@ export default
                 <div class="tab__character mt-20 section-container" v-if="showCover">
                     <label v-if="cover == null">Загрузите обложку </label>
                     <img class="cover" :src="this.coverRaw">
-                    <div class="btn btn--warning" @click="this.$refs.file.click()">Загрузить изображение</div>
+                    <div class="btn btn--warning" @click="this.$refs.file.click()">Загрузить изображение (не более
+                        5 мб.)</div>
                     <input type="file" @change="buildPreview" ref="file">
                 </div>
                 <div class="tab__character mt-20 section-container" v-if="showCharacter">
-                    <label>Список персонажей, указывайте через запятую </label>
+                    <label>Список персонажей (указываются через запятую) </label>
                     <input type="text" v-model="charList">
                 </div>
                 <div class="tab__rate mt-20 section-container" v-if="showRate">
@@ -226,11 +229,11 @@ export default
                 <div class="tab__type mt-20 section-container" v-if="showGenre">
                     <label>Жанр</label>
                     <Multiselect searchable="true" mode="multiple" :options="genres" v-model="genre"></Multiselect>
-                    <div class="mt-20" style="display: flex; flex-wrap: nowrap; gap: 10px;">
+                    <div class="mt-20" v-show="genre != ''" style="display: flex; flex-wrap: nowrap; gap: 10px;">
                         <div v-for="astag in genre" :key="astag" class="btn">{{ astag }}</div>
                     </div>
-                    <label>Пейринг</label>
-                    <input type="text" v-model="pairing">
+                    <label>Теги (указываются через запятую)</label>
+                    <input type="text" v-model="tags">
                 </div>
                 <div class="mt-10 section-container">
                     <editor-content :content="''" :editor="editor" />

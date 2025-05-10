@@ -6,7 +6,7 @@
                 <input type="file" name="file" ref="file" @change="drop" accept=".gif,.webp, .jpg, .jpeg, .png">
                 <div class="upload-header" v-if="!file">Перенесите изображение
                     <span class="upload-clicker" @click="$refs.file.click()">
-                        или нажмите здесь</span>
+                        или <b><u> нажмите здесь</u></b></span>
                 </div>
 
                 <div class="upload-image" v-if="file">
@@ -18,7 +18,7 @@
 
             <span class="close" @click="closeModal"></span>
             <div class="modal-title">
-                <div class="h1" style="color:black">Загрузите Вашу работу</div>
+                <div class="h1">Загрузите Вашу работу</div>
             </div>
             <div class="modal-body">
                 <div class="wait-container" v-if="this.sending">
@@ -70,9 +70,10 @@
                         </div>
                     </div>-->
                 </div>
+                <button class="btn btn--info mt-20" @click="sendData">Отправить</button>
+
             </div>
             <div class="modal-foot" v-if="!this.sending">
-                <button class="button-53" @click="sendData">Отправить</button>
             </div>
         </div>
     </div>
@@ -101,7 +102,7 @@ export default {
             rate: null,
             folder: null,
             rateOptions: [
-                'Clean',
+                '0+',
                 '16+',
                 '18+',
             ],
@@ -230,9 +231,13 @@ export default {
 
 
 <style scoped>
+.multiselect-wrapper {
+    background-color: #d9d9d9;
+}
+
 input[type='text'],
 textarea {
-    background-color: #fff;
+    background-color: #d9d9d9;
     color: #000;
 
 }
@@ -315,7 +320,8 @@ textarea {
     transform: translate(-50%, -50%);
     position: fixed;
     display: flex;
-    background-color: white;
+    background-color: #2b2b2b;
+    color: #d9d9d9;
     flex-direction: row;
     box-shadow: 0px 0px 5px 5px rgba(0, 0, 0, 0.3);
     z-index: 999999;
@@ -357,7 +363,7 @@ textarea {
 
 .modal-right-column .modal-body {
     width: 100%;
-    padding: 0 40px 0px 0px;
+    padding: 0 20px 0px 0px;
     height: 100%;
     overflow-y: auto;
 

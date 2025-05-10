@@ -9,7 +9,7 @@
     </div>
 </template>
 <script>
-import { notifications } from '@/state';
+import { notifications } from '@main/state';
 export default {
     data() {
         return {
@@ -20,8 +20,7 @@ export default {
     },
     methods:
     {
-        toggleBell()
-        {
+        toggleBell() {
             notifications.showNotificationModal = !notifications.showNotificationModal;
         }
     }

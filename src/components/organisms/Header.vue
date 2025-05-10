@@ -1,6 +1,7 @@
 <script>
 import { modalState, isUserLogged, mobileDevice } from '@main/state';
 import ModalLogin from '@gallery/components/organisms/ModalLogin.vue';
+import axios from 'axios';
 
 export default {
     components: {
@@ -24,7 +25,33 @@ export default {
     {
         showLogin() {
             modalState.isModalLoginVisible = true;
-        }
+        },
+        async switchNSFW() {
+            const nswfReq = await new axios.get('//furry-world.ru/console/get_switch_nsfw.php',
+                {
+                    headers: {
+                        "Authorization": "Bearer " + localStorage.getItem("token"),
+                    }
+                }
+            );
+            if (nswfReq.data) {
+                if (nswfReq.data.nsfw == 7) {
+                    this.nswfState = '0+';
+                    localStorage.setItem('token', nswfReq.data.token);
+                    localStorage.setItem('nsfw', '0+');
+                }
+                if (nswfReq.data.nsfw == 8) {
+                    this.nswfState = '16+';
+                    localStorage.setItem('token', nswfReq.data.token);
+                    localStorage.setItem('nsfw', '16+');
+                }
+                if (nswfReq.data.nsfw == 9) {
+                    this.nswfState = '18+';
+                    localStorage.setItem('token', nswfReq.data.token);
+                    localStorage.setItem('nsfw', '18+');
+                }
+            }
+        },
     }
 }
     ;
@@ -42,7 +69,6 @@ export default {
             <a href="/novel/">Рассказы</a>
             <!--  <a href="/novel/">Рассказы</a>-->
             <a href="#" v-show="!isUser" @click="showLogin">Войти</a>
-            <a href='/personal/' v-show="isUser">Профиль</a>
             <a v-show="isUser" @click="logout">Выйти</a>
         </nav>
     </header>
