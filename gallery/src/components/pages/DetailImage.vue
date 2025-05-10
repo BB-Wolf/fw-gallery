@@ -124,7 +124,6 @@ export default
             const md = markdownit();
             DetailImageApi.getDetailImage(this.$route.params.user, this.$route.params.image, localStorage.getItem("token")).then(
                 data => {
-                    console.log(data);
                     this.imageData = data.data;
                     this.imageData.imageDescription = md.renderInline(this.imageData.imageDescription);
                     document.title = this.imageData.imageTitle + ', ' + this.imageData.imageDescription;
