@@ -25,8 +25,9 @@
                 <p v-html="imageData.imageDescription"></p>
                 <!-- Meta Information (e.g., artist, year, dimensions) -->
                 <div class="meta-info">
-                    <span><strong>Автор:</strong> <a class="author-link" :href="'/author/' + imageData.imageAuthor">{{
-                        $route.params.user }}</a></span>
+                    <span><strong>Автор:</strong> <a class="author-link"
+                            :href="'/gallery/author/' + imageData.imageAuthor">{{
+                                $route.params.user }}</a></span>
                     <span><strong>Дата:</strong> {{ imageData.imagePostDate }}</span>
                     <span><strong>Разрешение:</strong> {{ imageData.imageDimension.width }}x{{
                         imageData.imageDimension.height }}
