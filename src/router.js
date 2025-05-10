@@ -159,6 +159,9 @@ rts = [
       {
         name: 'NotFound',
         path: '/:catchAll(.*)/',
+        beforeEnter() {
+          window.location.href = 'https://furry-world.ru/404'
+        },
         component: () => import('@gallery/components/pages/NotFound.vue'),
         meta: {
           requiresAuth: false
