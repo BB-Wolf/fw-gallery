@@ -8,7 +8,8 @@
                 <span class="close" @click="closeModal"></span>
                 <div class="modal-title">
                     <div class="h1">Добро пожаловать</div>
-                    <div>Если Вы уже регистрировались, введите Ваши данные для авторизации</div>
+                    <div style="color: #d8d8d8;">Если Вы уже регистрировались, введите Ваши данные для авторизации
+                    </div>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
@@ -24,7 +25,8 @@
                     </div>
                 </div>
                 <div class="modal-foot">
-                    <a href="/access-recovery/">Забыл пароль</a>
+                    <telegram-login-temp mode="callback" telegram-login="FWAuthorizeBot"
+                        @loaded='telegramLoadedCallbackFunc' redirect-url="https://furry-world.ru" />
                     <!--  Войти с помощью:
                     <div class="modal-oauth">
                     
@@ -41,10 +43,10 @@
 </template>
 
 <style scoped>
-input[type='text'] {
-    background-color: #fff;
+input[type='text'],
+input[type="password"] {
+    background-color: #bfbfbf;
     color: #000;
-
 }
 
 .overlay-bg {
@@ -67,7 +69,7 @@ input[type='text'] {
     transform: translate(-50%, -50%);
     position: fixed;
     display: flex;
-    background-color: white;
+    background-color: #2b2b2b;
     flex-direction: row;
     box-shadow: 0px 0px 5px 5px rgba(0, 0, 0, 0.3);
     z-index: 999999;
@@ -98,6 +100,8 @@ input[type='text'] {
     font-weight: 700;
     padding-top: 20px;
     text-align: left;
+    color: #d8d8d8;
+
 }
 
 
@@ -126,6 +130,8 @@ input[type='text'] {
 .form-group label {
     font-size: 18px;
     font-weight: 600;
+    color: #d8d8d8;
+
 }
 
 

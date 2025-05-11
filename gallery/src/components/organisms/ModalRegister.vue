@@ -34,14 +34,12 @@
             <div class="modal-title">
                 <noindex>
                     <div class="h1">Добро пожаловать</div>
-                    <div>Выберите удобный режим регистрации. <br />
-                    </div>
-
                 </noindex>
             </div>
             <div class="modal-body">
-                <telegram-login-temp mode="redirect" telegram-login="FWAuthorizeBot"
+                <telegram-login-temp mode="callback" telegram-login="FWAuthorizeBot"
                     @loaded='telegramLoadedCallbackFunc' redirect-url="https://furry-world.ru" />
+                <div class="btn" @click="this.regMode = ''">Назад</div>
             </div>
         </div>
     </div>
@@ -83,7 +81,7 @@
             <div class="modal-foot">
                 <div class="" v-if="hasResponse">
                     <div v-if="!responseData.success" style="font-weight: bold;color:red;">{{ responseData.text
-                        }}
+                    }}
                     </div>
                 </div>
                 <div class="btn" @click="this.regMode = ''">Назад</div>
