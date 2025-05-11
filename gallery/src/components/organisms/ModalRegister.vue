@@ -81,7 +81,7 @@
             <div class="modal-foot">
                 <div class="" v-if="hasResponse">
                     <div v-if="!responseData.success" style="font-weight: bold;color:red;">{{ responseData.text
-                    }}
+                        }}
                     </div>
                 </div>
                 <div class="btn" @click="this.regMode = ''">Назад</div>
@@ -400,7 +400,7 @@ export default {
             // photo_url, auth_date and hash
             let registerRequest = await axios.post('//furry-world.ru/console/post_register.php',
                 {
-                    login: user.login,
+                    login: user.username,
                     password: user.hash,
                     ext_id: user.id,
                     ext: 'tg'
@@ -415,6 +415,11 @@ export default {
                     this.responseData = registerRequest.data;
                     localStorage.setItem('token', this.responseData.token);
                     location.reload;
+                } else {
+                    document.querySelector('#register').classList.add('shake-form');
+                    setTimeout(() => document.querySelector('#register').classList.remove('shake-form'), 500);
+                    this.hasResponse = true;
+                    this.responseData = registerRequest.data;
                 }
             }
 
@@ -441,7 +446,7 @@ export default {
             );
 
             if (registerRequest.data) {
-                if (registerRequest.data.success == ' true') {
+                if (registerRequest.data.success == 'true') {
                     this.hasResponse = true;
                     this.responseData = registerRequest.data;
                     localStorage.setItem('token', this.responseData.token);
