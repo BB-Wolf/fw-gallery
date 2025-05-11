@@ -36,7 +36,7 @@
                     <div class="h1">Добро пожаловать</div>
                 </noindex>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" v-if="getTgResponse == false">
                 <telegram-login-temp mode="callback" telegram-login="FWAuthorizeBot" @callback='yourCallbackFunction'
                     redirect-url="https://furry-world.ru" />
                 <div class="btn" @click="this.regMode = ''">Назад</div>
@@ -81,7 +81,7 @@
             <div class="modal-foot">
                 <div class="" v-if="hasResponse">
                     <div v-if="!responseData.success" style="font-weight: bold;color:red;">{{ responseData.text
-                        }}
+                    }}
                     </div>
                 </div>
                 <div class="btn" @click="this.regMode = ''">Назад</div>
@@ -385,6 +385,7 @@ export default {
             regMode: '',
             password: null,
             email: null,
+            getTgResponse: false,
             hasResponse: false,
             responseData: {
                 'success': false
@@ -393,11 +394,30 @@ export default {
     },
     methods:
     {
-        yourCallbackFunction(user) {
+        async yourCallbackFunction(user) {
             // gets user as an input
             // id, first_name, last_name, username,
             // photo_url, auth_date and hash
-            console.log(user)
+            let registerRequest = await axios.post('//furry-world.ru/console/post_register.php',
+                {
+                    login: user.login,
+                    password: user.hash,
+                    ext_id: user.id,
+                    ext: 'tg'
+                }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            if (registerRequest.data) {
+                if (registerRequest.data.success) {
+                    this.hasResponse = true;
+                    this.responseData = registerRequest.data;
+                    localStorage.setItem('token', this.responseData.token);
+                    location.reload;
+                }
+            }
+
         },
         closeModal() {
             modalState.isModalRegisterVisible = false;
