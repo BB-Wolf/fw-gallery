@@ -1,11 +1,13 @@
 <script>
 import { modalState, isUserLogged, mobileDevice } from '@main/state';
 import ModalLogin from '@gallery/components/organisms/ModalLogin.vue';
+import ModalRegister from '@gallery/components/organisms/ModalRegister.vue';
 import axios from 'axios';
 
 export default {
     components: {
-        ModalLogin
+        ModalLogin,
+        ModalRegister
     },
     data() {
         return {
@@ -52,6 +54,10 @@ export default {
                 }
             }
         },
+        logout() {
+            localStorage.removeItem('token');
+            location.reload;
+        }
     }
 }
     ;
