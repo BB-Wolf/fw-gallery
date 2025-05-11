@@ -160,6 +160,8 @@ footer {
 <script>
 import GalleryBlock from '@main/components/organisms/GalleryBlock.vue';
 import ComicsList from '@main/components/organisms/ComicsList.vue';
+import Seo from '@main/api/seo/Seo.js';
+
 export default
     {
         components:
@@ -167,5 +169,9 @@ export default
             GalleryBlock,
             ComicsList
         },
+        created() {
+            Seo.setPageSeo('Фурри Мир. Комиксы, фанфики и рассказы', 'Фурри Мир - это комиксы, фанфики и рассказы, которые погружают вас в мир фурри. Мы рады видеть вас на нашем сайте, где вы можете наслаждаться увлекательными историями и красивыми иллюстрациями.')
+            Seo.setPageCanonical('https://furry-world.ru/');
+        }
     }
 </script>

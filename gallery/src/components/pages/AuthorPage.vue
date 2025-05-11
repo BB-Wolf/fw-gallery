@@ -164,7 +164,7 @@ h1 {
     padding: 0 20px;
     display: flex;
     margin: 0 auto;
-    gap: 120px;
+    gap: 20px;
     flex-wrap: wrap;
 }
 
@@ -280,6 +280,7 @@ import { TabsContent, TabsList, TabsRoot, TabsTrigger } from 'radix-vue'
 import axios from 'axios';
 import Image from '../atoms/Image.vue';
 import { notifications, mobileDevice } from '@main/state';
+import Seo from '@main/api/seo/Seo.js';
 
 export default {
     components:
@@ -344,6 +345,12 @@ export default {
                     }
                 }
             );
+            Seo.setPageSeo('Фурри Мир. Страничка художника ' + this.userProfile.user,
+                'Страничка художника ' + this.userProfile.user + '. Здесь вы можете найти все работы художника, а также подписаться на него и следить за его работами.',
+                this.userProfile.user,
+
+            );
+            Seo.setPageCanonical('https://furry-world.ru/author/' + this.userProfile.user + '/');
             if (gallery.data) {
                 this.newImages = gallery.data;
             }

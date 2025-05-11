@@ -21,7 +21,7 @@
 
             <!-- Right Column (30%): Image Info Section -->
             <div class="image-info">
-                <h2>{{ imageData.imageTitle }}</h2>
+                <h1>{{ imageData.imageTitle }}</h1>
                 <p v-html="imageData.imageDescription"></p>
                 <!-- Meta Information (e.g., artist, year, dimensions) -->
                 <div class="meta-info">
@@ -103,8 +103,9 @@
 import axios from 'axios';
 import markdownit from 'markdown-it';
 import 'vue-image-zoomer/dist/style.css';
-import DetailImageApi from '@gallery/api/DetailImage.js';
 import { notifications } from '@main/state';
+import Seo from '@main/api/seo/Seo.js';
+
 export default
     {
         data() {
@@ -121,20 +122,34 @@ export default
                 this.commentsData = comments.data;
             }
         },
-        mounted() {
+        async mounted() {
             const md = markdownit();
-            DetailImageApi.getDetailImage(this.$route.params.user, this.$route.params.image, localStorage.getItem("token")).then(
-                data => {
-                    this.imageData = data.data;
-                    this.imageData.imageDescription = md.renderInline(this.imageData.imageDescription);
-                    document.title = this.imageData.imageTitle + ', ' + this.imageData.imageDescription;
-                    let keywords = this.imageData.tags.map(function (elem) {
+            let getImageData = await new axios.get('//furry-world.ru/console/get_detail_image.php?user=' + this.$route.params.user + '&code=' + this.$route.params.image, {
+                headers: {
+                    'Authorization': "Bearer " + localStorage.getItem('token')
+                }
+            });
+            if (getImageData.data) {
+                this.imageData = getImageData.data;
+                this.imageData.imageDescription = md.renderInline(getImageData.data.imageDescription);
+
+                let keywords;
+                if (this.imageData.tags) {
+                    keywords = this.imageData.tags.map(function (elem) {
                         return elem.name;
                     }).join(",");
-                    document.querySelector('meta[name="keywords"]').setAttribute("content", 'автор ' + this.imageData.imageAuthor + ', ' + keywords);
-                    document.querySelector('meta[name="description"]').setAttribute("content", 'Автор: ' + this.imageData.imageAuthor + ' ' + this.imageData.imageDescription);
+                    keywords += ',арт,фурри, фурри арт, furry, furry art,furry fandom, furry community';
+                } else {
+                    keywords = 'арт,фурри, фурри арт, furry, furry art,furry fandom, furry community,' + this.imageData.imageTitle + ',' + this.imageData.imageAuthor;
                 }
-            );
+                Seo.setPageSeo(
+                    this.imageData.imageTitle + ' от ' + this.imageData.imageAuthor,
+                    'Работа автора ' + this.imageData.imageAuthor + ': ' + this.imageData.imageDescription,
+                    this.imageData.imageAuthor,
+                    keywords,
+                );
+                Seo.setPageCanonical('/gallery/' + this.$route.params.user + '/' + this.$route.params.image);
+            }
 
         },
         methods:
@@ -202,6 +217,10 @@ export default
 </script>
 
 <style scoped>
+h1 {
+    color: white;
+}
+
 .palette ul {
     display: flex;
     flex-wrap: wrap;
