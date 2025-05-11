@@ -25,8 +25,6 @@
                     </div>
                 </div>
                 <div class="modal-foot">
-                    <telegram-login-temp mode="callback" telegram-login="FWAuthorizeBot"
-                        @loaded='telegramLoadedCallbackFunc' redirect-url="https://furry-world.ru" />
                     <!--  Войти с помощью:
                     <div class="modal-oauth">
                     
