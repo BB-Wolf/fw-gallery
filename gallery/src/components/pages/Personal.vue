@@ -255,26 +255,34 @@ export default {
 <template>
     <div class="profile-container" style="overflow: hidden;" v-if="this.userLogin">
         <TabsRoot default-value="tab1" orientation="horizontal">
-            <div class="author-tabs">
-                <TabsList aria-label="tabs example">
-                    <TabsTrigger value="tab1" class="tab-button" :class="[{ [mobileBtnClass]: userDevice.isMobile }]">
-                        Профиль
-                    </TabsTrigger>
-                    <TabsTrigger value="tab2" class="tab-button" :class="[{ [mobileBtnClass]: userDevice.isMobile }]">
-                        Галерея
-                    </TabsTrigger>
-                    <TabsTrigger value="tab3" class="tab-button" :class="[{ [mobileBtnClass]: userDevice.isMobile }]"
-                        @click="getFavs">
-                        Избранное
-                    </TabsTrigger>
-                    <TabsTrigger @click="getChars" value="tab4" class="tab-button"
-                        :class="[{ [mobileBtnClass]: userDevice.isMobile }]">
-                        Персонажи
-                    </TabsTrigger>
-                    <TabsTrigger value="tab5" class="tab-button" :class="[{ [mobileBtnClass]: userDevice.isMobile }]">
-                        Статистика
-                    </TabsTrigger>
-                </TabsList>
+            <div class="author-tabs tags">
+                <div class="tags-wrapper" style="">
+                    <div class="tags-scroll">
+                        <TabsList aria-label=" tabs example">
+                            <TabsTrigger value="tab1" class="tab-button"
+                                :class="[{ [mobileBtnClass]: userDevice.isMobile }]">
+                                Профиль
+                            </TabsTrigger>
+
+                            <TabsTrigger value="tab2" class="tab-button"
+                                :class="[{ [mobileBtnClass]: userDevice.isMobile }]">
+                                Галерея
+                            </TabsTrigger>
+                            <TabsTrigger value="tab3" class="tab-button"
+                                :class="[{ [mobileBtnClass]: userDevice.isMobile }]" @click="getFavs">
+                                Избранное
+                            </TabsTrigger>
+                            <TabsTrigger @click="getChars" value="tab4" class="tab-button"
+                                :class="[{ [mobileBtnClass]: userDevice.isMobile }]">
+                                Персонажи
+                            </TabsTrigger>
+                            <TabsTrigger value="tab5" class="tab-button"
+                                :class="[{ [mobileBtnClass]: userDevice.isMobile }]">
+                                Статистика
+                            </TabsTrigger>
+                        </TabsList>
+                    </div>
+                </div>
             </div>
             <TabsContent value="tab1">
                 <div class="profile-container">

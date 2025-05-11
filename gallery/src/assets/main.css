@@ -777,8 +777,9 @@ footer {
   }
 
   .author-tabs .tab-button {
-    width: 100%;
+    width: 30%;
     padding: 20px !important;
+    margin-right: 10px;
   }
 
   .infoFields {
