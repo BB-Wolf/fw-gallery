@@ -58,7 +58,9 @@ export default {
             this.userLogin = getUserProfile.data.user;
             this.userAvatar = getUserProfile.data.avatar;
             this.userFields = JSON.parse(getUserProfile.data.userFields);
-            this.userStatus = getUserProfile.data.status;
+            this.userStatus = JSON.parse(getUserProfile.data.status)
+            console.log(this.userStatus);
+
             if (this.userStatus.types.length > 0) {
                 for (let i = 0; i < this.userStatus.types.length; i++) {
                     console.log(this.userStatus.types[i]);
@@ -71,9 +73,10 @@ export default {
                     } else if (this.userStatus.types[i] == 'nsfw') {
                         this.userDrawNsfw = true;
                     }
+
+
                 }
             }
-            console.log(this.userStatus.types);
         }
         const getUserFolders = await new axios.get('//furry-world.ru/console/get_user_folders.php', {
             headers: {

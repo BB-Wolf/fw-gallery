@@ -33,3 +33,4 @@ export default
     opacity: 0;
 }
 </style>
+<style src="@novel/assets/main.css"></style>

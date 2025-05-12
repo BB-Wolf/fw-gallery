@@ -28,7 +28,7 @@
                 <div class="author-status">
                     <div class="block-label">Статус</div>
                     <ul>
-                        <li>Коммишны</li>
+                        <li class=""><img src="@gallery/assets/icons/paw.svg">Коммишны</li>
                         <li>Трейды</li>
                         <li>Реквесты</li>
                         <li>Розыгрыши</li>

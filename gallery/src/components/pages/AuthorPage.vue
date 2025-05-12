@@ -28,10 +28,14 @@
                 <div class="author-status">
                     <div class="block-label">Статус</div>
                     <ul>
-                        <li>Коммишны</li>
-                        <li>Трейды</li>
-                        <li>Реквесты</li>
-                        <li>Розыгрыши</li>
+                        <li><img class="paw paw--stop" :class="[{ ['paw--ready']: userComms == true }]"
+                                src="@gallery/assets/icons/paw.svg">Коммишны</li>
+                        <li><img class="paw paw--stop" :class="[{ ['paw--ready']: userTrades == true }]"
+                                src="@gallery/assets/icons/paw.svg">Трейды</li>
+                        <li><img class="paw paw--stop" :class="[{ ['paw--ready']: userRequests == true }]"
+                                src="@gallery/assets/icons/paw.svg">Реквесты</li>
+                        <li><img class="paw paw--stop" :class="[{ ['paw--ready']: userDrawNsfw == true }]"
+                                src="@gallery/assets/icons/paw.svg">NSFW</li>
                     </ul>
                 </div>
                 <div class="author-rewards">
@@ -227,7 +231,7 @@ h1 {
 }
 
 .author-status ul {
-    padding-left: 80px;
+    padding-left: 20px;
     text-align: left;
     display: flex;
     flex-direction: column;
@@ -328,7 +332,12 @@ export default {
             userProfile: null,
             offset: 1,
             userDevice: mobileDevice,
-            mobileBtnClass: 'btn btn--default'
+            mobileBtnClass: 'btn btn--default',
+            userStatus: null,
+            userComms: false,
+            userTrades: false,
+            userRequests: false,
+            userDrawNsfw: false,
         }
     },
     async created() {
@@ -338,6 +347,21 @@ export default {
 
         if (userReq.data) {
             this.userProfile = userReq.data;
+            this.userStatus = JSON.parse(userReq.data.status);
+            if (this.userStatus.types.length > 0) {
+                for (let i = 0; i < this.userStatus.types.length; i++) {
+                    if (this.userStatus.types[i] == 'comm') {
+                        this.userComms = true;
+                    } else if (this.userStatus.types[i] == 'trades') {
+                        this.userTrades = true;
+                    } else if (this.userStatus.types[i] == 'requests') {
+                        this.userRequests = true;
+                    } else if (this.userStatus.types[i] == 'nsfw') {
+                        this.userDrawNsfw = true;
+                    }
+                }
+
+            }
             const gallery = await new axios.get('//furry-world.ru/console/get_author_gallery_picture.php?offset=' + this.offset + '&user=' + this.userProfile.id,
                 {
                     headers: {
