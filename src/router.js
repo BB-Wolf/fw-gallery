@@ -52,17 +52,26 @@ rts = [
       {
         name: 'Personal',
         path: '/gallery/personal/',
-        component: () => import('@gallery/components/pages/Personal.vue')
+        component: () => import('@gallery/components/pages/Personal.vue'),
+        meta: {
+          requiresAuth: true
+        }
       },
       {
         path: '/gallery/personal/folder/:name',
         name: 'personalFolder',
-        component: () => import('@gallery/components/pages/PersonalFolder.vue')
+        component: () => import('@gallery/components/pages/PersonalFolder.vue'),
+        meta: {
+          requiresAuth: true
+        }
       },
       {
         name: 'personalFolderCreate',
         path: '/gallery/personal/folder/create/',
-        component: () => import('@gallery/components/pages/PersonalFolderCreate.vue')
+        component: () => import('@gallery/components/pages/PersonalFolderCreate.vue'),
+        meta: {
+          requiresAuth: true
+        }
       },
       {
         name: 'personalFolderEdit',
@@ -137,17 +146,26 @@ rts = [
       {
         name: 'PersonalNovel',
         path: '/novel/personal/',
-        component: () => import('@novel/components/pages/Personal.vue')
+        component: () => import('@novel/components/pages/Personal.vue'),
+        meta: {
+          requiresAuth: true
+        }
       },
       {
         name: 'PersonalNovelAdd',
         path: '/novel/personal/add',
-        component: () => import('@novel/components/pages/PersonalAddNovel.vue')
+        component: () => import('@novel/components/pages/PersonalAddNovel.vue'),
+        meta: {
+          requiresAuth: true
+        }
       },
       {
         name: 'PersonalNovelEdit',
         path: '/novel/personal/story/:code/',
-        component: () => import('@novel/components/pages/PersonalEditNovel.vue')
+        component: () => import('@novel/components/pages/PersonalEditNovel.vue'),
+        meta: {
+          requiresAuth: true
+        }
       }
     ]
   },
@@ -184,7 +202,7 @@ router.beforeEach((to, from, next) => {
       next()
     } else {
       // User is not authenticated, redirect to login
-      next('/gallery/login')
+      next('../')
     }
   } else {
     // Non-protected route, allow access
