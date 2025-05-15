@@ -148,12 +148,16 @@ export default
 <template>
     <div @click="closeModal()">
         <section id="new-stories">
-            <div class="tab-block">
-                <div class="btn block-btn block-btn--active">Основное</div>
-                <div class="btn block-btn" @click="switchTab($event, 'cover')">Обложка</div>
-                <div class="btn block-btn" @click="switchTab($event, 'character')">Персонажи</div>
-                <div class="btn block-btn" @click="switchTab($event, 'genre')">Жанр/Пейринг</div>
-                <div class="btn block-btn" @click="switchTab($event, 'rate')">Рейтинг</div>
+            <div class="tab-block tags">
+                <div class="tags-wrapper" style="">
+                    <div class="tags-scroll">
+                        <div class="btn block-btn block-btn--active">Основное</div>
+                        <div class="btn block-btn" @click="switchTab($event, 'cover')">Обложка</div>
+                        <div class="btn block-btn" @click="switchTab($event, 'character')">Персонажи</div>
+                        <div class="btn block-btn" @click="switchTab($event, 'genre')">Жанр/Пейринг</div>
+                        <div class="btn block-btn" @click="switchTab($event, 'rate')">Рейтинг</div>
+                    </div>
+                </div>
             </div>
             <div class="content-block">
 
@@ -272,6 +276,17 @@ input[type="file"] {
     width: 200px;
     object-fit: cover;
     border-radius: 8px;
+}
+
+@media (max-width:760px) {
+
+    #new-stories {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        padding: 0 20px;
+    }
+
 }
 </style>
 
