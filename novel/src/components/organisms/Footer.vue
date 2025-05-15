@@ -7,15 +7,47 @@ export default {
         FooterBell,
         ModalNotification
     },
+    data() {
+        return {
+            showSwitch: false
+        }
+    },
     methods: {
         switchMode(mode) {
             window.location.href = '/' + mode + '/';
         }
+    },
+    mounted() {
+        const skipHeight = 800;
+        let delta = 115;
+        let lastScrollTop = 0;
+
+        const hasScrolled = () => {
+            const scrollTop = window.scrollY;
+
+            if (Math.abs(lastScrollTop - scrollTop) <= delta) {
+                return;
+            }
+
+            if (scrollTop > lastScrollTop && scrollTop > skipHeight) {
+                // Scroll down action
+                this.showSwitch = true;
+            }
+            else if (scrollTop < lastScrollTop) {
+                // Scroll up action
+                this.showSwitch = false;
+            }
+
+            lastScrollTop = scrollTop;
+        }
+
+        window.addEventListener('scroll', hasScrolled);
+
     }
 }
 </script>
 <template>
-    <section id="switch">
+    <section v-show="showSwitch == true" id="switch">
         <div class="switch-container">
             <div class="switch-tab" @click="switchMode('gallery')" title="gallery">Галерея</div>
             <div class="switch-tab switch-tab--active" @click="switchMode('novel')" title='texts'>Тексты</div>
