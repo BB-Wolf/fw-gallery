@@ -375,12 +375,13 @@ import { modalState } from '@main/state';
 
 import axios from 'axios';
 import { telegramLoginTemp } from 'vue3-telegram-login'
-import { Config, OneTap } from '@vkid/sdk';
+import * as VKID from '@vkid/sdk';
 
 export default {
     components:
     {
         telegramLoginTemp,
+        VKID
     },
     data() {
         return {
@@ -463,29 +464,45 @@ export default {
                 }
             }
         },
-        mounted() {
-            const VKID = window.VKIDSDK;
+        vkidOnSuccess(data) {
+            // Обработка полученного результата
+            console.log(data);
+        },
 
-            VKID.Config.init({
-                app: 53581702,
-                redirectUrl: 'https://furry-world.ru',
-                responseMode: VKID.ConfigResponseMode.Callback,
-                source: VKID.ConfigSource.LOWCODE,
-                scope: '',
-            });
+        vkidOnError(error) {
+            // Обработка ошибки
+        }
+    },
+    mounted() {
+        VKID.Config.init({
+            app: 53581702,
+            redirectUrl: 'https://furry-world.ru',
+            responseMode: VKID.ConfigResponseMode.Callback,
+            source: VKID.ConfigSource.LOWCODE,
+            scope: '',
+        });
 
-            const oneTap = new VKID.OneTap();
-            const container = document.getElementById('VkIdSdkOneTap');
+        const oneTap = new VKID.OneTap();
 
+        const container = document.getElementById('VkIdSdkOneTap');
 
-            // Проверка наличия кнопки в разметке.
-            if (container) {
-                // Отрисовка кнопки в контейнере с именем приложения APP_NAME, светлой темой и на русском языке.
-                oneTap.render({ container: container, scheme: VKID.Scheme.LIGHT, lang: VKID.Languages.RUS })
-                    .on(VKID.WidgetEvents.ERROR, false); // handleError — какой-либо обработчик ошибки.
-            }
+        if (container) {
+            oneTap.render({
+                container: container,
+                showAlternativeLogin: true
+            })
+                .on(VKID.WidgetEvents.ERROR, '')
+                .on(VKID.OneTapInternalEvents.LOGIN_SUCCESS, function (payload) {
+                    const code = payload.code;
+                    const deviceId = payload.device_id;
+
+                    VKID.Auth.exchangeCode(code, deviceId)
+                        .then(this.vkidOnSuccess())
+                        .catch(this.vkidOnError());
+                });
         }
     }
+
 
 
 }
