@@ -15,6 +15,9 @@
             </div>
             <div class=" modal-body">
                 <div class="form-group">
+                    <div id="VkIdSdkOneTap"></div>
+                </div>
+                <div class="form-group">
                     <div class="btn btn--default" @click="this.regMode = 'telegram'" style="background-color: #d8d8d8;">
                         Telegram</div>
                 </div>
@@ -81,7 +84,7 @@
             <div class="modal-foot">
                 <div class="" v-if="hasResponse">
                     <div v-if="!responseData.success" style="font-weight: bold;color:red;">{{ responseData.text
-                    }}
+                        }}
                     </div>
                 </div>
                 <div class="btn" @click="this.regMode = ''">Назад</div>
@@ -372,11 +375,12 @@ import { modalState } from '@main/state';
 
 import axios from 'axios';
 import { telegramLoginTemp } from 'vue3-telegram-login'
+import { Config, OneTap } from '@vkid/sdk';
 
 export default {
     components:
     {
-        telegramLoginTemp
+        telegramLoginTemp,
     },
     data() {
         return {
@@ -458,8 +462,31 @@ export default {
                     this.responseData = registerRequest.data;
                 }
             }
-        }
+        },
+        mounted() {
+            const VKID = window.VKIDSDK;
 
+            VKID.Config.init({
+                app: 53581702,
+                redirectUrl: 'https://furry-world.ru',
+                responseMode: VKID.ConfigResponseMode.Callback,
+                source: VKID.ConfigSource.LOWCODE,
+                scope: '',
+            });
+
+            const oneTap = new VKID.OneTap();
+            const container = document.getElementById('VkIdSdkOneTap');
+
+
+            // Проверка наличия кнопки в разметке.
+            if (container) {
+                // Отрисовка кнопки в контейнере с именем приложения APP_NAME, светлой темой и на русском языке.
+                oneTap.render({ container: container, scheme: VKID.Scheme.LIGHT, lang: VKID.Languages.RUS })
+                    .on(VKID.WidgetEvents.ERROR, false); // handleError — какой-либо обработчик ошибки.
+            }
+        }
     }
+
+
 }
 </script>
