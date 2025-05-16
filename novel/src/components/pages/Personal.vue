@@ -58,22 +58,7 @@ export default {
             this.userLogin = getUserProfile.data.user;
             this.userAvatar = getUserProfile.data.avatar;
             this.userFields = JSON.parse(getUserProfile.data.userFields);
-            this.userStatus = getUserProfile.data.status;
-            if (this.userStatus.types.length > 0) {
-                for (let i = 0; i < this.userStatus.types.length; i++) {
-                    console.log(this.userStatus.types[i]);
-                    if (this.userStatus.types[i] == 'comm') {
-                        this.userComms = true;
-                    } else if (this.userStatus.types[i] == 'trades') {
-                        this.userTrades = true;
-                    } else if (this.userStatus.types[i] == 'requests') {
-                        this.userRequests = true;
-                    } else if (this.userStatus.types[i] == 'nsfw') {
-                        this.userDrawNsfw = true;
-                    }
-                }
-            }
-            console.log(this.userStatus.types);
+
         }
         const getUserFolders = await new axios.get('//furry-world.ru/console/novel/get_novel_list_by_author.php?id=' + this.userLogin, {
             headers: {

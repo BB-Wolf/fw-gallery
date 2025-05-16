@@ -13,6 +13,12 @@ export default
         },
         methods:
         {
+            async autosave() {
+                if (this.editor.getHTML().length > 100) {
+                    this.autoSaving = true;
+                    this.saveDraft();
+                }
+            },
             buildPreview(e) {
                 let file = e.target.files || e.dataTransfer.files;
                 if (!file.length) {
@@ -62,9 +68,11 @@ export default
                 }).then((response) => {
                     if (response.data.status == 'success') {
                         notifications.generateNotification('Успех', 'Черновик успешно сохранен');
+
                     } else {
                         notifications.generateNotification('Ошибка', response.data.message);
                     }
+                    this.autoSaving = false;
                 });
             },
             saveWork() {
@@ -88,9 +96,13 @@ export default
                         'Authorization': 'Bearer ' + localStorage.getItem('token')
                     }
                 }).then((response) => {
-                    console.log(response.data);
-                    if (response.data == 'ok') {
-                        modalState.isModalVisible = false;
+                    if (response.data.status == 'success') {
+                        notifications.generateNotification('Успех', 'Документ успешно сохранен');
+                        setTimeout(() => {
+                            window.location.href = "/novel/personal/";
+                        }, 3000);
+                    } else {
+                        notifications.generateNotification('Ошибка', response.data.message);
                     }
                 });
             },
@@ -117,25 +129,27 @@ export default
                 showCover: false,
                 pairing: '',
                 genres: [],
-                fandoms: []
+                fandoms: [],
+                autoSaving: false,
             }
         },
 
         async created() {
             let genresData = await axios.get(`//furry-world.ru/console/novel/get_novel_genres.php`);
-            // let fandomsData = await axios.get(`//furry-world.ru/console/novel/get_novel_fandoms.php`);
             if (genresData.data) {
                 this.genres = genresData.data;
             }
-            // if (fandomsData.data) {
-            //     this.fandoms = fandomsData.data;
-            // }
+
         },
         mounted() {
             this.editor = new Editor({
                 content: "Начните писать текст...",
                 extensions: [StarterKit],
-            })
+            });
+
+            setInterval(() => {
+                this.autosave();
+            }, 300000);
         },
 
         beforeUnmount() {
@@ -146,6 +160,24 @@ export default
     }</script>
 
 <template>
+    <div class="autosave" v-show="this.autoSaving == true">
+        <div class="autosave-container">
+            <span>Автосохранение...</span>
+            <div class="wait-container" style="margin:0 auto; transform: scale(0.3);">
+                <div class="lds-roller" v-if="!this.responseData">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
     <div @click="closeModal()">
         <section id="new-stories">
             <div class="tab-block tags">
@@ -276,6 +308,34 @@ input[type="file"] {
     width: 200px;
     object-fit: cover;
     border-radius: 8px;
+}
+
+.autosave {
+    color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    position: fixed;
+    right: 20px;
+    background-color: #2b2b2b;
+    box-shadow: 0px 0px 1px 1px rgba(255, 255, 255, 0.8);
+    text-align: center;
+    width: 220px;
+    height: 40px;
+    z-index: 1000;
+
+}
+
+.autosave-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding-left: 35px;
+}
+
+.autosave-container .lsd-roller {
+    position: absolute;
+    left: -21px;
 }
 
 @media (max-width:760px) {

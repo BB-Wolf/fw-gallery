@@ -109,6 +109,27 @@ footer {
         font-size: 1.4rem;
     }
 }
+
+.main {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+#gallery,
+#comics {
+    width: 50%;
+    padding: 0 25px;
+}
+
+@media (max-width: 1024px) {
+
+    #gallery,
+    #comics {
+        width: 100%;
+        padding: 0;
+    }
+}
 </style>
 <template>
     <section class="hero">
@@ -136,23 +157,24 @@ footer {
             <p></p>
         </div>
     </section>-->
-
-    <section class="section gallery" id="gallery">
-        <div class="section-container">
-            <h2>Галерея</h2>
-            <div class="muted">Топ по просмотрам за день</div>
-            <div class="gallery-images">
-                <GalleryBlock needInfinty="m" galleryType="main" galleryTitle="" />
+    <section class="main">
+        <div class="section gallery" id="gallery">
+            <div class="section-container">
+                <h2>Галерея</h2>
+                <div class="muted">Топ по просмотрам за день</div>
+                <div class="gallery-images">
+                    <GalleryBlock needInfinty="m" galleryType="main" galleryTitle="" />
+                </div>
             </div>
         </div>
-    </section>
 
-    <section class="section comics" id="comics">
-        <div class="section-container">
-            <h2>Комиксы</h2>
-            <div class="muted">Последние обновления</div>
-            <div class="comics-covers">
-                <ComicsList needInfinty="m" galleryType="main" galleryTitle="" />
+        <div class="section comics" id="comics">
+            <div class="section-container">
+                <h2>Комиксы</h2>
+                <div class="muted">Последние обновления</div>
+                <div class="comics-covers">
+                    <ComicsList needInfinty="m" galleryType="main" galleryTitle="" />
+                </div>
             </div>
         </div>
     </section>
