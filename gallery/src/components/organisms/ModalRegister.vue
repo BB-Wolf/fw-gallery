@@ -381,7 +381,6 @@ export default {
     components:
     {
         telegramLoginTemp,
-        VKID
     },
     data() {
         return {
@@ -478,8 +477,9 @@ export default {
             app: 53581702,
             redirectUrl: 'https://furry-world.ru',
             responseMode: VKID.ConfigResponseMode.Callback,
-            source: VKID.ConfigSource.LOWCODE,
-            scope: '',
+            state: 'ready',
+            codeVerifier: Math.random().toString(36).slice(2),
+
         });
 
         const oneTap = new VKID.OneTap();
@@ -497,7 +497,7 @@ export default {
                     const deviceId = payload.device_id;
 
                     VKID.Auth.exchangeCode(code, deviceId)
-                        .then(this.vkidOnSuccess())
+                        .then(console.log(payload))
                         .catch(this.vkidOnError());
                 });
         }
