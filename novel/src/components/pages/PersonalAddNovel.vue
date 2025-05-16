@@ -278,7 +278,8 @@ input[type="file"] {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-
+    display: flex;
+    flex-direction: column;
 }
 
 #new-stories {
@@ -347,6 +348,18 @@ input[type="file"] {
         padding: 0 20px;
     }
 
+}
+
+textarea {
+    background-color: #1f1f1f;
+    border: 1px solid #444;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    width: 100%;
+    margin-bottom: 15px;
+    font-size: 16px;
+    outline: none;
 }
 </style>
 
