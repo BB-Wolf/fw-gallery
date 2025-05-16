@@ -13,6 +13,18 @@ export default
         },
         methods:
         {
+            async autosave() {
+                if (this.editor.getHTML().length > 100) {
+                    this.autoSaving = true;
+                    if (this.draft == 1) {
+                        this.saveDraft();
+                    } else if (this.draft == 0) {
+                        this.saveWork();
+                    }
+                    this.autoSaving = false;
+
+                }
+            },
             buildPreview(e) {
                 let file = e.target.files || e.dataTransfer.files;
                 if (!file.length) {
@@ -50,6 +62,7 @@ export default
                 formData.append('rate', this.storyRate);
                 formData.append('draft', 1);
 
+                this.workSaving = true;
                 if (this.cover) {
                     formData.append('cover', this.cover);
                 }
@@ -65,6 +78,8 @@ export default
                     } else {
                         notifications.generateNotification('Ошибка', response.data.message);
                     }
+                    this.workSaving = false;
+
                 });
             },
             saveWork() {
@@ -78,6 +93,7 @@ export default
                 formData.append('fandom', this.fandom);
                 formData.append('charList', this.charList);
                 formData.append('rate', this.storyRate);
+                this.workSaving = true;
 
                 if (this.cover) {
                     formData.append('cover', this.cover);
@@ -89,9 +105,14 @@ export default
                         'Authorization': 'Bearer ' + localStorage.getItem('token')
                     }
                 }).then((response) => {
-                    console.log(response.data);
-                    if (response.data == 'ok') {
-                        modalState.isModalVisible = false;
+                    if (response.data.status == 'success') {
+                        notifications.generateNotification('Успех', 'Документ успешно сохранен');
+                        setTimeout(() => {
+                            this.workSaving = false;
+                        }, 3000);
+                    } else {
+                        notifications.generateNotification('Ошибка', response.data.message);
+                        this.workSaving = false;
                     }
                 });
             },
@@ -145,6 +166,8 @@ export default
                 fandoms: [],
                 draft: '',
                 loaded: false,
+                autoSaving: false,
+                workSaving: false,
             }
         },
 
@@ -181,7 +204,9 @@ export default
             }
         },
         mounted() {
-
+            setInterval(() => {
+                this.autosave();
+            }, 300000);
         },
 
         beforeUnmount() {
@@ -192,6 +217,24 @@ export default
     }</script>
 
 <template>
+    <div class="autosave" v-show="this.autoSaving == true || this.workSaving == true">
+        <div class="autosave-container">
+            <span v-if="this.autoSaving == true" class="autosave-text">Автосохранение...</span>
+            <span v-if="this.workSaving == true" class="save-text">Сохранение...</span>
+            <div class="wait-container" style="margin:0 auto; transform: scale(0.3);">
+                <div class="lds-roller" v-if="!this.responseData">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div @click="closeModal()">
         <section id="new-stories" v-if="loaded">
             <div class="tab-block">
@@ -322,6 +365,57 @@ input[type="file"] {
     width: 200px;
     object-fit: cover;
     border-radius: 8px;
+}
+
+.autosave {
+    color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    position: fixed;
+    right: 20px;
+    background-color: #2b2b2b;
+    box-shadow: 0px 0px 1px 1px rgba(255, 255, 255, 0.8);
+    text-align: center;
+    width: 220px;
+    height: 40px;
+    z-index: 1000;
+
+}
+
+.autosave-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding-left: 35px;
+}
+
+.autosave-container .lsd-roller {
+    position: absolute;
+    left: -21px;
+}
+
+@media (max-width:760px) {
+
+    #new-stories {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        padding: 0 20px;
+    }
+
+}
+
+textarea {
+    background-color: #1f1f1f;
+    border: 1px solid #444;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    width: 100%;
+    margin-bottom: 15px;
+    font-size: 16px;
+    outline: none;
 }
 </style>
 

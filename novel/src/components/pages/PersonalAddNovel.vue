@@ -60,6 +60,8 @@ export default
                     formData.append('cover', this.cover);
                 }
 
+                this.workSaving = true;
+
                 axios.post(`//furry-world.ru/console/novel/post_add_draft.php`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
@@ -73,6 +75,7 @@ export default
                         notifications.generateNotification('Ошибка', response.data.message);
                     }
                     this.autoSaving = false;
+                    this.workSaving = false;
                 });
             },
             saveWork() {
@@ -86,6 +89,7 @@ export default
                 formData.append('charList', this.charList);
                 formData.append('rate', this.rate);
 
+                this.workSaving = true;
                 if (this.coverRaw) {
                     formData.append('cover', this.coverRaw);
                 }
@@ -100,10 +104,14 @@ export default
                         notifications.generateNotification('Успех', 'Документ успешно сохранен');
                         setTimeout(() => {
                             window.location.href = "/novel/personal/";
+                            this.workSaving = false;
+
                         }, 3000);
                     } else {
                         notifications.generateNotification('Ошибка', response.data.message);
+                        this.workSaving = false;
                     }
+
                 });
             },
         },
@@ -131,6 +139,7 @@ export default
                 genres: [],
                 fandoms: [],
                 autoSaving: false,
+                workSaving: false,
             }
         },
 
@@ -160,9 +169,10 @@ export default
     }</script>
 
 <template>
-    <div class="autosave" v-show="this.autoSaving == true">
+    <div class="autosave" v-show="this.autoSaving == true || this.workSaving == true">
         <div class="autosave-container">
-            <span>Автосохранение...</span>
+            <span v-if="this.autoSaving == true" class="autosave-text">Автосохранение...</span>
+            <span v-if="this.workSaving == true" class="save-text">Сохранение...</span>
             <div class="wait-container" style="margin:0 auto; transform: scale(0.3);">
                 <div class="lds-roller" v-if="!this.responseData">
                     <div></div>
