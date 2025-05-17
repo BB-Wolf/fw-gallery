@@ -23,6 +23,10 @@ export default {
     },
     methods:
     {
+        logout() {
+            localStorage.removeItem('token');
+            location.reload();
+        },
         showLogin() {
             modalState.isModalLoginVisible = true;
         },

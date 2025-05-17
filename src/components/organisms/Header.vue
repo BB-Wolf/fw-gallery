@@ -56,7 +56,7 @@ export default {
         },
         logout() {
             localStorage.removeItem('token');
-            location.reload;
+            location.reload();
         }
     }
 }
