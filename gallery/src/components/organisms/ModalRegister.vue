@@ -31,7 +31,7 @@
         </div>
     </div>
 
-    <div v-if="regMode == 'vk'" id="register" class="modal" v-show="isModalOpen.isModalRegisterVisible">
+    <div id="register" class="modal" v-show="isModalOpen.isModalRegisterVisible && regMode == 'vk'">
         <div class="modal-left-column"></div>
         <div class="modal-right-column">
             <span class=" close" @click="closeModal"></span>
@@ -482,9 +482,11 @@ export default {
                 }
             }
         },
-
         regVK() {
             this.regMode = 'vk';
+            this.showRegVK()
+        },
+        showRegVK() {
             VKID.Config.init({
                 app: 53581702,
                 redirectUrl: 'https://furry-world.ru',
@@ -494,8 +496,8 @@ export default {
 
             const oneTap = new VKID.OneTap();
 
-            const container = document.getElementById('VkIdSdkOneTap');
-
+            let container = document.querySelector('#VkIdSdkOneTap');
+            console.log(container);
             if (container) {
                 oneTap.render({
                     container: container,
