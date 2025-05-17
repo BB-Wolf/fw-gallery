@@ -500,19 +500,32 @@ export default {
                         .then((data) => {
                             tokenData = data.access_token;
                             VKID.Auth.userInfo(tokenData).then((userdata) => {
-                                console.log(userdata);
+                                let registerRequest = axios.post('//furry-world.ru/console/post_register.php',
+                                    {
+                                        login: userdata.user.first_name + ' ' + userdata.user.last_name,
+                                        password: data.access_token,
+                                        ext_id: userdata.user.user_id,
+                                        ext: 'tg'
+                                    }, {
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    }
+                                });
+                                if (registerRequest.data) {
+                                    if (registerRequest.data.success) {
+                                        this.hasResponse = true;
+                                        this.responseData = registerRequest.data;
+                                        localStorage.setItem('token', this.responseData.token);
+                                        location.reload;
+                                    } else {
+                                        document.querySelector('#register').classList.add('shake-form');
+                                        setTimeout(() => document.querySelector('#register').classList.remove('shake-form'), 500);
+                                        this.hasResponse = true;
+                                        this.responseData = registerRequest.data;
+                                    }
+                                }
                             });
-                            // let registerRequest = axios.post('//furry-world.ru/console/post_register.php',
-                            //     {
-                            //         login: data.username,
-                            //         password: user.hash,
-                            //         ext_id: user.id,
-                            //         ext: 'vk'
-                            //     }, {
-                            //     headers: {
-                            //         'Content-Type': 'application/json'
-                            //     }
-                            // });
+
                         });
                 });
         }
