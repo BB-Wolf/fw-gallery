@@ -498,8 +498,10 @@ export default {
 
                     VKID.Auth.exchangeCode(code, deviceId)
                         .then((data) => {
-                            console.log(data);
                             tokenData = data.access_token;
+                            VKID.Auth.userInfo(tokenData).then((userdata) => {
+                                console.log(userdata);
+                            });
                             // let registerRequest = axios.post('//furry-world.ru/console/post_register.php',
                             //     {
                             //         login: data.username,
@@ -512,11 +514,6 @@ export default {
                             //     }
                             // });
                         });
-
-                    console.log(tokenData);
-                    VKID.Auth.userInfo(tokenData).then((userdata) => {
-                        console.log(userdata);
-                    });
                 });
         }
     }
