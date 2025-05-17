@@ -103,7 +103,7 @@
             <div class="modal-foot">
                 <div class="" v-if="hasResponse">
                     <div v-if="!responseData.success" style="font-weight: bold;color:red;">{{ responseData.text
-                    }}
+                        }}
                     </div>
                 </div>
                 <div class="btn" @click="this.regMode = ''">Назад</div>
@@ -529,7 +529,7 @@ export default {
                                         if (registerRequest.data.success) {
                                             this.responseData = registerRequest.data;
                                             localStorage.setItem('token', this.responseData.token);
-                                            window.location.reload();
+                                            location.reload();
                                         } else {
                                             document.querySelector('#register').classList.add('shake-form');
                                             setTimeout(() => document.querySelector('#register').classList.remove('shake-form'), 500);
