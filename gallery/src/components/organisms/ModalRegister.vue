@@ -513,8 +513,8 @@ export default {
                         VKID.Auth.exchangeCode(code, deviceId)
                             .then((data) => {
                                 tokenData = data.access_token;
-                                VKID.Auth.userInfo(tokenData).then((userdata) => {
-                                    let registerRequest = axios.post('//furry-world.ru/console/user_auth.php',
+                                VKID.Auth.userInfo(tokenData).then(async (userdata) => {
+                                    let registerRequest = await axios.post('//furry-world.ru/console/user_auth.php',
                                         {
                                             login: userdata.user.first_name + ' ' + userdata.user.last_name,
                                             password: data.access_token,
