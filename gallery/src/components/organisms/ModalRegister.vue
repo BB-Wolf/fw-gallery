@@ -494,9 +494,9 @@ export default {
                     const code = payload.code;
                     const deviceId = payload.device_id;
 
-                    let token = VKID.Auth.exchangeCode(code, deviceId)
-                        .then(() => {
-                            console.log(token);
+                    VKID.Auth.exchangeCode(code, deviceId)
+                        .then((data) => {
+                            console.log(data);
                             // let registerRequest = axios.post('//furry-world.ru/console/post_register.php',
                             //     {
                             //         login: user.username,
