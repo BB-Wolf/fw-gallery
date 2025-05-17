@@ -15,7 +15,8 @@
             </div>
             <div class=" modal-body">
                 <div class="form-group">
-                    <div id="VkIdSdkOneTap"></div>
+                    <div class="btn btn--default" @click="this.regMode = 'telegram'" style="background-color: #d8d8d8;">
+                        VK</div>
                 </div>
                 <div class="form-group">
                     <div class="btn btn--default" @click="this.regMode = 'telegram'" style="background-color: #d8d8d8;">
@@ -46,6 +47,26 @@
             </div>
         </div>
     </div>
+
+
+    <div v-if="regMode == 'vk'" id="register" class="modal" v-show="isModalOpen.isModalRegisterVisible">
+        <div class="modal-left-column"></div>
+        <div class="modal-right-column">
+            <span class=" close" @click="closeModal"></span>
+            <div class="modal-title">
+                <noindex>
+                    <div class="h1">Добро пожаловать</div>
+                </noindex>
+            </div>
+            <div class="modal-body" v-if="getTgResponse == false">
+                <div class="form-group">
+                    <div id="VkIdSdkOneTap"></div>
+                </div>
+                <div class="btn" @click="this.regMode = ''">Назад</div>
+            </div>
+        </div>
+    </div>
+
 
 
 
@@ -516,7 +537,7 @@ export default {
                                         this.hasResponse = true;
                                         this.responseData = registerRequest.data;
                                         localStorage.setItem('token', this.responseData.token);
-                                        location.reload;
+                                        window.location.reload;
                                     } else {
                                         document.querySelector('#register').classList.add('shake-form');
                                         setTimeout(() => document.querySelector('#register').classList.remove('shake-form'), 500);
