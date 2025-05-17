@@ -484,17 +484,10 @@ export default {
                 }
             }
         },
+
         regVK() {
-            this.regMode = 'vk';
-            VKID.Config.init({
-                app: 53581702,
-                redirectUrl: 'https://furry-world.ru',
-                responseMode: VKID.ConfigResponseMode.Callback,
-                state: 'ready',
-            });
 
             const oneTap = new VKID.OneTap();
-
             const container = document.getElementById('VkIdSdkOneTap');
 
             if (container) {
@@ -542,9 +535,15 @@ export default {
                             });
                     });
             }
-        },
-
+        }
+    },
+    mounted() {
+        VKID.Config.init({
+            app: 53581702,
+            redirectUrl: 'https://furry-world.ru',
+            responseMode: VKID.ConfigResponseMode.Callback,
+            state: 'ready',
+        });
     }
-
 }
 </script>
