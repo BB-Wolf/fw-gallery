@@ -478,8 +478,6 @@ export default {
             redirectUrl: 'https://furry-world.ru',
             responseMode: VKID.ConfigResponseMode.Callback,
             state: 'ready',
-            codeVerifier: Math.random().toString(36).slice(2),
-
         });
 
         const oneTap = new VKID.OneTap();
@@ -496,9 +494,9 @@ export default {
                     const code = payload.code;
                     const deviceId = payload.device_id;
 
-                    VKID.Auth.exchangeCode(code, deviceId)
+                    let token = VKID.Auth.exchangeCode(code, deviceId)
                         .then(() => {
-                            console.log(payload);
+                            console.log(token);
                             // let registerRequest = axios.post('//furry-world.ru/console/post_register.php',
                             //     {
                             //         login: user.username,
