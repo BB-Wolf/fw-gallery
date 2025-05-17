@@ -15,7 +15,7 @@
             </div>
             <div class=" modal-body">
                 <div class="form-group">
-                    <div class="btn btn--default" @click="this.regMode = 'vk'" style="background-color: #d8d8d8;">
+                    <div class="btn btn--default" @click="regVK" style="background-color: #d8d8d8;">
                         VK</div>
                 </div>
                 <div class="form-group">
@@ -58,7 +58,7 @@
                     <div class="h1">Добро пожаловать</div>
                 </noindex>
             </div>
-            <div class="modal-body" v-if="getTgResponse == false">
+            <div class="modal-body">
                 <div class="form-group">
                     <div id="VkIdSdkOneTap"></div>
                 </div>
@@ -484,75 +484,67 @@ export default {
                 }
             }
         },
-        vkidOnSuccess(data) {
-            // Обработка полученного результата
-            console.log(data);
-        },
+        regVK() {
+            this.regMode = 'vk';
+            VKID.Config.init({
+                app: 53581702,
+                redirectUrl: 'https://furry-world.ru',
+                responseMode: VKID.ConfigResponseMode.Callback,
+                state: 'ready',
+            });
 
-        vkidOnError(error) {
-            // Обработка ошибки
-        }
-    },
-    mounted() {
-        VKID.Config.init({
-            app: 53581702,
-            redirectUrl: 'https://furry-world.ru',
-            responseMode: VKID.ConfigResponseMode.Callback,
-            state: 'ready',
-        });
+            const oneTap = new VKID.OneTap();
 
-        const oneTap = new VKID.OneTap();
+            const container = document.getElementById('VkIdSdkOneTap');
 
-        const container = document.getElementById('VkIdSdkOneTap');
+            if (container) {
+                oneTap.render({
+                    container: container,
+                    showAlternativeLogin: true
+                })
+                    .on(VKID.WidgetEvents.ERROR, '')
+                    .on(VKID.OneTapInternalEvents.LOGIN_SUCCESS, function (payload) {
+                        const code = payload.code;
+                        const deviceId = payload.device_id;
 
-        if (container) {
-            oneTap.render({
-                container: container,
-                showAlternativeLogin: true
-            })
-                .on(VKID.WidgetEvents.ERROR, '')
-                .on(VKID.OneTapInternalEvents.LOGIN_SUCCESS, function (payload) {
-                    const code = payload.code;
-                    const deviceId = payload.device_id;
+                        let tokenData = '';
 
-                    let tokenData = '';
-
-                    VKID.Auth.exchangeCode(code, deviceId)
-                        .then((data) => {
-                            tokenData = data.access_token;
-                            VKID.Auth.userInfo(tokenData).then((userdata) => {
-                                let registerRequest = axios.post('//furry-world.ru/console/post_register.php',
-                                    {
-                                        login: userdata.user.first_name + ' ' + userdata.user.last_name,
-                                        password: data.access_token,
-                                        ext_id: userdata.user.user_id,
-                                        ext: 'tg'
-                                    }, {
-                                    headers: {
-                                        'Content-Type': 'application/json'
+                        VKID.Auth.exchangeCode(code, deviceId)
+                            .then((data) => {
+                                tokenData = data.access_token;
+                                VKID.Auth.userInfo(tokenData).then((userdata) => {
+                                    let registerRequest = axios.post('//furry-world.ru/console/post_register.php',
+                                        {
+                                            login: userdata.user.first_name + ' ' + userdata.user.last_name,
+                                            password: data.access_token,
+                                            ext_id: userdata.user.user_id,
+                                            ext: 'tg'
+                                        }, {
+                                        headers: {
+                                            'Content-Type': 'application/json'
+                                        }
+                                    });
+                                    if (registerRequest.data) {
+                                        if (registerRequest.data.success) {
+                                            this.hasResponse = true;
+                                            this.responseData = registerRequest.data;
+                                            localStorage.setItem('token', this.responseData.token);
+                                            window.location.reload;
+                                        } else {
+                                            document.querySelector('#register').classList.add('shake-form');
+                                            setTimeout(() => document.querySelector('#register').classList.remove('shake-form'), 500);
+                                            this.hasResponse = true;
+                                            this.responseData = registerRequest.data;
+                                        }
                                     }
                                 });
-                                if (registerRequest.data) {
-                                    if (registerRequest.data.success) {
-                                        this.hasResponse = true;
-                                        this.responseData = registerRequest.data;
-                                        localStorage.setItem('token', this.responseData.token);
-                                        window.location.reload;
-                                    } else {
-                                        document.querySelector('#register').classList.add('shake-form');
-                                        setTimeout(() => document.querySelector('#register').classList.remove('shake-form'), 500);
-                                        this.hasResponse = true;
-                                        this.responseData = registerRequest.data;
-                                    }
-                                }
+
                             });
+                    });
+            }
+        },
 
-                        });
-                });
-        }
     }
-
-
 
 }
 </script>
