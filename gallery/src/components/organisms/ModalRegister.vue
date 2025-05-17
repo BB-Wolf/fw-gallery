@@ -435,9 +435,8 @@ export default {
             if (registerRequest.data) {
                 if (registerRequest.data.success) {
                     this.hasResponse = true;
-                    this.responseData = registerRequest.data;
-                    localStorage.setItem('token', this.responseData.token);
-                    location.reload;
+                    localStorage.setItem('token', registerRequest.data.token);
+                    location.reload();
                 } else {
                     document.querySelector('#register').classList.add('shake-form');
                     setTimeout(() => document.querySelector('#register').classList.remove('shake-form'), 500);
@@ -497,7 +496,6 @@ export default {
             const oneTap = new VKID.OneTap();
 
             let container = document.querySelector('#VkIdSdkOneTap');
-            console.log(container);
             if (container) {
                 oneTap.render({
                     container: container,
@@ -526,7 +524,6 @@ export default {
                                         }
                                     });
                                     if (registerRequest.data) {
-                                        console.log(registerRequest.daa);
                                         if (registerRequest.data.success) {
                                             localStorage.setItem('token', registerRequest.data.token);
                                             location.reload();
