@@ -436,7 +436,7 @@ export default {
                 if (registerRequest.data.success) {
                     this.hasResponse = true;
                     localStorage.setItem('token', registerRequest.data.token);
-                    location.reload();
+                    window.location.reload();
                 } else {
                     document.querySelector('#register').classList.add('shake-form');
                     setTimeout(() => document.querySelector('#register').classList.remove('shake-form'), 500);
