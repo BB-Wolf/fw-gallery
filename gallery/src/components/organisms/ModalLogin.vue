@@ -25,10 +25,10 @@
                     </div>
                 </div>
                 <div class="modal-foot">
+                    <!--  Войти с помощью:
                     <div class="modal-oauth">
-                        <telegram-login-temp mode="callback" telegram-login="FWAuthorizeBot" @callback='checkUserTG'
-                            redirect-url="https://furry-world.ru" />
-                    </div>
+                    
+                    </div>-->
                     <div class="form-group" style="padding-right:0; margin-top:20px;">
                         <button class="button-53" style="background-color:  #ffcc00;" @click="registerModal"
                             role="button">Регистрация</button>
@@ -259,14 +259,9 @@ input[type="password"] {
 
 <script>
 import { modalState, isUserLogged } from '@main/state';
-import { telegramLoginTemp } from 'vue3-telegram-login'
 
 import axios from 'axios';
 export default {
-    components:
-    {
-        telegramLoginTemp
-    },
     data() {
         return {
             isModalOpen: modalState,
@@ -277,36 +272,6 @@ export default {
     },
     methods:
     {
-        async checkUserTG(user) {
-            // gets user as an input
-            // id, first_name, last_name, username,
-            // photo_url, auth_date and hash
-            let registerRequest = await axios.post('//furry-world.ru/console/post_login.php',
-                {
-                    login: user.username,
-                    password: user.hash,
-                    ext_id: user.id,
-                    ext: 'tg'
-                }, {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-            if (registerRequest.data) {
-                if (registerRequest.data.success) {
-                    this.hasResponse = true;
-                    this.responseData = registerRequest.data;
-                    localStorage.setItem('token', this.responseData.token);
-                    location.reload;
-                } else {
-                    document.querySelector('#register').classList.add('shake-form');
-                    setTimeout(() => document.querySelector('#register').classList.remove('shake-form'), 500);
-                    this.hasResponse = true;
-                    this.responseData = registerRequest.data;
-                }
-            }
-
-        },
         closeModal() {
             this.isModalOpen.isModalLoginVisible = false;
         },

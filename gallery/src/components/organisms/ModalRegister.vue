@@ -31,24 +31,6 @@
         </div>
     </div>
 
-    <div v-if="regMode == 'telegram'" id="register" class="modal" v-show="isModalOpen.isModalRegisterVisible">
-        <div class="modal-left-column"></div>
-        <div class="modal-right-column">
-            <span class=" close" @click="closeModal"></span>
-            <div class="modal-title">
-                <noindex>
-                    <div class="h1">Добро пожаловать</div>
-                </noindex>
-            </div>
-            <div class="modal-body" v-if="getTgResponse == false">
-                <telegram-login-temp mode="callback" telegram-login="FWAuthorizeBot" @callback='yourCallbackFunction'
-                    redirect-url="https://furry-world.ru" />
-                <div class="btn" @click="this.regMode = ''">Назад</div>
-            </div>
-        </div>
-    </div>
-
-
     <div v-if="regMode == 'vk'" id="register" class="modal" v-show="isModalOpen.isModalRegisterVisible">
         <div class="modal-left-column"></div>
         <div class="modal-right-column">
@@ -67,6 +49,22 @@
         </div>
     </div>
 
+    <div v-if="regMode == 'telegram'" id="register" class="modal" v-show="isModalOpen.isModalRegisterVisible">
+        <div class="modal-left-column"></div>
+        <div class="modal-right-column">
+            <span class=" close" @click="closeModal"></span>
+            <div class="modal-title">
+                <noindex>
+                    <div class="h1">Добро пожаловать</div>
+                </noindex>
+            </div>
+            <div class="modal-body" v-if="getTgResponse == false">
+                <telegram-login-temp mode="callback" telegram-login="FWAuthorizeBot" @callback='yourCallbackFunction'
+                    redirect-url="https://furry-world.ru" />
+                <div class="btn" @click="this.regMode = ''">Назад</div>
+            </div>
+        </div>
+    </div>
 
 
 
@@ -149,163 +147,6 @@
         </div>
     </div>
 </template>
-
-<script>
-import { modalState } from '@main/state';
-
-import axios from 'axios';
-import { telegramLoginTemp } from 'vue3-telegram-login'
-import * as VKID from '@vkid/sdk';
-
-export default {
-    components:
-    {
-        telegramLoginTemp,
-    },
-    data() {
-        return {
-            isModalOpen: modalState,
-            login: null,
-            regMode: '',
-            password: null,
-            email: null,
-            getTgResponse: false,
-            hasResponse: false,
-            responseData: {
-                'success': false
-            },
-        }
-    },
-    methods:
-    {
-        async yourCallbackFunction(user) {
-            // gets user as an input
-            // id, first_name, last_name, username,
-            // photo_url, auth_date and hash
-            let registerRequest = await axios.post('//furry-world.ru/console/post_register.php',
-                {
-                    login: user.username,
-                    password: user.hash,
-                    ext_id: user.id,
-                    ext: 'tg'
-                }, {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-            if (registerRequest.data) {
-                if (registerRequest.data.success) {
-                    this.hasResponse = true;
-                    this.responseData = registerRequest.data;
-                    localStorage.setItem('token', this.responseData.token);
-                    location.reload;
-                } else {
-                    document.querySelector('#register').classList.add('shake-form');
-                    setTimeout(() => document.querySelector('#register').classList.remove('shake-form'), 500);
-                    this.hasResponse = true;
-                    this.responseData = registerRequest.data;
-                }
-            }
-
-        },
-        closeModal() {
-            modalState.isModalRegisterVisible = false;
-        },
-        async sendData() {
-            if (this.login == null || this.password == null) {
-                document.querySelector('#register').classList.add('shake-form');
-                setTimeout(() => document.querySelector('#register').classList.remove('shake-form'), 500);
-                return false;
-            }
-
-            let registerRequest = await axios.post('//furry-world.ru/console/post_register.php',
-                {
-                    login: this.login,
-                    password: this.password
-                }, {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }
-            );
-
-            if (registerRequest.data) {
-                if (registerRequest.data.success == 'true') {
-                    this.hasResponse = true;
-                    this.responseData = registerRequest.data;
-                    localStorage.setItem('token', this.responseData.token);
-                    location.reload;
-                } else {
-                    document.querySelector('#register').classList.add('shake-form');
-                    setTimeout(() => document.querySelector('#register').classList.remove('shake-form'), 500);
-                    this.hasResponse = true;
-                    this.responseData = registerRequest.data;
-                }
-            }
-        },
-
-        regVK() {
-            this.regMode = 'vk';
-            VKID.Config.init({
-                app: 53581702,
-                redirectUrl: 'https://furry-world.ru',
-                responseMode: VKID.ConfigResponseMode.Callback,
-                state: 'ready',
-            });
-            const oneTap = new VKID.OneTap();
-            const container = document.getElementById('VkIdSdkOneTap');
-
-            if (container) {
-                oneTap.render({
-                    container: container,
-                    showAlternativeLogin: true
-                })
-                    .on(VKID.WidgetEvents.ERROR, '')
-                    .on(VKID.OneTapInternalEvents.LOGIN_SUCCESS, function (payload) {
-                        const code = payload.code;
-                        const deviceId = payload.device_id;
-
-                        let tokenData = '';
-
-                        VKID.Auth.exchangeCode(code, deviceId)
-                            .then((data) => {
-                                tokenData = data.access_token;
-                                VKID.Auth.userInfo(tokenData).then((userdata) => {
-                                    let registerRequest = axios.post('//furry-world.ru/console/post_register.php',
-                                        {
-                                            login: userdata.user.first_name + ' ' + userdata.user.last_name,
-                                            password: data.access_token,
-                                            ext_id: userdata.user.user_id,
-                                            ext: 'tg'
-                                        }, {
-                                        headers: {
-                                            'Content-Type': 'application/json'
-                                        }
-                                    });
-                                    if (registerRequest.data) {
-                                        if (registerRequest.data.success) {
-                                            this.hasResponse = true;
-                                            this.responseData = registerRequest.data;
-                                            localStorage.setItem('token', this.responseData.token);
-                                            window.location.reload;
-                                        } else {
-                                            document.querySelector('#register').classList.add('shake-form');
-                                            setTimeout(() => document.querySelector('#register').classList.remove('shake-form'), 500);
-                                            this.hasResponse = true;
-                                            this.responseData = registerRequest.data;
-                                        }
-                                    }
-                                });
-
-                            });
-                    });
-            }
-        }
-    },
-    mounted() {
-    }
-}
-</script>
 
 <style scoped>
 input[type='text'] {
@@ -547,3 +388,166 @@ input[type='text'] {
     color: black;
 }
 </style>
+
+<script>
+import { modalState } from '@main/state';
+
+import axios from 'axios';
+import { telegramLoginTemp } from 'vue3-telegram-login'
+import * as VKID from '@vkid/sdk';
+
+export default {
+    components:
+    {
+        telegramLoginTemp,
+    },
+    data() {
+        return {
+            isModalOpen: modalState,
+            login: null,
+            regMode: '',
+            password: null,
+            email: null,
+            getTgResponse: false,
+            hasResponse: false,
+            responseData: {
+                'success': false
+            },
+        }
+    },
+    methods:
+    {
+        async yourCallbackFunction(user) {
+            // gets user as an input
+            // id, first_name, last_name, username,
+            // photo_url, auth_date and hash
+            let registerRequest = await axios.post('//furry-world.ru/console/post_register.php',
+                {
+                    login: user.username,
+                    password: user.hash,
+                    ext_id: user.id,
+                    ext: 'tg'
+                }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            if (registerRequest.data) {
+                if (registerRequest.data.success) {
+                    this.hasResponse = true;
+                    this.responseData = registerRequest.data;
+                    localStorage.setItem('token', this.responseData.token);
+                    location.reload;
+                } else {
+                    document.querySelector('#register').classList.add('shake-form');
+                    setTimeout(() => document.querySelector('#register').classList.remove('shake-form'), 500);
+                    this.hasResponse = true;
+                    this.responseData = registerRequest.data;
+                }
+            }
+
+        },
+        closeModal() {
+            modalState.isModalRegisterVisible = false;
+        },
+        async sendData() {
+            if (this.login == null || this.password == null) {
+                document.querySelector('#register').classList.add('shake-form');
+                setTimeout(() => document.querySelector('#register').classList.remove('shake-form'), 500);
+                return false;
+            }
+
+            let registerRequest = await axios.post('//furry-world.ru/console/post_register.php',
+                {
+                    login: this.login,
+                    password: this.password
+                }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+            );
+
+            if (registerRequest.data) {
+                if (registerRequest.data.success == 'true') {
+                    this.hasResponse = true;
+                    this.responseData = registerRequest.data;
+                    localStorage.setItem('token', this.responseData.token);
+                    location.reload;
+                } else {
+                    document.querySelector('#register').classList.add('shake-form');
+                    setTimeout(() => document.querySelector('#register').classList.remove('shake-form'), 500);
+                    this.hasResponse = true;
+                    this.responseData = registerRequest.data;
+                }
+            }
+        },
+
+        regVK() {
+            this.regMode = 'vk';
+            VKID.Config.init({
+                app: 53581702,
+                redirectUrl: 'https://furry-world.ru',
+                responseMode: VKID.ConfigResponseMode.Callback,
+                state: 'ready',
+            });
+
+            const oneTap = new VKID.OneTap();
+
+            const container = document.getElementById('VkIdSdkOneTap');
+
+            if (container) {
+                oneTap.render({
+                    container: container,
+                    showAlternativeLogin: true
+                })
+                    .on(VKID.WidgetEvents.ERROR, '')
+                    .on(VKID.OneTapInternalEvents.LOGIN_SUCCESS, function (payload) {
+                        const code = payload.code;
+                        const deviceId = payload.device_id;
+
+                        let tokenData = '';
+
+                        VKID.Auth.exchangeCode(code, deviceId)
+                            .then((data) => {
+                                tokenData = data.access_token;
+                                VKID.Auth.userInfo(tokenData).then((userdata) => {
+                                    let registerRequest = axios.post('//furry-world.ru/console/post_register.php',
+                                        {
+                                            login: userdata.user.first_name + ' ' + userdata.user.last_name,
+                                            password: data.access_token,
+                                            ext_id: userdata.user.user_id,
+                                            ext: 'vk'
+                                        }, {
+                                        headers: {
+                                            'Content-Type': 'application/json'
+                                        }
+                                    });
+                                    if (registerRequest.data) {
+                                        if (registerRequest.data.success) {
+                                            this.hasResponse = true;
+                                            this.responseData = registerRequest.data;
+                                            localStorage.setItem('token', this.responseData.token);
+                                            window.location.reload;
+                                        } else {
+                                            document.querySelector('#register').classList.add('shake-form');
+                                            setTimeout(() => document.querySelector('#register').classList.remove('shake-form'), 500);
+                                            this.hasResponse = true;
+                                            this.responseData = registerRequest.data;
+                                        }
+                                    }
+                                });
+
+                            });
+                    });
+            }
+        }
+    },
+    mounted() {
+
+    }
+
+
+
+}
+</script>
