@@ -512,6 +512,8 @@ export default {
                             //     }
                             // });
                         });
+
+                    console.log(tokenData);
                     VKID.Auth.userInfo(tokenData).then((userdata) => {
                         console.log(userdata);
                     });
