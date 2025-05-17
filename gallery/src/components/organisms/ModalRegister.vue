@@ -421,7 +421,7 @@ export default {
             // gets user as an input
             // id, first_name, last_name, username,
             // photo_url, auth_date and hash
-            let registerRequest = await axios.post('//furry-world.ru/console/post_register.php',
+            let registerRequest = await axios.post('//furry-world.ru/console/user_auth.php',
                 {
                     login: user.username,
                     password: user.hash,
@@ -514,7 +514,7 @@ export default {
                             .then((data) => {
                                 tokenData = data.access_token;
                                 VKID.Auth.userInfo(tokenData).then((userdata) => {
-                                    let registerRequest = axios.post('//furry-world.ru/console/post_register.php',
+                                    let registerRequest = axios.post('//furry-world.ru/console/user_auth.php',
                                         {
                                             login: userdata.user.first_name + ' ' + userdata.user.last_name,
                                             password: data.access_token,
