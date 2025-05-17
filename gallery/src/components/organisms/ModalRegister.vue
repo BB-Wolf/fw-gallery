@@ -497,8 +497,20 @@ export default {
                     const deviceId = payload.device_id;
 
                     VKID.Auth.exchangeCode(code, deviceId)
-                        .then(console.log(payload))
-                        .catch(this.vkidOnError());
+                        .then(() => {
+                            console.log(payload);
+                            // let registerRequest = axios.post('//furry-world.ru/console/post_register.php',
+                            //     {
+                            //         login: user.username,
+                            //         password: user.hash,
+                            //         ext_id: user.id,
+                            //         ext: 'vk'
+                            //     }, {
+                            //     headers: {
+                            //         'Content-Type': 'application/json'
+                            //     }
+                            // });
+                        });
                 });
         }
     }
