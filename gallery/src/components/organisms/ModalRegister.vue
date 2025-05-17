@@ -15,7 +15,7 @@
             </div>
             <div class=" modal-body">
                 <div class="form-group">
-                    <div class="btn btn--default" @click="this.regMode = 'telegram'" style="background-color: #d8d8d8;">
+                    <div class="btn btn--default" @click="this.regMode = 'vk'" style="background-color: #d8d8d8;">
                         VK</div>
                 </div>
                 <div class="form-group">
