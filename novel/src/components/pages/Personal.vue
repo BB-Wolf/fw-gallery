@@ -66,22 +66,12 @@ export default {
             }
         });
 
-        if (getUserFolders.data) {
+        if (getUserFolders.data && getUserFolders.data.status != 'error') {
             this.userFolders = getUserFolders.data;
         }
 
     },
     methods: {
-        async fetchTags(tag) {
-            const lookUpTag = await axios.get('//furry-world.ru/console/get_search_tags.php?q=' + tag);
-
-            if (lookUpTag.data) {
-                document.querySelector('.filter-go').classList.add('filter-go--active');
-                return lookUpTag.data;
-            } else {
-                //  return { label: 'По запросу ничего не найдено' };
-            }
-        },
         async getFavs() {
             const getFavs = await new axios.get('//furry-world.ru/console/get_user_favs.php?user=' + this.userLogin,
                 {

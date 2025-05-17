@@ -103,7 +103,7 @@
             <div class="modal-foot">
                 <div class="" v-if="hasResponse">
                     <div v-if="!responseData.success" style="font-weight: bold;color:red;">{{ responseData.text
-                        }}
+                    }}
                     </div>
                 </div>
                 <div class="btn" @click="this.regMode = ''">Назад</div>
@@ -535,6 +535,7 @@ export default {
                                         }
                                     }
                                 });
+                                this.regMode = '';
 
                             });
                     });
