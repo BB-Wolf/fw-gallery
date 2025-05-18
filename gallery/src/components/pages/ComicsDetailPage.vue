@@ -34,6 +34,7 @@
 </template>
 <script>
 import axios from "axios";
+import Seo from '@main/api/seo/Seo.js';
 
 export default {
     data() {
@@ -49,6 +50,13 @@ export default {
         let getComicsImage = await axios.get('//furry-world.ru/console/get_comics_image.php?code=' + this.$route.params.name + '&page=' + this.$route.params.page)
         if (getComicsImage.data) {
             this.currentPage = getComicsImage.data;
+            let pageTitle = 'Фурри Мир. Комикс ' + getComicsImage.data.comicName;
+            Seo.setPageSeo(pageTitle,
+                ' Комикс ' + getComicsImage.data.comicName + ' ' + getComicsImage.data.imageDescription + ' страница ' + this.$route.params.page,
+                this.$route.params.author,
+                '',
+            );
+            Seo.setPageCanonical('/comics/' + this.$route.params.author + '/' + this.$route.params.name);
         }
 
         let getComicsImageComments = await axios.get('//furry-world.ru/console/get_comics_comments.php?code=' + this.$route.params.name + '&page=' + this.$route.params.page);

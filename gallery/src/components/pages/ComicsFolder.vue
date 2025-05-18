@@ -71,6 +71,7 @@
 <script>
 import axios from 'axios'
 import { notifications } from '@main/state'
+import Seo from '@main/api/seo/Seo.js';
 
 export default {
   data() {
@@ -90,9 +91,15 @@ export default {
     let getComicsData = await new axios.get(
       '//furry-world.ru/console/get_comics_folder.php?code=' + this.$route.params.name
     )
-    if (getComicsData.data) {
+    if (getComicsData.data && getComicsData.data.status != 'error') {
       this.comics = getComicsData.data
-      document.title = "Фурри Мир. Комикс " + getComicsData.data.name;
+      let pageTitle = 'Фурри Мир. Комикс ' + getComicsData.data.name + ' от ' + this.$route.params.author;
+      Seo.setPageSeo(pageTitle,
+        ' Комикс ' + getComicsData.data.name + ' ' + getComicsData.data.description,
+        this.$route.params.author,
+        '',
+      );
+      Seo.setPageCanonical('/comics/' + this.$route.params.author + '/' + this.$route.params.name);
     } else {
       notifications.generateNotification('bad', 'Ошибка получения данных')
     }
