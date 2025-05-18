@@ -3,29 +3,39 @@
     <div class="comics-title">
       <div class="h2">{{ this.comics.name }}</div>
     </div>
-    <div class="comics-body">
-      <div class="comics-layout" :style="getBackgrounds"></div>
-      <div class="comics-preview">
-        {{ this.comics.description }}
-        <a :href="'/comics/' + this.$route.params.author + '/' + this.$route.params.name + '/' + this.comics.firstPage + '/'"
-          class="btn btn--primary mt-20" style="display: block; color: white">Начать чтение</a>
+    <div class="comics">
+      <div class="comics-wrapper">
+        <div class="comics-image-preview">
+          <img :src="this.comics.picture" class="comics-image-preview comics-image">
+        </div>
+        <div class="comics-description">
+          {{ this.comics.description }}
+          <a :href="'/comics/' + this.$route.params.author + '/' + this.$route.params.name + '/' + this.comics.firstPage + '/'"
+            class="btn btn--primary mt-20" style="display: block; color: white">Начать чтение</a>
+        </div>
       </div>
-      <div class="comics-info" v-if="this.comics.listOfPreview">
-        <div class="central-block">
-          <div class="slide__title">Перейти к странице</div>
-          <div class="slides-container">
-            <div v-for="slide in this.comics.listOfPreview" :key="slide" class="pagepreview-slide"
-              style="order:{{ slide.sort }}">
+    </div>
 
-              <a :href="'/comics/' + this.$route.params.author + '/' + this.$route.params.name + '/' + slide.sort">
-                <img :src=slide.picture />
-                <span>{{ slide.sort }}</span>
-              </a>
+    <div class="pagination mt-20">
+      <div class="pagination-wrapper">
+        <div class="pagiation-title">Перейти к странице</div>
+        <div class=" tags-scroll">
+          <div class="tags-wrapper">
+            <div class="tag-container">
+              <div v-for="slide in this.comics.listOfPreview" :key="slide" class="pagepreview-slide"
+                style="order:{{ slide.sort }}">
+
+                <a :href="'/comics/' + this.$route.params.author + '/' + this.$route.params.name + '/' + slide.sort">
+                  <img :src=slide.picture />
+                  <span>{{ slide.sort }}</span>
+                </a>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+
   </div>
   <div class="comics-container">
     <div class="comics-additions mt-20">
@@ -90,6 +100,33 @@ export default {
 }
 </script>
 <style scoped>
+.comics-wrapper {
+  display: flex;
+  gap: 20px;
+  padding: 0 20px;
+}
+
+.comics-image-preview {
+  max-width: 600px;
+  width: 100%;
+}
+
+.comics-description {
+  color: white;
+}
+
+.pagiation-title {
+  color: white;
+}
+
+.tag-container {
+  justify-content: flex-start;
+  display: flex;
+  width: 100%;
+  flex-wrap: nowrap;
+  gap: 1.5rem;
+}
+
 .comics-additions {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -210,6 +247,12 @@ export default {
 
   .comics-additions {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width:1200px) {
+  .comics-wrapper {
+    flex-wrap: wrap;
   }
 }
 </style>
