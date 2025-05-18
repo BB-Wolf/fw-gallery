@@ -56,7 +56,7 @@ export default {
                 this.$route.params.author,
                 '',
             );
-            Seo.setPageCanonical('/comics/' + this.$route.params.author + '/' + this.$route.params.name);
+            Seo.setPageCanonical('/comics/' + this.$route.params.author + '/' + this.$route.params.name + '/');
         }
 
         let getComicsImageComments = await axios.get('//furry-world.ru/console/get_comics_comments.php?code=' + this.$route.params.name + '&page=' + this.$route.params.page);
