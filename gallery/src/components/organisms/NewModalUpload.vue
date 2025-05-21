@@ -3,8 +3,16 @@
     <div id="login" class="modal">
         <div class="modal-wrapper">
             <div class="modal-body">
-
-                <UploadImage></UploadImage>
+                <div class="modal-left">
+                    <div class="body-item" @click="console.log(this.rawFile)">
+                        <UploadImage v-model="rawFile"></UploadImage>
+                    </div>
+                </div>
+                <div class="modal-body modal-right">
+                    <ModalTitle v-model="title"></ModalTitle>
+                    <ModalDescription v-model="description"></ModalDescription>
+                    <ModalRate v-model="rate"></ModalRate>
+                </div>
             </div>
             <div class="booklets">
                 <div class="booklet-item">1</div>
@@ -18,10 +26,25 @@
 <script>
 
 import UploadImage from '@gallery/components/molecules/UploadImage.vue';
+import ModalTitle from '@gallery/components/molecules/ModalTitle.vue';
+import ModalDescription from '@gallery/components/molecules/ModalDescription.vue';
+import ModalRate from '@gallery/components/molecules/ModalRate.vue';
 export default {
     components:
     {
-        UploadImage
+        UploadImage,
+        ModalRate,
+        ModalTitle,
+        ModalDescription
+    },
+    data() {
+        return {
+            file: null,
+            rawFile: null,
+            rate: '',
+            title: '',
+            description: '',
+        }
     }
 }
 </script>
@@ -57,14 +80,30 @@ export default {
 
 .modal-wrapper {
     display: flex;
+    width: 100%;
 }
 
 .modal-body {
+    display: flex;
     width: 100%;
     height: 100%;
     z-index: 10000;
     background-color: #2b2b2b;
     box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.5);
+}
+
+.modal-left {
+    width: 40%;
+}
+
+.modal-right {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+}
+
+.body-item {
+    height: 100%;
 }
 
 .booklets {
