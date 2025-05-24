@@ -1,5 +1,5 @@
 <script>
-import ModalLogin from './ModalLogin.vue';
+import ModalLogin from '@gallery/components/organisms/ModalLogin.vue';
 import ModalRegister from './ModalRegister.vue';
 import ModalUploadMobile from './ModalUploadMobile.vue';
 import axios from 'axios';

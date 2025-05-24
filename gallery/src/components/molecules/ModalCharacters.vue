@@ -217,7 +217,7 @@ export default
         }
     }
 </script>
-<style>
+<style scoped>
 #chars-input {
     padding: 10px;
     display: inline-block;
