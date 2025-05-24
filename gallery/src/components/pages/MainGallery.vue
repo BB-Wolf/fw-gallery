@@ -1,6 +1,7 @@
 <script setup>
 import Tags from '../organisms/Tags.vue';
 import GalleryBlock from '../organisms/GalleryBlock.vue';
+import AdoptsBlock from '../organisms/AdoptsBlock.vue';
 import ComicBlock from '../organisms/ComicBlock.vue';
 
 </script>
@@ -15,7 +16,7 @@ export default {
         if (this.currentState == '' || this.currentState == null) {
             this.currentState = 'gallery';
         }
-        document.title ="Фурри Мир, Галерея новых работ";
+        document.title = "Фурри Мир, Галерея новых работ";
 
     },
     methods:
@@ -45,12 +46,16 @@ export default {
                 @click="switchGallery('gallery', $event)">Арты</div>
             <div class="switch-item" :class="[{ ['switch-item--active']: currentState == 'comics' }]"
                 @click="switchGallery('comics', $event)">Комиксы</div>
+            <div class="switch-item" :class="[{ ['switch-item--active']: currentState == 'adopts' }]"
+                @click="switchGallery('adopts', $event)">Адопты</div>
         </div>
         <div class="gallery-container" id="main-gallery">
             <GalleryBlock v-if="currentState == 'gallery'" needInfinty="y" galleryType="main"
                 galleryTitle="Новые работы художников" />
             <ComicBlock v-if="currentState == 'comics'" needInfinty="y" galleryType="main"
                 galleryTitle="Новые и обновления в комиксах" />
+            <AdoptsBlock v-if="currentState == 'adopts'" needInfinty="y" galleryType="main" galleryTitle="Адопты" />
+
         </div>
     </div>
 </template>

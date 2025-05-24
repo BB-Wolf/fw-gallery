@@ -819,7 +819,7 @@ input[type="file"] {
 }
 
 .character-container__right {
-    max-width: 1200px;
+    max-width: 1050px;
 }
 
 /* Header section for name */

@@ -1,7 +1,6 @@
 <script>
 import ModalLogin from './ModalLogin.vue';
 import ModalRegister from './ModalRegister.vue';
-import ModalUpload from './ModalUpload.vue';
 import ModalUploadMobile from './ModalUploadMobile.vue';
 import axios from 'axios';
 import { modalState, isUserLogged, mobileDevice } from '@main/state.js';
@@ -11,7 +10,6 @@ export default {
     components: {
         ModalLogin,
         ModalRegister,
-        ModalUpload,
         ModalUploadMobile,
         NewModalUpload
     },
@@ -98,9 +96,8 @@ export default {
         <ModalLogin />
     </div>
     <ModalRegister />
-    <ModalUpload v-if="!userDevice.isMobile" />
     <ModalUploadMobile v-if="userDevice.isMobile" />
-    <NewModalUpload></NewModalUpload>
+    <NewModalUpload v-if="!userDevice.isMobile"></NewModalUpload>
 </template>
 <style>
 .nsfw-state {

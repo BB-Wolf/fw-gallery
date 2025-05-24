@@ -2,7 +2,7 @@
     <div class="upload-rate">
         <div>
             <label>Рейтинг</label>
-            <Multiselect @change="$emit('update:modelValue', $event.target.value)" :options="rateOptions" />
+            <Multiselect v-model="value" @change="setValue($event)" :options="rateOptions" />
         </div>
     </div>
 </template>
@@ -14,11 +14,18 @@ export default {
     },
     data() {
         return {
+            value: null,
             rateOptions: [
                 '0+',
                 '16+',
                 '18+',
             ]
+        }
+    },
+    methods:
+    {
+        setValue(evt) {
+            this.$emit('update:modelValue', evt)
         }
     }
 }
