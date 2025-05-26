@@ -863,6 +863,14 @@ footer {
   background-color: #3498db;
 }
 
+.btn--alert {
+  background-color: #e06c2d;
+}
+
+.btn--alert:hover {
+  background-color: #ff8a4b;
+}
+
 .btn--warning {
 }
 .btn-link {

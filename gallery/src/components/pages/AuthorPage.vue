@@ -1,13 +1,10 @@
 <template>
     <div>
-        <div class="author-hero">
-            <Image></Image>
-        </div>
-        <div id="author-container">
+        <div id="author-container" v-if="this.userProfile">
             <div class="author-block">
                 <div class="author-info">
                     <div class="author-image">
-                        <div class="author-image__border">
+                        <div v-if="this.userProfile.avatar" class="author-image__border">
                             <img :src="this.userProfile.avatar">
                         </div>
                     </div>
@@ -15,10 +12,10 @@
                     <div class="author-reg">Дата регистрации: {{ this.userProfile.registerDate }}</div>
                 </div>
                 <div class="author-stats">
-                    <div class="author-followers"> 0
+                    <div class="author-followers"> {{ this.userProfile.totalSubscribers }}
                         <div class="label">подписчиков</div>
                     </div>
-                    <div class="author-follows">0
+                    <div class="author-follows"> {{ this.userProfile.totalSubs }}
                         <div class="label">подписок</div>
                     </div>
                     <div class="author-publishes"> {{ this.userProfile.totalImages }}
@@ -48,6 +45,10 @@
                         <span>{{ userField.value }}</span>
                     </div>
                 </div>
+                <div v-if="!this.userProfile.subscribed" @click="addToWatch" class="btn btn--success mt-20 mb-20"
+                    style="width: 80%; align-self: safe center; text-align:center;">Подписаться</div>
+                <div v-if="this.userProfile.subscribed" @click="removeFromWatch" class="btn btn--alert mt-20 mb-20"
+                    style="width: 80%; align-self: safe center; text-align:center;">Отписаться</div>
             </div>
             <div class="author-tabs">
                 <TabsRoot default-value="tab1" orientation="horizontal">
@@ -64,25 +65,9 @@
                             :class="[{ [mobileBtnClass]: userDevice.isMobile }]">
                             Избранное
                         </TabsTrigger>
-                        <TabsTrigger value="tab4" class="tab-button"
-                            :class="[{ [mobileBtnClass]: userDevice.isMobile }]">
-                            Страничка автора
-                        </TabsTrigger>
+
                     </TabsList>
                     <TabsContent value="tab1">
-                        <div class="section" id="author-latest-folders">
-                            <div class="h2">Разделы</div>
-                            <!--<div class="image-grid">
-                                <div class="image-item" v-for="galleryImage in newImages" v-bind:key="galleryImage.id">
-                                    <a :href="galleryImage.link">
-                                        <Image imageClass="slide" :imageSrc=galleryImage.picture
-                                            :imageTitle="galleryImage.title + ' от ' + galleryImage.userName"
-                                            imageAlt="">
-                                        </Image>
-                                    </a>
-                                </div>
-                            </div>-->
-                        </div>
                         <div class="section" id="author-latest-images">
                             <div class="h2">Изображения основной галереи</div>
                             <div class="image-grid">
@@ -297,6 +282,32 @@ export default {
 
     },
     methods: {
+        async removeFromWatch() {
+            let addUserToWatch = await new axios('//furry-world.ru/console/get_unwatch_user.php?id=' + this.userProfile.id, {
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem("token"),
+                }
+            });
+            if (addUserToWatch.data) {
+                notifications.generateNotification('Успех', 'Вы успешно отписались от уведомлений');
+                this.userProfile.subscribed = false;
+            } else {
+                notifications.generateNotification('Ошибка', 'Что-то пошло не так');
+            }
+        },
+        async addToWatch() {
+            let addUserToWatch = await new axios('//furry-world.ru/console/get_watch_user.php?id=' + this.userProfile.id, {
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem("token"),
+                }
+            });
+            if (addUserToWatch.data.status == 'success') {
+                this.userProfile.subscribed = true;
+                notifications.generateNotification('Успех', 'Вы успешно подписались на уведомления');
+            } else {
+                notifications.generateNotification('Ошибка', 'Что-то пошло не так');
+            }
+        },
         onLoadMore() {
             window.onscroll = async () => {
                 let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;
@@ -341,9 +352,13 @@ export default {
         }
     },
     async created() {
-        const userReq = await new axios.get('//furry-world.ru/console/get_author_info.php?user=' + this.$route.params.user);
-        document.title = "Фурри Мир, Страничка художника " + this.$route.params.user;
-        document.querySelector('meta[name="description"]').setAttribute("content", 'Художник, работы худржника, арты от ' + this.$route.params.user);
+        const userReq = await new axios.get('//furry-world.ru/console/get_author_info.php?user=' + this.$route.params.user,
+            {
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem("token") ?? '',
+                }
+            }
+        );
 
         if (userReq.data) {
             this.userProfile = userReq.data;
@@ -365,7 +380,7 @@ export default {
             const gallery = await new axios.get('//furry-world.ru/console/get_author_gallery_picture.php?offset=' + this.offset + '&user=' + this.userProfile.id,
                 {
                     headers: {
-                        "Authorization": "Bearer " + localStorage.getItem("token"),
+                        "Authorization": "Bearer " + localStorage.getItem("token") ?? '',
                     }
                 }
             );

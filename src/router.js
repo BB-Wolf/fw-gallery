@@ -74,7 +74,7 @@ rts = [
         }
       },
       {
-        name: 'personalFolderEdit',
+        name: 'AuthorPageInfo',
         path: '/gallery/author/:user',
         component: () => import('@gallery/components/pages/AuthorPage.vue')
       },

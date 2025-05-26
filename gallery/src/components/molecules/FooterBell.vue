@@ -50,7 +50,9 @@ export default {
 }
 
 .footer-bell--active {
-    bottom: 0px;
+    animation: showUp 2s cubic-bezier(0.39, 0.875, 0.565, 1) 1s 1;
+    animation-fill-mode: forwards;
+
 }
 
 .footer-bell svg {
@@ -63,5 +65,24 @@ export default {
 
 .footer-bell--notification svg path {
     fill: orange;
+}
+
+@keyframes showUp {
+    from {
+        bottom: -80px;
+    }
+
+    40% {
+        bottom: 0px
+    }
+
+    70% {
+        bottom: -40px;
+    }
+
+    to {
+        bottom: -10px;
+
+    }
 }
 </style>

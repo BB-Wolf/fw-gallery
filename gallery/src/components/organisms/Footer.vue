@@ -1,7 +1,6 @@
 <script>
 import FooterBell from '../molecules/FooterBell.vue';
 import ModalNotification from '@gallery/components/organisms/ModalNotification.vue';
-import { siteVersion } from '@main/state';
 export default {
     components: {
         FooterBell,

@@ -37,6 +37,8 @@ export default {
             userTrades: false,
             userRequests: false,
             userDrawNsfw: false,
+            userNewPassword: '',
+            userConfirmPassword: '',
             mobileBtnClass: 'btn btn--default',
             charName: '',
             charAge: '',
@@ -90,6 +92,29 @@ export default {
 
     },
     methods: {
+        async updatePassword() {
+            if (this.userNewPassword === this.userConfirmPassword) {
+                const formData = new FormData();
+                formData.append('password', this.userNewPassword);
+                formData.append('confirm', this.userConfirmPassword);
+                let sendPasswordRequest = await new axios.post('//furry-world.ru/console/post_update_password.php', formData, {
+                    headers: {
+                        "Authorization": "Bearer " + localStorage.getItem("token"),
+                    }
+
+                });
+                if (sendPasswordRequest.data && sendPasswordRequest.data.status == 'success') {
+                    notifications.generateNotification('Успех', sendPasswordRequest.data.text);
+
+                } else {
+                    notifications.generateNotification('Ошибка', sendPasswordRequest.data.text);
+
+                }
+
+            } else {
+                notifications.generateNotification('Ошибка', 'Пароли не совпадают');
+            }
+        },
         async fetchTags(tag) {
             const lookUpTag = await axios.get('//furry-world.ru/console/get_search_tags.php?q=' + tag);
 
@@ -331,6 +356,22 @@ export default {
                     <button class="update-btn" @click="saveFields">Сохранить</button>
 
                 </div>
+
+                <div class="profile-container">
+                    <div class="h1">Авторизация</div>
+                    <div class="profile-container">
+                        <div class="h2">Пароль</div>
+                        <div class="user-data">
+                            <label>Введите новый пароль</label>
+                            <input type="password" v-model="userNewPassword" class="infoFieldVal">
+                        </div>
+                        <div class="user-data">
+                            <label>Подтвердите новый пароль</label>
+                            <input type="password" v-model="userConfirmPassword" class="infoFieldVal">
+                        </div>
+                    </div>
+                    <div class="btn update-btn" @click="updatePassword">Сохранить</div>
+                </div>
                 <div class="profile-container" style="">
                     <div class="h1">Статус</div>
                     <div class="profile-section" style="flex-wrap: wrap;">
@@ -357,17 +398,15 @@ export default {
                     </div>
                 </div>
 
-                <div class="profile-container">
+                <!--  <div class="profile-container">
                     <div class="h1">Управление тегами</div>
                     <div class="profile-section">
-                        <!-- User Data -->
                         <Multiselect v-model="tags" placeholder="Выберите теги" :filter-results="false" :min-chars="2"
                             :resolve-on-load="false" :mode="'multiple'" :delay="3" :close-on-select="true" :limit="10"
                             :searchable="true" :options="async function (query) {
                                 return await fetchTags(query)
                             }" />
                     </div>
-                    <!-- Update Button -->
                     <button class="update-btn" @click="saveFields">Сохранить</button>
 
                 </div>
@@ -381,10 +420,9 @@ export default {
                             <label>VK</label>
                         </div>
                     </div>
-                    <!-- Update Button -->
                     <button class="update-btn">Сохранить</button>
 
-                </div>
+                </div>-->
 
             </TabsContent>
             <TabsContent value="tab2">
@@ -613,6 +651,7 @@ h2 {
 }
 
 input[type="text"],
+input[type="password"],
 .user-data input[type="text"],
 .user-data input[type="email"],
 .user-data input[type="file"] {
