@@ -174,7 +174,20 @@ rts = [
       }
     ]
   },
-
+  {
+    path: '/',
+    component: () => import('@main/layouts/MainPageLayout.vue'),
+    children: [
+      {
+        name: 'CookiePolicy',
+        path: '/cookie-policy/',
+        component: () => import('@main/components/pages/CookiePolicy.vue'),
+        meta: {
+          requiresAuth: false
+        }
+      }
+    ]
+  },
   {
     path: '/:catchAll(.*)',
     component: () => import('@main/layouts/MainPageLayout.vue'),

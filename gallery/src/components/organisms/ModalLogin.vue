@@ -31,7 +31,7 @@
                     </div>-->
                     <div class="form-group" style="padding-right:0; margin-top:20px;">
                         <button class="button-53" style="background-color:  #ffcc00;" @click="registerModal"
-                            role="button">Регистрация/Вход (VK,TG)</button>
+                            role="button">Регистрация</button>
 
                     </div>
                 </div>

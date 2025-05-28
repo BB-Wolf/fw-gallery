@@ -1,13 +1,15 @@
 <script setup>
 import Header from '@main/components/organisms/Header.vue';
 import Footer from '@gallery/components/organisms/Footer.vue';
+import CookiePolicy from '@main/components/organisms/CookiePolicy.vue';
+import { allowedCookie } from '@main/state';
 </script>
 <script>
 export default
     {
         created() {
             //   isUserLogged.vaildate();
-        }
+        },
     }
 </script>
 
@@ -20,6 +22,7 @@ export default
         </Transition>
     </router-view>
     <Footer></Footer>
+    <CookiePolicy v-if="allowedCookie.allowed != 1"></CookiePolicy>
 </template>
 
 <style scoped>

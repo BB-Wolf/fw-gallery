@@ -10,8 +10,8 @@ export const modalState = reactive({
 })
 
 export const siteVersion = reactive({
-   currentState:'gallery'
-});
+  currentState: 'gallery'
+})
 
 export const mobileDevice = reactive({ isMobile })
 export const notifications = reactive({
@@ -60,3 +60,5 @@ export const isUserLogged = reactive({
 export const pageTitle = reactive({
   title: ''
 })
+
+export const allowedCookie = reactive({ allowed: localStorage.getItem('allowcookie') })
