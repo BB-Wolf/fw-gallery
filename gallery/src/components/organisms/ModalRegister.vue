@@ -89,11 +89,8 @@
                     <input type="password" v-model="password" placeholder="Введите Ваш пароль">
                 </div>
                 <div class="form-group">
-                    <label>E-mail :</label>
-                    <div class="muted">Мы не храним Вашу почту, сюда будет отправлен файл с ключом для
-                        восстановелния
-                        доступа</div>
-                    <input type="password" v-model="email" placeholder="Введите Ваш email">
+                    <label>Подтвердите пароль:</label>
+                    <input type="password" v-model="passwordagain" placeholder="Введите Ваш пароль">
                 </div>
                 <div class="form-group" style="padding-right:0; margin-top:20px;">
                     <button class="button-53" @click="sendData" role="button">Регистрация</button>
@@ -406,6 +403,7 @@ export default {
             login: null,
             regMode: '',
             password: null,
+            passwordagain: null,
             email: null,
             getTgResponse: false,
             hasResponse: false,
@@ -452,6 +450,13 @@ export default {
             if (this.login == null || this.password == null) {
                 document.querySelector('#register').classList.add('shake-form');
                 setTimeout(() => document.querySelector('#register').classList.remove('shake-form'), 500);
+                return false;
+            }
+            if (this.password != this.passwordagain) {
+                document.querySelector('#register').classList.add('shake-form');
+                setTimeout(() => document.querySelector('#register').classList.remove('shake-form'), 500);
+                this.hasResponse = true;
+                this.responseData = { success: false, text: 'Пароли не совпадают' };
                 return false;
             }
 
