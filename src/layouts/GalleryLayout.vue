@@ -1,6 +1,8 @@
 <script setup>
 import Header from '@gallery/components/organisms/Header.vue';
 import Footer from '@gallery/components/organisms/Footer.vue';
+import CookiePolicy from '@main/components/organisms/CookiePolicy.vue';
+import { allowedCookie } from '@main/state';
 </script>
 <script>
 export default
@@ -24,6 +26,8 @@ export default
     <slot>
         <Footer></Footer>
     </slot>
+    <CookiePolicy v-if="allowedCookie.allowed != 1"></CookiePolicy>
+
 </template>
 
 <style scoped>
