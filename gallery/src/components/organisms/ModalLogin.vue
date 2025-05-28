@@ -18,7 +18,7 @@
                     </div>
                     <div class="form-group">
                         <label>Пароль:</label>
-                        <input type="password" v-model="password" placeholder="Введите Ваш паароль">
+                        <input type="password" v-model="password" placeholder="Введите Ваш пароль">
                     </div>
                     <div class="form-group" style="padding-right:0; margin-top:20px;">
                         <button class="button-53" @click="sendData" role="button">Войти</button>

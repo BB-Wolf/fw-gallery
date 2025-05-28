@@ -73,8 +73,8 @@ if (siteVersion.currentState == 'gallery') {
       meta: { transition: 'fade' }
     },
     {
-      path: '/todo/',
-      component: () => import('./components/pages/TodoPage.vue'),
+      path: '/pallete_of_a_day/',
+      component: () => import('./components/pages/DayPallets.vue'),
       meta: { transition: 'fade' }
     },
     {

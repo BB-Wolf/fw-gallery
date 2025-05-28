@@ -14,18 +14,17 @@
                 </noindex>
             </div>
             <div class=" modal-body">
-                <div class="form-group">
+                <!--  <div class="form-group">
                     <div class="btn btn--default" @click="regVK" style="background-color: #d8d8d8;">
                         VK</div>
                 </div>
                 <div class="form-group">
                     <div class="btn btn--default" @click="this.regMode = 'telegram'" style="background-color: #d8d8d8;">
                         Telegram</div>
-                </div>
+                </div>-->
                 <div class="form-group">
                     <div class="btn btn--default" @click="this.regMode = 'regular'" style="background-color: #d8d8d8;">
-                        Логин + пароль + файл
-                        восстановления</div>
+                        Логин + пароль</div>
                 </div>
             </div>
         </div>

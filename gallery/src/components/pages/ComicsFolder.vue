@@ -101,7 +101,8 @@ export default {
       );
       Seo.setPageCanonical('/comics/' + this.$route.params.author + '/' + this.$route.params.name);
     } else {
-      notifications.generateNotification('bad', 'Ошибка получения данных')
+      notifications.generateNotification('bad', 'Ошибка получения данных');
+      window.location.href = '//furry-world.ru/gallery/comics/';
     }
   }
 }

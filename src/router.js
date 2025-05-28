@@ -117,6 +117,11 @@ rts = [
         name: 'Legal',
         path: 'legal',
         component: () => import('@gallery/components/pages/Legal.vue')
+      },
+      {
+        name: 'Palleteofaday',
+        path: '/gallery/pallete_of_a_day/',
+        component: () => import('@gallery/components/pages/DayPallets.vue')
       }
     ],
     meta: { transition: 'fade' }
