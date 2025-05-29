@@ -1,14 +1,15 @@
 <template>
     <section id="author-week" class="mt-20">
         <div class="h2">Художники недели</div>
-        <div class="portrait-container" v-if="authorList.length != 0">
+        <div class="portrait-container" v-if="authorList.length != 0 && this.isLoading == false">
             <div class="portrait-card" v-for="author in authorList" :key="author">
-                <a class="portrait-border" :href="'/author/' + author.login"><img :src=author.picture>
+                <a class="portrait-border" :href="'/gallery/author/' + author.login"><img :src=author.picture>
                 </a>
                 <div class="portrait-card-author">{{ author.login }}</div>
             </div>
         </div>
-        <div class="portrait-container--empty" v-else style="width:90%;justify-content: unset;">
+        <div class="portrait-container--empty" v-if="authorList.length == 0 && this.isLoading == false"
+            style="width:90%;justify-content: unset;">
             <div class="portrait-options-noone">
                 <div class="portrait-dragon">
                     <img src="../../assets/images/drakon6.png">
@@ -35,14 +36,17 @@ import axios from 'axios';
 export default {
     data() {
         return {
-            authorList: '',
+            authorList: [],
+            isLoading: true,
         }
     },
     async mounted() {
         let authorListGet = await new axios.get('//furry-world.ru/console/get_ranked_author_list.php');
         if (authorListGet.data) {
             this.authorList = authorListGet.data;
+
         }
+        this.isLoading = false;
     }
 }
 </script>
