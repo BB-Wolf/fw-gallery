@@ -6,6 +6,7 @@ import SwitchButton from '../molecules/SwitchButton.vue';
 import Image from '../atoms/Image.vue';
 import { notifications, mobileDevice } from '@main/state';
 import Multiselect from '@vueform/multiselect'
+import PersonalStats from '@gallery/components/organisms/PersonalStats.vue';
 
 export default {
     components:
@@ -17,7 +18,8 @@ export default {
         InputText,
         SwitchButton,
         Image,
-        Multiselect
+        Multiselect,
+        PersonalStats
 
     },
     data() {
@@ -545,7 +547,8 @@ export default {
 
             </TabsContent>
             <TabsContent value="tab5">
-                <div class="h1">Скоро</div>
+                <h2>Статистика</h2>
+                <PersonalStats></PersonalStats>
             </TabsContent>
         </TabsRoot>
     </div>
