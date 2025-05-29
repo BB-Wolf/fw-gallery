@@ -1,23 +1,24 @@
 <template>
     <section id="author-week" class="mt-20 mb-20">
         <div class="h2">Художники недели</div>
-        <div class="portrait-container" v-if="authorList">
-            <swiper-container :slides-per-view="3" :space-between="spaceBetween" :centered-slides="false"
-                :pagination="false" :breakpoints="{
-                    768: {
-                        slidesPerView: 6,
-                    },
-                }" @swiperprogress="onProgress" @swiperslidechange="onSlideChange">
-                <swiper-slide v-for="author in authorList" :key="author">
-                    <div class="portrait-card">
-                        <a class="portrait-border" :href="'/gallery/author/' + author.login"><img :src=author.picture>
-                        </a>
-                        <div class="portrait-card-author">{{ author.login }}</div>
-                    </div>
-                </swiper-slide>
+        <div class="portrait-container" v-if="authorList.length != 0 && this.isLoading == false >
+            <swiper-container : slides - per - view=" 3" :space-between="spaceBetween" :centered-slides="false"
+            :pagination="false" :breakpoints="{
+                768: {
+                    slidesPerView: 6,
+                },
+            }" @swiperprogress="onProgress" @swiperslidechange="onSlideChange">
+            <swiper-slide v-for="author in authorList" :key="author">
+                <div class="portrait-card">
+                    <a class="portrait-border" :href="'/gallery/author/' + author.login"><img :src=author.picture>
+                    </a>
+                    <div class="portrait-card-author">{{ author.login }}</div>
+                </div>
+            </swiper-slide>
             </swiper-container>
         </div>
-        <div v-if="authorList == null" class="portrait-container--empty" style="width:90%;justify-content: unset;">
+        <div v-if="authorList.length == 0 && this.isLoading == false" class="portrait-container--empty"
+            style="width:90%;justify-content: unset;">
             <div class="portrait-options-noone">
                 <div class="portrait-dragon">
                     <img src="../../assets/images/drakon6.png">
@@ -61,7 +62,8 @@ export default {
     },
     data() {
         return {
-            authorList: null,
+            authorList: [],
+            isLoading: true,
         }
     },
     async created() {
@@ -69,6 +71,7 @@ export default {
         if (authorListGet.data) {
             this.authorList = authorListGet.data;
         }
+        this.isLoading = false;
     }
 }
 </script>
