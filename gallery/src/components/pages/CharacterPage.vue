@@ -120,7 +120,7 @@ export default {
                                     </a>
                                     <div class="gallery-item__hover">
                                         <div class="gallery-item__author"><a :href="item.link">{{ item.title
-                                                }}</a></div>
+                                        }}</a></div>
                                         <div class="gallery-item__title"><b>Автор:</b> <a
                                                 :href="'/gallery/author/' + item.userName">{{
                                                     item.userName }}</a></div>
@@ -339,5 +339,12 @@ export default {
 
 .wait-container--active {
     display: block;
+}
+
+@media (max-width:760px) {
+    .grid-container {
+        display: grid;
+        grid-template-columns: auto;
+    }
 }
 </style>
