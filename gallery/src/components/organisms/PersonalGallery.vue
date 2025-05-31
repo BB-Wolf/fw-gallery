@@ -2,13 +2,11 @@
     <div class="section" id="latest-images">
         <a :href="galleryUrl" class="h2">{{ galleryTitle }}</a>
         <div class="gallery-wrapper">
-            <masonry-wall v-if="newImages" :items="newImages" :min-columns="this.minColumns" :max-columns="maxColumns"
-                :column-width="300" :gap="16">
+            <masonry-wall v-if="newImages" :items="newImages" :ssr-columns="0" :column-width="300" :gap="16">
                 <template #default="{ item, index }">
                     <div class="gallery-item">
                         <div class="gallery-item__hover--top">
-                            <div class="fav-bookmark" :class="[{ ['fav-bookmark--active']: item.isFav }]"
-                                @click="saveToFav($event.target, item.id)">
+                            <div class="fav-bookmark" @click="saveToFav($event.target, item.id)">
                                 <svg fill="#000000" width="60px" height="60px" viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <path
@@ -137,7 +135,6 @@
 import axios from 'axios';
 import Image from '../atoms/Image.vue';
 import MasonryWall from '@yeger/vue-masonry-wall'
-import { mobileDevice } from '@main/state';
 
 export default {
     components: {
@@ -158,7 +155,7 @@ export default {
         needInfinty: {
             type: String,
             default: 'n'
-        },
+        }
     },
     methods: {
         async saveToFav(elm, id) {
@@ -171,6 +168,7 @@ export default {
             );
             if (addImg.data) {
                 elm.parentNode.parentNode.classList.toggle('fav-bookmark--active');
+                //
             } else {
                 // handle global notifications
             }
@@ -204,18 +202,9 @@ export default {
             offset: 2,
             isFinish: false,
             isLoading: false,
-            isUserMobile: mobileDevice,
-            minColumns: 0,
-            maxColumns: 0,
         }
     },
     async created() {
-        if (!mobileDevice) {
-            this.minColumns = 6;
-        } else {
-            this.minColumns = 0;
-            this.maxColumns = 0;
-        }
         const gallery = await new axios.get('//furry-world.ru/console/get_gallery_picture.php',
             {
                 headers: {
@@ -227,13 +216,15 @@ export default {
             this.newImages = gallery.data;
         }
         let images = document.querySelectorAll(".gallery-item");
-
+        for (let i = 0; i < images.length; i++) {
+            if (images[i].clientHeight < 300) {
+                images[i].style.transform = "translate(0,-" + 300 - images[i].clientHeight + ")"
+            }
+        }
     },
     mounted() {
         if (this.needInfinty == 'y') {
-
             this.onLoadMore();
-
         }
     }
 }

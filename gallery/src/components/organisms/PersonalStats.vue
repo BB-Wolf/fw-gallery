@@ -33,7 +33,7 @@ export default {
             this.subscribers = response.data.subscribers || [];
         } catch (error) {
             notifications.generateNotification(
-                'error',
+                'Ошибка',
                 'Ошибка при загрузке данных подписок. Пожалуйста, попробуйте позже.'
             );
         } finally {
