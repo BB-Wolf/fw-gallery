@@ -127,7 +127,7 @@ export default {
                     <div class="character-bio">
                         <h2>Полное Био</h2>
                         <div id="character-full-bio">
-                            <textarea v-model="charFullBio" rows="30" cols="100"></textarea>
+                            <textarea v-model="charFullBio"></textarea>
                         </div>
                     </div>
                 </div>
@@ -144,6 +144,23 @@ export default {
 
 </template>
 <style scoped>
+textarea {
+    width: 100%;
+    min-height: 300px;
+    background-color: rgba(0, 0, 0, 0.4);
+    color: white;
+    padding: 10px
+}
+
+input[type="text"] {
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+}
+
 .section-container,
 .character-gallery {
     width: 100%;
