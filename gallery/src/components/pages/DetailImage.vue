@@ -28,11 +28,21 @@
                     <span><strong>Автор:</strong> <a class="author-link"
                             :href="'/gallery/author/' + imageData.imageAuthor">{{
                                 $route.params.user }}</a></span>
+                    <span v-if="imageData.imageCharacters && imageData.imageCharacters.length == 1"><strong>Персонаж:
+                        </strong> <a class="author-link"
+                            :href="'/gallery/author/' + imageData.imageAuthor + '/characters/' + imageData.imageCharacters[0].characterCode">{{
+                                imageData.imageCharacters[0].characterName
+                            }}</a></span>
+                    <span v-if="imageData.imageCharacters && imageData.imageCharacters.length > 1"><strong>Персонажи:
+                        </strong> <a v-for="char in imageData.imageCharacters" :key="char" class="author-link"
+                            :href="'/gallery/author/' + imageData.imageAuthor + '/characters/' + char.characterCode">{{
+                                char.characterName
+                            }}</a></span>
                     <span><strong>Дата:</strong> {{ imageData.imagePostDate }}</span>
                     <span><strong>Разрешение:</strong> {{ imageData.imageDimension.width }}x{{
                         imageData.imageDimension.height }}
                     </span>
-                    <span><strong>Раздел:</strong> {{ imageData.imageFolder }}</span>
+                    <span v-if="imageData.imageFolder"><strong>Раздел:</strong> {{ imageData.imageFolder }}</span>
                     <span><strong>Просмотров: </strong> {{ imageData.watches }}</span>
                     <span><strong>В избранном у: </strong> {{ imageData.likes }}</span>
                 </div>

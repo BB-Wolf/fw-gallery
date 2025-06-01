@@ -155,6 +155,7 @@ export default {
   justify-content: space-evenly;
 }
 
+
 .pagepreview-slide a {
   display: flex;
   flex-direction: column;
@@ -168,7 +169,7 @@ export default {
 }
 
 .pagepreview-slide img {
-  max-width: 80px;
+  max-width: 240px;
 }
 
 .h2 {
