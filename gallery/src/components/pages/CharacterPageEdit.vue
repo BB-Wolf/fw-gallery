@@ -2,7 +2,7 @@
 import axios from 'axios';
 import MasonryWall from '@yeger/vue-masonry-wall'
 import Image from '@gallery/components/atoms/Image.vue';
-import { mobileDevice } from '@main/state';
+import { mobileDevice, notifications } from '@main/state';
 
 export default {
     components: {
@@ -22,6 +22,8 @@ export default {
             charFullBio: '',
             charAge: '',
             charSpecie: '',
+            avatarFile: null,
+            charAvatar: null,
         }
     },
     async created() {
@@ -49,27 +51,35 @@ export default {
         }
     },
     methods: {
-        saveChar() {
-            axios.post('//furry-world.ru/console/save_character.php', {
-                name: this.charName,
-                short: this.charShortBio,
-                full: this.charFullBio,
-                age: this.charAge,
-                species: this.charSpecie,
-                picture: this.charData.picture,
-                user: this.$route.params.owner,
-                character: this.$route.params.character
-            }, {
+        newCharacterAvatar(e) {
+            let avatarFile = e.target.files || e.dataTransfer.files;
+            this.charAvatar = avatarFile[0];
+            this.charData.picture = URL.createObjectURL(this.charAvatar);
+
+        },
+        async saveCharacter() {
+            let formData = new FormData();
+            formData.append('name', this.charName);
+            formData.append('age', this.charAge);
+            formData.append('species', this.charSpecie);
+            formData.append('short', this.charShortBio);
+            formData.append('full', this.charFullBio);
+            if (this.charAvatar !== null) {
+                formData.append('file', this.charAvatar);
+            }
+
+            let saveFormData = await new axios.post('//furry-world.ru/console/post_edit_character.php', formData, {
                 headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
-                }
-            }).then(response => {
-                if (response.data.success) {
-                    this.$router.push('/character/' + this.$route.params.owner + '/' + this.$route.params.character);
-                } else {
-                    alert('Ошибка при сохранении персонажа');
+                    "Authorization": "Bearer " + localStorage.getItem("token"),
                 }
             });
+
+            if (saveFormData.data) {
+                notifications.generateNotification(saveFormData.data.status, saveFormData.data.text);
+
+            } else {
+                notifications.generateNotification('bad', 'Ошибка сохранения персонажа')
+            }
         },
         deleteChar() {
             axios.post('//furry-world.ru/console/delete_character.php', {
@@ -109,6 +119,11 @@ export default {
                 <!-- Character Info -->
                 <div class="section-container mt-20">
                     <div class="character-info">
+                        <!-- Character Image -->
+                        <div @click="$refs.characterImage.click()" class="btn btn-default">
+                            Нажмите чтобы загрузить изображение
+                            <input type="file" ref="characterImage" style="display: none" @change="newCharacterAvatar">
+                        </div>
                         <div id="character-name">
                             <label for="character-name mt-40">Имя персонажа:</label>
                             <input type="text" v-model="charName">
@@ -135,7 +150,7 @@ export default {
 
             <div class="character-gallery">
                 <div class="section-container" style="display:flex;gap:20px;">
-                    <div class="btn btn--success" @click="saveChar">Сохранить</div>
+                    <div class="btn btn--success" @click="saveCharacter">Сохранить</div>
                     <div class="btn btn--danger" @clic="deleteChar">Удалить</div>
                 </div>
             </div>

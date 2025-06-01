@@ -540,6 +540,8 @@ export default {
                                     </Image>
                                 </a>
                                 <div class="character__name">{{ galleryImage.char.name }}</div>
+                                <a class="btn btn--default"
+                                    :href="'/gallery/author/' + this.userLogin + '/characters/' + galleryImage.code + '/edit/'">Редактировать</a>
                             </div>
                         </div>
                     </div>
