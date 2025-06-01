@@ -99,6 +99,11 @@ rts = [
         component: () => import('@gallery/components/pages/CharacterPage.vue')
       },
       {
+        name: 'GalleryAuthorCharEdit',
+        path: '/gallery/author/:owner/characters/:character/edit/',
+        component: () => import('@gallery/components/pages/CharacterPageEdit.vue')
+      },
+      {
         name: 'Comic',
         path: '/gallery/comics/',
         component: () => import('@gallery/components/pages/ComicGallery.vue')

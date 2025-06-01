@@ -17,7 +17,11 @@ export default {
             offset: 1,
             isFinish: false,
             isLoading: false,
-
+            charName: '',
+            charShortBio: '',
+            charFullBio: '',
+            charAge: '',
+            charSpecie: '',
         }
     },
     async created() {
@@ -36,35 +40,55 @@ export default {
         if (characterData.data) {
             document.title = "Фурри Мир, Персонаж " + characterData.data.char.name;
             this.charData = characterData.data
+            this.charName = characterData.data.char.name;
+            this.charShortBio = characterData.data.char.short;
+            this.charFullBio = characterData.data.char.full;
+            this.charAge = characterData.data.char.age;
+            this.charSpecie = characterData.data.char.species;
             this.responseData = true;
         }
     },
     methods: {
-        onLoadMore() {
-            window.onscroll = async () => {
-                if (!this.isLoading) {
-                    let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;
-                    if (bottomOfWindow && !this.isFinish) {
-                        this.isLoading = true;
-                        document.querySelector('.wait-container').classList.add('wait-container--active');
-                        const getMore = await axios.get('//furry-world.ru/console/get_character_info.php?user=' + this.$route.params.owner + '&character=' + this.$route.params.character + '&offset=' + this.offset);
-                        if (getMore.data) {
-                            if (getMore.data.length == 0) {
-                                this.isFinish = true;
-                            }
-                            this.offset += 1;
-                            var currentImages = this.newImages;
-                            this.newImages = [...currentImages, ...getMore.data];
-                            document.querySelector('.wait-container').classList.remove('wait-container--active');
-                            this.isLoading = false;
-                        }
-                    }
+        saveChar() {
+            axios.post('//furry-world.ru/console/save_character.php', {
+                name: this.charName,
+                short: this.charShortBio,
+                full: this.charFullBio,
+                age: this.charAge,
+                species: this.charSpecie,
+                picture: this.charData.picture,
+                user: this.$route.params.owner,
+                character: this.$route.params.character
+            }, {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
                 }
-            }
+            }).then(response => {
+                if (response.data.success) {
+                    this.$router.push('/character/' + this.$route.params.owner + '/' + this.$route.params.character);
+                } else {
+                    alert('Ошибка при сохранении персонажа');
+                }
+            });
+        },
+        deleteChar() {
+            axios.post('//furry-world.ru/console/delete_character.php', {
+                user: this.$route.params.owner,
+                character: this.$route.params.character
+            }, {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                }
+            }).then(response => {
+                if (response.data.success) {
+                    this.$router.push('/characters/' + this.$route.params.owner);
+                } else {
+                    alert('Ошибка при удалении персонажа');
+                }
+            });
         }
     },
     mounted() {
-        this.onLoadMore();
     }
 }
 </script>
@@ -83,12 +107,18 @@ export default {
             </div>
             <div class="grid-container">
                 <!-- Character Info -->
-                <div class="section-container">
+                <div class="section-container mt-20">
                     <div class="character-info">
-                        <h1 id="character-name">{{ this.charData.char.name }}</h1>
-                        <p id="character-age">Вид: {{ this.charData.char.specie }}</p>
-                        <p id="character-age">Возраст: {{ this.charData.char.age }}</p>
-                        <p id="character-short-bio">{{ this.charData.char.short }}</p>
+                        <div id="character-name">
+                            <label for="character-name mt-40">Имя персонажа:</label>
+                            <input type="text" v-model="charName">
+                        </div>
+                        <div id="character-age"><label>Вид:</label><input type="text" v-model="charSpecie">
+                        </div>
+                        <div id="character-age"><label>Возраст:</label><input type="text" v-model="charAge">
+                        </div>
+                        <div id="character-age"><label>Короткое описание:</label><textarea
+                                v-model="charShortBio"></textarea></div>
                     </div>
                 </div>
                 <!-- Character Full Bio -->
@@ -96,51 +126,17 @@ export default {
 
                     <div class="character-bio">
                         <h2>Полное Био</h2>
-                        <p id="character-full-bio">
-                            {{ this.charData.char.full }}
-                        </p>
+                        <div id="character-full-bio">
+                            <textarea v-model="charFullBio" rows="30" cols="100"></textarea>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="character-gallery">
-                <div class="section-container">
-                    <div class="h2">Галерея персонажа</div>
-                    <div class="gallery-wrapper">
-                        <masonry-wall v-if="this.charData.images" :items="this.charData.images"
-                            :min-columns="this.minColumns" :column-width="300" :gap="16">
-                            <template #default="{ item }">
-                                <div class="gallery-item">
-                                    <div class="gallery-item__hover--top">
-                                    </div>
-                                    <a :href="item.link">
-                                        <Image imageClass="slide" :imageSrc=item.picture
-                                            :imageTitle="item.title + ' от ' + item.userName" imageAlt="">
-                                        </Image>
-                                    </a>
-                                    <div class="gallery-item__hover">
-                                        <div class="gallery-item__author"><a :href="item.link">{{ item.title
-                                                }}</a></div>
-                                        <div class="gallery-item__title"><b>Автор:</b> <a
-                                                :href="'/gallery/author/' + item.userName">{{
-                                                    item.userName }}</a></div>
-                                    </div>
-                                </div>
-                            </template>
-                        </masonry-wall>
-                        <div class="wait-container" style="margin:0 auto;">
-                            <div class="lds-roller" v-if="!this.responseData">
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="section-container" style="display:flex;gap:20px;">
+                    <div class="btn btn--success" @click="saveChar">Сохранить</div>
+                    <div class="btn btn--danger" @clic="deleteChar">Удалить</div>
                 </div>
             </div>
         </div>
@@ -324,7 +320,6 @@ export default {
 @media only screen and (max-width:600px) {
     .gallery-item {
         width: 100%;
-        min-width: 300px;
     }
 
     .gallery-wrapper {
