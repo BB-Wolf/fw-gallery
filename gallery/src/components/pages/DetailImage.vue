@@ -4,7 +4,8 @@
 
             <!-- Left Column (70%): Image Preview Section -->
             <div class="image-preview" style="flex-direction: column;">
-                <img :src="imageData.imageLink" :title="imageData.imageTitle" :alt="imageData.imageTitle">
+                <ImageZoom :src="imageData.imageLink" :title="imageData.imageTitle" :alt="imageData.imageTitle"
+                    :options="{ background: 'black' }" />
                 <!-- More by Author Section -->
                 <div class="more-by-author">
                     <h3>Случайные работы от {{ $route.params.user }}</h3>
@@ -115,9 +116,14 @@ import markdownit from 'markdown-it';
 import 'vue-image-zoomer/dist/style.css';
 import { notifications } from '@main/state';
 import Seo from '@main/api/seo/Seo.js';
+import 'medium-zoom/dist/style.css'
+import ImageZoom from '@gallery/components/molecules/ImageZoom.vue';
 
 export default
     {
+        components: {
+            ImageZoom
+        },
         data() {
             return {
                 imageData: null,
@@ -127,12 +133,15 @@ export default
             }
         },
         async created() {
+
             let comments = await new axios.get('//furry-world.ru/console/get_image_comment.php?image=' + this.$route.params.image)
             if (comments.data) {
                 this.commentsData = comments.data;
             }
         },
         async mounted() {
+
+
             const md = markdownit();
             let getImageData = await new axios.get('//furry-world.ru/console/get_detail_image.php?user=' + this.$route.params.user + '&code=' + this.$route.params.image, {
                 headers: {

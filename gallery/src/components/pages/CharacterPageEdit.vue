@@ -75,25 +75,16 @@ export default {
             });
 
             if (saveFormData.data) {
-                notifications.generateNotification(saveFormData.data.status, saveFormData.data.text);
+                notifications.generateNotification('Успех', saveFormData.data.text);
 
             } else {
-                notifications.generateNotification('bad', 'Ошибка сохранения персонажа')
+                notifications.generateNotification('Ошибка', 'Ошибка сохранения персонажа')
             }
         },
-        deleteChar() {
-            axios.post('//furry-world.ru/console/delete_character.php', {
-                user: this.$route.params.owner,
-                character: this.$route.params.character
-            }, {
+        async deleteChar() {
+            let sendRequest = await new axios.post('//furry-world.ru/console/post_edit_character.php', formData, {
                 headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
-                }
-            }).then(response => {
-                if (response.data.success) {
-                    this.$router.push('/characters/' + this.$route.params.owner);
-                } else {
-                    alert('Ошибка при удалении персонажа');
+                    "Authorization": "Bearer " + localStorage.getItem("token"),
                 }
             });
         }

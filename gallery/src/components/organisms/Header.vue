@@ -136,7 +136,7 @@ export default {
         transform: translate(-80px, -22px);
         background: url('../../assets/images/volk5.png') 0 0;
         background-size: contain;
-        z-index: 10;
+        z-index: 0;
         height: 80px;
         width: 80px;
     }

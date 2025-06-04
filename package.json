@@ -29,6 +29,7 @@
     "axios-cache-interceptor": "^1.6.2",
     "bulletin-board-code": "^1.0.2",
     "markdown-it": "^14.1.0",
+    "medium-zoom": "^1.1.0",
     "mobile-device-detect": "^0.4.3",
     "novel": "^1.0.2",
     "primevue": "^4.2.1",
