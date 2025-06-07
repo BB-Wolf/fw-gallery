@@ -170,6 +170,7 @@ export default {
 
 .pagepreview-slide img {
   max-width: 240px;
+  width: 240px;
 }
 
 .h2 {
