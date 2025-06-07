@@ -62,4 +62,19 @@ export default {
 .notification-markread {
     order: 100000;
 }
+
+.notify-title--bad {
+    position: relative;
+}
+
+.notify-title--bad::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50px;
+    height: 50px;
+    background: url(/gallery/src/assets/images/koshka5.png) no-repeat center center;
+    background-size: contain;
+}
 </style>

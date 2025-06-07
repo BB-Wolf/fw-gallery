@@ -5,15 +5,17 @@
                 <!-- Step 1-->
                 <div class="step-item" v-if="this.step == 1">
                     <div class="h2">Загрузка изображения</div>
+                    <div class="steps-image__peview" v-if="image">
+                        <img :src="this.image">
+                    </div>
                     <div class="form-group">
-                        <label>Название работы</label>
-                        <input type="text" v-model="title" name="title">
+                        <ModalTitle v-model="title"></ModalTitle>
                     </div>
                     <div class="form-group">
                         <label>Изображение</label>
-                        <input type="file" name="file" @change="makePreview">
-                        <div class="steps-image__peview" v-if="image">
-                            <img :src="this.image">
+                        <input type="file" style="display: none;" ref="file" name="file" @change="makePreview">
+                        <div class="btn btn--default" style="width:100%;" @click="this.$refs.file.click()">Загрузить
+                            изображение
                         </div>
                     </div>
                     <div class="form-group f-align__end">
@@ -23,17 +25,9 @@
                 <!-- End of step1-->
                 <!-- Step 2-->
                 <div class="step-item" v-if="this.step == 2">
-                    <div class="h2">Описание</div>
                     <div class="form-group">
-                        <label>Теги</label>
-                        <input type="text" v-model="tags" name="tags">
-                    </div>
-                    <div class="form-group">
-                        <label>Папка</label>
-                        <input type="text" v-model="folder" name="folder">
-                    </div>
-                    <div class="form-group"><label for="">Рейтинг</label>
-                        <Multiselect v-model="rate" :options="rateOptions" />
+                        <ModalDescription v-model="description"></ModalDescription>
+
                     </div>
                     <div class="form-group f-row f-space__between">
                         <div class="btn btn--primary step--prev" @click="prevStep">Назад</div>
@@ -42,6 +36,22 @@
                 </div>
 
                 <div class="step-item" v-if="this.step == 3">
+                    <div class="form-group">
+                        <ModalTags v-model="this.tags"></ModalTags>
+                    </div>
+                    <div class="form-group">
+                        <ModalFolders v-model="this.folder"></ModalFolders>
+                    </div>
+                    <div class="form-group">
+                        <ModalRate v-model="this.rate"></ModalRate>
+                    </div>
+                    <div class="form-group f-row f-space__between">
+                        <div class="btn btn--primary step--prev" @click="prevStep">Назад</div>
+                        <div class="btn btn--info step--next" @click="nextStep">Вперед</div>
+                    </div>
+                </div>
+
+                <div class="step-item" v-if="this.step == 4">
                     <div class="h2">Предпросмотр</div>
                     <div class="form-group">
                         <div>{{ title }}</div>
@@ -55,10 +65,10 @@
                         <label for="">Рейтинг</label>
                         <div>{{ this.rate }}</div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" style="display: flex; flex-wrap: wrap; flex-direction: row; gap:20px;">
                         <label>Теги</label>
-                        <div>
-                            {{ this.tags }}
+                        <div class="btn btn--default" v-for="tag in JSON.parse(tags)" :key="tag">
+                            {{ tag.value }}
                         </div>
                     </div>
                     <div class="form-group">
@@ -79,13 +89,23 @@
     </div>
 </template>
 <style>
+.upload-title {
+    display: flex;
+    flex-direction: column;
+}
+
+textarea {
+    width: 100%;
+    min-height: 120px;
+}
+
 .steps {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: #696969;
+    background: #2b2b2b;
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -147,7 +167,7 @@
 
 .steps-container .steps-image__peview {
     width: 100%;
-    max-width: 180px;
+    max-width: 140px;
     margin: 0 auto;
 }
 
@@ -166,11 +186,23 @@
 import Multiselect from '@vueform/multiselect'
 import { modalState, notifications } from '@main/state.js';
 import axios from 'axios';
+import ModalTitle from '@gallery/components/molecules/ModalTitle.vue';
+import ModalDescription from '@gallery/components/molecules/ModalDescription.vue';
+import ModalRate from '@gallery/components/molecules/ModalRate.vue';
+import ModalTags from '@gallery/components/molecules/ModalTags.vue';
+import ModalFolders from '@gallery/components/molecules/ModalFolders.vue';
+import ModalCharacters from '@gallery/components/molecules/ModalCharacters.vue';
 
 export default {
     components:
     {
-        Multiselect
+        Multiselect,
+        ModalRate,
+        ModalTitle,
+        ModalDescription,
+        ModalTags,
+        ModalFolders,
+        ModalCharacters,
     },
     data() {
         return {
@@ -189,7 +221,10 @@ export default {
                 '16+',
                 '18+',
             ],
-            sending: false
+            sending: false,
+            activeTab: 1,
+            chars: '',
+
         }
     },
     methods:
