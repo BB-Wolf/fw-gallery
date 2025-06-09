@@ -48,6 +48,13 @@ export default {
             charSpecie: '',
             charFullStory: '',
             charAvatar: null,
+            charAvatarRaw: null,
+            characterHeaderRaw: null,
+            characterHeader: null,
+            isMentionable: 0,
+            isTradable: 0,
+            rawHeader: null,
+            userHeader: null,
         };
     },
     async created() {
@@ -185,6 +192,13 @@ export default {
         newCharacterAvatar(e) {
             let avatarFile = e.target.files || e.dataTransfer.files;
             this.charAvatar = avatarFile[0];
+            this.charAvatarRaw = URL.createObjectURL(new File(avatarFile, avatarFile.name))
+
+        },
+        newCharacterHeader(e) {
+            let avatarFile = e.target.files || e.dataTransfer.files;
+            this.characterHeader = avatarFile[0];
+            this.characterHeaderRaw = URL.createObjectURL(new File(avatarFile, avatarFile.name))
 
         },
         onAvatarUpload(e) {
@@ -493,12 +507,31 @@ export default {
                         </div>
 
                         <!-- Character Image -->
-                        <div @click="$refs.characterImage.click()" class="btn btn-default">
-                            Нажмите чтобы загрузить изображение
-                            <input type="file" ref="characterImage" style="display: none" @change="newCharacterAvatar">
+                        <div class="character-info">
+                            <div class="field">
+                                <label class="h2">Превью персонажа</label>
+                                <img class="charAvatarRaw" v-if="charAvatarRaw" :src="charAvatarRaw">
+                            </div>
+                            <div @click="$refs.characterImage.click()" class="btn btn-default">
+                                Нажмите чтобы загрузить изображение
+                                <input type="file" ref="characterImage" style="display: none"
+                                    @change="newCharacterAvatar">
+                            </div>
                         </div>
+                        <div class="character-info">
+                            <div class="field">
 
-                        <div class="character-info-wrapper">
+                                <label class="h2">Изображение в шапке профиля </label>
+                                <img class="charheader-image" v-if="characterHeaderRaw" :src="characterHeaderRaw">
+
+                            </div>
+                            <div @click="$refs.characterHeader.click()" class="btn btn-default">
+                                Нажмите чтобы загрузить изображение
+                                <input type="file" ref="characterHeader" style="display: none"
+                                    @change="newCharacterHeader">
+                            </div>
+                        </div>
+                        <div class="mt-20 character-info-wrapper">
                             <!-- Character Information -->
                             <div class="character-info" id="characterInfo">
                                 <div class="field">
@@ -522,6 +555,14 @@ export default {
                                 <div class="field">
                                     <label for="age">Полное био (нет ограничений по символам)</label>
                                     <textarea v-model="charFullStory" placeholder="Полное био"></textarea>
+                                </div>
+                                <div class="field">
+                                    <SwitchButton v-model="isMentionable" :inputLabel="'Разрешить отмечать другим'">
+                                    </SwitchButton>
+                                </div>
+                                <div class="field">
+                                    <SwitchButton v-model="isTradable" :inputLabel="'Адопт'">
+                                    </SwitchButton>
                                 </div>
                                 <!-- Add Custom Field Button -->
                                 <div class="btn btn--success" id="addFieldButton" @click="saveCharacter">Сохранить</div>
@@ -958,5 +999,10 @@ input[type="file"] {
 .remove-field-btn:hover {
     background-color: #ffcc00;
     color: #2b2b2b;
+}
+
+.charAvatarRaw {
+    max-width: 100%;
+    object-fit: contain;
 }
 </style>
