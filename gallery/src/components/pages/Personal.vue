@@ -142,6 +142,9 @@ export default {
             formData.append('short', this.charBio);
             formData.append('full', this.charFullStory);
             formData.append('file', this.charAvatar);
+            formData.append('ismentionable', this.isMentionable);
+            formData.append('istradeable', this.isTradable);
+            formData.append('charheader', this.characterHeader);
 
             let saveFormData = await new axios.post('//furry-world.ru/console/post_create_character.php', formData, {
                 headers: {
@@ -514,8 +517,8 @@ export default {
                             </div>
                             <div @click="$refs.characterImage.click()" class="btn btn-default">
                                 Нажмите чтобы загрузить изображение
-                                <input type="file" ref="characterImage" style="display: none"
-                                    @change="newCharacterAvatar">
+                                <input type="file" accept="image/png, image/jpeg,image/gif" ref="characterImage"
+                                    style="display: none" @change="newCharacterAvatar">
                             </div>
                         </div>
                         <div class="character-info">
@@ -527,8 +530,8 @@ export default {
                             </div>
                             <div @click="$refs.characterHeader.click()" class="btn btn-default">
                                 Нажмите чтобы загрузить изображение
-                                <input type="file" ref="characterHeader" style="display: none"
-                                    @change="newCharacterHeader">
+                                <input type="file" accept="image/png, image/jpeg,image/gif" ref="characterHeader"
+                                    style="display: none" @change="newCharacterHeader">
                             </div>
                         </div>
                         <div class="mt-20 character-info-wrapper">

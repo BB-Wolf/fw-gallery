@@ -74,7 +74,7 @@ export default {
 
         <div class="character-container" v-if="this.charData">
             <!-- Character Image -->
-            <img :src=this.charData.picture alt="Character Image" class="character-image">
+            <img :src=this.charData.header alt="Character Image" class="character-image">
 
             <div class="author-image">
                 <div class="author-image__border">
