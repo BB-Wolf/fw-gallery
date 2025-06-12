@@ -45,6 +45,9 @@
                     <div class="form-group">
                         <ModalRate v-model="this.rate"></ModalRate>
                     </div>
+                    <div class="form-group">
+                        <ModalCharacters v-model="this.chars"></ModalCharacters>
+                    </div>
                     <div class="form-group f-row f-space__between">
                         <div class="btn btn--primary step--prev" @click="prevStep">Назад</div>
                         <div class="btn btn--info step--next" @click="nextStep">Вперед</div>

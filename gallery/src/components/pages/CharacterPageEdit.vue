@@ -24,6 +24,10 @@ export default {
             charSpecie: '',
             avatarFile: null,
             charAvatar: null,
+            characterHeaderRaw: null,
+            characterHeader: null,
+            isMentionable: 0,
+            isTradable: 0,
         }
     },
     async created() {
@@ -57,6 +61,13 @@ export default {
             this.charData.picture = URL.createObjectURL(this.charAvatar);
 
         },
+        newCharacterHeader(e) {
+            let avatarFile = e.target.files || e.dataTransfer.files;
+            this.characterHeader = avatarFile[0];
+            this.characterHeaderRaw = URL.createObjectURL(new File(avatarFile, avatarFile.name))
+            this.charData.header = this.characterHeaderRaw
+
+        },
         async saveCharacter() {
             let formData = new FormData();
             formData.append('name', this.charName);
@@ -64,8 +75,14 @@ export default {
             formData.append('species', this.charSpecie);
             formData.append('short', this.charShortBio);
             formData.append('full', this.charFullBio);
+            formData.append('ismentionable', this.isMentionable);
+            formData.append('istradeable', this.isTradable);
+
             if (this.charAvatar !== null) {
                 formData.append('file', this.charAvatar);
+            }
+            if (this.charHeader !== null) {
+                formData.append('charheader', this.characterHeader);
             }
 
             let saveFormData = await new axios.post('//furry-world.ru/console/post_edit_character.php', formData, {
@@ -99,7 +116,7 @@ export default {
 
         <div class="character-container" v-if="this.charData">
             <!-- Character Image -->
-            <img :src=this.charData.picture alt="Character Image" class="character-image">
+            <img :src=this.charData.header alt="Character Image" class="character-image">
 
             <div class="author-image">
                 <div class="author-image__border">
@@ -112,8 +129,12 @@ export default {
                     <div class="character-info">
                         <!-- Character Image -->
                         <div @click="$refs.characterImage.click()" class="btn btn-default">
-                            Нажмите чтобы загрузить изображение
+                            Нажмите чтобы загрузить изображение персонажа
                             <input type="file" ref="characterImage" style="display: none" @change="newCharacterAvatar">
+                        </div>
+                        <div @click="$refs.characterHeader.click()" class="btn btn-default mt-20">
+                            Нажмите чтобы загрузить шапку персонажа
+                            <input type="file" ref="characterHeader" style="display: none" @change="newCharacterHeader">
                         </div>
                         <div id="character-name">
                             <label for="character-name mt-40">Имя персонажа:</label>

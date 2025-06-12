@@ -10,6 +10,7 @@ import RatedSliderMobile from '@gallery/components/organisms/RatedSliderMobile.v
 import AuthorsOfWeek from '@gallery/components/organisms/AuthorsOfWeek.vue';
 import AuthorsOfWeekMobile from '@gallery/components/organisms/AuthorsOfWeekMobile.vue';
 import GalleryBlock from '@gallery/components/organisms/GalleryBlock.vue';
+import Seo from '@main/api/seo/Seo.js';
 export default
     {
         methods:
@@ -17,6 +18,13 @@ export default
             closeModal() {
                 modalState.isModalVisible = false;
             }
+        },
+        created() {
+            Seo.setPageSeo('Фурри Мир. Арты, комиксы, галерея',
+                'Здесь вы можете найти все работы художников, а также подписаться и следить за работами.',
+                '',
+            );
+            Seo.setPageCanonical('https://furry-world.ru/gallery/');
         }
 
     }</script>

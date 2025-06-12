@@ -70,7 +70,6 @@ export default {
             this.userAvatar = getUserProfile.data.avatar;
             this.userFields = JSON.parse(getUserProfile.data.userFields);
             this.userStatus = JSON.parse(getUserProfile.data.status)
-            console.log(this.userStatus);
 
             if (this.userStatus.types.length > 0) {
                 for (let i = 0; i < this.userStatus.types.length; i++) {
