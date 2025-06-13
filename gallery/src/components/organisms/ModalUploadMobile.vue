@@ -46,7 +46,7 @@
                         <ModalRate v-model="this.rate"></ModalRate>
                     </div>
                     <div class="form-group">
-                        <ModalCharacters v-model="this.chars"></ModalCharacters>
+                        <ModalCharactersMobile v-model="this.chars"></ModalCharactersMobile>
                     </div>
                     <div class="form-group f-row f-space__between">
                         <div class="btn btn--primary step--prev" @click="prevStep">Назад</div>
@@ -186,7 +186,6 @@ textarea {
 }
 </style>
 <script>
-import Multiselect from '@vueform/multiselect'
 import { modalState, notifications } from '@main/state.js';
 import axios from 'axios';
 import ModalTitle from '@gallery/components/molecules/ModalTitle.vue';
@@ -194,18 +193,17 @@ import ModalDescription from '@gallery/components/molecules/ModalDescription.vue
 import ModalRate from '@gallery/components/molecules/ModalRate.vue';
 import ModalTags from '@gallery/components/molecules/ModalTags.vue';
 import ModalFolders from '@gallery/components/molecules/ModalFolders.vue';
-import ModalCharacters from '@gallery/components/molecules/ModalCharacters.vue';
+import ModalCharactersMobile from '@gallery/components/molecules/ModalCharactersMobile.vue';
 
 export default {
     components:
     {
-        Multiselect,
         ModalRate,
         ModalTitle,
         ModalDescription,
         ModalTags,
         ModalFolders,
-        ModalCharacters,
+        ModalCharactersMobile,
     },
     data() {
         return {
