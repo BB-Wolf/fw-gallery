@@ -1,5 +1,5 @@
 <template>
-    <div class="comic-container" v-show="this.currentPage">
+    <div class="comic-container" v-if="this.currentPage">
         <!-- Comic Image -->
         <img :src="this.currentPage.imageLink" alt="Страница комикса" class="comic-image">
 
@@ -35,6 +35,7 @@
 <script>
 import axios from "axios";
 import Seo from '@main/api/seo/Seo.js';
+import { notifications } from '@main/state';
 
 export default {
     data() {
@@ -48,7 +49,7 @@ export default {
     },
     async created() {
         let getComicsImage = await axios.get('//furry-world.ru/console/get_comics_image.php?code=' + this.$route.params.name + '&page=' + this.$route.params.page)
-        if (getComicsImage.data) {
+        if (getComicsImage.data && typeof getComicsImage.data.status === 'undefined') {
             this.currentPage = getComicsImage.data;
             let pageTitle = 'Фурри Мир. Комикс ' + getComicsImage.data.comicName;
             Seo.setPageSeo(pageTitle,
@@ -57,11 +58,14 @@ export default {
                 '',
             );
             Seo.setPageCanonical('/comics/' + this.$route.params.author + '/' + this.$route.params.name + '/');
-        }
 
-        let getComicsImageComments = await axios.get('//furry-world.ru/console/get_comics_comments.php?code=' + this.$route.params.name + '&page=' + this.$route.params.page);
-        if (getComicsImageComments.data) {
-            this.comments = getComicsImageComments.data;
+
+            let getComicsImageComments = await axios.get('//furry-world.ru/console/get_comics_comments.php?code=' + this.$route.params.name + '&page=' + this.$route.params.page);
+            if (getComicsImageComments.data) {
+                this.comments = getComicsImageComments.data;
+            }
+        } else {
+            notifications.generateNotification('Ошибка', 'Ошибка загрузки данных');
         }
     },
     methods: {
