@@ -24,7 +24,7 @@
                     <img src="../../assets/images/drakon6.png">
                 </div>
                 <div>
-                    <div class="h2" style="padding: 0;"> Увы, на этой неделе здесь нет отличившихся художников. </div>
+                    <div class="h2" style="padding: 0;"> Увы, но пока здесь нет никого. </div>
                     <p class="mt-20">Как попасть в этот блок? Есть несколько способов.</p>
                     <ul style="display: flex; flex-direction: column;">
                         <li>1. Оставлять больше работ за прошлую неделю</li>
