@@ -139,9 +139,13 @@ export default {
     flex-wrap: wrap;
 }
 
-.portrait-dragon {}
+.portrait-dragon {
+    width: 240px;
+
+}
 
 .portrait-dragon img {
     max-width: 100%;
+
 }
 </style>

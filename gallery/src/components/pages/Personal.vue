@@ -5,8 +5,8 @@ import axios from 'axios';
 import SwitchButton from '../molecules/SwitchButton.vue';
 import Image from '../atoms/Image.vue';
 import { notifications, mobileDevice } from '@main/state';
-import Multiselect from '@vueform/multiselect'
 import PersonalStats from '@gallery/components/organisms/PersonalStats.vue';
+import AutosaveModal from '@gallery/components/molecules/AutosaveModal.vue';
 
 export default {
     components:
@@ -18,8 +18,8 @@ export default {
         InputText,
         SwitchButton,
         Image,
-        Multiselect,
-        PersonalStats
+        PersonalStats,
+        AutosaveModal
 
     },
     data() {
@@ -55,6 +55,7 @@ export default {
             isTradable: 0,
             rawHeader: null,
             userHeader: null,
+            showActionModal: false,
         };
     },
     async created() {
@@ -144,6 +145,7 @@ export default {
             formData.append('ismentionable', this.isMentionable);
             formData.append('istradeable', this.isTradable);
             formData.append('charheader', this.characterHeader);
+            this.showActionModal = true;
 
             let saveFormData = await new axios.post('//furry-world.ru/console/post_create_character.php', formData, {
                 headers: {
@@ -153,9 +155,10 @@ export default {
 
             if (saveFormData.data) {
                 notifications.generateNotification(saveFormData.data.status, saveFormData.data.text);
-
+                this.showActionModal = false;
             } else {
                 notifications.generateNotification('bad', 'Ошибка сохранения персонажа')
+                this.showActionModal = false;
             }
         },
         async getChars() {
@@ -213,6 +216,7 @@ export default {
         },
 
         async saveAvatar() {
+            this.showActionModal = true;
             var avatarData = new FormData();
             avatarData.append('file', this.rawFile);
             const request = await axios.post('//furry-world.ru/console/post_update_profile.php?mode=avatar', avatarData, {
@@ -230,6 +234,7 @@ export default {
                     }
                 }
             }
+            this.showActionModal = false;
         },
         removeField(e) {
             e.event.target.remove;
@@ -279,17 +284,18 @@ export default {
             }
 
         },
-        saveStatus(status) {
-            let saveStatusRequest = new axios.get('//furry-world.ru/console/get_update_user_status.php?mode=' + status + '&token=' + localStorage.getItem('token'));
+        async saveStatus(status) {
+            this.showActionModal = true;
+            let saveStatusRequest = await new axios.get('//furry-world.ru/console/get_update_user_status.php?mode=' + status + '&token=' + localStorage.getItem('token'));
             if (saveStatusRequest.data) {
                 if (saveStatusRequest.data.status == 'success') {
-                    notifications.generateNotification('good', saveStatusRequest.data.text);
+                    notifications.generateNotification('Успех', saveStatusRequest.data.text);
                 } else {
-                    notifications.generateNotification('bad', saveStatusRequest.data.text);
+                    notifications.generateNotification('Ошибка', saveStatusRequest.data.text);
                 }
             } else {
-                notifications.generateNotification('bad', 'Ошибка обновления данных, попробуйте еще раз');
-            }
+                notifications.generateNotification('Ошибка', 'Ошибка обновления данных, попробуйте еще раз');
+            } this.showActionModal = false;
         },
         saveTags() { },
         createFolder() {
@@ -299,6 +305,7 @@ export default {
 }
 </script>
 <template>
+    <AutosaveModal v-if="this.showActionModal" :saveText="'Ожидайте...'"></AutosaveModal>
     <div class="profile-container" style="overflow: hidden;" v-if="this.userLogin">
         <TabsRoot default-value="tab1" orientation="horizontal">
             <div class="author-tabs tags">
@@ -460,7 +467,7 @@ export default {
                             </div>
                             <div class="card">
                                 <div class="card__face card__face--front">
-                                    <img src="https://i.loli.net/2019/11/23/cnKl1Ykd5rZCVwm.jpg" />
+                                    <img src="@gallery/assets/images/all_works_cover.png" />
                                 </div>
                                 <div class="card__face card__face--overlay">
                                     <div class="card__title">Все работы</div>

@@ -1,5 +1,6 @@
 <template>
     <div class="overlay-bg" v-show="isModalOpen.isModalUploadVisible" @click="closeModal"></div>
+    <AutosaveModal v-if="this.showActionModal" :saveText="'Сохраняем...'"></AutosaveModal>
     <div id="login" class="modal" v-show="isModalOpen.isModalUploadVisible">
         <div class="modal-wrapper">
             <div class="modal-body">
@@ -54,6 +55,7 @@ import ModalFolders from '@gallery/components/molecules/ModalFolders.vue';
 import ModalCharacters from '@gallery/components/molecules/ModalCharacters.vue';
 import axios from 'axios';
 import { modalState } from '@main/state';
+import AutosaveModal from '@gallery/components/molecules/AutosaveModal.vue';
 
 export default {
     components:
@@ -65,6 +67,7 @@ export default {
         ModalTags,
         ModalFolders,
         ModalCharacters,
+        AutosaveModal
     },
     data() {
         return {
@@ -78,7 +81,7 @@ export default {
             folder: '',
             chars: '',
             isModalOpen: modalState,
-
+            showActionModal: false,
         }
     },
     methods:
@@ -104,6 +107,7 @@ export default {
         },
         //todo  -rewrite tab switch. use state instead of direct search. use class for modal and tablet
         async sendData() {
+
             if (this.title == '') {
                 this.activeTab = 1;
                 let titleObj = document.querySelector('.title-input');
@@ -126,6 +130,7 @@ export default {
                 return;
             }
             this.sending = true;
+            this.showActionModal = true;
             var formData = new FormData();
             formData.append('title', this.title);
             formData.append('description', this.description);
@@ -148,6 +153,7 @@ export default {
                     modalState.isModalUploadVisible = false;
                 }
             }
+            this.showActionModal = false;
         },
     },
     mounted() {

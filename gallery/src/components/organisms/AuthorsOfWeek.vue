@@ -69,10 +69,8 @@ export default {
 
 .portrait-dragon img {
     max-width: 100%;
+    width: 240px;
 }
-
-
-
 
 #author-week {
     padding-left: 20px;
@@ -117,5 +115,13 @@ export default {
 .portrait-card-author {
     padding-top: 10px;
     font-weight: bold;
+}
+
+
+
+@media (max-width:1281px) {
+    .portrait-dragon {
+        width: 120px;
+    }
 }
 </style>
