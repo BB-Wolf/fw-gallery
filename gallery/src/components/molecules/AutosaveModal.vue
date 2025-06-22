@@ -44,7 +44,7 @@ export default {
     text-align: center;
     width: 220px;
     height: 40px;
-    z-index: 1000;
+    z-index: 10000;
 
 }
 

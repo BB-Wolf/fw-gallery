@@ -11,6 +11,8 @@ import AuthorsOfWeek from '@gallery/components/organisms/AuthorsOfWeek.vue';
 import AuthorsOfWeekMobile from '@gallery/components/organisms/AuthorsOfWeekMobile.vue';
 import GalleryBlock from '@gallery/components/organisms/GalleryBlock.vue';
 import Seo from '@main/api/seo/Seo.js';
+import ArtOfDay from '@gallery/components/organisms/ArtOfADay.vue';
+
 export default
     {
         methods:
@@ -40,6 +42,9 @@ export default
         <section id="authors-block" class="section-container">
             <AuthorsOfWeek v-if="!mobileDevice.isMobile"></AuthorsOfWeek>
             <AuthorsOfWeekMobile v-if="mobileDevice.isMobile"></AuthorsOfWeekMobile>
+        </section>
+        <section id="artofday" class="section-container">
+            <ArtOfDay></ArtOfDay>
         </section>
         <section id="comics" style="margin-bottom: 0;" class="section-container">
             <ComicsPreview v-if="!mobileDevice.isMobile"></ComicsPreview>

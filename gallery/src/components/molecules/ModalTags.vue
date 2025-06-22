@@ -13,7 +13,7 @@ export default {
         let input = document.getElementById("tags-input");
         this.tagifyObj = new Tagify(input, { pasteAsTags: true }).on('input', () => {
             if (this.debounce != 0) {
-                this.debounce = 3;
+                this.debounce = 10;
             }
         });
     },

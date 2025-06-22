@@ -28,7 +28,7 @@ export default {
     },
     async mounted() {
         try {
-            const response = await axios.get('//furry-world.ru/console/get_subscriptions.php');
+            const response = await axios.get('//furry-world.ru/console/stats/get_user_subscriptions.php');
             this.subscriptions = response.data.subscriptions || [];
             this.subscribers = response.data.subscribers || [];
         } catch (error) {
