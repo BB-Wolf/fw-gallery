@@ -5,7 +5,7 @@
         Лучшие
         работы по количеству отметок Нравится, загруженные до 23.00 по
         МСК будут отмечены</div>
-    <div class="tags-wrapper">
+    <div class="tags-wrapper" v-if="this.worksList.length > 0">
         <div class="tags-scroll">
             <div class="artofday" v-show="this.worksList.length > 0">
                 <div v-for="item in worksList" :key="item" class="artofday-item">
