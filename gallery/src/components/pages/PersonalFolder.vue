@@ -1,4 +1,6 @@
 <template>
+    <AutosaveModal v-if="this.showAutosaveModal" :saveText="'Сохраняем...'"></AutosaveModal>
+
     <section id="all-images-list" v-if="this.$route.params.name == 'all'">
         <div class="profile-container">
             <h2>Все изображения</h2>
@@ -152,11 +154,13 @@ import axios from 'axios';
 import Multiselect from '@vueform/multiselect'
 import Image from '../atoms/Image.vue';
 import { notifications } from '@main/state';
+import AutosaveModal from '@gallery/components/molecules/AutosaveModal.vue';
 
 export default {
     components: {
         Multiselect,
-        Image
+        Image,
+        AutosaveModal
     },
     data() {
         return {
@@ -175,6 +179,7 @@ export default {
             newImage: null,
             newImageRaw: null,
             fsort: null,
+            showAutosaveModal: false
         }
     },
     methods: {
@@ -240,6 +245,7 @@ export default {
             }
         },
         async saveFolder() {
+            this.showAutosaveModal = true;
             if (this.folderName == '' || this.folderName == null) {
                 notifications.generateNotification('bad', 'Заполните поле название');
                 return false;
@@ -260,14 +266,15 @@ export default {
                 }
             )
             if (request.data.status == 'success') {
-                notifications.generateNotification('good', request.data.text);
+                notifications.generateNotification('Успех', request.data.text);
             } else {
-                notifications.generateNotification('bad', 'Ошибка обновления данных');
+                notifications.generateNotification('Ошибка', 'Ошибка обновления данных');
             }
-
+            this.showAutosaveModal = false;
 
         },
         async createImage() {
+            this.showAutosaveModal = true;
             const formImage = new FormData();
             formImage.append('id', this.currentImage.id);
             formImage.append('title', this.currentImage.title);
@@ -282,14 +289,15 @@ export default {
                 }
             });
             if (request.data.status == 'success') {
-                notifications.generateNotification('good', request.data.text);
+                notifications.generateNotification('Успех', request.data.text);
                 this.mode = 'all';
             } else {
-                notifications.generateNotification('bad', request.data.text);
+                notifications.generateNotification('Ошибка', request.data.text);
             }
-
+            this.showAutosaveModal = false;
         },
         async saveImage() {
+            this.showAutosaveModal = true;
             const formImage = new FormData();
             formImage.append('id', this.currentImage.id);
             formImage.append('title', this.currentImage.title);
@@ -302,11 +310,11 @@ export default {
                 }
             });
             if (request.data.status == 'success') {
-                notifications.generateNotification('good', request.data.text);
+                notifications.generateNotification('Успех', request.data.text);
             } else {
-                notifications.generateNotification('bad', request.data.text);
+                notifications.generateNotification('Ошибка', request.data.text);
             }
-
+            this.showAutosaveModal = false;
         },
         editPicture(img) {
             for (let i = 0; i < this.imagesList.length; i++) {

@@ -51,7 +51,7 @@ export default
             <ComicsPreviewMobile v-if="mobileDevice.isMobile"></ComicsPreviewMobile>
         </section>
         <div class="gallery-container">
-            <GalleryBlock class="section-container" :needInfinity="false" galleryUrl="/main/"
+            <GalleryBlock class="section-container" :needInfinity="false" galleryUrl="/gallery/main/"
                 galleryTitle="Последние работы" />
         </div>
     </div>

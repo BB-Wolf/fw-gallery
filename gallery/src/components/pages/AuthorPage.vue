@@ -55,16 +55,20 @@
             </div>
             <div class="author-tabs">
                 <TabsRoot default-value="tab1" orientation="horizontal">
-                    <TabsList aria-label="tabs">
-                        <TabsTrigger value="tab1" class="tab-button"
-                            :class="[{ [mobileBtnClass]: userDevice.isMobile }]">
-                            Все работы
-                        </TabsTrigger>
-                        <TabsTrigger value="tab3" class="tab-button"
-                            :class="[{ [mobileBtnClass]: userDevice.isMobile }]">
-                            Избранное
-                        </TabsTrigger>
+                    <TabsList aria-label="tabs example" class="tags">
+                        <div class="tags-wrapper" style="">
+                            <div class="tags-scroll">
+                                <TabsTrigger value="tab1" class="tab-button"
+                                    :class="[{ [mobileBtnClass]: userDevice.isMobile }]">
+                                    Все работы
+                                </TabsTrigger>
+                                <TabsTrigger value="tab3" class="tab-button"
+                                    :class="[{ [mobileBtnClass]: userDevice.isMobile }]">
+                                    Избранное
+                                </TabsTrigger>
 
+                            </div>
+                        </div>
                     </TabsList>
                     <TabsContent value="tab1">
                         <div class="section" id="author-latest-images">
@@ -89,7 +93,8 @@
                                                 </Image>
                                             </a>
                                             <div class="gallery-item__hover">
-                                                <div class="gallery-item__author"><a :href="item.link">{{ item.title
+                                                <div class="gallery-item__author"><a :href="item.link">{{
+                                                    item.title
                                                         }}</a></div>
                                                 <div class="gallery-item__title"><b>Автор:</b> <a
                                                         :href="'/gallery/author/' + item.userName">{{

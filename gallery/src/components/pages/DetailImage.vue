@@ -89,7 +89,7 @@
                     <!-- Comments List -->
                     <div class="comments-list">
                         <div class="comment" v-for="comment in commentsData" :key="comment.id">
-                            <div class="comment-author">{{ comment.author }} </div>
+                            <div class="comment-author"><a :href='comment.authorLink'>{{ comment.author }} </a></div>
                             <div class="comment-text">{{ comment.time }}</div>
                             <div class="comment-text"></div>
                             <div class="comment-text"></div>
@@ -271,5 +271,9 @@ h1 {
 
 .tags span {
     cursor: pointer;
+}
+
+.comment-author a {
+    color: white;
 }
 </style>

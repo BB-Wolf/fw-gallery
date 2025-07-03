@@ -3,11 +3,13 @@ import axios from 'axios';
 import MasonryWall from '@yeger/vue-masonry-wall'
 import Image from '@gallery/components/atoms/Image.vue';
 import { mobileDevice, notifications } from '@main/state';
+import AutosaveModal from '@gallery/components/molecules/AutosaveModal.vue';
 
 export default {
     components: {
         MasonryWall,
-        Image
+        Image,
+        AutosaveModal
     },
     data() {
         return {
@@ -28,6 +30,7 @@ export default {
             characterHeader: null,
             isMentionable: 0,
             isTradable: 0,
+            showActionModal: false,
         }
     },
     async created() {
@@ -69,6 +72,7 @@ export default {
 
         },
         async saveCharacter() {
+            this.showActionModal = true;
             let formData = new FormData();
             formData.append('name', this.charName);
             formData.append('age', this.charAge);
@@ -97,6 +101,7 @@ export default {
             } else {
                 notifications.generateNotification('Ошибка', 'Ошибка сохранения персонажа')
             }
+            this.showActionModal = false;
         },
         async deleteChar() {
             let sendRequest = await new axios.post('//furry-world.ru/console/post_edit_character.php', formData, {
@@ -113,7 +118,7 @@ export default {
 <template>
 
     <section id="character">
-
+        <AutosaveModal v-if="this.showActionModal" :saveText="'Сохраняем...'"></AutosaveModal>
         <div class="character-container" v-if="this.charData">
             <!-- Character Image -->
             <img :src=this.charData.header alt="Character Image" class="character-image">

@@ -230,7 +230,7 @@ export default {
                     let img = document.querySelector('img.profile-avatar');
                     if (img) {
                         img.src = URL.createObjectURL(new File(this.file, this.file.name));
-                        notifications.generateNotification('good', 'body');
+                        notifications.generateNotification('Успех', 'Аватар успешно сохранен');
                     }
                 }
             }
