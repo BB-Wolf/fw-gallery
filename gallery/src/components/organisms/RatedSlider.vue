@@ -21,7 +21,7 @@ export default
 </script>
 
 <template>
-    <section id="featured-slider">
+    <section id="featured-slider" v-if="sliders && sliders.length > 0">
         <div class="h2">Изображения в палитре дня</div>
         <div class="text-muted">Совпадает 3 и более цветов с учетом небольшого отклонения</div>
         <ul class="rated-slider" v-if="sliders">

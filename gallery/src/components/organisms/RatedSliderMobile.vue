@@ -41,7 +41,7 @@ export default
 </script>
 
 <template>
-    <div class="mt-20 mb-20" style="max-height:400px;">
+    <div class="mt-20 mb-20" style="max-height:400px;" v-if="sliders && sliders.length > 0">
         <div class="h2 mb-20">Изображения в палитре дня</div>
         <swiper-container :slides-per-view="3" :space-between="spaceBetween" :centered-slides="false"
             :pagination="false" :breakpoints="{

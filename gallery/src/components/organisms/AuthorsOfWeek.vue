@@ -52,6 +52,10 @@ export default {
 </script>
 
 <style scoped>
+#author-week .h2 {
+    padding-left: 0;
+}
+
 .portrait-options-noone {
     position: relative;
     text-align: left;
