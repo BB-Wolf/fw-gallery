@@ -9,9 +9,6 @@
                         <img :src="this.image">
                     </div>
                     <div class="form-group">
-                        <ModalTitle v-model="title"></ModalTitle>
-                    </div>
-                    <div class="form-group">
                         <label>Изображение</label>
                         <input type="file" style="display: none;" ref="file" name="file" @change="makePreview">
                         <div class="btn btn--default" style="width:100%;" @click="this.$refs.file.click()">Загрузить
@@ -25,6 +22,9 @@
                 <!-- End of step1-->
                 <!-- Step 2-->
                 <div class="step-item" v-if="this.step == 2">
+                    <div class="form-group">
+                        <ModalTitle v-model="title"></ModalTitle>
+                    </div>
                     <div class="form-group">
                         <ModalDescription v-model="description"></ModalDescription>
 
@@ -40,12 +40,6 @@
                         <ModalTags v-model="this.tags"></ModalTags>
                     </div>
                     <div class="form-group">
-                        <ModalFolders v-model="this.folder"></ModalFolders>
-                    </div>
-                    <div class="form-group">
-                        <ModalRate v-model="this.rate"></ModalRate>
-                    </div>
-                    <div class="form-group">
                         <ModalCharactersMobile v-model="this.chars"></ModalCharactersMobile>
                     </div>
                     <div class="form-group f-row f-space__between">
@@ -55,6 +49,19 @@
                 </div>
 
                 <div class="step-item" v-if="this.step == 4">
+                    <div class="form-group">
+                        <ModalFolders v-model="this.folder"></ModalFolders>
+                    </div>
+                    <div class="form-group">
+                        <ModalRate v-model="this.rate"></ModalRate>
+                    </div>
+                    <div class="form-group f-row f-space__between">
+                        <div class="btn btn--primary step--prev" @click="prevStep">Назад</div>
+                        <div class="btn btn--info step--next" @click="nextStep">Вперед</div>
+                    </div>
+                </div>
+
+                <div class="step-item" v-if="this.step == 5">
                     <div class="h2">Предпросмотр</div>
                     <div class="form-group">
                         <div>{{ title }}</div>
@@ -170,7 +177,7 @@ textarea {
 
 .steps-container .steps-image__peview {
     width: 100%;
-    max-width: 140px;
+    max-width: 120px;
     margin: 0 auto;
 }
 
