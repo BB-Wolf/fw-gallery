@@ -2,8 +2,8 @@
     <div class="section" id="latest-images">
         <a :href="galleryUrl" class="h2">{{ galleryTitle }}</a>
         <div class="gallery-wrapper">
-            <masonry-wall v-if="newImages" :items="newImages" :min-columns="this.minColumns" :max-columns="maxColumns"
-                :column-width="300" :gap="16">
+            <masonry-wall v-if="newImages" :items="newImages" :min-columns="minColumns" :max-columns="maxColumns"
+                :column-width="300" :gap="10">
                 <template #default="{ item, index }">
                     <div class="gallery-item">
                         <div class="gallery-item__hover--top">
@@ -51,9 +51,15 @@
     padding-left: 20px;
 }
 
+.slide {
+    /* width: 100%; */
+    width: 460px;
+    max-height: 460px;
+}
+
 .gallery-wrapper {
     padding: 0 20px;
-    margin: 0 auto;
+    margin: 20px auto;
 }
 
 .gallery-grid {
@@ -211,7 +217,8 @@ export default {
     },
     async created() {
         if (!mobileDevice) {
-            this.minColumns = 6;
+            this.minColumns = 4;
+            this.maxColumns = 5;
         } else {
             this.minColumns = 0;
             this.maxColumns = 0;

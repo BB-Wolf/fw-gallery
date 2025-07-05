@@ -19,7 +19,7 @@
                 </a>
                 <div class="image-item__hover">
                     <div class="image-item__author"><a :href="galleryImage.link">{{ galleryImage.title
-                            }}</a></div>
+                    }}</a></div>
                     <div class="image-item__title"><b>Автор:</b> <a :href="'/author/' + galleryImage.userName">{{
                         galleryImage.userName }}</a></div>
                 </div>
