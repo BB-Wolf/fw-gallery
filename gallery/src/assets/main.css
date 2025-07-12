@@ -1060,3 +1060,10 @@ footer {
 .paw--ready {
   filter: invert(87%) sepia(93%) saturate(415%) hue-rotate(49deg) brightness(91%) contrast(92%);
 }
+@media (max-width: 768px) {
+  .author-tabs .tab-button {
+    width: 20%;
+    padding: 10px !important;
+    margin-right: 10px;
+  }
+}

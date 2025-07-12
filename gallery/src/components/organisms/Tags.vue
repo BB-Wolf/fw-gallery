@@ -23,21 +23,81 @@
         </div>
         <div v-if="this.searchOpen" class="tags-wrapper" style="overflow: unset;">
             <div v-if="this.searchOpen" class="tag-container">
-                <Multiselect v-model="tags" placeholder="Начните вводить текст" :filter-results="false" :min-chars="2"
-                    :resolve-on-load="false" :mode="'multiple'" :delay="3" :close-on-select="true" :limit="10"
-                    :searchable="true" :options="async function (query) {
-                        return await fetchTags(query)
-                    }" />
-                <div class="radio-inputs">
-                    <div class="search-tag close-btn" @click="resetSearch"></div>
-                </div>
+                <SearchBar></SearchBar>
             </div>
         </div>
-        <div v-if="!this.searchOpen" class="filter-go" @click="filterTags()">Фильтр</div>
-
-
     </nav>
 </template>
+
+<script>
+import axios from 'axios';
+import SearchBar from '../molecules/SearchBar.vue';
+
+export default
+    {
+        components: {
+            SearchBar
+        },
+        async created() {
+            const mainTagsReq = await axios.get(`//furry-world.ru/console/get_main_tags_list.php`, {
+            });
+            const userTagsReq = await axios.get(`//furry-world.ru/console/get_tags_user_list.php`);
+
+            const [mainTags, userTags] = await Promise.all([mainTagsReq, userTagsReq]);
+
+            if (mainTags.data) {
+                this.mainTags = mainTags.data;
+                this.tags = mainTags.data;
+            }
+
+            if (userTags.data) {
+                this.userTags = userTags.data;
+            }
+        },
+        data() {
+            return {
+                mainTags: null,
+                userTags: null,
+                tags: null,
+                searchOpen: false,
+                debounce: -1,
+                tagifyObj: null,
+                searchItems: []
+            }
+        },
+        methods:
+        {
+            async fetchTags(tag) {
+                const lookUpTag = await axios.get('//furry-world.ru/console/get_search_tags.php?q=' + tag);
+
+                if (lookUpTag.data) {
+                    document.querySelector('.filter-go').classList.add('filter-go--active');
+                    return lookUpTag.data;
+                } else {
+                    //  return { label: 'По запросу ничего не найдено' };
+                }
+            },
+            reloadData(state) {
+                if (state == 'all') {
+                    this.tags = this.mainTags
+                } else {
+                    this.tags = this.userTags
+                }
+            },
+            enableSearch() {
+                this.searchOpen = !this.searchOpen;
+            },
+            resetSearch() {
+                this.searchOpen = false;
+                this.tags = this.mainTags;
+            },
+            filterTags() {
+
+            },
+        },
+
+    }
+</script>
 
 <style scoped>
 .filter-go {
@@ -99,70 +159,3 @@ input[type="text"] {
     opacity: 0;
 }
 </style>
-
-<script>
-import axios from 'axios';
-import Multiselect from '@vueform/multiselect'
-
-
-export default
-    {
-        components: {
-            Multiselect
-        },
-        async created() {
-            const mainTagsReq = await axios.get(`//furry-world.ru/console/get_main_tags_list.php`, {
-            });
-            const userTagsReq = await axios.get(`//furry-world.ru/console/get_tags_user_list.php`);
-
-            const [mainTags, userTags] = await Promise.all([mainTagsReq, userTagsReq]);
-
-            if (mainTags.data) {
-                this.mainTags = mainTags.data;
-                this.tags = mainTags.data;
-            }
-
-            if (userTags.data) {
-                this.userTags = userTags.data;
-            }
-        },
-        data() {
-            return {
-                mainTags: null,
-                userTags: null,
-                tags: null,
-                searchOpen: false,
-            }
-        },
-        methods:
-        {
-            async fetchTags(tag) {
-                const lookUpTag = await axios.get('//furry-world.ru/console/get_search_tags.php?q=' + tag);
-
-                if (lookUpTag.data) {
-                    document.querySelector('.filter-go').classList.add('filter-go--active');
-                    return lookUpTag.data;
-                } else {
-                    //  return { label: 'По запросу ничего не найдено' };
-                }
-            },
-            reloadData(state) {
-                if (state == 'all') {
-                    this.tags = this.mainTags
-                } else {
-                    this.tags = this.userTags
-                }
-            },
-            enableSearch() {
-                this.searchOpen = !this.searchOpen;
-            },
-            resetSearch() {
-                this.searchOpen = false;
-                this.tags = this.mainTags;
-            },
-            filterTags() {
-
-            }
-        }
-    }
-</script>

@@ -13,7 +13,7 @@
             </div>
             <div v-if="this.selectedChars.selected">
                 <div class="btn btn--default" @dblclick="deleteChar($event)"
-                    v-for="sChar in this.selectedChars.selected">
+                    v-for="sChar in this.selectedChars.selected" :key="sChar">
                     <span v-if="sChar" :data-charid="sChar.charId">{{
                         sChar.name }}
                     </span>

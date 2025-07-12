@@ -35,7 +35,7 @@ export default {
                 if (value == 0) {
                     let inp = document.querySelector('.tagify__input');
                     console.log(inp.innerHTML);
-                    this.tagifyObj.addTags(inp.innerHTML)
+                    this.tagifyObj.addTags(inp.textContent)
                     inp.innerHTML = '';
                     this.debounce = -1;
 
