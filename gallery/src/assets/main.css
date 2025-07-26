@@ -83,7 +83,9 @@ header nav a,
 
 /* Gallery Container */
 .gallery-container {
-  max-width: 100%;
+  max-width: 1920px;
+  width: 100%;
+  min-height: 800px;
   margin: 40px auto;
 }
 
