@@ -197,6 +197,11 @@ input[type='text'] {
 }
 
 
+.modal-right-column_greet {
+    padding-left: 1 5px;
+    color: white;
+}
+
 .modal-right-column .h1 {
     font-size: 26px;
     font-weight: 700;
@@ -232,6 +237,14 @@ input[type='text'] {
     font-weight: 600;
     color: #d8d8d8;
 
+}
+
+.register__success {
+    color: white;
+}
+
+.modal-title {
+    color: white;
 }
 
 
