@@ -39,6 +39,11 @@ rts = [
         name: 'Register'
       },
       {
+        name: 'search',
+        path: '/gallery/search/',
+        component: () => import('@gallery/components/pages/SearchPage.vue')
+      },
+      {
         path: '/gallery/tags/',
         name: 'GalleryTags',
         component: () => import('@gallery/components/pages/TagList.vue'),
