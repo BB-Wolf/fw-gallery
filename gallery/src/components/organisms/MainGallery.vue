@@ -1,8 +1,9 @@
 <template>
     <div class="section main-gallery" id="latest-images">
         <a :href="galleryUrl" class="h2">{{ galleryTitle }}</a>
-        <div class="image-grid">
-            <div class="image-item" v-for="galleryImage in newImages" v-bind:key="galleryImage.id">
+        <div class="image-row" v-for="chunk in this.chunks" :key="chunk[0].id">
+
+            <div class="image" v-for="galleryImage in chunk" v-bind:key="galleryImage.id">
                 <div class="image-item__hover--top">
                     <div class="image-item__author" style="height:0px; position: relative;">
                         <div class="fav-bookmark" @click="saveToFav($event.target, galleryImage.id)">
@@ -57,6 +58,13 @@ export default {
         galleryUrl: String,
     },
     methods: {
+        arrayChunk(array, size) {
+            let chunks = [];
+            for (let i = 0; i < array.length; i += size) {
+                chunks.push(array.slice(i, i + size));
+            }
+            return chunks;
+        },
         async saveToFav(elm, id) {
             const addImg = await axios.get('//furry-world.ru/console/get_save_to_fav.php?id=' + id);
             if (addImg.data) {
@@ -89,7 +97,8 @@ export default {
         return {
             newImages: null,
             offset: 2,
-            isFinish: false
+            isFinish: false,
+            chunks: [],
         }
     },
     async created() {
@@ -102,7 +111,31 @@ export default {
         );
         if (gallery.data) {
             this.newImages = gallery.data;
+            this.chunks = this.arrayChunk(this.newImages, 10);
         }
+
+        window.addEventListener("load", function () {
+            const container = document.getElementById("image-row");
+            const images = container.querySelectorAll("img");
+            const containerWidth = container.clientWidth;
+            const gap = 10;
+            const totalGaps = (images.length - 1) * gap;
+            let totalAspectRatio = 0;
+
+            // Считаем суммарное отношение сторон
+            images.forEach(img => {
+                const ratio = img.naturalWidth / img.naturalHeight;
+                img.dataset.ratio = ratio;
+                totalAspectRatio += ratio;
+            });
+
+            // Распределяем ширину по отношению
+            images.forEach(img => {
+                const ratio = parseFloat(img.dataset.ratio);
+                const width = ((containerWidth - totalGaps) * ratio) / totalAspectRatio;
+                img.style.width = width + "px";
+            });
+        });
     },
     mounted() {
         this.onLoadMore();
@@ -112,16 +145,26 @@ export default {
 </script>
 
 <style scoped>
-.image-grid {
-    gap: 10px;
-}
-
-.image-item {
-    width: 480px;
+.image-row {
+    display: flex;
+    width: 100%;
+    height: fit-content;
+    /* фиксированная высота ряда */
     overflow: hidden;
-    position: relative;
-
+    gap: 20px;
+    margin-top: 20px;
 }
+
+.image-row img {
+    position: relative;
+    height: 109%;
+    object-fit: cover;
+    display: block;
+    width: 100%;
+    max-width: 175px;
+    ;
+}
+
 
 .image-item:hover>.image-item__hover {
     bottom: 0px;

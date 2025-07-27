@@ -133,6 +133,7 @@
     flex: 100%;
     text-align: center;
     display: none;
+    position: relative;
 }
 
 .wait-container--active {
@@ -184,24 +185,31 @@ export default {
         onLoadMore() {
             window.onscroll = async () => {
                 if (!this.isLoading) {
-                    let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;
+                    let scrollPosition = document.documentElement.scrollTop + window.innerHeight;
+                    let threshold = document.documentElement.offsetHeight - 900;
+                    let bottomOfWindow = scrollPosition >= threshold;
+
                     if (bottomOfWindow && !this.isFinish) {
                         this.isLoading = true;
                         document.querySelector('.wait-container').classList.add('wait-container--active');
+
                         const getMore = await axios.get('//furry-world.ru/console/get_gallery_picture.php?offset=' + this.offset);
+
                         if (getMore.data) {
-                            if (getMore.data.length == 0) {
+                            if (getMore.data.length === 0) {
                                 this.isFinish = true;
                             }
+
                             this.offset += 1;
                             var currentImages = this.newImages;
                             this.newImages = [...currentImages, ...getMore.data];
-                            document.querySelector('.wait-container').classList.remove('wait-container--active');
-                            this.isLoading = false;
                         }
+
+                        document.querySelector('.wait-container').classList.remove('wait-container--active');
+                        this.isLoading = false;
                     }
                 }
-            }
+            };
         }
     },
     data() {

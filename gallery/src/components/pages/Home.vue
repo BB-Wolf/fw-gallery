@@ -12,6 +12,8 @@ import AuthorsOfWeekMobile from '@gallery/components/organisms/AuthorsOfWeekMobi
 import GalleryBlock from '@gallery/components/organisms/GalleryBlock.vue';
 import Seo from '@main/api/seo/Seo.js';
 import ArtOfDay from '@gallery/components/organisms/ArtOfADay.vue';
+import MainGallery from '@gallery/components/organisms/MainGallery.vue';
+import MasonryGallery from '../organisms/MasonryGallery.vue';
 
 export default
     {
@@ -51,7 +53,7 @@ export default
             <ComicsPreviewMobile v-if="mobileDevice.isMobile"></ComicsPreviewMobile>
         </section>
         <div class="gallery-container">
-            <GalleryBlock class="section-container" :needInfinity="false" galleryUrl="/gallery/main/"
+            <MasonryGallery class="section-container" :needInfinity="false" galleryUrl="/gallery/main/"
                 galleryTitle="Последние работы" />
         </div>
     </div>

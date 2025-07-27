@@ -338,6 +338,7 @@ input[type='text'] {
 
 .close {
     cursor: pointer;
+    color: white;
 
 }
 
@@ -354,7 +355,7 @@ input[type='text'] {
     -ms-transform: rotate(-45deg);
     -webkit-transform: rotate(-45deg);
     transform: rotate(-45deg);
-    border: 1px solid black;
+    border: 1px solid white;
     border-radius: 50%;
 }
 
