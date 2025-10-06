@@ -80,6 +80,7 @@ export default {
                 const url = new URL('https://furry-world.ru/console/get_gallery_picture.php');
                 url.searchParams.set('offset', this.offset);
                 url.searchParams.set('limit', this.limit);
+                url.searchParams.set('latest','y');
 
                 const res = await fetch(url);
                 if (!res.ok) throw new Error('Ошибка сети');
