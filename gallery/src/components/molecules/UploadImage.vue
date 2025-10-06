@@ -33,7 +33,7 @@ export default {
             }
             this.previewFile = file[0];
             this.previewFileImg = URL.createObjectURL(new File(file, file.name));
-            this.$emit('update:modelValue', this.previewFile)
+            this.$emit('update:modelValue', this.previewFile);
         }, dragover(e) {
             e.preventDefault();
             this.isDragging = true;
@@ -41,8 +41,6 @@ export default {
         dragleave() {
             this.isDragging = false;
         },
-    },
-    async mounted() {
     }
 }
 </script>

@@ -51,11 +51,11 @@ export default {
         this.initColumns();
         this.loadMore();
 
-        //   window.addEventListener('scroll', this.handleScroll);
+        window.addEventListener('scroll', this.handleScroll);
         window.addEventListener('resize', this.handleResize);
     },
     beforeUnmount() {
-        //   window.removeEventListener('scroll', this.handleScroll);
+        window.removeEventListener('scroll', this.handleScroll);
         window.removeEventListener('resize', this.handleResize);
     },
     methods: {

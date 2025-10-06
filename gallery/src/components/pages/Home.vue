@@ -9,10 +9,8 @@ import { modalState, mobileDevice } from '@main/state.js';
 import RatedSliderMobile from '@gallery/components/organisms/RatedSliderMobile.vue';
 import AuthorsOfWeek from '@gallery/components/organisms/AuthorsOfWeek.vue';
 import AuthorsOfWeekMobile from '@gallery/components/organisms/AuthorsOfWeekMobile.vue';
-import GalleryBlock from '@gallery/components/organisms/GalleryBlock.vue';
 import Seo from '@main/api/seo/Seo.js';
 import ArtOfDay from '@gallery/components/organisms/ArtOfADay.vue';
-import MainGallery from '@gallery/components/organisms/MainGallery.vue';
 import MasonryGallery from '../organisms/MasonryGallery.vue';
 
 export default

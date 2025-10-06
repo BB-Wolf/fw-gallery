@@ -119,21 +119,21 @@ export default {
     },
     async mounted() {
 
-        let tagsList = await axios.get('//furry-world.ru/console/get_upload_tags.php');
-        // let inputElem = document.querySelector('.new-upload-item') // the 'input' element which will be transformed into a Tagify component
-        // let tagTagify = new Tagify(inputElem,
-        //     {
-        //         whitelist: tagsList.data,
-        //         dropdown: {
-        //             classname: "color-blue",
-        //             enabled: 1,              // show the dropdown immediately on focus
-        //             position: "text",         // place the dropdown near the typed text
-        //             closeOnSelect: false,          // keep the dropdown open after selecting a suggestion
-        //             searchKeys: ["text"] //  fuzzy-search matching for those whitelist items' properties
+        // let tagsList = await axios.get('//furry-world.ru/console/get_upload_tags.php');
+        // // let inputElem = document.querySelector('.new-upload-item') // the 'input' element which will be transformed into a Tagify component
+        // // let tagTagify = new Tagify(inputElem,
+        // //     {
+        // //         whitelist: tagsList.data,
+        // //         dropdown: {
+        // //             classname: "color-blue",
+        // //             enabled: 1,              // show the dropdown immediately on focus
+        // //             position: "text",         // place the dropdown near the typed text
+        // //             closeOnSelect: false,          // keep the dropdown open after selecting a suggestion
+        // //             searchKeys: ["text"] //  fuzzy-search matching for those whitelist items' properties
 
-        //         },
-        //     }
-        // );
+        // //         },
+        // //     }
+        // // );
     },
     methods:
     {
@@ -192,7 +192,7 @@ export default {
         dragleave() {
             this.isDragging = false;
         },
-        drop(e) {
+        async drop(e) {
             e.preventDefault();
             var file = e.target.files || e.dataTransfer.files;
             this.isDragging = false;
@@ -201,6 +201,14 @@ export default {
             }
             this.rawFile = file[0];
             this.file = URL.createObjectURL(new File(file, file.name));
+            let formData = new FormData();
+            formData.append('file', this.rawFile);
+            let request = await axios.post('//furry-world.ru/console/tools/post_tags_suggestions.php', formData, {
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem("token"),
+                }
+            });
+            console.log(request.data);
         },
         registerModal() {
             modalState.isModalLoginVisible = false;
@@ -211,7 +219,6 @@ export default {
             this.tags.push(tag);
         },
         createNewTag() {
-
             for (let i = 0; i <= this.tags.length; i++) {
                 if (this.tags[i]) {
                     if (this.tags[i].text != document.querySelector('.v3ti-new-tag').value) {

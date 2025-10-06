@@ -129,6 +129,11 @@ rts = [
         component: () => import('@gallery/components/pages/Legal.vue')
       },
       {
+        name: 'LegalAgreement',
+        path: 'legal/agreement/',
+        component: () => import('@gallery/components/pages/LegalAgreement.vue')
+      },
+      {
         name: 'Palleteofaday',
         path: '/gallery/pallete_of_a_day/',
         component: () => import('@gallery/components/pages/DayPallets.vue')
