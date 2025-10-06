@@ -55,7 +55,16 @@ export default {
     <footer>
         <div class="footer-container">
             <div class="footer-item">
-                <a href="/legal/">Правила и политики использования сервиса</a>
+                <a href="/gallery/legal/agreement/">Пользовательское соглашение</a>
+                <a href="/gallery/legal/">Правила использования сервиса</a>
+            </div>
+            <div class="footer-item">
+                <a href="/gallery/legal/cookie/">Политика конфиденциальности и обработки персональных данных</a>
+                <a href="/gallery/legal/cookie/">Политика использования ИИ</a>
+            </div>
+            <div class="footer-item">
+                <a href="/gallery/legal/cookie/">Правила размещения адоптов</a>
+                <a href="/gallery/legal/cookie/">Правила размещения Трейдов/YCH</a>
             </div>
             <div class="footer-item">
                 <label for="">По всем вопросам и обратной связи:</label>
@@ -90,7 +99,6 @@ export default {
 .footer-container {
     display: flex;
     justify-content: space-between;
-    flex-direction: column;
     flex-wrap: wrap;
     width: 100%;
     padding: 15px 40px;
@@ -100,6 +108,7 @@ export default {
 .footer-item {
     display: flex;
     flex-direction: column;
+    gap: 10px;
 }
 
 .footer-item label {

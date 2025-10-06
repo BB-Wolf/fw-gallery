@@ -1,8 +1,8 @@
 <script setup>
 import Tags from '../organisms/Tags.vue';
-import GalleryBlock from '../organisms/GalleryBlock.vue';
 import AdoptsBlock from '../organisms/AdoptsBlock.vue';
 import ComicBlock from '../organisms/ComicBlock.vue';
+import MasonryGalleryInfinite from '../organisms/MasonryGalleryInfinite.vue';
 
 </script>
 <script>
@@ -46,16 +46,18 @@ export default {
                 @click="switchGallery('gallery', $event)">Арты</div>
             <div class="switch-item" :class="[{ ['switch-item--active']: currentState == 'comics' }]"
                 @click="switchGallery('comics', $event)">Комиксы</div>
-            <!--     <div class="switch-item" :class="[{ ['switch-item--active']: currentState == 'adopts' }]"
-                @click="switchGallery('adopts', $event)">Адопты</div>-->
+            <div class="switch-item" :class="[{ ['switch-item--active']: currentState == 'trades' }]"
+                @click="switchGallery('adopts', $event)">Трейд/YCH</div>
+            <div class="switch-item" :class="[{ ['switch-item--active']: currentState == 'adopts' }]"
+                @click="switchGallery('adopts', $event)">Адопты</div>
         </div>
         <div class="gallery-container" id="main-gallery">
-            <GalleryBlock v-if="currentState == 'gallery'" needInfinty="y" galleryType="main"
+            <MasonryGalleryInfinite v-if="currentState == 'gallery'" needInfinty="y" galleryType="main"
                 galleryTitle="Новые работы художников" />
             <ComicBlock v-if="currentState == 'comics'" needInfinty="y" galleryType="main"
                 galleryTitle="Новые и обновления в комиксах" />
             <AdoptsBlock v-if="currentState == 'adopts'" needInfinty="y" galleryType="main" galleryTitle="Адопты" />
-
+            <AdoptsBlock v-if="currentState == 'adopts'" needInfinty="y" galleryType="main" galleryTitle="Адопты" />
         </div>
     </div>
 </template>

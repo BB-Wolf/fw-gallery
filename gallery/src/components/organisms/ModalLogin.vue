@@ -13,6 +13,9 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
+                        <div class="error-place" v-if="this.errorText">{{ this.errorText }}</div>
+                    </div>
+                    <div class="form-group">
                         <label>Логин:</label>
                         <input type="text" v-model="login" placeholder="Введите Ваш логин">
                     </div>
@@ -77,8 +80,9 @@ input[type="password"] {
 .modal-left-column {
     max-width: 500px;
     width: 100%;
-    background: url('@gallery/assets/images/modal_bg.jpg') no-repeat;
-    background-size: cover;
+    background: url('@gallery/assets/images/modal_login.jpg') no-repeat;
+    background-size: contain;
+    background-position: center;
 
 }
 
@@ -107,6 +111,7 @@ input[type="password"] {
 .modal-right-column input {
     padding: 20px;
     width: 100%;
+    font-size: 16px;
 }
 
 
@@ -268,12 +273,14 @@ export default {
             isUser: isUserLogged.userLogged,
             login: null,
             password: null,
+            errorText: false
         }
     },
     methods:
     {
         closeModal() {
             this.isModalOpen.isModalLoginVisible = false;
+            document.body.style.overflow = '';
         },
         async sendData() {
             if (this.login == null || this.password == null) {

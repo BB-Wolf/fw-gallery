@@ -278,7 +278,7 @@ export default
                     <label>Теги (указываются через запятую)</label>
                     <input type="text" v-model="tags">
                 </div>
-                <div class="mt-10 section-container">
+                <div class="mt-10 section-container" style="    width: 100%; max-width: 1780px;">
                     <editor-content :content="''" :editor="editor" />
                     <div v-if="draft == 1" class="btn btn--info mt-20" @click="saveDraft">Сохранить черновик</div>
                     <div v-if="draft == 0" class="btn btn--info mt-20" @click="saveDraft">Переместить в черновик и

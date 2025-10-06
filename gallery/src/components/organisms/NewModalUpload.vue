@@ -6,7 +6,7 @@
             <div class="modal-body">
                 <div class="modal-left">
                     <div class="body-item" @click="console.log(this.rawFile)">
-                        <UploadImage v-model="rawFile"></UploadImage>
+                        <UploadImage v-model="rawFile" @change="this.setSuggestionTags()"></UploadImage>
                     </div>
                 </div>
                 <div class="modal-body modal-right" v-show="this.activeTab == 1">
@@ -24,6 +24,19 @@
                     </div>
                     <ModalRate v-model="this.rate"></ModalRate>
                     <ModalTags v-model="this.tags"></ModalTags>
+
+                    <div class="muted" v-show="!this.suggestedTags">Загружаем подсказки</div>
+                    <div class="muted" v-show="this.suggestedTags">Подсказки</div>
+                    <div class="tags" v-show="this.suggestedTags">
+                        <div class="tags-wrapper mt-20">
+                            <div class="tags-scroll">
+                                <div @click="[...this.tags, suggestedTag.tag]" class="btn btn--default btn--rounded"
+                                    v-for="suggestedTag in suggestedTags" :key="suggestedTag">
+                                    {{ suggestedTag.tag }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <ModalFolders v-model="this.folder"></ModalFolders>
                 </div>
                 <div class="modal-body modal-right" v-show="this.activeTab == 3">
@@ -78,6 +91,7 @@ export default {
             description: '',
             activeTab: 1,
             tags: null,
+            suggestedTags: null,
             folder: '',
             chars: '',
             isModalOpen: modalState,
@@ -104,6 +118,18 @@ export default {
         },
         closeModal() {
             this.isModalOpen.isModalUploadVisible = false;
+        },
+        async setSuggestionTags() {
+            let formData = new FormData();
+            formData.append('file', this.rawFile);
+            let request = await axios.post('//furry-world.ru/console/tools/post_tags_suggestions.php', formData, {
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem("token"),
+                }
+            });
+            if (request.data) {
+                this.suggestedTags = request.data.suggestions;
+            }
         },
         //todo  -rewrite tab switch. use state instead of direct search. use class for modal and tablet
         async sendData() {

@@ -29,6 +29,7 @@ export default {
     },
     methods: {
         showLogin() {
+            document.body.style.overflow = 'hidden';
             modalState.isModalLoginVisible = true;
         },
         showUpload() {
