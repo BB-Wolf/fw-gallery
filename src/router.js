@@ -137,6 +137,11 @@ rts = [
         name: 'Palleteofaday',
         path: '/gallery/pallete_of_a_day/',
         component: () => import('@gallery/components/pages/DayPallets.vue')
+      },
+      {
+        name: 'MobileUploadPage',
+        path: '/gallery/mupload/',
+        component: ()=> import('@gallery/components/pages/MobileUploadPage.vue')
       }
     ],
     meta: { transition: 'fade' }
