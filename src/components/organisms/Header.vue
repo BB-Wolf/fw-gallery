@@ -68,7 +68,7 @@ export default {
     <header>
         <a class="h1" href="/">Фурри Мир</a>
         <nav>
-            <div class="nsfw-state"
+            <div v-if="isUser" class="nsfw-state"
                 :class="[{ ['nsfw-state--clean']: nswfState == '0+', ['nsfw-state--mild']: nswfState == '16+', ['nsfw-state--notsafe']: nswfState == '18+' }]"
                 @click="switchNSFW">Ценз: {{ this.nswfState }}</div>
             <a href="/gallery/">Галерея</a>

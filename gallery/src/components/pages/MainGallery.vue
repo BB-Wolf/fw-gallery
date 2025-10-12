@@ -56,7 +56,7 @@ export default {
                 galleryTitle="Новые работы художников" />
             <ComicBlock v-if="currentState == 'comics'" needInfinty="y" galleryType="main"
                 galleryTitle="Новые и обновления в комиксах" />
-            <AdoptsBlock v-if="currentState == 'adopts'" needInfinty="y" galleryType="main" galleryTitle="Адопты" />
+            <AdoptsBlock v-if="currentState == 'trades'" needInfinty="y" galleryType="main" galleryTitle="Адопты" />
             <AdoptsBlock v-if="currentState == 'adopts'" needInfinty="y" galleryType="main" galleryTitle="Адопты" />
         </div>
     </div>

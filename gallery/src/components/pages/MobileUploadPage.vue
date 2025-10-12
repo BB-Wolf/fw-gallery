@@ -250,3 +250,13 @@ export default {
   font-size: 14px;
 }
 </style>
+<style>
+.title-input {
+  padding: 20px;
+  font-size: 17px;
+}
+
+.preview img {
+  max-width: 100%;
+}
+</style>
