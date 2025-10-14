@@ -74,7 +74,7 @@ export default
                     }
                 }).then((response) => {
                     if (response.data.status == 'success') {
-                        notifications.generateNotification('Успех', 'Черновик успешно сохранен');
+                        // notifications.generateNotification('Успех', 'Черновик успешно сохранен');
                     } else {
                         notifications.generateNotification('Ошибка', response.data.message);
                     }
