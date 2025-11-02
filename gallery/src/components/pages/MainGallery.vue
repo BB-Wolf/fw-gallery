@@ -42,16 +42,20 @@ export default {
     <div>
         <Tags />
         <div class="gallery-switch">
-            <div class="switch-item" :class="[{ ['switch-item--active']: currentState == 'gallery' }]"
-                @click="switchGallery('gallery', $event)">Арты</div>
-            <div class="switch-item" :class="[{ ['switch-item--active']: currentState == 'comics' }]"
-                @click="switchGallery('comics', $event)">Комиксы</div>
-            <div class="switch-item" :class="[{ ['switch-item--active']: currentState == 'trades' }]"
-                @click="switchGallery('trades', $event)">Трейд/YCH</div>
-            <div class="switch-item" :class="[{ ['switch-item--active']: currentState == 'adopts' }]"
-                @click="switchGallery('adopts', $event)">Адопты</div>
-            <div class="switch-item" :class="[{ ['switch-item--active']: currentState == 'chars' }]"
-                @click="switchGallery('chars', $event)">Персонажи</div>
+            <div class="tags-wrapper">
+                <div class="tags-scroll">
+                    <div class="switch-item" :class="[{ ['switch-item--active']: currentState == 'gallery' }]"
+                        @click="switchGallery('gallery', $event)">Арты</div>
+                    <div class="switch-item" :class="[{ ['switch-item--active']: currentState == 'comics' }]"
+                        @click="switchGallery('comics', $event)">Комиксы</div>
+                    <div class="switch-item" :class="[{ ['switch-item--active']: currentState == 'trades' }]"
+                        @click="switchGallery('trades', $event)">Трейд/YCH</div>
+                    <div class="switch-item" :class="[{ ['switch-item--active']: currentState == 'adopts' }]"
+                        @click="switchGallery('adopts', $event)">Адопты</div>
+                    <div class="switch-item" :class="[{ ['switch-item--active']: currentState == 'chars' }]"
+                        @click="switchGallery('chars', $event)">Персонажи</div>
+                </div>
+            </div>
         </div>
         <div class="gallery-container" id="main-gallery">
             <MasonryGalleryInfinite v-if="currentState == 'gallery'" needInfinty="y" galleryType="main"
