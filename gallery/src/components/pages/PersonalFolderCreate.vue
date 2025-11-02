@@ -76,10 +76,10 @@ export default {
             folderForm.append('name', this.folderName);
             folderForm.append('description', this.folderDescription);
             folderForm.append('iscomics', this.folderIsComic);
-            if (this.folderPictureNew) {
+            if (this.folderPicture) {
                 folderForm.append('image', this.folderPicture);
             }
-            let request = await axios.post('//furry-world.ru/console/post_create_folder.php', folderForm,
+            let request = await axios.post('//furry-world.ru/console/comics/post_create_folder.php', folderForm,
                 {
                     headers:
                     {

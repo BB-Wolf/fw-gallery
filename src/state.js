@@ -62,3 +62,17 @@ export const pageTitle = reactive({
 })
 
 export const allowedCookie = reactive({ allowed: localStorage.getItem('allowcookie') })
+
+
+export const userFolders = reactive({
+  folders: [],
+  async fetchFolders() {
+    const foldersRequest = await axios.get('//furry-world.ru/console/get_user_folders.php',
+      {
+        headers: {
+          "Authorization": "Bearer " + localStorage.getItem("token"),
+        }
+      });
+    this.folders = foldersRequest.data;
+  }
+});

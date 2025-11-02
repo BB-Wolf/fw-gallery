@@ -18,7 +18,7 @@
                     <img :src="item.preview" :alt="item.title" @click="openFull(item)" loading="lazy" />
                     <div class="gallery-item__hover">
                         <div class="gallery-item__author"><a :href="item.link">{{ item.title
-                                }}</a></div>
+                        }}</a></div>
                         <div class="gallery-item__title"><b>Автор:</b> <a :href="'/gallery/author/' + item.userName">{{
                             item.userName }}</a></div>
                     </div>
@@ -80,7 +80,7 @@ export default {
                 const url = new URL('https://furry-world.ru/console/get_gallery_picture.php');
                 url.searchParams.set('offset', this.offset);
                 url.searchParams.set('limit', this.limit);
-                url.searchParams.set('latest','y');
+                url.searchParams.set('latest', 'y');
 
                 const res = await fetch(url);
                 if (!res.ok) throw new Error('Ошибка сети');
@@ -232,6 +232,14 @@ export default {
 .gallery-item__hover {
     bottom: -1000px;
 
+}
+
+.gallery-item__hover a {
+    color: white;
+}
+
+.gallery-item__hover .gallery-item__author a {
+    font-weight: bold;
 }
 
 .masonry-item:hover>.gallery-item__hover--top {

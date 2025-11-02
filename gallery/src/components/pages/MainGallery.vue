@@ -3,6 +3,7 @@ import Tags from '../organisms/Tags.vue';
 import AdoptsBlock from '../organisms/AdoptsBlock.vue';
 import ComicBlock from '../organisms/ComicBlock.vue';
 import MasonryGalleryInfinite from '../organisms/MasonryGalleryInfinite.vue';
+import UniversalGalleryBlock from '../organisms/UniversalGalleryBlock.vue';
 
 </script>
 <script>
@@ -47,16 +48,17 @@ export default {
             <div class="switch-item" :class="[{ ['switch-item--active']: currentState == 'comics' }]"
                 @click="switchGallery('comics', $event)">Комиксы</div>
             <div class="switch-item" :class="[{ ['switch-item--active']: currentState == 'trades' }]"
-                @click="switchGallery('adopts', $event)">Трейд/YCH</div>
+                @click="switchGallery('trades', $event)">Трейд/YCH</div>
             <div class="switch-item" :class="[{ ['switch-item--active']: currentState == 'adopts' }]"
                 @click="switchGallery('adopts', $event)">Адопты</div>
         </div>
         <div class="gallery-container" id="main-gallery">
             <MasonryGalleryInfinite v-if="currentState == 'gallery'" needInfinty="y" galleryType="main"
                 galleryTitle="Новые работы художников" />
-            <ComicBlock v-if="currentState == 'comics'" needInfinty="y" galleryType="main"
+            <UniversalGalleryBlock galleryUrl="https://furry-world.ru/console/get_new_comics.php"
+                v-if="currentState == 'comics'" needInfinty="y" galleryType="main"
                 galleryTitle="Новые и обновления в комиксах" />
-            <AdoptsBlock v-if="currentState == 'trades'" needInfinty="y" galleryType="main" galleryTitle="Адопты" />
+            <AdoptsBlock v-if="currentState == 'trades'" needInfinty="y" galleryType="main" galleryTitle="Трейды" />
             <AdoptsBlock v-if="currentState == 'adopts'" needInfinty="y" galleryType="main" galleryTitle="Адопты" />
         </div>
     </div>

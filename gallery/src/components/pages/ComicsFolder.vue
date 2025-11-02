@@ -10,13 +10,14 @@
         </div>
         <div class="comics-description">
           {{ this.comics.description }}
-          <a :href="'/comics/' + this.$route.params.author + '/' + this.$route.params.name + '/' + this.comics.firstPage + '/'"
+          <a v-if="this.comics.totalImages > 0"
+            :href="'/comics/' + this.$route.params.author + '/' + this.$route.params.name + '/' + this.comics.firstPage + '/'"
             class="btn btn--primary mt-20" style="display: block; color: white">Начать чтение</a>
         </div>
       </div>
     </div>
 
-    <div class="pagination mt-20">
+    <div class="pagination mt-20" v-if="this.comics.totalImages > 0">
       <div class="pagination-wrapper">
         <div class="pagiation-title">Перейти к странице</div>
         <div class=" tags-scroll">
@@ -89,7 +90,7 @@ export default {
   },
   async created() {
     let getComicsData = await new axios.get(
-      '//furry-world.ru/console/get_comics_folder.php?code=' + this.$route.params.name
+      '//furry-world.ru/console/comics/get_comics_folder.php?code=' + this.$route.params.name
     )
     if (getComicsData.data && getComicsData.data.status != 'error') {
       this.comics = getComicsData.data

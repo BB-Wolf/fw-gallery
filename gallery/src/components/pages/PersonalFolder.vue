@@ -153,8 +153,9 @@
 import axios from 'axios';
 import Multiselect from '@vueform/multiselect'
 import Image from '../atoms/Image.vue';
-import { notifications } from '@main/state';
+import { notifications, userFolders } from '@main/state';
 import AutosaveModal from '@gallery/components/molecules/AutosaveModal.vue';
+
 
 export default {
     components: {
@@ -226,23 +227,6 @@ export default {
         },
         async editFolder() {
             this.mode = 'folder';
-            const getFolderInfo = await new axios.get('//furry-world.ru/console/get_folder_info.php?folder=' + this.$route.params.name,
-                {
-                    headers: {
-                        "Authorization": "Bearer " + localStorage.getItem("token"),
-                    }
-                }
-            );
-            if (getFolderInfo.data) {
-                if (getFolderInfo.data) {
-                    this.folderName = getFolderInfo.data.name;
-                    this.folderDescription = getFolderInfo.data.description;
-                    this.folderIsComic = getFolderInfo.data.isComic;
-                    this.folderImage = getFolderInfo.data.picture;
-                } else {
-                    notifications.generateNotification('bad', 'Ошибка получения информации о папке');
-                }
-            }
         },
         async saveFolder() {
             this.showAutosaveModal = true;
@@ -275,7 +259,16 @@ export default {
         },
         async createImage() {
             this.showAutosaveModal = true;
+            let getFolderType = await axios.get('//furry-world.ru/console/get_folder_type.php?folder=' + this.folder,
+                {
+                    headers: {
+                        "Authorization": "Bearer " + localStorage.getItem("token"),
+                    }
+                }
+            );
+
             const formImage = new FormData();
+            let request;
             formImage.append('id', this.currentImage.id);
             formImage.append('title', this.currentImage.title);
             formImage.append('description', this.currentImage.description);
@@ -283,11 +276,19 @@ export default {
             formImage.append('folder', this.folder);
             formImage.append('file', this.newImage);
             formImage.append('fsort', this.fsort);
-            const request = await axios.post('//furry-world.ru/console/post_image_create.php', formImage, {
-                headers: {
-                    "Authorization": "Bearer " + localStorage.getItem("token"),
-                }
-            });
+            if (getFolderType.type == 'regluar') {
+                request = await axios.post('//furry-world.ru/console/post_image_create.php', formImage, {
+                    headers: {
+                        "Authorization": "Bearer " + localStorage.getItem("token"),
+                    }
+                });
+            } else {
+                request = await axios.post('//furry-world.ru/console/comics/post_add_image.php', formImage, {
+                    headers: {
+                        "Authorization": "Bearer " + localStorage.getItem("token"),
+                    }
+                });
+            }
             if (request.data.status == 'success') {
                 notifications.generateNotification('Успех', request.data.text);
                 this.mode = 'all';
@@ -381,16 +382,28 @@ export default {
         if (getImagesList.data) {
             this.imagesList = getImagesList.data;
         }
-        const getFoldersList = await new axios.get('//furry-world.ru/console/get_user_folders.php',
+        let getFoldersList = userFolders.fetchFolders();
+
+        if (getFoldersList.data) {
+            this.folders = getFoldersList.folders;
+        }
+
+        const getFolderInfo = await new axios.get('//furry-world.ru/console/get_folder_info.php?folder=' + this.$route.params.name,
             {
                 headers: {
                     "Authorization": "Bearer " + localStorage.getItem("token"),
                 }
             }
         );
-
-        if (getFoldersList.data) {
-            this.folders = getFoldersList.data;
+        if (getFolderInfo.data) {
+            if (getFolderInfo.data) {
+                this.folderName = getFolderInfo.data.name;
+                this.folderDescription = getFolderInfo.data.description;
+                this.folderIsComic = getFolderInfo.data.isComic;
+                this.folderImage = getFolderInfo.data.picture;
+            } else {
+                notifications.generateNotification('bad', 'Ошибка получения информации о папке');
+            }
         }
     }
 }
