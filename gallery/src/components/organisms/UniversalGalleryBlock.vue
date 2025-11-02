@@ -18,7 +18,7 @@
                     <img :src="item.preview" :alt="item.title" @click="openFull(item)" loading="lazy" />
                     <div class="gallery-item__hover">
                         <div class="gallery-item__author"><a :href="item.link">{{ item.title
-                        }}</a></div>
+                                }}</a></div>
                         <div class="gallery-item__title"><b>Автор:</b> <a :href="'/gallery/author/' + item.userName">{{
                             item.userName }}</a></div>
                     </div>
@@ -105,7 +105,9 @@ export default {
                 url.searchParams.set('offset', this.offset);
                 url.searchParams.set('limit', this.limit);
 
-                const res = await fetch(url);
+                const res = await fetch(url, {
+                    headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
+                });
                 if (!res.ok) throw new Error('Ошибка сети');
 
                 const data = await res.json();
