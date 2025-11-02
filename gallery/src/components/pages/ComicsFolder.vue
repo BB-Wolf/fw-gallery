@@ -89,8 +89,11 @@ export default {
     }
   },
   async created() {
+    let pageUrl = new URL('https://furry-world.ru/console/comics/get_comics_folder.php');
+    pageUrl.searchParams.append('author', this.$route.params.author);
+    pageUrl.searchParams.append('code', this.$route.params.name);
     let getComicsData = await new axios.get(
-      '//furry-world.ru/console/comics/get_comics_folder.php?code=' + this.$route.params.name
+      pageUrl
     )
     if (getComicsData.data && getComicsData.data.status != 'error') {
       this.comics = getComicsData.data

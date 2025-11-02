@@ -76,3 +76,12 @@ export const userFolders = reactive({
     this.folders = foldersRequest.data;
   }
 });
+
+
+export const isAgeAgreed = reactive({
+  agreed: localStorage.getItem('ageagree') === 'true',
+  setAgreed() {
+    this.agreed = true;
+    localStorage.setItem('ageagree', 'true');
+  }
+});
