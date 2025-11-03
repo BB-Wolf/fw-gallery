@@ -7,6 +7,7 @@ import Image from '../atoms/Image.vue';
 import { notifications, mobileDevice } from '@main/state';
 import PersonalStats from '@gallery/components/organisms/PersonalStats.vue';
 import AutosaveModal from '@gallery/components/molecules/AutosaveModal.vue';
+import ModalRate from '../molecules/ModalRate.vue';
 
 export default {
     components:
@@ -19,7 +20,8 @@ export default {
         SwitchButton,
         Image,
         PersonalStats,
-        AutosaveModal
+        AutosaveModal,
+        ModalRate
 
     },
     data() {
@@ -56,6 +58,7 @@ export default {
             rawHeader: null,
             userHeader: null,
             showActionModal: false,
+            charRate: 1,
         };
     },
     async created() {
@@ -145,6 +148,7 @@ export default {
             formData.append('ismentionable', this.isMentionable);
             formData.append('istradeable', this.isTradable);
             formData.append('charheader', this.characterHeader);
+            formData.append('rate', this.charRate);
             this.showActionModal = true;
 
             let saveFormData = await new axios.post('//furry-world.ru/console/post_create_character.php', formData, {
@@ -319,7 +323,7 @@ export default {
 
                             <TabsTrigger value="tab2" class="tab-button"
                                 :class="[{ [mobileBtnClass]: userDevice.isMobile }]">
-                                Галерея
+                                Альбомы
                             </TabsTrigger>
                             <TabsTrigger value="tab3" class="tab-button"
                                 :class="[{ [mobileBtnClass]: userDevice.isMobile }]" @click="getFavs">
@@ -564,6 +568,10 @@ export default {
                                 <div class="field">
                                     <label for="age">Полное био (нет ограничений по символам)</label>
                                     <textarea v-model="charFullStory" placeholder="Полное био"></textarea>
+                                </div>
+                                <div class="field">
+                                    <label for="rate">Возрастной рейтинг персонажа</label>
+                                    <ModalRate v-model="charRate"></ModalRate>
                                 </div>
                                 <div class="field">
                                     <SwitchButton v-model="isMentionable" :inputLabel="'Разрешить отмечать другим'">
