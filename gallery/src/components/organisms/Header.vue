@@ -97,7 +97,8 @@ export default {
                 @click="switchNSFW">Ценз: {{ this.nswfState }}</div>
             <a href="/gallery/main/">Все работы</a>
             <a href="#" v-show="!isUser" @click="showLogin">Войти</a>
-            <a v-show="isUser" @click="showUpload">Загрузить</a>
+            <a v-if="!userDevice.isMobile" v-show="isUser" @click="showUpload">Загрузить</a>
+            <a v-if="userDevice.isMobile" href="/gallery/mupload/">Загрузить</a>
             <a href="/gallery/personal/" v-show="isUser">Профиль</a>
             <a v-show="isUser" @click="logout">Выйти</a>
         </nav>
