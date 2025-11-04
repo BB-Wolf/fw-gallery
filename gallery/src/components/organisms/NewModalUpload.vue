@@ -23,20 +23,7 @@
                         <div class="muted mb-20">Шаг 2</div>
                     </div>
                     <ModalRate v-model="this.rate"></ModalRate>
-                    <ModalTags v-model="this.tags"></ModalTags>
-
-                    <div class="muted" v-show="!this.suggestedTags">Загружаем подсказки</div>
-                    <div class="muted" v-show="this.suggestedTags">Подсказки</div>
-                    <div class="tags" v-show="this.suggestedTags">
-                        <div class="tags-wrapper mt-20">
-                            <div class="tags-scroll">
-                                <div @click="[...this.tags, suggestedTag.tag]" class="btn btn--default btn--rounded"
-                                    v-for="suggestedTag in suggestedTags" :key="suggestedTag">
-                                    {{ suggestedTag.tag }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <ModalTags v-model="this.tags" :suggestedTags="this.suggestedTags"></ModalTags>
                     <ModalFolders v-model="this.folder"></ModalFolders>
                 </div>
                 <div class="modal-body modal-right" v-show="this.activeTab == 3">
@@ -91,11 +78,11 @@ export default {
             description: '',
             activeTab: 1,
             tags: null,
-            suggestedTags: null,
             folder: '',
             chars: '',
             isModalOpen: modalState,
             showActionModal: false,
+            suggestedTags: null,
         }
     },
     methods:

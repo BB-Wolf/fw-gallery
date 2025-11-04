@@ -4,6 +4,18 @@
         <div class="muted">Теги отделяются запятой</div>
         <input id="tags-input" type="text" @change="$emit('update:modelValue', $event.target.value)">
     </div>
+    <div class="muted" v-show="!this.suggestedTags">Загружаем подсказки</div>
+    <div class="muted" v-show="this.suggestedTags">Подсказки</div>
+    <div class="tags" v-show="this.suggestedTags">
+        <div class="tags-wrapper mt-20">
+            <div class="tags-scroll">
+                <div @click="this.tagifyObj.addTags(suggestedTag.tag)" class="btn btn--default btn--rounded"
+                    v-for="suggestedTag in suggestedTags" :key="suggestedTag">
+                    {{ suggestedTag.tag }}
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 <script>
 import Tagify from '@yaireo/tagify'
@@ -16,11 +28,19 @@ export default {
                 this.debounce = 10;
             }
         });
+        console.log(this.suggestedTags);
+    },
+    props: {
+        suggestedTags: {
+            type: Array,
+            default: null
+        }
     },
     data() {
         return {
             debounce: -1,
-            tagifyObj: null
+            tagifyObj: null,
+
         }
     },
     watch: {
@@ -34,7 +54,6 @@ export default {
 
                 if (value == 0) {
                     let inp = document.querySelector('.tagify__input');
-                    console.log(inp.innerHTML);
                     this.tagifyObj.addTags(inp.textContent)
                     inp.innerHTML = '';
                     this.debounce = -1;
