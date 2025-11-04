@@ -32,7 +32,7 @@
 
       <!-- Step 3 -->
       <section v-if="step === 3" class="step">
-        <ModalTags v-model="tags" />
+        <ModalTags v-model="this.tags" :suggestedTags="this.suggestedTags"></ModalTags>
         <ModalCharactersMobile v-model="chars" />
 
         <div class="actions">
@@ -111,15 +111,29 @@ export default {
       folder: '',
       rate: '',
       chars: '',
-      sending: false
+      sending: false,
+      suggestedTags: null,
     }
   },
   methods: {
+    async setSuggestionTags() {
+      let formData = new FormData();
+      formData.append('file', this.imageRaw);
+      let request = await axios.post('//furry-world.ru/console/tools/post_tags_suggestions.php', formData, {
+        headers: {
+          "Authorization": "Bearer " + localStorage.getItem("token"),
+        }
+      });
+      if (request.data) {
+        this.suggestedTags = request.data.suggestions;
+      }
+    },
     makePreview(e) {
       const file = e.target.files?.[0]
       if (!file) return
       this.imageRaw = file
       this.image = URL.createObjectURL(file)
+      this.setSuggestionTags();
     },
     nextStep() {
       if (this.step < 5) this.step++
