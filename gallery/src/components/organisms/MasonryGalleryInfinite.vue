@@ -1,6 +1,17 @@
 <template>
     <div class="section-container">
-        <div class="h2">Последние работы</div>
+        <div class="header-row">
+            <div class="h2">Последние работы</div>
+
+            <div class="view-toggle" v-if="this.isMobile === true">
+                <button :class="{ active: viewMode === 'grid' }" @click="switchViewMode('grid')" title="Плиткой">
+                    ⬛⬛
+                </button>
+                <button :class="{ active: viewMode === 'list' }" @click="switchViewMode('list')" title="Списком">
+                    ☰
+                </button>
+            </div>
+        </div>
 
         <div class="masonry-gallery">
             <div v-for="(column, index) in columns" :key="index" class="masonry-column">
@@ -33,6 +44,7 @@
 </template>
 
 <script>
+import { galleryMode, mobileDevice } from '@main/state.js';
 export default {
     name: 'MasonryGallery',
     data() {
@@ -44,9 +56,16 @@ export default {
             loading: false,
             finished: false,
             windowWidth: window.innerWidth,
+            viewMode: galleryMode.mode,
+            isMobile: mobileDevice,
         };
     },
     mounted() {
+        if (mobileDevice == false) {
+            this.viewMode = 'grid';
+            this.switchViewMode('grid');
+
+        }
         this.updateColumnCount();
         this.initColumns();
         this.loadMore();
@@ -59,7 +78,18 @@ export default {
         window.removeEventListener('resize', this.handleResize);
     },
     methods: {
+
+        switchViewMode(mode) {
+            this.viewMode = mode;
+            galleryMode.setMode(mode);
+        },
         updateColumnCount() {
+            if (this.viewMode === 'list') {
+                this.columnCount = 1;
+                return;
+            } else {
+                this.columnCount = 3;
+            }
             const w = this.windowWidth;
             if (w > 1200) this.columnCount = 6;
             else if (w > 992) this.columnCount = 4;
@@ -254,5 +284,27 @@ export default {
 .gallery-item__hover .gallery-item__author a {
     font-weight: bold;
     text-decoration: underline;
+}
+
+
+.view-toggle {
+    display: flex;
+    gap: 6px;
+}
+
+.view-toggle button {
+    background: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 5px 8px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.view-toggle button.active {
+    background: #333;
+    color: white;
+    border-color: #333;
 }
 </style>

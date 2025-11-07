@@ -13,6 +13,13 @@ export const siteVersion = reactive({
   currentState: 'gallery'
 })
 
+export const galleryMode = reactive({
+  mode: localStorage.getItem('view') ?? 'grid',
+  setMode(newMode) {
+    localStorage.setItem('view', newMode);
+  }
+})
+
 export const mobileDevice = reactive({ isMobile })
 export const notifications = reactive({
   notificationsCount: 0,
