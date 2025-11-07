@@ -1,5 +1,5 @@
 <script>
-import { modalState, isUserLogged, mobileDevice } from '@main/state';
+import { modalState, isUserLogged, mobileDevice, isAgeAgreed } from '@main/state';
 import ModalLogin from '@gallery/components/organisms/ModalLogin.vue';
 import ModalRegister from '@gallery/components/organisms/ModalRegister.vue';
 import axios from 'axios';
@@ -30,6 +30,15 @@ export default {
             modalState.isModalLoginVisible = true;
         },
         async switchNSFW() {
+            if (isAgeAgreed.agreed != true) {
+                let isOk = prompt('Чтобы изменить уровень цензуры, подтвердите, что вам есть 18 лет напечатав "Да" в поле ниже.');
+                if (isOk == null || isOk.toLowerCase() != 'да') {
+                    alert('Подтверждение не получено. Изменение уровня цензуры отменено.');
+                    return;
+                } else {
+                    isAgeAgreed.setAgreed();
+                }
+            }
             const nswfReq = await new axios.get('//furry-world.ru/console/get_switch_nsfw.php',
                 {
                     headers: {

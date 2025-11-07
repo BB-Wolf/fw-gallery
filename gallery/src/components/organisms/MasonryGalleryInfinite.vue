@@ -64,7 +64,7 @@ export default {
             if (w > 1200) this.columnCount = 6;
             else if (w > 992) this.columnCount = 4;
             else if (w > 600) this.columnCount = 3;
-            else this.columnCount = 1;
+            else this.columnCount = 3;
         },
         initColumns() {
             this.columns = [];
