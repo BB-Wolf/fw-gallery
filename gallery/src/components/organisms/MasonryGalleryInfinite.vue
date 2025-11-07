@@ -57,11 +57,11 @@ export default {
             finished: false,
             windowWidth: window.innerWidth,
             viewMode: galleryMode.mode,
-            isMobile: mobileDevice,
+            isMobile: mobileDevice.isMobile,
         };
     },
     mounted() {
-        if (mobileDevice == false) {
+        if (mobileDevice.isMobile == false) {
             this.viewMode = 'grid';
             this.switchViewMode('grid');
 
