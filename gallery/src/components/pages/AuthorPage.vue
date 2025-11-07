@@ -461,7 +461,7 @@ export default {
         if (userReq.data) {
             this.userProfile = userReq.data;
             this.userStatus = JSON.parse(userReq.data.status);
-            if (this.userStatus.types.length > 0) {
+            if (this.userStatus && this.userStatus.types.length > 0) {
                 for (let i = 0; i < this.userStatus.types.length; i++) {
                     if (this.userStatus.types[i] == 'comm') {
                         this.userComms = true;
