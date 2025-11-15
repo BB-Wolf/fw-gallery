@@ -1,10 +1,13 @@
 <template>
     <section id="pallete_of_day" class="gallery-container pallette" style="margin:0;padding: 0;" v-if="palette">
         <div class="pallette-container">
-            <a :href="'/gallery/pallete_of_a_day/'" class="h2" style="padding-left:20px">Палитра дня: {{
+            <div class="h2" style="padding-left:66px">Палитра дня: {{
                 palette.paletteTitle
-                }}</a>
-            <ul class="colorswatch">
+            }}
+            </div>
+            <a :href="'/gallery/pallete_of_a_day/'" class="watchmore muted">Палитра дня по датам
+                <span class="arrow">→</span></a>
+            <ul class="colorswatch mt-10">
                 <li v-for="color in palette.colors" :key="color.name" :style="{ backgroundColor: color.hex }">
                     {{ color.name }} <br />
                     {{ color.hex }}
@@ -16,11 +19,44 @@
 </template>
 
 <style scoped>
+.watchmore {
+    padding-left: 66px !important;
+    transition: 0.3s all ease-in;
+    position: relative;
+}
+
+.watchmore:hover>.arrow {
+    position: absolute;
+    display: inline-block;
+    /* transform: translate(10px, -2px) scale(2.1); */
+    transition: 0.3s all ease-in;
+
+}
+
 .pallette-container {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: wrap;
     justify-content: space-between;
+}
+
+.pallette-container .muted {
+    padding-left: 20px;
+}
+
+.pallete-box {
+    display: block;
+    background: #222;
+    padding: 16px 20px;
+    border-radius: 8px;
+    color: #fff;
+    text-decoration: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .3);
+    transition: box-shadow .25s;
+}
+
+.pallete-box:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, .4);
 }
 
 .colorswatch {
