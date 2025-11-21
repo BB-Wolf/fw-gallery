@@ -15,7 +15,12 @@ rts = [
         name: 'Personal',
         path: '/personal/',
         component: () => import('@main/components/pages/Personal.vue')
-      }
+      },
+      {
+        path: 'test',
+        name: 'test',
+        component: () => import('@gallery/components/pages/TestPage.vue')
+      },
     ],
     meta: { transition: 'fade' }
   },
@@ -141,7 +146,7 @@ rts = [
       {
         name: 'MobileUploadPage',
         path: '/gallery/mupload/',
-        component: ()=> import('@gallery/components/pages/MobileUploadPage.vue')
+        component: () => import('@gallery/components/pages/MobileUploadPage.vue')
       }
     ],
     meta: { transition: 'fade' }

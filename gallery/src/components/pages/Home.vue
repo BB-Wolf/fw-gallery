@@ -12,6 +12,7 @@ import AuthorsOfWeekMobile from '@gallery/components/organisms/AuthorsOfWeekMobi
 import Seo from '@main/api/seo/Seo.js';
 import ArtOfDay from '@gallery/components/organisms/ArtOfADay.vue';
 import MasonryGallery from '../organisms/MasonryGallery.vue';
+import StoryBoard from '../organisms/Comics/StoryBoard.vue';
 
 export default
     {
@@ -47,8 +48,7 @@ export default
             <ArtOfDay></ArtOfDay>
         </section>
         <section id="comics" style="margin-bottom: 0;" class="section-container">
-            <ComicsPreview v-if="!mobileDevice.isMobile"></ComicsPreview>
-            <ComicsPreviewMobile v-if="mobileDevice.isMobile"></ComicsPreviewMobile>
+            <StoryBoard></StoryBoard>
         </section>
         <div class="gallery-container">
             <MasonryGallery class="section-container" :needInfinity="false" galleryUrl="/gallery/main/"
