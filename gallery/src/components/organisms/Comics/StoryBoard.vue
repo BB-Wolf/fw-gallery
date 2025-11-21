@@ -117,7 +117,7 @@ export default {
 
 
 .gallery-item__hover {
-    bottom: -1000px;
+    bottom: -50px;
 }
 
 .gallery-item__hover a {
@@ -135,7 +135,7 @@ export default {
 
 
 .panel:hover>.gallery-item__hover {
-    bottom: 00px;
+    bottom: 0px;
 }
 
 .gallery-item__hover a {
