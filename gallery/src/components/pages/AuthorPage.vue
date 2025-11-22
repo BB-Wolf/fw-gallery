@@ -216,11 +216,12 @@ h1 {
 .author-followers,
 .author-follows,
 .author-publishes {
-    background: #efefef;
     width: 120px;
-    height: 60px;
+    min-height: 60px;
     text-align: center;
     color: black;
+    border: 1px solid #ececec;
+    padding: 10px;
     border-radius: 10px 10px;
 }
 
