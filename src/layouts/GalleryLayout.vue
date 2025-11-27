@@ -2,15 +2,7 @@
 import Header from '@gallery/components/organisms/Header.vue';
 import Footer from '@gallery/components/organisms/Footer.vue';
 import CookiePolicy from '@main/components/organisms/CookiePolicy.vue';
-import { allowedCookie } from '@main/state';
-</script>
-<script>
-export default
-    {
-        created() {
-            //   isUserLogged.vaildate();
-        }
-    }
+import { allowedCookie, userSettings } from '@main/state';
 </script>
 
 <template :click="closeModal()">

@@ -7,8 +7,10 @@
     </div>
 </template>
 <script>
+import { userSettingsStore } from '@main/state';
 import Multiselect from '@vueform/multiselect'
 import axios from 'axios';
+const userSettings = userSettingsStore();
 
 export default {
     components:
@@ -20,17 +22,8 @@ export default {
             userFolders: [],
         }
     },
-    async mounted() {
-        let getUserFolders = await new axios('//furry-world.ru/console/get_user_folders.php',
-            {
-                headers: {
-                    "Authorization": "Bearer " + localStorage.getItem("token"),
-                }
-            }
-        )
-        if (getUserFolders.data) {
-            this.userFolders = getUserFolders.data
-        }
+    mounted() {
+        this.userFolders = userSettings.folders;
     },
     methods:
     {

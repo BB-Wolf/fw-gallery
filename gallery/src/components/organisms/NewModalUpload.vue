@@ -46,6 +46,7 @@
 </template>
 <script>
 
+import { modalState } from '@main/state';
 import UploadImage from '@gallery/components/molecules/UploadImage.vue';
 import ModalTitle from '@gallery/components/molecules/ModalTitle.vue';
 import ModalDescription from '@gallery/components/molecules/ModalDescription.vue';
@@ -54,7 +55,6 @@ import ModalTags from '@gallery/components/molecules/ModalTags.vue';
 import ModalFolders from '@gallery/components/molecules/ModalFolders.vue';
 import ModalCharacters from '@gallery/components/molecules/ModalCharacters.vue';
 import axios from 'axios';
-import { modalState } from '@main/state';
 import AutosaveModal from '@gallery/components/molecules/AutosaveModal.vue';
 
 export default {

@@ -1,6 +1,9 @@
 import { reactive } from 'vue'
 import axios from 'axios'
 import { isMobile } from 'mobile-device-detect'
+import { defineStore } from 'pinia';
+import { get } from '@vueuse/core';
+
 
 export const modalState = reactive({
   isModalLoginVisible: false,
@@ -90,5 +93,52 @@ export const isAgeAgreed = reactive({
   setAgreed() {
     this.agreed = true;
     localStorage.setItem('ageagree', 'true');
+  }
+});
+
+export const userSettings = reactive({
+  folders: [],
+  nswf: localStorage.getItem('nsfw') ?? '0+',
+  setNSFW(mode) {
+    this.nswf = mode;
+  },
+  async fetchSettings() {
+    let foldersRequest = await new axios.get('//furry-world.ru/console/get_settings.php',
+      {
+        headers: {
+          "Authorization": "Bearer " + localStorage.getItem("token"),
+        }
+      });
+    this.folders = foldersRequest.data.folders;
+    return this.folders;
+  }
+
+});
+
+const foldersRequest = await new axios.get('//furry-world.ru/console/get_settings.php',
+  {
+    headers: {
+      "Authorization": "Bearer " + localStorage.getItem("token"),
+    }
+  });
+
+export const userSettingsStore = defineStore('userSettings', {
+  state: () => ({
+    folders: [],
+    nswf: 7,
+  }),
+  getters: {
+    getUserFolders(state) {
+      return state.folders;
+    }
+  },
+  actions: {
+    setNSFW(mode) {
+      this.nswf = mode;
+    },
+    fetchSettings() {
+      this.folders = foldersRequest.data.folders;
+      return this.folders;
+    }
   }
 });

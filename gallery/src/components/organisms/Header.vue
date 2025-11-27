@@ -3,8 +3,9 @@ import ModalLogin from '@gallery/components/organisms/ModalLogin.vue';
 import ModalRegister from './ModalRegister.vue';
 import ModalUploadMobile from './ModalUploadMobile.vue';
 import axios from 'axios';
-import { modalState, isUserLogged, mobileDevice, isAgeAgreed } from '@main/state.js';
+import { modalState, isUserLogged, mobileDevice, isAgeAgreed, userSettingsStore } from '@main/state.js';
 import NewModalUpload from './NewModalUpload.vue';
+const userSettings = userSettingsStore();
 
 export default {
     components: {
@@ -22,10 +23,11 @@ export default {
     },
     created() {
         isUserLogged.validate();
+        userSettings.fetchSettings();
+        console.log(userSettings.getUserFolders);
         if (localStorage.getItem('nsfw')) {
             this.nswfState = localStorage.getItem('nsfw');
         }
-
     },
     methods: {
         showLogin() {
