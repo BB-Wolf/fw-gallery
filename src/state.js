@@ -115,7 +115,7 @@ export const userSettings = reactive({
 
 });
 
-const foldersRequest = await new axios.get('//furry-world.ru/console/get_settings.php',
+const foldersRequest = await axios.get('//furry-world.ru/console/get_settings.php',
   {
     headers: {
       "Authorization": "Bearer " + localStorage.getItem("token"),
