@@ -82,7 +82,7 @@
 </template>
 
 <script>
-import { notifications } from '@main/state.js'
+import { notifications, userSettingsStore } from '@main/state.js'
 import axios from 'axios'
 import ModalTitle from '@gallery/components/molecules/ModalTitle.vue'
 import ModalDescription from '@gallery/components/molecules/ModalDescription.vue'
