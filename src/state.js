@@ -122,6 +122,7 @@ const foldersRequest = await axios.get('//furry-world.ru/console/get_settings.ph
     }
   });
 
+
 export const userSettingsStore = defineStore('userSettings', {
   state: () => ({
     folders: [],
