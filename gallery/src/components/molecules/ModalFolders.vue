@@ -10,20 +10,18 @@
 import { userSettingsStore } from '@main/state';
 import Multiselect from '@vueform/multiselect'
 import axios from 'axios';
-const userSettings = userSettingsStore();
+const settings = userSettingsStore();
 
 export default {
     components:
     {
         Multiselect
     },
-    data() {
-        return {
-            userFolders: [],
+    computed: {
+        userFolders() {
+            console.log(settings.folders);
+            return settings.folders.folders;
         }
-    },
-    mounted() {
-        this.userFolders = userSettings.folders;
     },
     methods:
     {

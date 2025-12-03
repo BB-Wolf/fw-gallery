@@ -115,30 +115,42 @@ export const userSettings = reactive({
 
 });
 
-const foldersRequest = await axios.get('//furry-world.ru/console/get_settings.php',
-  {
-    headers: {
-      "Authorization": "Bearer " + localStorage.getItem("token"),
-    }
-  });
-
+// const foldersRequest = await axios.get('//furry-world.ru/console/get_settings.php',
+//   {
+//     headers: {
+//       "Authorization": "Bearer " + localStorage.getItem("token"),
+//     }
+//   });
 
 export const userSettingsStore = defineStore('userSettings', {
   state: () => ({
     folders: [],
     nswf: 7,
   }),
+
   getters: {
     getUserFolders(state) {
       return state.folders;
     }
   },
+
   actions: {
     setNSFW(mode) {
       this.nswf = mode;
     },
-    fetchSettings() {
-      this.folders = foldersRequest.data.folders;
+
+    async fetchSettings() {
+      // проверяем именно this.folders
+      if (this.folders.length === 0) {
+        const response = await axios.get('//furry-world.ru/console/get_settings.php', {
+          headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token"),
+          }
+        });
+
+        this.folders = response.data || [];
+      }
+
       return this.folders;
     }
   }
