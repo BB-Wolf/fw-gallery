@@ -92,7 +92,7 @@ export default {
                 }
             }
         }
-        const getUserFolders = await new axios.get('//furry-world.ru/console/get_user_folders.php', {
+        const getUserFolders = await new axios.get('//furry-world.ru/console/personal/get_user_folders.php', {
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("token"),
             }
@@ -488,8 +488,11 @@ export default {
                                 <div class="card__face card__face--overlay">
                                     <div class="card__title">{{ folder.name }}</div>
                                     <div class="card__short-desc">{{ folder.description }}</div>
-                                    <a class="card__link"
+                                    <a v-if="folder.isComics == 0" class="card__link"
                                         :href="'/gallery/personal/folder/' + folder.code + '/'">Перейти к
+                                        альбому</a>
+                                    <a v-if="folder.isComics == 1" class="card__link"
+                                        :href="'/gallery/personal/comics/' + folder.code + '/'">Перейти к
                                         альбому</a>
                                 </div>
                             </div>

@@ -22,7 +22,8 @@
                     @click="saveStatus('comm')">
                 </SwitchButton>
             </div>
-            <div class="form-groupp">
+            <div class="form-group"></div>
+            <div class="form-group">
                 <button class="btn btn--update" @click="saveFolder">Сохранить</button>
             </div>
         </div>
@@ -79,14 +80,26 @@ export default {
             if (this.folderPicture) {
                 folderForm.append('image', this.folderPicture);
             }
-            let request = await axios.post('//furry-world.ru/console/comics/post_create_folder.php', folderForm,
-                {
-                    headers:
+            let request;
+            if (this.folderIsComic) {
+                request = await axios.post('//furry-world.ru/console/comics/post_create_folder.php', folderForm,
                     {
-                        "Authorization": "Bearer " + localStorage.getItem('token'),
+                        headers:
+                        {
+                            "Authorization": "Bearer " + localStorage.getItem('token'),
+                        }
                     }
-                }
-            )
+                )
+            } else {
+                request = await axios.post('//furry-world.ru/console/post_create_folder.php', folderForm,
+                    {
+                        headers:
+                        {
+                            "Authorization": "Bearer " + localStorage.getItem('token'),
+                        }
+                    }
+                )
+            }
             if (request.data.status == 'success') {
                 notifications.generateNotification('good', request.data.text);
             } else {

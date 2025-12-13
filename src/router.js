@@ -76,6 +76,14 @@ rts = [
         }
       },
       {
+        path: '/gallery/personal/comics/:name',
+        name: 'personalFolder',
+        component: () => import('@gallery/components/pages/PersonalComics.vue'),
+        meta: {
+          requiresAuth: true
+        }
+      },
+      {
         name: 'personalFolderCreate',
         path: '/gallery/personal/folder/create/',
         component: () => import('@gallery/components/pages/PersonalFolderCreate.vue'),
