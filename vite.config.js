@@ -6,6 +6,9 @@ import vue from '@vitejs/plugin-vue'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [vue()],
+// build: {
+//target: ['es2022', 'safari15']
+ // },
   resolve: {
     alias: {
       '@gallery': fileURLToPath(new URL('./gallery/src/', import.meta.url)),
