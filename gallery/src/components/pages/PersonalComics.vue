@@ -362,7 +362,7 @@ export default {
         }
     },
     async created() {
-        let url = '//furry-world.ru/console/comics/get_gallery_picture.php?user=' + localStorage.getItem('token');
+        let url = '//furry-world.ru/console/comics/get_images.php?user=' + localStorage.getItem('token');
         const getImagesList = await new axios.get(url, {
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("token"),
@@ -377,7 +377,7 @@ export default {
             this.folders = getFoldersList.folders;
         }
 
-        const getFolderInfo = await new axios.get('//furry-world.ru/console/get_folder_info.php?folder=' + this.$route.params.name,
+        const getFolderInfo = await new axios.get('//furry-world.ru/console/comics/get_folder_info.php?folder=' + this.$route.params.name,
             {
                 headers: {
                     "Authorization": "Bearer " + localStorage.getItem("token"),

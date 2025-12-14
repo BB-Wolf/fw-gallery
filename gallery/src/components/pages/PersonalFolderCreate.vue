@@ -102,6 +102,9 @@ export default {
             }
             if (request.data.status == 'success') {
                 notifications.generateNotification('good', request.data.text);
+                setTimeot(function () {
+                    window.location = '/personal/';
+                }, 1000);
             } else {
                 notifications.generateNotification('bad', request.data.text);
             }
