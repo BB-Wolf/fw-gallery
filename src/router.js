@@ -155,6 +155,11 @@ rts = [
         name: 'MobileUploadPage',
         path: '/gallery/mupload/',
         component: () => import('@gallery/components/pages/MobileUploadPage.vue')
+      },
+      {
+        name: 'GalleryAdoptDetail',
+        path: '/gallery/adopt/author/:creator/characters/:adoptcode/:id/',
+        component: ()=> import('@gallery/components/organisms/Trades/Adopts/AdoptDetail.vue')
       }
     ],
     meta: { transition: 'fade' }
