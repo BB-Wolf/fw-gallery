@@ -66,7 +66,10 @@
                                     :class="[{ [mobileBtnClass]: userDevice.isMobile }]">
                                     Избранное
                                 </TabsTrigger>
-
+                                <TabsTrigger value="tab4" class="tab-button"
+                                    :class="[{ [mobileBtnClass]: userDevice.isMobile }]">
+                                    Telegram
+                                </TabsTrigger>
                             </div>
                         </div>
                     </TabsList>
@@ -118,6 +121,9 @@
                             </div>
                         </div>
 
+                    </TabsContent>
+                    <TabsContent value="tab4">
+                        <TelegramTab :userId="this.userProfile.id" />
                     </TabsContent>
                 </TabsRoot>
             </div>
@@ -361,6 +367,7 @@ import Image from '../atoms/Image.vue';
 import { notifications, mobileDevice } from '@main/state';
 import Seo from '@main/api/seo/Seo.js';
 import MasonryWall from '@yeger/vue-masonry-wall'
+import TelegramTab from '../organisms/Author/TelegramTab.vue';
 
 export default {
     components:
@@ -370,6 +377,7 @@ export default {
         TabsList,
         TabsTrigger,
         Image,
+        TelegramTab,
         MasonryWall
 
     },

@@ -241,7 +241,7 @@ export default {
             if (this.folderPictureNew) {
                 folderForm.append('image', this.folderPictureNew);
             }
-            let request = await axios.post('//furry-world.ru/console/comics/post_update_folder.php', folderForm,
+            let request = await axios.post('//furry-world.ru/console/comics/post_edit_folder.php', folderForm,
                 {
                     headers:
                     {
@@ -377,7 +377,7 @@ export default {
             this.folders = getFoldersList.folders;
         }
 
-        const getFolderInfo = await new axios.get('//furry-world.ru/console/comics/get_folder_info.php?folder=' + this.$route.params.name,
+        const getFolderInfo = await new axios.get('//furry-world.ru/console/comics/get_folder_info.php?code=' + this.$route.params.name,
             {
                 headers: {
                     "Authorization": "Bearer " + localStorage.getItem("token"),

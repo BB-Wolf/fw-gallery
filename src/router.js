@@ -16,13 +16,14 @@ rts = [
         path: '/personal/',
         component: () => import('@main/components/pages/Personal.vue')
       },
-      {
-        path: 'test',
-        name: 'test',
-        component: () => import('@gallery/components/pages/TestPage.vue')
-      },
+
     ],
     meta: { transition: 'fade' }
+  },
+  {
+    path: '/test',
+    name: 'test',
+    component: () => import('@gallery/components/pages/TestPage.vue')
   },
   {
     path: '/gallery/',
@@ -159,7 +160,7 @@ rts = [
       {
         name: 'GalleryAdoptDetail',
         path: '/gallery/adopt/author/:creator/characters/:adoptcode/:id/',
-        component: ()=> import('@gallery/components/organisms/Trades/Adopts/AdoptDetail.vue')
+        component: () => import('@gallery/components/pages/Trades/Adopts/AdoptDetail.vue')
       }
     ],
     meta: { transition: 'fade' }
