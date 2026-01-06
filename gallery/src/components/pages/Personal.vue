@@ -10,12 +10,13 @@ import AutosaveModal from '@gallery/components/molecules/AutosaveModal.vue';
 import ModalRate from '../molecules/ModalRate.vue';
 import TelegramLink from '../organisms/Profile/TelegramLink.vue';
 import TelegramPostsType from '../organisms/Profile/TelegramPostsType.vue';
+import TelegramModeration from '../organisms/Profile/TelegramModeration.vue';
 
 export default {
     components:
     {
-        TabsContent,
         TabsRoot,
+        TabsContent,
         TabsList,
         TabsTrigger,
         InputText,
@@ -25,8 +26,8 @@ export default {
         AutosaveModal,
         ModalRate,
         TelegramLink,
-        TelegramPostsType
-
+        TelegramPostsType,
+        TelegramModeration
     },
     data() {
         return {
@@ -432,6 +433,7 @@ export default {
                 </div>
                 <TelegramLink></TelegramLink>
                 <TelegramPostsType></TelegramPostsType>
+                <TelegramModeration></TelegramModeration>
 
                 <!--  <div class="profile-container">
                     <div class="h1">Управление тегами</div>
