@@ -8,6 +8,8 @@ import { notifications, mobileDevice } from '@main/state';
 import PersonalStats from '@gallery/components/organisms/PersonalStats.vue';
 import AutosaveModal from '@gallery/components/molecules/AutosaveModal.vue';
 import ModalRate from '../molecules/ModalRate.vue';
+import TelegramLink from '../organisms/Profile/TelegramLink.vue';
+import TelegramPostsType from '../organisms/Profile/TelegramPostsType.vue';
 
 export default {
     components:
@@ -21,7 +23,9 @@ export default {
         Image,
         PersonalStats,
         AutosaveModal,
-        ModalRate
+        ModalRate,
+        TelegramLink,
+        TelegramPostsType
 
     },
     data() {
@@ -426,6 +430,8 @@ export default {
                         </div>
                     </div>
                 </div>
+                <TelegramLink></TelegramLink>
+                <TelegramPostsType></TelegramPostsType>
 
                 <!--  <div class="profile-container">
                     <div class="h1">Управление тегами</div>
