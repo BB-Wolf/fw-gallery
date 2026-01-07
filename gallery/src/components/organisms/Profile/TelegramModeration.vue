@@ -12,6 +12,7 @@
                 <Multiselect v-model="value" @change="setValue($event)" :options="moderateOptions" />
             </div>
         </div>
+        <div class="btn update-btn mt-20" @click="updateTg">Сохранить</div>
     </div>
 </template>
 
