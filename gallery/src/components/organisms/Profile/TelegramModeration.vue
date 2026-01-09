@@ -28,7 +28,7 @@ export default {
             // Example data properties
             moderateOptions: [
                 'Автопубликация',
-                'Модерация',
+                //   'Модерация',
             ],
         };
     },

@@ -8,10 +8,32 @@
     </section>
 </template>
 
-<script setup>
-import { usePostsStore } from '@main/state';
+<script>
 import PostsFeed from '@gallery/components/organisms/Author/External/ExternalFeed.vue';
+import axios from 'axios';
 
-const postsStore = usePostsStore;
-const posts = postsStore;
+export default {
+    components:
+    {
+        PostsFeed
+    },
+    data() {
+        return {
+            posts: []
+        }
+    },
+    async mounted() {
+        let postsData = await axios.get('https://furry-world.ru/console/externals/telegram_feed.php?user=' + this.$route.params.user, {
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("token") ?? '',
+            }
+        }
+        );
+        if (postsData.data) {
+            this.posts = postsData.data;
+        }
+    }
+
+}
+    ;
 </script>
