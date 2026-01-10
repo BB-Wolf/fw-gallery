@@ -157,7 +157,7 @@ export const userSettingsStore = defineStore('userSettings', {
 });
 
 export const usePostsStore = [
-  /* {
+  /* {  
      id: 1,
      published_at: '2025-12-12',
      is_pinned: true,
