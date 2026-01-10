@@ -1,10 +1,8 @@
 <template>
     <article class="post-card">
         <PostMeta :date="post.published_at" :pinned="post.is_pinned" />
-
-        <div class="post-content" v-html="post.content" />
-
         <PostMedia v-if="post.media?.length" :media="post.media" />
+        <div class="post-content" v-html="post.content"></div>
     </article>
 </template>
 
@@ -29,5 +27,6 @@ defineProps({
     margin-top: 8px;
     line-height: 1.6;
     white-space: pre-line;
+    color: white;
 }
 </style>
