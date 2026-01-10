@@ -20,6 +20,10 @@
 import Multiselect from '@vueform/multiselect'
 export default {
     name: 'TelegramModerationType',
+    props:
+    {
+        moderation: String
+    },
     components: {
         Multiselect,
     },
