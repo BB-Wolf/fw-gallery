@@ -18,9 +18,7 @@ const props = defineProps({
     pinned: Boolean
 });
 
-const formattedDate = computed(() =>
-    new Date(props.date).toLocaleDateString('ru-RU')
-);
+const formattedDate = props.date;
 </script>
 
 <style scoped>
