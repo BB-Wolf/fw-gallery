@@ -177,6 +177,7 @@ h1 {
     margin-top: 20px;
     width: 100%;
     max-width: 1200px;
+    overflow: hidden;
 }
 
 .author-block {
