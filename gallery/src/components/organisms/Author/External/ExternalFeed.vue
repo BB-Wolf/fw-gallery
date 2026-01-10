@@ -23,8 +23,8 @@ defineProps({
 
 @media (max-width:760px) {
     .posts-feed {
-        grid-template-columns: repeat(2, minmax(150px, 1fr));
-        gap: 16px;
+        grid-template-columns: repeat(1, minmax(150px, 1fr));
+        gap: 0;
     }
 }
 
