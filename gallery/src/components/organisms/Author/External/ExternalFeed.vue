@@ -28,7 +28,7 @@ defineProps({
     }
 }
 
-@media (max-width:1200px) {
+@media (min-width:761px) and (max-width:1200px) {
     .posts-feed {
         grid-template-columns: repeat(4, minmax(200px, 1fr));
         gap: 16px;
