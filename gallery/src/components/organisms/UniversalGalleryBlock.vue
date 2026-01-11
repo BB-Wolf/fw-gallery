@@ -18,7 +18,7 @@
                     <img :src="item.preview" :alt="item.title" @click="openFull(item)" loading="lazy" />
                     <div class="gallery-item__hover">
                         <div class="gallery-item__author"><a :href="item.link">{{ item.title
-                                }}</a></div>
+                        }}</a></div>
                         <div class="gallery-item__title"><b>Автор:</b> <a :href="'/gallery/author/' + item.userName">{{
                             item.userName }}</a></div>
                     </div>
@@ -33,6 +33,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
     name: 'MasonryGallery',
     props: {
@@ -165,6 +167,19 @@ export default {
         openFull(item) {
             window.open(item.link, '_blank');
         },
+        async saveToFav(elm, id) {
+            const addImg = await axios.get('//furry-world.ru/console/get_save_to_fav.php?id=' + id, {
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem("token"),
+                }
+            });
+            if (addImg.data) {
+                elm.parentNode.parentNode.classList.toggle('fav-bookmark--active');
+                //
+            } else {
+                // handle global notifications
+            }
+        }
     },
 };
 </script>
