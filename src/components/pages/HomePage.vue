@@ -130,6 +130,11 @@ footer {
         padding: 0;
     }
 }
+
+.text-accent {
+    font-weight: bold;
+    color: white;
+}
 </style>
 <template>
     <section class="hero">
@@ -140,41 +145,20 @@ footer {
             <h2>Новости проекта</h2>
             <div class="news-article">
                 <h3>Всем привет! На связи Sian</h3>
-                <p>Мы долго шли к этому моменту, и вот он настал!
-                    Наконец запустили раздел с фанфиками и рассказами.
-                    Теперь вы можете не только читать комиксы, но и погружаться в миры, созданные нашими талантливыми
-                    авторами.
-                    Мы уверены, что это только начало, и впереди нас ждут еще более захватывающие приключения.
-                    Мы будем рады видеть ваши работы и идеи, которые вы хотите воплотить в жизнь.
-
+                <p>В этот раз спешим сообщить, что за прошедшее время многое было переделано внутри проекта.
+                    От чего-то отказались, что-то пока было отложно. Во многом это связано с различными бюрократическими
+                    и прочими историями.
                 </p>
-            </div>
-        </div>
-    </section>
-    <!--    <section class="section" id="about">
-        <div class="container">
-            <h2>О нас</h2>
-            <p></p>
-        </div>
-    </section>-->
-    <section class="main">
-        <div class="section gallery" id="gallery">
-            <div class="section-container">
-                <h2>Галерея</h2>
-                <div class="muted">Топ по просмотрам за день</div>
-                <div class="gallery-images">
-                    <GalleryBlock needInfinty="m" galleryType="main" galleryTitle="" />
-                </div>
-            </div>
-        </div>
-
-        <div class="section comics" id="comics">
-            <div class="section-container">
-                <h2>Комиксы</h2>
-                <div class="muted">Последние обновления</div>
-                <div class="comics-covers">
-                    <ComicsList needInfinty="m" galleryType="main" galleryTitle="" />
-                </div>
+                <p>Сейчас у нас в тестовом режиме заработала интеграция с Вашими телеграм-каналами.
+                    Достаточно добавить к себе нашего бота и он будет автоматически подтягивать ленту новостей в Ваш
+                    профиль.
+                    Подробнее можно почитать в личном кабинете.
+                </p>
+                <p>
+                    Так же напоминаю, что сайт работает в бета-режиме. Если что-то идет не так или есть что-то, что по
+                    Вашему мнению стоит улучшить
+                    пишите в ТГ-бота <a class="text-accent" href="https://t.me/FurryWorldHelpBot">@FurryWorldHelpBot</a>
+                </p>
             </div>
         </div>
     </section>

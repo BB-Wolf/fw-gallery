@@ -17,11 +17,11 @@
                 <!--  <div class="form-group">
                     <div class="btn btn--default" @click="regVK" style="background-color: #d8d8d8;">
                         VK</div>
-                </div>
+                </div>-->
                 <div class="form-group">
                     <div class="btn btn--default" @click="this.regMode = 'telegram'" style="background-color: #d8d8d8;">
                         Telegram</div>
-                </div>-->
+                </div>
                 <div class="form-group">
                     <div class="btn btn--default" @click="this.regMode = 'regular'" style="background-color: #d8d8d8;">
                         Логин + пароль</div>
@@ -99,7 +99,7 @@
             <div class="modal-foot">
                 <div class="" v-if="hasResponse">
                     <div v-if="!responseData.success" style="font-weight: bold;color:red;">{{ responseData.text
-                        }}
+                    }}
                     </div>
                 </div>
                 <div class="btn" @click="this.regMode = ''">Назад</div>
