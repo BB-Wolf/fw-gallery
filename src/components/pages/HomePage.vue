@@ -162,33 +162,6 @@ footer {
             </div>
         </div>
     </section>
-    <!--    <section class="section" id="about">
-        <div class="container">
-            <h2>О нас</h2>
-            <p></p>
-        </div>
-    </section>-->
-    <!--<section class="main">
-        <div class="section gallery" id="gallery">
-            <div class="section-container">
-                <h2>Галерея</h2>
-                <div class="muted">Топ по просмотрам за день</div>
-                <div class="gallery-images">
-                    <GalleryBlock needInfinty="m" galleryType="main" galleryTitle="" />
-                </div>
-            </div>
-        </div>
-
-        <div class="section comics" id="comics">
-            <div class="section-container">
-                <h2>Комиксы</h2>
-                <div class="muted">Последние обновления</div>
-                <div class="comics-covers">
-                    <ComicsList needInfinty="m" galleryType="main" galleryTitle="" />
-                </div>
-            </div>
-        </div>
-    </section>-->
 </template>
 <script>
 import GalleryBlock from '@main/components/organisms/GalleryBlock.vue';
