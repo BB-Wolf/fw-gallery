@@ -260,13 +260,25 @@ input[type="password"] {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=30);
     opacity: 0.3;
 }
+
+.modal-foot {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    align-items: center;
+}
 </style>
 
 <script>
 import { modalState, isUserLogged } from '@main/state';
+import { telegramLoginTemp } from 'vue3-telegram-login'
 
 import axios from 'axios';
 export default {
+    components:
+    {
+        telegramLoginTemp,
+    },
     data() {
         return {
             isModalOpen: modalState,
