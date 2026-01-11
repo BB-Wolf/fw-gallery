@@ -7,12 +7,12 @@
             <!-- User Data -->
             <div class="user-data">
                 <SwitchButton :isChecked="postTypes.text" :inputLabel='"Тексты"' :inputName="'texts'"
-                    @click="saveStatus('texts')">
+                    @click="togglePostType('text')">
                 </SwitchButton>
             </div>
             <div class="user-data">
                 <SwitchButton :isChecked="postTypes.images" :inputLabel='"Изображения"' :inputName="'images'"
-                    @click="saveStatus('images')">
+                    @click="togglePostType('images')">
                 </SwitchButton>
             </div>
             <!--  <div class="user-data">
@@ -26,8 +26,14 @@
 
 <script>
 import SwitchButton from '@gallery/components/molecules/SwitchButton.vue';
+import axios from 'axios'
+
 export default {
     name: 'TelegramPostsType',
+    props:
+    {
+        postType: String
+    },
     components: {
         SwitchButton,
     },
@@ -41,10 +47,60 @@ export default {
             },
         };
     },
+    watch: {
+        postType: {
+            immediate: true,
+            handler(val) {
+                if (val == 'all') {
+                    this.postTypes.images = true
+                    this.postTypes.text = true
+                }
+
+                if (val == 'text') {
+                    this.postTypes.images = false
+                    this.postTypes.text = true
+                }
+                if (val == 'images') {
+                    this.postTypes.images = true
+                    this.postTypes.text = false
+                }
+                if (val == 'none') {
+                    this.postTypes.images = false
+                    this.postTypes.text = false
+                }
+            }
+        }
+    },
     methods: {
         // Example method to toggle post types
-        togglePostType(type) {
+        async togglePostType(type) {
             this.postTypes[type] = !this.postTypes[type];
+            let sendmode = '';
+            if (this.postTypes.images == true && this.postTypes.text == true) {
+                sendmode = 'all';
+            }
+            if (this.postTypes.images == true && this.postTypes.text != true) {
+                sendmode = 'images';
+            }
+            if (this.postTypes.images != true && this.postTypes.text == true) {
+                sendmode = 'text';
+            }
+            if (this.postTypes.images != true && this.postTypes.text != true) {
+                sendmode = 'none';
+            }
+
+            let sendData = new FormData();
+            sendData.append('mode', sendmode);
+            let data = await axios.post('https://furry-world.ru/console/tools/post_telegram_type.php', sendData,
+                {
+                    headers: {
+                        "Authorization": "Bearer " + localStorage.getItem("token"),
+                    }
+                }
+            );
+            if (data.data) {
+
+            }
         },
     },
 };

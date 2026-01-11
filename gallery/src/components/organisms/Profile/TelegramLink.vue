@@ -5,20 +5,17 @@
             вашей группы.</div>
         <div class="text muted" style="font-weight:bold;">После сохранения, добавьте бота @fwfeedbot в вашу группу с
             правами администратора.
-            (Обязательно уберите у бота все разрешения на управление группой или контентом)</div>
+            (Обязательно уберите у бота все разрешения на управление группой или контентом после получения ID канала
+            командой /getid)</div>
         <div class="mt-20 profile-container">
             <div class="user-data">
-                <label>Введите название группы</label>
-                <input type="text" v-model="tgName" class="infoFieldVal">
+                <label>Введите ID группы</label>
+                <div class="text muted">ID можно получить отрпавив команду <b>/getid</b> после добавления бота в канал
+                </div>
+                <div class="text muted">Лента работает в тестовом режиме, потому ответы бота могут занимать до 1 минуты
+                </div>
+                <input type="text" v-model="this.tgID" class="infoFieldVal">
             </div>
-            <div class="user-data">
-                <label>или Введите ID группы</label>
-                <input type="text" v-model="tgID" class="infoFieldVal">
-            </div>
-            <!-- <div class="user-data">
-                <label>или Укажите инвайт-ссылку</label>
-                <input type="text" v-model="tgInviteLink" class="infoFieldVal">
-            </div> -->
         </div>
         <div class="btn update-btn" @click="updateTg">Сохранить</div>
     </div>
@@ -28,25 +25,28 @@
 import axios from 'axios';
 export default {
     name: 'TelegramLink',
+    props:
+    {
+        extTgID: String
+    },
     data() {
         return {
-            tgName: '',
-            tgID: '',
-            tgInviteLink: '',
+            tgID: this.extTgID,
             showActionModal: false,
         };
+    },
+    watch: {
+        extTgID: {
+            immediate: true,
+            handler(val) {
+                this.tgID = val;
+            }
+        }
     },
     methods: {
         async updateTg() {
             let saveData = new FormData();
-            saveData.append('tgName', this.tgName);
             saveData.append('tgID', this.tgID);
-            saveData.append('tgInviteLink', this.tgInviteLink);
-            // let saveData = {
-            //     tgName: this.tgName,
-            //     tgID: this.tgID,
-            //     tgInviteLink: this.tgInviteLink,
-            // };
             let response = await axios.post('https://furry-world.ru/console/tools/post_telegram_link.php', saveData, {
                 headers: {
                     "Authorization": "Bearer " + localStorage.getItem("token"),

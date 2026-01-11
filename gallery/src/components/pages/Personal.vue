@@ -64,6 +64,7 @@ export default {
             userHeader: null,
             showActionModal: false,
             charRate: 1,
+            extTgId: ''
         };
     },
     async created() {
@@ -79,6 +80,11 @@ export default {
             this.userAvatar = getUserProfile.data.avatar;
             this.userFields = JSON.parse(getUserProfile.data.userFields);
             this.userStatus = JSON.parse(getUserProfile.data.status)
+            this.extTgId = getUserProfile.data.extTgID
+            this.extTgModeration = getUserProfile.data.extTgSettings.posting
+            this.extTgTypes = getUserProfile.data.extTgSettings.type
+
+            console.log(this.extTgId);
 
             if (this.userStatus.types.length > 0) {
                 for (let i = 0; i < this.userStatus.types.length; i++) {
@@ -431,9 +437,9 @@ export default {
                         </div>
                     </div>
                 </div>
-                <TelegramLink></TelegramLink>
-                <TelegramPostsType></TelegramPostsType>
-                <TelegramModeration></TelegramModeration>
+                <TelegramLink :extTgID="this.extTgId"></TelegramLink>
+                <TelegramPostsType :postType="this.extTgTypes"></TelegramPostsType>
+                <!--      <TelegramModeration :moderation="this.extTgModeration"></TelegramModeration>-->
 
                 <!--  <div class="profile-container">
                     <div class="h1">Управление тегами</div>

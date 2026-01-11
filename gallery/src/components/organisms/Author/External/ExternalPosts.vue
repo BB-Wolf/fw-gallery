@@ -3,7 +3,7 @@
         <PostsFeed v-if="posts.length" :posts="posts" />
 
         <div v-else class="posts-empty">
-            <span class="h2">Автор пока молчит</span>
+            <span class="h2">Автор пока молчит или отключил показ сообщений</span>
         </div>
     </section>
 </template>

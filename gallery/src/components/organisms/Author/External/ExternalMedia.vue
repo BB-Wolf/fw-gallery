@@ -14,7 +14,6 @@ defineProps({
 .post-media {
     margin-top: 12px;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     gap: 8px;
 }
 
