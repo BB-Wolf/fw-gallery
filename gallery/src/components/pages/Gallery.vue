@@ -12,4 +12,3 @@ import NewGallery from '@gallery/components/organisms/NewGallery.vue';
     </div>
 </template>
 
-<style scoped></style>

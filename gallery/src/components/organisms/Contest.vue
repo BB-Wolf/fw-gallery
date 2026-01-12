@@ -14,9 +14,3 @@
 import NewGallery from '../organisms/NewGallery.vue';
 </script>
 
-<style scoped>
-.contest-body {
-    color: #fff;
-    padding-bottom: 20px;
-}
-</style>

@@ -187,26 +187,3 @@ onUnmounted(() => {
 })
 </script>
 
-<style scoped>
-.viewport {
-    width: 100vw;
-    height: 100vh;
-    perspective: 1200px;
-    background: #000;
-    overflow: hidden;
-}
-
-.pitch,
-.yaw,
-.scene {
-    position: absolute;
-    inset: 0;
-    transform-style: preserve-3d;
-}
-
-.face {
-    position: absolute;
-    transform-style: preserve-3d;
-    backface-visibility: hidden;
-}
-</style>

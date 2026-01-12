@@ -25,25 +25,4 @@ export default {
     }
 }
 </script>
-<style scoped>
-.error-text {
-    color: white;
-    padding: 15px;
-}
 
-.error {
-    display: flex;
-    width: 100%;
-    margin-top: 20px;
-}
-
-.error-img {
-    width: 240px;
-    ;
-}
-
-.error-img img {
-    max-width: 100%;
-
-}
-</style>

@@ -17,10 +17,3 @@
     </div>
 </template>
 
-<style scoped>
-ul {
-    display: flex;
-    flex-direction: column;
-    color: white;
-}
-</style>

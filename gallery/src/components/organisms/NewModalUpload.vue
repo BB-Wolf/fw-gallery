@@ -1,7 +1,7 @@
 <template>
     <div class="overlay-bg" v-show="isModalOpen.isModalUploadVisible" @click="closeModal"></div>
     <AutosaveModal v-if="this.showActionModal" :saveText="'Сохраняем...'"></AutosaveModal>
-    <div id="login" class="modal" v-show="isModalOpen.isModalUploadVisible">
+    <div id="upload-modal" class="modal" v-show="isModalOpen.isModalUploadVisible">
         <div class="modal-wrapper">
             <div class="modal-body">
                 <div class="modal-left">
@@ -177,108 +177,3 @@ export default {
     }
 }
 </script>
-<style scoped>
-textarea {
-    min-height: 200px;
-}
-
-.overlay-bg {
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1;
-    position: fixed;
-    top: 0;
-    left: 0;
-}
-
-
-#login {
-    max-width: 70vw;
-    max-height: 85vh;
-    height: 100%;
-    width: 100%;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    position: fixed;
-    display: flex;
-    background-color: #2b2b2b;
-    color: #d9d9d9;
-    flex-direction: row;
-    box-shadow: 0px 0px 5px 5px rgba(0, 0, 0, 0.3);
-    z-index: 9999;
-    transition: transform 0.3s;
-}
-
-.modal-wrapper {
-    display: flex;
-    width: 100%;
-}
-
-.modal-body {
-    display: flex;
-    width: 100%;
-    height: 100%;
-    z-index: 10000;
-    background-color: #2b2b2b;
-    box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.5);
-}
-
-.modal-left {
-    width: 40%;
-}
-
-.modal-right {
-    width: 60%;
-    display: flex;
-    flex-direction: column;
-    padding: 0 20px;
-}
-
-.body-item {
-    height: 100%;
-}
-
-.booklets {
-    position: absolute;
-    right: -60px;
-    display: flex;
-    z-index: 9999;
-    flex-direction: column;
-    gap: 1rem;
-    width: 70px;
-}
-
-.booklet-item {
-    width: 60px;
-    height: 80px;
-    color: white;
-    text-align: center;
-    background-color: #2b2b2b;
-    left: 10px;
-    transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    font-size: 32px;
-    align-content: center;
-}
-
-.booklet-item--active {
-    transform: scale(1.1);
-    align-self: safe center;
-    top: 4px;
-    position: relative;
-    box-shadow: inset 0px 0px 0px 2px rgba(255, 255, 255, 0.7);
-    transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    font-weight: bold;
-
-}
-
-.error {
-    border: 2px solid red !important;
-}
-
-.multiselect-wrapper {
-    background-color: #2b2b2b;
-}
-</style>
-<style src="@vueform/multiselect/themes/default.css"></style>

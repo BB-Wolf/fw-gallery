@@ -59,8 +59,3 @@ export default
     </div>
 </template>
 
-<style scoped>
-swiper-slide {
-    max-height: 200px;
-}
-</style>
