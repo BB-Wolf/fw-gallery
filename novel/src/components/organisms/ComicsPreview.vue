@@ -111,7 +111,7 @@ export default {
     height: 480px;
     -o-object-fit: cover;
     object-fit: cover;
-    padding:10px;
+    padding: 10px;
 }
 
 .card__face--overlay {

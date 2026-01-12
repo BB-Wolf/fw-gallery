@@ -10,16 +10,4 @@ defineProps({
 });
 </script>
 
-<style scoped>
-.post-media {
-    margin-top: 12px;
-    display: grid;
-    gap: 8px;
-}
 
-.post-media img {
-    width: 100%;
-    border-radius: 8px;
-    object-fit: cover;
-}
-</style>

@@ -69,19 +69,3 @@
     </div>
 
 </template>
-<style scoped>
-.legal-container {
-    padding: 20px;
-    color: white;
-    width: 100%;
-}
-
-.legal-container h2 {
-    color: white;
-    font-weight: 800;
-}
-
-.legal-container p {
-    padding-top: 20px;
-}
-</style>

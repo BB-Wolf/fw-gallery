@@ -34,10 +34,3 @@ export default
         </ul>
     </section>
 </template>
-<style scoped>
-#featured-slider .text-muted {
-    color: #a1a1a1;
-    font-size: 14px;
-    padding-left: 20px;
-}
-</style>
