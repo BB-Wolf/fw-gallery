@@ -31,32 +31,3 @@ export default {
 }
 </script>
 
-<style lang="css" scoped>
-.autosave {
-    color: white;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    position: fixed;
-    right: 20px;
-    background-color: #2b2b2b;
-    box-shadow: 0px 0px 1px 1px rgba(255, 255, 255, 0.8);
-    text-align: center;
-    width: 220px;
-    height: 40px;
-    z-index: 10000;
-
-}
-
-.autosave-container {
-    display: flex;
-    align-items: center;
-    position: relative;
-    padding-left: 35px;
-}
-
-.autosave-container .lsd-roller {
-    position: absolute;
-    left: -21px;
-}
-</style>

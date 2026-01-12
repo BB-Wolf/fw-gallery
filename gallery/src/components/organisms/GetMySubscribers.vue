@@ -41,24 +41,3 @@ export default {
     }
 }
 </script>
-<style scoped>
-.no-subscribers {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    color: white;
-    gap: 20px;
-}
-
-.sub-info a {
-    color: white;
-    font-weight: bold;
-
-}
-
-.no-subscribers img {
-    width: 100px;
-    height: 100px;
-    margin-right: 20px;
-}
-</style>

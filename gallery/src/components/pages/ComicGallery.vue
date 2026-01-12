@@ -63,35 +63,3 @@ export default {
     </div>
 </template>
 
-<style scoped>
-.gallery-switch {
-    color: white;
-    display: flex;
-    gap: 10px;
-    justify-content: space-evenly;
-    padding: 0 15px;
-}
-
-.switch-item {
-    width: 100%;
-    box-shadow: 0px 0px 1px 2px rgba(0, 0, 0, 0.5);
-    height: 40px;
-    text-align: center;
-    color: black;
-    background-color: #4d4d4d;
-    align-content: center;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: all 0.3s ease-in-out;
-
-    &:hover {
-        background-color: #f0f0f0;
-        cursor: pointer;
-        ;
-    }
-}
-
-.switch-item--active {
-    background-color: #d3d3d3;
-}
-</style>

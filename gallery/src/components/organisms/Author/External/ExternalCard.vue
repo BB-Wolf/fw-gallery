@@ -15,18 +15,4 @@ defineProps({
 });
 </script>
 
-<style scoped>
-.post-card {
-    background: #1e1e1e;
-    border-radius: 12px;
-    padding: 16px;
-    border: 1px solid #2a2a2a;
-}
 
-.post-content {
-    margin-top: 8px;
-    line-height: 1.6;
-    white-space: pre-line;
-    color: white;
-}
-</style>

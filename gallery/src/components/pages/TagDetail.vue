@@ -14,4 +14,3 @@ import TagGallery from '../organisms/TagGallery.vue';
     </div>
 </template>
 
-<style scoped></style>

@@ -57,14 +57,3 @@
     </div>
 
 </template>
-<style scoped>
-.legal-container {
-    padding: 20px;
-    color: white;
-    width: 100%;
-}
-
-.legal-container p {
-    padding-top: 20px;
-}
-</style>

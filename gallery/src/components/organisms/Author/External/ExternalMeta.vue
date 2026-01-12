@@ -21,11 +21,4 @@ const props = defineProps({
 const formattedDate = props.date;
 </script>
 
-<style scoped>
-.post-meta {
-    display: flex;
-    justify-content: space-between;
-    font-size: 12px;
-    color: #aaa;
-}
-</style>
+
