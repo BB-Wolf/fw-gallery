@@ -69,9 +69,7 @@ export default {
 }
 </script>
 <template>
-
     <section id="character">
-
         <div class="character-container" v-if="this.charData">
             <!-- Character Image -->
             <img :src=this.charData.header alt="Character Image" class="character-image">
@@ -102,7 +100,6 @@ export default {
                     </div>
                 </div>
             </div>
-
             <div class="character-gallery">
                 <div class="section-container">
                     <div class="h2">Галерея персонажа</div>
@@ -147,4 +144,3 @@ export default {
     </section>
 
 </template>
-

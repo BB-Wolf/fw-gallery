@@ -323,7 +323,7 @@ export default {
     <AutosaveModal v-if="this.showActionModal" :saveText="'Ожидайте...'"></AutosaveModal>
     <div class="profile-container" style="overflow: hidden;" v-if="this.userLogin">
         <TabsRoot default-value="tab1" orientation="horizontal">
-            <div class="author-tabs tags">
+            <div class="personal-tabs tags">
                 <div class="tags-wrapper" style="">
                     <div class="tags-scroll">
                         <TabsList aria-label=" tabs example">
@@ -530,7 +530,7 @@ export default {
             </TabsContent>
             <TabsContent value="tab4">
                 <div class="h1">Ваши персонажи</div>
-                <section id="character">
+                <section id="user-character">
                     <div class="character-container">
                         <div class="character-header">
                             <h1>Добавить нового персонажа</h1>

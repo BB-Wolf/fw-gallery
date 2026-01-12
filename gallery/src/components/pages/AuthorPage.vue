@@ -13,7 +13,7 @@
                 </div>
                 <div class="author-stats">
                     <div class="author-followers"> {{ this.userProfile.totalSubscribers }}
-                        <div class="label">подписчиков</div>
+                        <div class="label">подписаны</div>
                     </div>
                     <div class="author-follows"> {{ this.userProfile.totalSubs }}
                         <div class="label">подписок</div>
