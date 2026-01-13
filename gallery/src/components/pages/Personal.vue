@@ -11,6 +11,7 @@ import ModalRate from '../molecules/ModalRate.vue';
 import TelegramLink from '../organisms/Profile/TelegramLink.vue';
 import TelegramPostsType from '../organisms/Profile/TelegramPostsType.vue';
 import TelegramModeration from '../organisms/Profile/TelegramModeration.vue';
+import ManageAdopts from '../organisms/Personal/Adopts/ManageAdopts.vue';
 
 export default {
     components:
@@ -27,7 +28,9 @@ export default {
         ModalRate,
         TelegramLink,
         TelegramPostsType,
-        TelegramModeration
+        TelegramPostsType,
+        TelegramModeration,
+        ManageAdopts
     },
     data() {
         return {
@@ -344,6 +347,10 @@ export default {
                                 :class="[{ [mobileBtnClass]: userDevice.isMobile }]">
                                 Персонажи
                             </TabsTrigger>
+                            <TabsTrigger value="tab6" class="tab-button"
+                                :class="[{ [mobileBtnClass]: userDevice.isMobile }]">
+                                Адопты
+                            </TabsTrigger>
                             <TabsTrigger value="tab5" class="tab-button"
                                 :class="[{ [mobileBtnClass]: userDevice.isMobile }]">
                                 Статистика
@@ -451,19 +458,6 @@ export default {
                             }" />
                     </div>
                     <button class="update-btn" @click="saveFields">Сохранить</button>
-
-                </div>
-
-                <div class="profile-container" style="">
-                    <div class="h1">Связанные галереи для автопостинга (coming soon)</div>
-                    <div class="profile-section" style="flex-wrap: wrap;">
-                        <div class="user-data">
-                            <label>Telegam</label>
-                            <label>DeviantArt</label>
-                            <label>VK</label>
-                        </div>
-                    </div>
-                    <button class="update-btn">Сохранить</button>
 
                 </div>-->
 
@@ -626,6 +620,9 @@ export default {
             <TabsContent value="tab5">
                 <h2>Статистика</h2>
                 <PersonalStats></PersonalStats>
+            </TabsContent>
+            <TabsContent value="tab6">
+                <ManageAdopts />
             </TabsContent>
         </TabsRoot>
     </div>
