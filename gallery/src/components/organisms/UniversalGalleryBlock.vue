@@ -70,6 +70,7 @@ export default {
             loading: false,
             finished: false,
             windowWidth: window.innerWidth,
+            disable: false,
         };
     },
     mounted() {
@@ -100,6 +101,7 @@ export default {
         },
         async loadMore() {
             if (this.loading || this.finished) return;
+            if (this.disable) return;
             this.loading = true;
 
             try {
@@ -117,6 +119,10 @@ export default {
                     this.finished = true;
                     this.loading = false;
                     return;
+                }
+
+                if (data.length <= 6) {
+                    this.disable = true;
                 }
 
                 for (const item of data) {
@@ -183,5 +189,3 @@ export default {
     },
 };
 </script>
-
-

@@ -1,4 +1,5 @@
 import './assets/main.css'
+import './assets/uikit.css'
 
 import { createApp } from 'vue'
 

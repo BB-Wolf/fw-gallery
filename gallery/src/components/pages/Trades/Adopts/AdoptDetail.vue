@@ -50,8 +50,9 @@
                 <h2 class="adopt-panel-title">Ставки</h2>
                 <div class="bid-list">
                     <div v-for="(b, i) in bids" :key="i" class="bid">
-                        <span class="who">{{ b.user }}</span>
-                        <span class="amount">{{ b.amount }}₽</span>
+                        <span class="who"><a class="text-white font-semibold" :href="'/gallery/author/' + b.userName">{{
+                                b.userName }}</a></span>
+                        <span class="amount">{{ b.amount }}</span>
                     </div>
                 </div>
                 <div class="bid-form">
@@ -85,6 +86,8 @@ export default {
             comments: [],
             gallery: [],
             newComment: '',
+            bids: [],
+            newBid: null,
             modal: reactive({ open: false, index: 0 }),
             panelSeeds: Array.from({ length: 8 }).map(() => ({ r: this.rand(-6, 6), t: this.rand(-8, 8) }))
 
@@ -155,14 +158,34 @@ export default {
             }
         },
 
-        placeBid() {
-            const val = Number(newBid.value)
-            if (!val || val <= 0) return
-            bids.value.unshift({ user: 'Вы', amount: val })
-            newBid.value = null
+        async placeBid() {
+            const val = Number(this.newBid);
+            if (!val || val <= 0) return;
+
+            try {
+                const formData = new FormData();
+                formData.append('id', this.$route.params.id);
+                formData.append('bid', val);
+
+                const response = await axios.post('https://furry-world.ru/console/adopts/stakes/post_add_stake.php', formData, {
+                    headers: {
+                        "Authorization": "Bearer " + localStorage.getItem("token")
+                    }
+                });
+
+                if (response.data && response.data.success !== false) {
+                    // Обновляем список ставок
+                    await this.getBids();
+                    this.newBid = null;
+                } else {
+                    console.log('Bid error:', response.data);
+                }
+            } catch (error) {
+                console.log('Error placing bid:', error);
+            }
         },
 
-        focusBid() { bidInput.value && bidInput.value.focus() },
+        focusBid() { this.$refs.bidInput && this.$refs.bidInput.focus() },
 
         // Parallax / floatiness
         onPointerMove(e) {
@@ -200,6 +223,23 @@ export default {
                 console.log('Error fetching adopt data:', error);
             }
         },
+        async getBids() {
+            try {
+                const adoptId = this.$route.params.id;
+                const response = await axios.get('https://furry-world.ru/console/adopts/stakes/get_stakes_list.php?id=' + adoptId, {
+                    headers: {
+                        "Authorization": "Bearer " + localStorage.getItem("token")
+                    }
+                });
+                if (Array.isArray(response.data)) {
+                    this.bids = response.data;
+                } else {
+                    this.bids = [];
+                }
+            } catch (error) {
+                console.log('Error fetching bids:', error);
+            }
+        },
 
     },
     computed: {
@@ -212,6 +252,7 @@ export default {
     },
     mounted() {
         this.getAdoptData();
+        this.getBids();
         setInterval(() => {
             this.panelSeeds.forEach(p => { p.r += this.rand(-0.6, 0.6); p.t += this.rand(-1, 1) })
         }, 2500)
