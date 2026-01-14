@@ -6,7 +6,7 @@
             <div v-else-if="adopts.length === 0" class="text-center text-gray-500">У вас пока нет адоптов</div>
             <div v-else class="image-grid">
                 <div class="image-item" v-for="adopt in adopts" :key="adopt.id">
-                    <a :href="'/gallery/adopt/' + adopt.id">
+                    <a :href="adopt.link">
                         <img :src="adopt.preview || adopt.picture" class="adopt-preview" alt="Adopt preview" />
                     </a>
                     <div class="adopt-info">
