@@ -48,15 +48,21 @@
 
             <section class="adopt-panel bids" :style="panelRandomStyle(3)">
                 <h2 class="adopt-panel-title">Ставки</h2>
+                <div class="prices-info" v-if="prices">
+                    <div v-if="prices.min > 0">Мин. ставка: <strong>{{ prices.min }} ₽</strong></div>
+                    <div v-if="prices.fix > 0">Фикс. цена: <strong>{{ prices.fix }} ₽</strong></div>
+                    <div v-if="prices.ab > 0">Автовыкуп: <strong>{{ prices.ab }} ₽</strong></div>
+                </div>
                 <div class="bid-list">
                     <div v-for="(b, i) in bids" :key="i" class="bid">
                         <span class="who"><a class="text-white font-semibold" :href="'/gallery/author/' + b.userName">{{
-                                b.userName }}</a></span>
+                            b.userName }}</a></span>
                         <span class="amount">{{ b.amount }}</span>
                     </div>
                 </div>
                 <div class="bid-form">
-                    <input ref="bidInput" v-model.number="newBid" type="number" placeholder="Ваша ставка" />
+                    <input ref="bidInput" v-model.number="newBid" type="number" :min="prices.min"
+                        placeholder="Ваша ставка" />
                     <button @click="placeBid">Сделать ставку</button>
                 </div>
             </section>
@@ -89,7 +95,8 @@ export default {
             bids: [],
             newBid: null,
             modal: reactive({ open: false, index: 0 }),
-            panelSeeds: Array.from({ length: 8 }).map(() => ({ r: this.rand(-6, 6), t: this.rand(-8, 8) }))
+            panelSeeds: Array.from({ length: 8 }).map(() => ({ r: this.rand(-6, 6), t: this.rand(-8, 8) })),
+            prices: null,
 
         }
     },
@@ -217,6 +224,7 @@ export default {
                 const response = await axios.get('https://furry-world.ru/console/adopts/get_adopts_detail.php?id=' + this.$route.params.id + '&code=' + this.$route.params.adoptcode); // Example API endpoint
                 this.adoptData = response.data;
                 this.gallery = this.adoptData.gallery;
+                this.prices = this.adoptData.prices || { fix: 0, min: 0, ab: 0 }
                 // Получаем комментарии отдельно
                 await this.getComments();
             } catch (error) {
