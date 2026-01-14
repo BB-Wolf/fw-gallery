@@ -48,6 +48,11 @@
 
       <section class="panel bids" :style="panelRandomStyle(3)">
         <h2 class="panel-title">Ставки</h2>
+        <div class="prices-info" v-if="prices">
+          <div v-if="prices.min > 0">Мин. ставка: <strong>{{ prices.min }} ₽</strong></div>
+          <div v-if="prices.fix > 0">Фикс. цена: <strong>{{ prices.fix }} ₽</strong></div>
+          <div v-if="prices.ab > 0">Автовыкуп: <strong>{{ prices.ab }} ₽</strong></div>
+        </div>
         <div class="bid-list">
           <div v-for="(b, i) in bids" :key="i" class="bid">
             <span class="who">{{ b.user }}</span>
@@ -75,29 +80,25 @@
 
 <script setup>
 import { ref, reactive, computed, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
+import axios from 'axios'
 
-// Using uploaded local images (paths from upload history)
-const preview = 'https://furry-world.ru/upload/characters/1/f39/9jnjku5nv7r6zte61ptg53w9vdwg6vw6/NewCanvas1sdfgsdasdafdgga.jpg'
-const gallery = reactive([
-  'https://furry-world.ru/upload/folder_resize/Sian/b28f941e96d2c3020c3f042fe612d7b1.png',
-  'https://furry-world.ru/upload/folder_resize/Sian/56e87ebe49e3b6298454380800b0ce4e.png',
-  'https://furry-world.ru/upload/folder_resize/Sian/b28f941e96d2c3020c3f042fe612d7b1.png' // placeholder — add real files if available
-])
+const route = useRoute()
+const loading = ref(true)
+const adopt = ref(null)
 
-const name = 'Имя Адопта'
-const author = 'Sian'
-const description = 'Кусочек хаотичного описания: яркий, немного дерзкий персонаж, нарисованный вручную.'
+// Data refs
+const preview = ref('')
+const name = ref('')
+const author = ref('')
+const description = ref('')
+const fullDescription = ref('')
+const prices = ref({ fix: 0, min: 0, ab: 0 })
+const gallery = ref([])
 
 // UI state
-const comments = ref([
-  { user: 'Volk', text: 'Люблю эту цветовую палитру!' },
-  { user: 'Arti', text: 'Крутая анатомия, респект автору.' }
-])
-
-const bids = ref([
-  { user: 'Guest42', amount: 1200 },
-  { user: 'Sian', amount: 1500 }
-])
+const comments = ref([])
+const bids = ref([])
 
 const newComment = ref('')
 const newBid = ref(null)
@@ -105,15 +106,47 @@ const bidInput = ref(null)
 
 const modal = reactive({ open: false, index: 0 })
 
+const adoptId = route.params.id
+const adoptCode = route.params.code // Assuming route has code, or we just use ID
+
+async function fetchAdopt() {
+  try {
+    const response = await axios.get(`//furry-world.ru/console/adopts/get_adopts_detail.php?id=${adoptId}&code=${adoptCode || ''}`)
+    const data = response.data
+
+    if (data.error) {
+      console.error(data.error)
+      return
+    }
+
+    adopt.value = data
+    name.value = data.title
+    author.value = data.userName || 'Unknown'
+    description.value = data.short || '' // Short desc
+    fullDescription.value = data.description || ''
+    preview.value = data.preview
+    prices.value = data.prices || { fix: 0, min: 0, ab: 0 }
+
+    // Gallery - mostly placeholder logic in backend for now, but if image is there:
+    if (data.picture) {
+      gallery.value = [data.picture]
+    }
+
+    loading.value = false
+  } catch (e) {
+    console.error(e)
+    loading.value = false
+  }
+}
+
 function openGallery(i = 0) {
   modal.open = true
   modal.index = i
-  // small delay to allow CSS entrance
   requestAnimationFrame(() => { })
 }
 function closeGallery() { modal.open = false }
-function nextImage() { modal.index = (modal.index + 1) % gallery.length }
-function prevImage() { modal.index = (modal.index - 1 + gallery.length) % gallery.length }
+function nextImage() { modal.index = (modal.index + 1) % gallery.value.length }
+function prevImage() { modal.index = (modal.index - 1 + gallery.value.length) % gallery.value.length }
 
 function postComment() {
   const text = newComment.value && newComment.value.trim()
@@ -134,41 +167,19 @@ function focusBid() { bidInput.value && bidInput.value.focus() }
 // Parallax / floatiness
 const pointer = reactive({ x: 0, y: 0 })
 function onPointerMove(e) {
-  const { clientX, clientY } = e
-  const w = window.innerWidth
-  const h = window.innerHeight
-  pointer.x = (clientX / w - 0.5) * 30
-  pointer.y = (clientY / h - 0.5) * 20
+  // ... existing logic if you want to keep mouse tracking, 
+  // but usually needs window listener or container listener
 }
-function resetPointer() { pointer.x = 0; pointer.y = 0 }
 
 const heroStyle = computed(() => ({
-  transform: `translate3d(${pointer.x / 6}px, ${pointer.y / 6}px, 0) rotateZ(${pointer.x / 20}deg)`,
+  // transform: ... (simplified for now as pointer logic wasn't fully hooked up in template)
   transition: 'transform 0.12s linear'
 }))
 
-// Chaotic panel offsets generator
-function rand(min = -6, max = 6) { return Math.random() * (max - min) + min }
-const panelSeeds = Array.from({ length: 8 }).map(() => ({ r: rand(-6, 6), t: rand(-8, 8) }))
-function panelRandomStyle(i) {
-  /* const s = panelSeeds[i] || { r: 0, t: 0 }
-   return {
-     transform: `rotate(${s.r}deg) translateY(${s.t}px)`,
-     transition: 'transform 0.6s cubic-bezier(.2,.8,.3,1)'
-   }*/
-}
-
-function thumbStyle(i) {
-  const tilt = (i - 1) * 1
-  const scale = 0.95 + Math.abs(Math.sin(i)) * 0.08
-  return { transform: `rotate(${tilt}deg) scale(${scale})`, transition: 'transform .25s ease' }
-}
+function panelRandomStyle(i) { }
+function thumbStyle(i) { }
 
 onMounted(() => {
-  // gentle random wiggle to make page feel alive
-  setInterval(() => {
-    panelSeeds.forEach(p => { p.r += rand(-0.6, 0.6); p.t += rand(-1, 1) })
-  }, 2500)
+  fetchAdopt()
 })
 </script>
-
