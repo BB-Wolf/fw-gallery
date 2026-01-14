@@ -7445,3 +7445,14 @@ input[type="file"] {
         flex-direction: column;
     }
 }
+
+@media (max-width: 768px) {
+
+    h2,
+    .h2,
+    .image-info h2,
+    .character-bio h2,
+    .legal-container h2 {
+        font-size: 20px !important;
+    }
+}
