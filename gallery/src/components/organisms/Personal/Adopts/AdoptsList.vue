@@ -35,7 +35,7 @@ export default {
         async fetchAdopts() {
             this.loading = true;
             try {
-                const response = await axios.get('//furry-world.ru/console/get_user_adopts.php', {
+                const response = await axios.get('//furry-world.ru/console/adopts/get_user_adopts.php', {
                     headers: {
                         "Authorization": "Bearer " + localStorage.getItem("token")
                     }
