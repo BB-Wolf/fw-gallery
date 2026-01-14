@@ -67,7 +67,10 @@ export default {
             userHeader: null,
             showActionModal: false,
             charRate: 1,
-            extTgId: ''
+            extTgId: '',
+            adoptFixedPrice: '',
+            adoptMinPrice: '',
+            adoptAbPrice: '',
         };
     },
     async created() {
@@ -159,13 +162,21 @@ export default {
             formData.append('short', this.charBio);
             formData.append('full', this.charFullStory);
             formData.append('file', this.charAvatar);
-            formData.append('ismentionable', this.isMentionable);
-            formData.append('istradeable', this.isTradable);
+            formData.append('ismentionable', this.isMentionable ? 'on' : '');
+            formData.append('istradeable', this.isTradable ? 'on' : '');
             formData.append('charheader', this.characterHeader);
             formData.append('rate', this.charRate);
+            formData.append('adoptFixedPrice', this.adoptFixedPrice);
+            formData.append('adoptMinPrice', this.adoptMinPrice);
+            formData.append('adoptAbPrice', this.adoptAbPrice);
             this.showActionModal = true;
 
-            let saveFormData = await new axios.post('//furry-world.ru/console/post_create_character.php', formData, {
+            let url = '//furry-world.ru/console/post_create_character.php';
+            if (this.isTradable) {
+                url = '//furry-world.ru/console/adopts/post_create_adopt.php';
+            }
+
+            let saveFormData = await new axios.post(url, formData, {
                 headers: {
                     "Authorization": "Bearer " + localStorage.getItem("token"),
                 }
@@ -591,6 +602,28 @@ export default {
                                 <div class="field">
                                     <SwitchButton v-model="isTradable" :inputLabel="'Адопт'">
                                     </SwitchButton>
+                                </div>
+                                <div v-if="isTradable">
+                                    <div class="field error-text"
+                                        style="color: #ff4d4d; margin-top: 10px; margin-bottom: 20px;">
+                                        Внимание: Создание адопта необратимо! Вы не сможете перевести его обратно в
+                                        обычного персонажа после сохранения.
+                                    </div>
+                                    <div class="field">
+                                        <label for="adoptFixedPrice">Фиксированная цена</label>
+                                        <input type="text" id="adoptFixedPrice" v-model="adoptFixedPrice"
+                                            placeholder="Фикс. цена">
+                                    </div>
+                                    <div class="field">
+                                        <label for="adoptMinPrice">Минимальная цена</label>
+                                        <input type="text" id="adoptMinPrice" v-model="adoptMinPrice"
+                                            placeholder="Мин. цена">
+                                    </div>
+                                    <div class="field">
+                                        <label for="adoptAbPrice">Автовыкуп</label>
+                                        <input type="text" id="adoptAbPrice" v-model="adoptAbPrice"
+                                            placeholder="Автовыкуп">
+                                    </div>
                                 </div>
                                 <!-- Add Custom Field Button -->
                                 <div class="btn btn--success" id="addFieldButton" @click="saveCharacter">Сохранить</div>

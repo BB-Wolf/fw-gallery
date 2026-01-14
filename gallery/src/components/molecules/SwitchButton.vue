@@ -3,7 +3,7 @@
         <label>{{ this.inputLabel }}</label>
         <span class="switch-off">Нет</span>
         <input class="toggle-checkbox" @change="setValue($event)" ref="swtch" type="checkbox" :name="this.inputName"
-            :checked="this.isChecked">
+            :checked="modelValue !== undefined ? modelValue : isChecked">
         <div class="toggle-container" @click="this.$refs.swtch.click()">
             <div class="toggle-button">
                 <div class="toggle-button-circles-container">
@@ -28,11 +28,12 @@
 <script>
 export default
     {
-        props: ['inputLabel', 'inputName', 'isChecked'],
+        props: ['inputLabel', 'inputName', 'isChecked', 'modelValue'],
+        emits: ['update:modelValue'],
         methods:
         {
             setValue(evt) {
-                this.$emit('update:modelValue', evt.target.value)
+                this.$emit('update:modelValue', evt.target.checked)
             }
         }
     }
