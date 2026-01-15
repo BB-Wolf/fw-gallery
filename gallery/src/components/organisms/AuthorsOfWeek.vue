@@ -34,7 +34,7 @@
 
 <script>
 import axios from 'axios';
-import defaultAvatar from '@gallery/assets/images/drakon4.png';
+import defaultAvatar from '@gallery/assets/images/drakon8.png';
 
 export default {
     data() {
