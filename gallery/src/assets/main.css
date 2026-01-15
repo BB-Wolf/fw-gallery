@@ -1421,18 +1421,10 @@ footer {
 }
 
 .btn--rounded {
-
     align-self: flex-end;
     position: relative;
     z-index: 9999999;
 
-}
-
-.btn--rounded svg {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    transform: translate(55%, 12%);
 }
 
 
@@ -1634,15 +1626,6 @@ footer {
     gap: 1em;
 }
 
-.btn--rounded {
-    height: 20px;
-    width: 20px;
-    align-self: flex-end;
-    position: relative;
-    z-index: 9999999;
-
-}
-
 .btn--rounded svg {
     position: absolute;
     top: 0px;
@@ -1759,21 +1742,6 @@ footer {
     }
 }
 
-.btn--rounded {
-    height: 20px;
-    width: 20px;
-    align-self: flex-end;
-    position: relative;
-    z-index: 9999999;
-
-}
-
-.btn--rounded svg {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    transform: translate(55%, 12%);
-}
 
 .btn--tags {
     width: auto;
