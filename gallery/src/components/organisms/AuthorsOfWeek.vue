@@ -3,10 +3,10 @@
         <div class="h2">Художники недели</div>
         <div class="portrait-container" v-if="authorList.length != 0 && this.isLoading == false">
             <div class="portrait-card" v-for="author in authorList" :key="author">
-                <a class="portrait-border" :href="'/gallery/author/' + author.login"><img
-                        :src="author.picture || defaultAvatar">
-                </a>
                 <div class="portrait-card-author">{{ author.login }}</div>
+                <a class="pborder" :href="'/gallery/author/' + author.login">
+                    <img class="portrait-image" :src="author.picture || defaultAvatar" alt="">
+                </a>
             </div>
         </div>
         <div class="portrait-container--empty" v-if="authorList.length == 0 && this.isLoading == false"

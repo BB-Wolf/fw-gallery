@@ -1,21 +1,18 @@
 <template>
     <section id="author-week" class="mt-20 mb-20">
         <div class="h2">Художники недели</div>
-        <div class="portrait-container" v-if="authorList.length != 0 && this.isLoading == false">
-            <swiper-container :slides-per-view="3" :space-between="spaceBetween" :centered-slides="false"
-                :pagination="false" :breakpoints="{
-                    768: {
-                        slidesPerView: 6,
-                    },
-                }" @swiperprogress="onProgress" @swiperslidechange="onSlideChange">
-                <swiper-slide v-for="author in authorList" :key="author">
-                    <div class="portrait-card">
-                        <a class="portrait-border" :href="'/gallery/author/' + author.login"><img :src=author.picture>
-                        </a>
+        <div class="portrait-container mobile-slider" v-if="authorList.length != 0 && this.isLoading == false">
+            <div class="mobile-slider-wrapper">
+                <div class="mobile-slider-scroll">
+                    <div class="portrait-card" v-for="author in authorList" :key="author"
+                        style="flex-shrink: 0; margin: 0 10px;">
                         <div class="portrait-card-author">{{ author.login }}</div>
+                        <a class="pborder" :href="'/gallery/author/' + author.login">
+                            <img class="portrait-image" :src="author.picture || defaultAvatar" alt="">
+                        </a>
                     </div>
-                </swiper-slide>
-            </swiper-container>
+                </div>
+            </div>
         </div>
         <div v-if="authorList.length == 0 && this.isLoading == false" class="portrait-container--empty"
             style="width:90%;justify-content: unset;">
@@ -42,28 +39,14 @@
 
 <script>
 import axios from 'axios';
-import { register } from 'swiper/element/bundle';
-register();
+import defaultAvatar from '@gallery/assets/images/drakon8.png';
+
 export default {
-    setup() {
-        const spaceBetween = 80;
-        const onProgress = (e) => {
-            const [swiper, progress] = e.detail;
-        };
-
-        const onSlideChange = (e) => {
-        }
-
-        return {
-            spaceBetween,
-            onProgress,
-            onSlideChange,
-        };
-    },
     data() {
         return {
             authorList: [],
             isLoading: true,
+            defaultAvatar,
         }
     },
     async created() {
@@ -75,4 +58,3 @@ export default {
     }
 }
 </script>
-
