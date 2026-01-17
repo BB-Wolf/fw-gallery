@@ -12,6 +12,7 @@ import TelegramLink from '../organisms/Profile/TelegramLink.vue';
 import TelegramPostsType from '../organisms/Profile/TelegramPostsType.vue';
 import TelegramModeration from '../organisms/Profile/TelegramModeration.vue';
 import ManageAdopts from '../organisms/Personal/Adopts/ManageAdopts.vue';
+import ManageTrades from '../organisms/Personal/Trades/ManageTrades.vue';
 
 export default {
     components:
@@ -30,7 +31,8 @@ export default {
         TelegramPostsType,
         TelegramPostsType,
         TelegramModeration,
-        ManageAdopts
+        ManageAdopts,
+        ManageTrades
     },
     data() {
         return {
@@ -362,6 +364,10 @@ export default {
                                 :class="[{ [mobileBtnClass]: userDevice.isMobile }]">
                                 Адопты
                             </TabsTrigger>
+                            <TabsTrigger value="tab7" class="tab-button"
+                                :class="[{ [mobileBtnClass]: userDevice.isMobile }]">
+                                Ych/Trades
+                            </TabsTrigger>
                             <TabsTrigger value="tab5" class="tab-button"
                                 :class="[{ [mobileBtnClass]: userDevice.isMobile }]">
                                 Статистика
@@ -656,6 +662,9 @@ export default {
             </TabsContent>
             <TabsContent value="tab6">
                 <ManageAdopts />
+            </TabsContent>
+            <TabsContent value="tab7">
+                <ManageTrades />
             </TabsContent>
         </TabsRoot>
     </div>
