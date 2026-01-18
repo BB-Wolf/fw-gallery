@@ -55,7 +55,7 @@ export default {
             this.loading = true;
             try {
                 // Using a hypothetical endpoint for user trades list
-                const response = await axios.get('//furry-world.ru/console/trades/get_user_trades.php', {
+                const response = await axios.get('//furry-world.ru/console/ych/get_user_ych.php', {
                     headers: {
                         "Authorization": "Bearer " + localStorage.getItem("token")
                     }

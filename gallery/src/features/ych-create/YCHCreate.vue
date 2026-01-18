@@ -113,7 +113,7 @@ export default {
                 });
 
                 // Reusing create trade endpoint for YCH as they are similar in current structure
-                const response = await axios.post('//furry-world.ru/console/trades/post_create_trade.php', formData, {
+                const response = await axios.post('//furry-world.ru/console/ych/post_create_ych.php', formData, {
                     headers: {
                         "Authorization": "Bearer " + localStorage.getItem("token")
                     }
