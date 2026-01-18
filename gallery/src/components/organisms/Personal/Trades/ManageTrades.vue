@@ -37,6 +37,7 @@
 import { TradeCreate } from '@gallery/features/trade-create';
 import { YCHCreate } from '@gallery/features/ych-create';
 import YchList from './YchList.vue';
+import TradesList from './TradesList.vue';
 
 export default {
     name: 'ManageTrades',
