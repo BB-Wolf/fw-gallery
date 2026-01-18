@@ -27,7 +27,8 @@
             <!-- List Section -->
             <div class="character-container character-container__right flex-[1.5] mt-20">
                 <div class="h2 mb-4 text-white">Мои предложения</div>
-                <TradesList ref="tradesList" />
+                <TradesList ref="tradesList" v-if="activeType === 'trade'" />
+                <YchList ref="ychList" v-if="activeType === 'ych'" />
             </div>
         </section>
     </div>
