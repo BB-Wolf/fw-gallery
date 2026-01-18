@@ -1,21 +1,22 @@
 <template>
     <div class="manage-trades">
         <div class="h1">Управление Ych/Trades</div>
+        <div class="form-header mb-6">
+            <div class="btn-group flex gap-2">
+                <button @click="activeType = 'trade'" class="btn"
+                    :class="activeType === 'trade' ? 'btn--trade' : 'btn--default'">
+                    Создать Трейд
+                </button>
+                <button @click="activeType = 'ych'" class="btn"
+                    :class="activeType === 'ych' ? 'btn--ych' : 'btn--default'">
+                    Создать YCH
+                </button>
+            </div>
+        </div>
         <section id="manage-trades" class="flex flex-col lg:flex-row gap-8 align-start">
             <!-- Creation Section -->
             <div class="character-container flex-1 min-w-[350px]">
-                <div class="form-header mb-6">
-                    <div class="btn-group flex gap-2">
-                        <button @click="activeType = 'trade'" class="btn"
-                            :class="activeType === 'trade' ? 'btn--trade' : 'btn--default'">
-                            Создать Трейд
-                        </button>
-                        <button @click="activeType = 'ych'" class="btn"
-                            :class="activeType === 'ych' ? 'btn--ych' : 'btn--default'">
-                            Создать YCH
-                        </button>
-                    </div>
-                </div>
+
 
                 <div class="form-wrapper">
                     <TradeCreate v-if="activeType === 'trade'" @created="onCreated" />
@@ -24,7 +25,7 @@
             </div>
 
             <!-- List Section -->
-            <div class="character-container character-container__right flex-[1.5]">
+            <div class="character-container character-container__right flex-[1.5] mt-20">
                 <div class="h2 mb-4 text-white">Мои предложения</div>
                 <TradesList ref="tradesList" />
             </div>
@@ -66,13 +67,12 @@ export default {
     align-items: flex-start;
 }
 
-#manage-trades .character-container {
-    flex: 1;
-
-}
-
 .character-container__right {
-    flex: 1.5;
+    flex: unset;
+    background-color: #2b2b2b;
+    width: 1450px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
 
 @media (max-width: 1200px) {

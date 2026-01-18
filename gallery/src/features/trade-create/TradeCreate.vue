@@ -18,28 +18,13 @@
                 <textarea v-model="form.full" placeholder="Подробное описание условий..." rows="4"></textarea>
             </div>
 
-            <div class="form-group">
+            <div class="form-group full-width">
                 <label>Рейтинг</label>
                 <select v-model="form.rate">
                     <option value="0">SFW</option>
                     <option value="1">Questionable</option>
                     <option value="2">NSFW</option>
                 </select>
-            </div>
-
-            <div class="form-group price-group">
-                <div class="price-input">
-                    <label>Фикс. цена</label>
-                    <input type="number" v-model="form.adoptFixedPrice" placeholder="0" />
-                </div>
-                <div class="price-input">
-                    <label>Мин. цена</label>
-                    <input type="number" v-model="form.adoptMinPrice" placeholder="0" />
-                </div>
-                <div class="price-input">
-                    <label>Автовыкуп</label>
-                    <input type="number" v-model="form.adoptAbPrice" placeholder="0" />
-                </div>
             </div>
 
             <div class="form-group">
