@@ -20,7 +20,7 @@
 
                 <div class="form-wrapper">
                     <TradeCreate v-if="activeType === 'trade'" @created="onCreated" />
-                    <YCHCreate v-if="activeType === 'ych'" @created="onCreated" />
+                    <YCHCreate v-if="activeType === 'ych'" @created="onCreatedYch" />
                 </div>
             </div>
 
@@ -44,7 +44,8 @@ export default {
     components: {
         TradeCreate,
         YCHCreate,
-        TradesList
+        TradesList,
+        YchList
     },
     data() {
         return {
@@ -55,6 +56,11 @@ export default {
         onCreated() {
             if (this.$refs.tradesList) {
                 this.$refs.tradesList.fetchTrades();
+            }
+        },
+        onCreatedYch() {
+            if (this.$refs.ychList) {
+                this.$refs.ychList.fetchTrades();
             }
         }
     }
