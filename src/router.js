@@ -161,6 +161,16 @@ rts = [
         name: 'GalleryAdoptDetail',
         path: '/gallery/adopt/author/:creator/characters/:adoptcode/:id/',
         component: () => import('@gallery/components/pages/Trades/Adopts/AdoptDetail.vue')
+      },
+      {
+        name: 'GalleryTradeDetail',
+        path: '/gallery/trade/author/:creator/trade/:tradecode/:id/',
+        component: () => import('@gallery/components/pages/Trades/TradeDetail.vue')
+      },
+      {
+        name: 'GalleryYchDetail',
+        path: '/gallery/ych/author/:creator/ych/:ychcode/:id/',
+        component: () => import('@gallery/components/pages/Trades/YchDetail.vue')
       }
     ],
     meta: { transition: 'fade' }

@@ -49,7 +49,9 @@ export default {
                     <div class="switch-item" :class="[{ ['switch-item--active']: currentState == 'comics' }]"
                         @click="switchGallery('comics', $event)">Комиксы</div>
                     <div class="switch-item" :class="[{ ['switch-item--active']: currentState == 'trades' }]"
-                        @click="switchGallery('trades', $event)">Трейд/YCH</div>
+                        @click="switchGallery('trades', $event)">Трейды</div>
+                    <div class="switch-item" :class="[{ ['switch-item--active']: currentState == 'ych' }]"
+                        @click="switchGallery('ych', $event)">YCH</div>
                     <div class="switch-item" :class="[{ ['switch-item--active']: currentState == 'adopts' }]"
                         @click="switchGallery('adopts', $event)">Адопты</div>
                     <div class="switch-item" :class="[{ ['switch-item--active']: currentState == 'chars' }]"
@@ -65,11 +67,12 @@ export default {
                 galleryTitle="Новые и обновления в комиксах" />
             <UniversalGalleryBlock galleryUrl="https://furry-world.ru/console/characters/get_characters_list.php"
                 v-if="currentState == 'chars'" needInfinty="y" galleryType="main" galleryTitle="Персонажи" />
-            <UniversalGalleryBlock v-if="currentState == 'trades'" needInfinty="y" galleryType="main"
-                galleryTitle="Трейды" />
+            <UniversalGalleryBlock galleryUrl="https://furry-world.ru/console/trades/get_trades_list.php"
+                v-if="currentState == 'trades'" needInfinty="y" galleryType="main" galleryTitle="Трейды" />
+            <UniversalGalleryBlock galleryUrl="https://furry-world.ru/console/ych/get_ych_list.php"
+                v-if="currentState == 'ych'" needInfinty="y" galleryType="main" galleryTitle="YCH" />
             <UniversalGalleryBlock galleryUrl="https://furry-world.ru/console/adopts/get_adopts_list.php"
                 v-if="currentState == 'adopts'" needInfinty="y" galleryType="main" galleryTitle="Адопты" />
         </div>
     </div>
 </template>
-
