@@ -1,34 +1,32 @@
 <template>
     <div class="manage-trades">
-        <div class="header-actions mb-8">
-            <h1 class="text-3xl font-bold">Управление Ych/Trades</h1>
-            <div class="tabs-switcher mt-4">
-                <button @click="activeView = 'list'" class="btn mr-2"
-                    :class="activeView === 'list' ? 'btn-primary' : 'btn-default'">
-                    Мои предложения
-                </button>
-                <button @click="activeView = 'create-trade'" class="btn mr-2"
-                    :class="activeView === 'create-trade' ? 'btn-primary' : 'btn-default'">
-                    Создать Трейд
-                </button>
-                <button @click="activeView = 'create-ych'" class="btn"
-                    :class="activeView === 'create-ych' ? 'btn-primary' : 'btn-default'">
-                    Создать YCH
-                </button>
-            </div>
-        </div>
+        <div class="h1">Управление Ych/Trades</div>
+        <section id="manage-trades" class="flex flex-col lg:flex-row gap-8 align-start">
+            <!-- Creation Section -->
+            <div class="character-container flex-1 min-w-[350px]">
+                <div class="form-header mb-6">
+                    <div class="btn-group flex gap-2">
+                        <button @click="activeType = 'trade'" class="btn"
+                            :class="activeType === 'trade' ? 'btn--trade' : 'btn--default'">
+                            Создать Трейд
+                        </button>
+                        <button @click="activeType = 'ych'" class="btn"
+                            :class="activeType === 'ych' ? 'btn--ych' : 'btn--default'">
+                            Создать YCH
+                        </button>
+                    </div>
+                </div>
 
-        <section id="trades-content">
-            <div v-if="activeView === 'list'" class="character-container character-container__right">
+                <div class="form-wrapper">
+                    <TradeCreate v-if="activeType === 'trade'" @created="onCreated" />
+                    <YCHCreate v-if="activeType === 'ych'" @created="onCreated" />
+                </div>
+            </div>
+
+            <!-- List Section -->
+            <div class="character-container character-container__right flex-[1.5]">
+                <div class="h2 mb-4 text-white">Мои предложения</div>
                 <TradesList ref="tradesList" />
-            </div>
-
-            <div v-if="activeView === 'create-trade'" class="form-container max-w-4xl">
-                <TradeCreate @created="onCreated" />
-            </div>
-
-            <div v-if="activeView === 'create-ych'" class="form-container max-w-4xl">
-                <YCHCreate @created="onCreated" />
             </div>
         </section>
     </div>
@@ -48,38 +46,72 @@ export default {
     },
     data() {
         return {
-            activeView: 'list'
+            activeType: 'trade'
         }
     },
     methods: {
         onCreated() {
-            this.activeView = 'list';
-            this.$nextTick(() => {
-                if (this.$refs.tradesList) {
-                    this.$refs.tradesList.fetchTrades();
-                }
-            });
+            if (this.$refs.tradesList) {
+                this.$refs.tradesList.fetchTrades();
+            }
         }
     }
 }
 </script>
 
 <style scoped>
-.manage-trades {
-    padding: 1rem;
-}
-
-.tabs-switcher {
+#manage-trades {
     display: flex;
-    gap: 10px;
+    gap: 30px;
+    align-items: flex-start;
 }
 
-.form-container {
-    margin: 0 auto;
+#manage-trades .character-container {
+    flex: 1;
+
 }
 
-.btn-primary {
-    background: linear-gradient(135deg, #6366f1, #a855f7);
+.character-container__right {
+    flex: 1.5;
+}
+
+@media (max-width: 1200px) {
+    #manage-trades {
+        flex-direction: column;
+    }
+
+    .character-container {
+        width: 100%;
+    }
+}
+
+.btn--success {
+    background: #28a745;
     color: white;
+}
+
+.btn--default {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.btn {
+    padding: 0.5rem 1rem;
+    border-radius: 0.1rem;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease;
+}
+
+.btn:hover {
+    filter: brightness(1.1);
+}
+
+.btn--trade {
+    background: linear-gradient(135deg, #6366f1, #a855f7);
+}
+
+.btn--ych {
+    background: linear-gradient(135deg, #f59e0b, #ef4444);
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
     <div class="trade-create card">
         <h2 class="mb-6 text-2xl font-bold text-gradient">Создать Трейд</h2>
-        
+
         <div class="form-grid">
             <div class="form-group">
                 <label>Название</label>
@@ -181,12 +181,16 @@ export default {
 
 <style scoped>
 .trade-create {
+    margin-top: 20px;
     padding: 2rem;
-    background: rgba(25, 25, 35, 0.8);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 1.5rem;
+    border-radius: 0.5rem;
     color: #e0e0e0;
+    background-color: #2b2b2b;
+    width: 600px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+
 }
 
 .text-gradient {
@@ -205,19 +209,20 @@ export default {
     grid-column: span 2;
 }
 
-.form-group {
+.trade-create .form-group {
     display: flex;
-    flex-direction: column;
     gap: 0.5rem;
 }
 
-.form-group label {
+.trade-create .form-group label {
     font-size: 0.9rem;
     font-weight: 500;
     color: #94a3b8;
 }
 
-input, textarea, select {
+input,
+textarea,
+select {
     padding: 0.75rem 1rem;
     background: rgba(0, 0, 0, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -226,7 +231,9 @@ input, textarea, select {
     transition: all 0.3s ease;
 }
 
-input:focus, textarea:focus, select:focus {
+input:focus,
+textarea:focus,
+select:focus {
     outline: none;
     border-color: #6366f1;
     box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
@@ -311,7 +318,9 @@ input:focus, textarea:focus, select:focus {
 }
 
 @keyframes spin {
-    to { transform: rotate(360deg); }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .checkbox-container {
@@ -344,11 +353,11 @@ input:focus, textarea:focus, select:focus {
     border-radius: 4px;
 }
 
-.checkbox-container:hover input ~ .checkmark {
+.checkbox-container:hover input~.checkmark {
     background-color: rgba(255, 255, 255, 0.05);
 }
 
-.checkbox-container input:checked ~ .checkmark {
+.checkbox-container input:checked~.checkmark {
     background-color: #6366f1;
 }
 
@@ -358,7 +367,7 @@ input:focus, textarea:focus, select:focus {
     display: none;
 }
 
-.checkbox-container input:checked ~ .checkmark:after {
+.checkbox-container input:checked~.checkmark:after {
     display: block;
 }
 
