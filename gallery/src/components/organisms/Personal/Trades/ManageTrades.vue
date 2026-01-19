@@ -3,21 +3,20 @@
         <div class="h1">Управление Ych/Trades</div>
         <div class="form-header mb-6">
             <div class="btn-group flex gap-2">
-                <button @click="activeType = 'trade'" class="btn"
-                    :class="activeType === 'trade' ? 'btn--trade' : 'btn--default'">
-                    Создать Трейд
+                <button @click="toggleForm('trade')" class="btn"
+                    :class="activeType === 'trade' && (!mobileDevice.isMobile || showForm) ? 'btn--trade' : 'btn--default'">
+                    {{ (mobileDevice.isMobile && activeType === 'trade' && showForm) ? 'Скрыть форму' : 'Создать Трейд'
+                    }}
                 </button>
-                <button @click="activeType = 'ych'" class="btn"
-                    :class="activeType === 'ych' ? 'btn--ych' : 'btn--default'">
-                    Создать YCH
+                <button @click="toggleForm('ych')" class="btn"
+                    :class="activeType === 'ych' && (!mobileDevice.isMobile || showForm) ? 'btn--ych' : 'btn--default'">
+                    {{ (mobileDevice.isMobile && activeType === 'ych' && showForm) ? 'Скрыть форму' : 'Создать YCH' }}
                 </button>
             </div>
         </div>
         <section id="manage-trades" class="flex flex-col lg:flex-row gap-8 align-start">
             <!-- Creation Section -->
-            <div class="character-container flex-1 min-w-[350px]">
-
-
+            <div class="character-container flex-1 min-w-[350px]" v-if="!mobileDevice.isMobile || showForm">
                 <div class="form-wrapper">
                     <TradeCreate v-if="activeType === 'trade'" @created="onCreated" />
                     <YCHCreate v-if="activeType === 'ych'" @created="onCreatedYch" />
@@ -25,8 +24,15 @@
             </div>
 
             <!-- List Section -->
-            <div class="character-container character-container__right flex-[1.5] mt-20">
+            <div class="character-container character-container__right flex-[1.5] mt-20"
+                :class="{ 'mt-0': mobileDevice.isMobile }">
                 <div class="h2 mb-4 text-white">Мои предложения</div>
+                <div v-if="mobileDevice.isMobile" class="mobile-tabs flex gap-4 mb-4">
+                    <button @click="activeType = 'trade'" class="btn btn-sm"
+                        :class="activeType === 'trade' ? 'btn--trade' : 'btn--default'">Трейды</button>
+                    <button @click="activeType = 'ych'" class="btn btn-sm"
+                        :class="activeType === 'ych' ? 'btn--ych' : 'btn--default'">YCH</button>
+                </div>
                 <TradesList ref="tradesList" v-if="activeType === 'trade'" />
                 <YchList ref="ychList" v-if="activeType === 'ych'" />
             </div>
@@ -39,6 +45,7 @@ import { TradeCreate } from '@gallery/features/trade-create';
 import { YCHCreate } from '@gallery/features/ych-create';
 import YchList from './YchList.vue';
 import TradesList from './TradesList.vue';
+import { mobileDevice } from '@main/state';
 
 export default {
     name: 'ManageTrades',
@@ -50,10 +57,24 @@ export default {
     },
     data() {
         return {
-            activeType: 'trade'
+            activeType: 'trade',
+            mobileDevice: mobileDevice,
+            showForm: false
         }
     },
     methods: {
+        toggleForm(type) {
+            if (this.mobileDevice.isMobile) {
+                if (this.activeType === type) {
+                    this.showForm = !this.showForm;
+                } else {
+                    this.activeType = type;
+                    this.showForm = true;
+                }
+            } else {
+                this.activeType = type;
+            }
+        },
         onCreated() {
             if (this.$refs.tradesList) {
                 this.$refs.tradesList.fetchTrades();
@@ -78,9 +99,11 @@ export default {
 .character-container__right {
     flex: unset;
     background-color: #2b2b2b;
-    width: 1450px;
+    width: 100%;
+    max-width: 1450px;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    padding: 1.5rem;
 }
 
 @media (max-width: 1200px) {

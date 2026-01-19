@@ -26,12 +26,12 @@
             </div>
 
             <div class="form-group">
-                <label>Дата начала аукциона</label>
+                <label>Дата начала</label>
                 <input type="date" v-model="form.dateStart" />
             </div>
 
             <div class="form-group">
-                <label>Дата завершения аукциона</label>
+                <label>Дата окончания</label>
                 <input type="date" v-model="form.dateEnd" />
             </div>
 
@@ -162,15 +162,16 @@ export default {
     backdrop-filter: blur(10px);
     color: #e0e0e0;
     background-color: #2b2b2b;
-    width: 600px;
+    max-width: 600px;
+    width: 100%;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-
 }
 
 .text-gradient-ych {
     background: linear-gradient(135deg, #f59e0b, #ef4444);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
@@ -226,6 +227,22 @@ select:focus {
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
+}
+
+@media (max-width: 600px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .full-width,
+    .price-group {
+        grid-column: span 1;
+        flex-direction: column;
+    }
+
+    .ych-create {
+        padding: 1.5rem;
+    }
 }
 
 .upload-area {

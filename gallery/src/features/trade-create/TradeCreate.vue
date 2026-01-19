@@ -33,7 +33,7 @@
             </div>
 
             <div class="form-group">
-                <label>Дата завершения</label>
+                <label>Дата окончания</label>
                 <input type="date" v-model="form.dateEnd" />
             </div>
 
@@ -169,18 +169,18 @@ export default {
     margin-top: 20px;
     padding: 2rem;
     backdrop-filter: blur(10px);
-    border-radius: 0.5rem;
     color: #e0e0e0;
     background-color: #2b2b2b;
-    width: 600px;
+    max-width: 600px;
+    width: 100%;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-
 }
 
 .text-gradient {
     background: linear-gradient(135deg, #6366f1, #a855f7);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
@@ -192,6 +192,20 @@ export default {
 
 .full-width {
     grid-column: span 2;
+}
+
+@media (max-width: 600px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .full-width {
+        grid-column: span 1;
+    }
+
+    .trade-create {
+        padding: 1.5rem;
+    }
 }
 
 .trade-create .form-group {

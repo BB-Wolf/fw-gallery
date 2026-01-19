@@ -7457,3 +7457,11 @@ input[type="file"] {
         font-size: 20px !important;
     }
 }
+
+
+@media (max-width:768px) {
+    .tags-scroll .btn {
+        width: auto;
+        margin-right: 10px;
+    }
+}

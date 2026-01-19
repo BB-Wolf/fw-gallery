@@ -119,6 +119,32 @@ export default {
     color: #94a3b8;
 }
 
+.image-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem 0;
+}
+
+@media (max-width: 640px) {
+    .image-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.image-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem 0;
+}
+
+@media (max-width: 640px) {
+    .image-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
 .loader {
     width: 40px;
     height: 40px;
