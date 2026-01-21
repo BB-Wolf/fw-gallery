@@ -1,12 +1,12 @@
 <template>
-    <div class="adopt-page" v-if="this.tradeData">
+    <div class="adopt-page" v-if="tradeData">
         <div class="hero-bg" :style="heroStyle">
             <div class="hero-inner">
-                <img :src="this.tradeData.previewImage" alt="preview" class="hero-art" />
+                <img :src="tradeData.previewImage" alt="preview" class="hero-art" />
                 <div class="meta">
-                    <h1 class="name">{{ this.tradeData.title }}</h1>
-                    <p class="by">Автор: <strong>{{ this.tradeData.userName }}</strong></p>
-                    <p class="short">{{ this.tradeData.short }}</p>
+                    <h1 class="name">{{ tradeData.title }}</h1>
+                    <p class="by">Автор: <strong>{{ tradeData.userName }}</strong></p>
+                    <p class="short">{{ tradeData.short }}</p>
                     <div class="actions">
                         <button @click="openGallery(0)">Открыть галерею</button>
                     </div>
@@ -17,7 +17,7 @@
         <main class="content">
             <section class="adopt-panel preview">
                 <h2 class="adopt-panel-title">Описание</h2>
-                <div v-html="this.tradeData.description"></div>
+                <div v-html="tradeData.description"></div>
             </section>
 
             <section class="adopt-panel gallery" v-if="gallery.length > 0">
@@ -99,6 +99,10 @@ export default {
             const h = window.innerHeight
             pointer.x = (clientX / w - 0.5) * 30
             pointer.y = (clientY / h - 0.5) * 20
+        },
+        resetPointer() {
+            pointer.x = 0;
+            pointer.y = 0;
         }
     },
     computed: {
@@ -111,51 +115,57 @@ export default {
     },
     mounted() {
         this.getTradeData();
-        window.addEventListener('mousemove', this.onPointerMove);
-    },
-    beforeUnmount() {
-        window.removeEventListener('mousemove', this.onPointerMove);
     }
 }
 </script>
 
 <style scoped>
-/* Basic styles inherited or similar to AdoptDetail */
 .adopt-page {
+    min-height: 100vh;
+    background: #1a1a1a;
+    color: #eee;
     padding-bottom: 50px;
 }
 
 .hero-bg {
-    position: relative;
-    padding: 60px 20px;
+    padding: 28px 40px;
+    overflow: visible;
+    perspective: 900px;
     background: linear-gradient(135deg, rgba(20, 20, 20, 0.8), rgba(40, 40, 40, 0.8));
     border-radius: 20px;
     margin-bottom: 30px;
-    overflow: hidden;
 }
 
-.hero-inner {
-    display: flex;
-    gap: 40px;
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-}
 
 .hero-art {
-    max-width: 400px;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    width: 220px;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 4px solid rgba(255, 255, 255, 0.06);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    transform-origin: center;
 }
 
-.meta .name {
-    font-size: 3rem;
-    margin-bottom: 10px;
+.meta {
+    max-width: 720px;
 }
 
-.meta .by {
+.name {
+    margin: 0 0 6px;
+    font-size: 28px;
+    letter-spacing: 0.6px;
+}
+
+.by {
+    margin: 0 0 8px;
+    color: rgb(220, 220, 220);
     font-size: 1.2rem;
-    color: #ccc;
+}
+
+.short {
+    margin: 8px 0 12px;
+    opacity: .9;
 }
 
 .actions {
@@ -164,98 +174,132 @@ export default {
     gap: 15px;
 }
 
-button {
-    padding: 10px 20px;
-    border: none;
+.actions button {
+    margin-right: 8px;
+    padding: 8px 12px;
     border-radius: 8px;
-    background: #5c6bc0;
-    color: white;
+    border: none;
+    background: #ff9a3c;
+    color: #1a1a1a;
     cursor: pointer;
+    box-shadow: 0 6px 18px rgba(255, 154, 60, 0.15);
     font-weight: bold;
 }
 
 .content {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr 1fr;
     gap: 20px;
-    max-width: 1200px;
+    padding: 24px;
     margin: 0 auto;
 }
 
 .adopt-panel {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 30px;
-    border-radius: 15px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: #292929;
+    padding: 24px;
+    border-radius: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.03);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
 
 .adopt-panel-title {
-    margin-bottom: 20px;
-    font-size: 1.5rem;
-    border-bottom: 2px solid #5c6bc0;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: #ffd;
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 2px;
+    border-bottom: 2px solid #ff9a3c;
     display: inline-block;
 }
 
 .thumbs {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 12px;
 }
 
 .thumb {
-    width: 80px;
-    height: 80px;
+    width: 140px;
+    height: 240px;
     overflow: hidden;
     border-radius: 8px;
     cursor: pointer;
+    border: 3px solid rgba(255, 255, 255, 0.03);
+    box-shadow: 4px 8px 20px rgba(0, 0, 0, 0.6);
 }
 
 .thumb img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transform-origin: center;
+    transition: transform .4s cubic-bezier(.2, .9, .3, 1);
+}
+
+.thumb:hover img {
+    transform: scale(1.08) rotate(-2deg);
 }
 
 .modal {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.9);
+    inset: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 1000;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 60;
+}
+
+.modal-inner {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }
 
 .modal-img {
-    max-width: 90%;
-    max-height: 90%;
+    max-width: 80vw;
+    max-height: 80vh;
     border-radius: 10px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
 }
 
 .close {
     position: absolute;
-    top: 20px;
-    right: 20px;
-    font-size: 2rem;
-    background: none;
+    right: 8px;
+    top: -40px;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 30px;
+    cursor: pointer;
 }
 
 .nav {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: none;
-    font-size: 3rem;
+    background: rgba(0, 0, 0, 0.3);
+    border: none;
+    color: #fff;
+    padding: 12px 16px;
+    font-size: 28px;
+    border-radius: 8px;
+    cursor: pointer;
 }
 
-.prev {
-    left: 20px;
-}
+@media (max-width:900px) {
+    .content {
+        grid-template-columns: 1fr;
+    }
 
-.next {
-    right: 20px;
+    .hero-inner {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .hero-art {
+        width: 160px;
+        height: 160px;
+    }
 }
 </style>

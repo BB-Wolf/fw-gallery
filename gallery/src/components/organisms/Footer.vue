@@ -59,12 +59,12 @@ export default {
                 <a href="/gallery/legal/">Правила использования сервиса</a>
             </div>
             <div class="footer-item">
-                <a href="/gallery/legal/cookie/">Политика конфиденциальности и обработки персональных данных</a>
-                <a href="/gallery/legal/cookie/">Политика использования ИИ</a>
+                <a href="/gallery/legal/agreement/">Политика конфиденциальности и обработки персональных данных</a>
+                <a href="/gallery/legal/agreement/">Политика использования ИИ</a>
             </div>
             <div class="footer-item">
-                <a href="/gallery/legal/cookie/">Правила размещения адоптов</a>
-                <a href="/gallery/legal/cookie/">Правила размещения Трейдов/YCH</a>
+                <a href="/gallery/legal/ychtradesadopts/">Правила размещения адоптов</a>
+                <a href="/gallery/legal/ychtradesadopts/">Правила размещения Трейдов/YCH</a>
             </div>
             <div class="footer-item">
                 <label for="">По всем вопросам и обратной связи:</label>
@@ -75,4 +75,3 @@ export default {
     <FooterBell></FooterBell>
     <ModalNotification></ModalNotification>
 </template>
-
