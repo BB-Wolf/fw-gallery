@@ -15,7 +15,8 @@
                         {{ item.UF_IS_COMPLETED == 1 ? 'Завершено' : 'Активно' }}
                     </div>
 
-                    <a :href="'/gallery/trades/' + item.ID">
+                    <a
+                        :href="'/gallery/trade/author/' + item.USER_LOGIN + '/trade/' + item.UF_CODE + '/' + item.ID + '/'">
                         <img :src="item.UF_PREVIEW_IMAGE || item.UF_IMAGE_SRC" class="trade-preview" />
                     </a>
 
@@ -25,7 +26,7 @@
                             {{ item.UF_DATE_START }} — {{ item.UF_DATE_END }}
                         </div>
                         <div class="trade-actions mt-4 flex gap-2">
-                            <a :href="'/gallery/trades/' + item.ID + '/edit'"
+                            <a :href="'/gallery/trade/author/' + item.USER_LOGIN + '/trade/' + item.UF_CODE + '/' + item.ID + '/edit/'"
                                 class="btn btn-sm btn-default flex-1 text-center">Редактировать</a>
                         </div>
                     </div>

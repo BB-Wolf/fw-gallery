@@ -173,9 +173,21 @@ rts = [
         component: () => import('@gallery/components/pages/Trades/TradeDetail.vue')
       },
       {
+        name: 'GalleryTradeEdit',
+        path: '/gallery/trade/author/:creator/trade/:tradecode/:id/edit/',
+        component: () => import('@gallery/components/pages/Trades/TradeEdit.vue'),
+        meta: { requiresAuth: true }
+      },
+      {
         name: 'GalleryYchDetail',
         path: '/gallery/ych/author/:creator/ych/:ychcode/:id/',
         component: () => import('@gallery/components/pages/Trades/YchDetail.vue')
+      },
+      {
+        name: 'GalleryYchEdit',
+        path: '/gallery/ych/author/:creator/ych/:ychcode/:id/edit/',
+        component: () => import('@gallery/components/pages/Trades/YchEdit.vue'),
+        meta: { requiresAuth: true }
       }
     ],
     meta: { transition: 'fade' }
