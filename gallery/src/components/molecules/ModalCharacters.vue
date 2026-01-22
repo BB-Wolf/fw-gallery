@@ -6,24 +6,32 @@
             </div>
             <div class="input-container mt-20" @click="$refs.charsearch.focus()">
                 <div contenteditable="plaintext-only" ref="charsearch" value="" id="chars-input" type="text"
-                    @focus="placeCaretAtEnd" @input="this.debounce = 3"
+                    @focus="placeCaretAtEnd" @input="debounce = 3"
                     @change="$emit('update:modelValue', $event.target.value)">
                 </div>
-                <span class="loader" v-if="this.debounce > 0"></span>
+                <span class="loader" v-if="debounce > 0"></span>
             </div>
-            <div v-if="this.selectedChars.selected">
-                <div class="btn btn--default" @dblclick="deleteChar($event)"
-                    v-for="sChar in this.selectedChars.selected" :key="sChar">
-                    <span v-if="sChar" :data-charid="sChar.charId">{{
-                        sChar.name }}
-                    </span>
-                </div>
+            <div v-if="selectedChars.selected && selectedChars.selected.length > 0"
+                class="selected-chars-container mt-15">
+                <template v-for="sChar in selectedChars.selected" :key="sChar.charId">
+                    <div class="char-chip" v-if="sChar">
+                        <span :data-charid="sChar.charId">{{ sChar.name }}</span>
+                        <span class="char-chip-remove" @click="deleteCharManual(sChar.charId)">&times;</span>
+                    </div>
+                </template>
             </div>
-            <div class="characters-dropdown" v-if="this.userCharacters.length > 0">
-                <div v-for="character in userCharacters" :key="character" :data-code="character.code"
+            <div class="characters-dropdown" v-if="userCharacters.length > 0">
+                <div v-for="character in userCharacters" :key="character.id" :data-code="character.code"
                     class="characters-dropdown-items" @click="previewChar(character.code, character.usid, $event)">
-                    {{ character.character }}
-                    <div @click="quickSelectChar((this.selectedChars.selected.length + 1), character.name)"
+                    <div class="character-search-info">
+                        <img :src="character.picture" class="character-search-avatar" alt="">
+                        <div class="character-search-details">
+                            <span class="character-search-name">{{ character.name }}</span>
+                            <span class="character-search-author">Автор: {{ character.authorlogin || 'неизвестен'
+                            }}</span>
+                        </div>
+                    </div>
+                    <div @click.stop="quickSelectChar(character.id, character.name)"
                         class="btn btn--default btn--rounded"><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
                             width="20" height="20" viewBox="0 0 50 50">
                             <path
@@ -35,22 +43,22 @@
         </div>
     </div>
 
-    <div id="characterModal" v-if="this.characterInfo">
+    <div id="characterModal" v-if="characterInfo">
         <div class="modal-content">
-            <span class="close" @click="this.characterInfo = null">&times;</span>
+            <span class="close" @click="characterInfo = null">&times;</span>
             <div class="character-modal-info">
-                <img :src="this.characterInfo.picture" alt="Character Image" class="character-image">
+                <img :src="characterInfo.picture" alt="Character Image" class="character-image">
                 <div class="character-details">
-                    <div class="character-name"><strong>Имя:</strong>: {{ this.characterInfo.char.name }}</div>
-                    <p class="character-name"><strong>Вид:</strong> {{ this.characterInfo.char.species }}</p>
-                    <p class="character-author"><strong>Автор:</strong> {{ this.characterInfo.author }}</p>
+                    <div class="character-name"><strong>Имя:</strong>: {{ characterInfo.char.name }}</div>
+                    <p class="character-name"><strong>Вид:</strong> {{ characterInfo.char.species }}</p>
+                    <p class="character-author"><strong>Автор:</strong> {{ characterInfo.author }}</p>
                     <p class="character-bio">Инфо:
-                        {{ this.characterInfo.char.short }}
+                        {{ characterInfo.char.short }}
                     </p>
                 </div>
-                <div class="btn btn--success" @click="selectChar(this.characterInfo.id, this.characterInfo.char.name)">
+                <div class="btn btn--success" @click="selectChar(characterInfo.id, characterInfo.char.name)">
                     Выбрать</div>
-                <div class="btn btn--danger" @click="this.characterInfo = null">Закрыть</div>
+                <div class="btn btn--danger" @click="characterInfo = null">Закрыть</div>
             </div>
         </div>
     </div>
@@ -106,17 +114,9 @@ export default
         },
         methods:
         {
-            deleteChar(evt) {
-                console.log(this.selectedChars.selected);
-                for (let i = 0; i < this.selectedChars.selected.length; i++) {
-                    if (this.selectedChars.selected[i]) {
-                        if (this.selectedChars.selected[i].charId == evt.currentTarget.children[0].dataset.charid) {
-                            delete (this.selectedChars.selected[i]);
-                        }
-                    }
-                }
-                evt.currentTarget.remove();
-
+            deleteCharManual(charId) {
+                this.selectedChars.selected = this.selectedChars.selected.filter(char => char && char.charId !== charId);
+                this.$emit('update:modelValue', this.selectedChars);
             },
             placeCaretAtEnd() {
                 let el = document.querySelector('#chars-input');
@@ -137,7 +137,7 @@ export default
                 }
             },
             selectChar(id = '0', charName, evt = '') {
-                let el = document.querySelector('#chars-input');
+                let el = this.$refs.charsearch;
                 this.selectedChars.selected = [...this.selectedChars.selected, ...[{ charId: id, name: charName }]];
                 this.selectedChars.list = el.innerHTML;
                 this.characterInfo = null;
@@ -145,20 +145,18 @@ export default
                 this.userCharacters = [];
                 el.innerHTML = '';
                 this.isFounded = null;
-
             },
             quickSelectChar(id = '0', charName) {
                 this.abort.abort();
                 this.debounce = -1;
                 this.characterInfo = null;
-                let el = document.querySelector('#chars-input');
+                let el = this.$refs.charsearch;
                 this.selectedChars.selected = [...this.selectedChars.selected, ...[{ charId: id, name: charName }]];
                 this.selectedChars.list = el.innerHTML;
                 this.characterInfo = null;
                 this.$emit('update:modelValue', this.selectedChars)
                 this.userCharacters = [];
                 this.resetData();
-
             },
             async previewChar(code, usid, evt = '') {
 
