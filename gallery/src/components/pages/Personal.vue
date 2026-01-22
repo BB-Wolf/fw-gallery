@@ -336,8 +336,8 @@ export default {
 }
 </script>
 <template>
-    <AutosaveModal v-if="this.showActionModal" :saveText="'Ожидайте...'"></AutosaveModal>
-    <div class="profile-container" style="overflow: hidden;" v-if="this.userLogin">
+    <AutosaveModal v-if="showActionModal" :saveText="'Ожидайте...'"></AutosaveModal>
+    <div class="profile-container" style="overflow: hidden;" v-if="userLogin">
         <TabsRoot default-value="tab1" orientation="horizontal">
             <div class="personal-tabs tags">
                 <div class="tags-wrapper" style="">
@@ -383,7 +383,7 @@ export default {
                     <div class="profile-section m-flex-column">
                         <!-- Avatar -->
                         <div class="profile-avatar">
-                            <img :src="this.userAvatar" alt="Avatar" class="profile-avatar">
+                            <img :src="userAvatar" alt="Avatar" class="profile-avatar">
                         </div>
                         <div class="user-data">
 
@@ -405,10 +405,9 @@ export default {
                             <!-- Username -->
                             <label for="username">Никнейм</label>
 
-                            <input type="text" id="username" value="{{this.userLogin}}" class="infoFieldVal-username"
-                                v-model="this.userLogin" required>
+                            <input type="text" id="username" class="infoFieldVal-username" v-model="userLogin" required>
                             <div class="infoFields" v-if="userFields">
-                                <InputText v-for="userField in userFields" :key="userField"
+                                <InputText v-for="(userField, index) in userFields" :key="index"
                                     :inputLabel="userField.label" :inputValue="userField.value"
                                     :inputClass="'infoFieldVal'"> </InputText>
 
@@ -461,9 +460,9 @@ export default {
                         </div>
                     </div>
                 </div>
-                <TelegramLink :extTgID="this.extTgId"></TelegramLink>
-                <TelegramPostsType :postType="this.extTgTypes"></TelegramPostsType>
-                <!--      <TelegramModeration :moderation="this.extTgModeration"></TelegramModeration>-->
+                <TelegramLink :extTgID="extTgId"></TelegramLink>
+                <TelegramPostsType :postType="extTgTypes"></TelegramPostsType>
+                <!--      <TelegramModeration :moderation="extTgModeration"></TelegramModeration>-->
 
                 <!--  <div class="profile-container">
                     <div class="h1">Управление тегами</div>
@@ -506,9 +505,9 @@ export default {
 
                                 </div>
                             </div>
-                            <div class="card" v-for="folder in this.userFolders" :key="folder.id">
+                            <div class="card" v-for="folder in userFolders" :key="folder.id">
                                 <div class="card__face card__face--front">
-                                    <img :src=folder.picture />
+                                    <img :src="folder.picture" />
                                 </div>
                                 <div class="card__face card__face--overlay">
                                     <div class="card__title">{{ folder.name }}</div>
@@ -641,15 +640,15 @@ export default {
                     <div class="character-container character-container__right">
 
                         <div class="image-grid" v-infinite-scroll="onLoadMore">
-                            <div class="image-item" v-for="galleryImage in userChars" v-bind:key="galleryImage">
-                                <a :href="'/gallery/author/' + this.userLogin + '/characters/' + galleryImage.code">
-                                    <Image imageClass="" :imageSrc=galleryImage.picture
+                            <div class="image-item" v-for="galleryImage in userChars" :key="galleryImage.id">
+                                <a :href="'/gallery/author/' + userLogin + '/characters/' + galleryImage.code">
+                                    <Image imageClass="" :imageSrc="galleryImage.picture"
                                         :imageTitle="galleryImage.title + ' от ' + galleryImage.userName" imageAlt="">
                                     </Image>
                                 </a>
                                 <div class="character__name">{{ galleryImage.char.name }}</div>
                                 <a class="btn btn--default"
-                                    :href="'/gallery/author/' + this.userLogin + '/characters/' + galleryImage.code + '/edit/'">Редактировать</a>
+                                    :href="'/gallery/author/' + userLogin + '/characters/' + galleryImage.code + '/edit/'">Редактировать</a>
                             </div>
                         </div>
                     </div>

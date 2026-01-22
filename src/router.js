@@ -124,7 +124,7 @@ rts = [
       },
       {
         name: 'Comic',
-        path: '/gallery/comics/',
+        path: '/comics/',
         component: () => import('@gallery/components/pages/ComicGallery.vue')
       },
       {

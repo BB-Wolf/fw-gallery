@@ -1,8 +1,8 @@
 <template>
     <div class="profile-container d-flex g-20 flex-wrap">
         <div class="left-block">
-            <div class="h2">{{ this.folderName }}</div>
-            <img style="max-width: 320px;" :src="this.folderPicturePreview" class="folderImage">
+            <div class="h2">{{ folderName }}</div>
+            <img style="max-width: 320px;" :src="folderPicturePreview" class="folderImage">
             <div class="form-group">
                 <label>Загрузить изображение</label>
                 <input type="file" name="folderNewImage" @change="newFolderImage">
@@ -102,7 +102,7 @@ export default {
             }
             if (request.data.status == 'success') {
                 notifications.generateNotification('good', request.data.text);
-                setTimeot(function () {
+                setTimeout(function () {
                     window.location = '/personal/';
                 }, 1000);
             } else {
@@ -114,6 +114,3 @@ export default {
     }
 }
 </script>
-
-
-

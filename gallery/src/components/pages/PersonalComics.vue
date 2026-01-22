@@ -1,14 +1,14 @@
 <template>
-    <AutosaveModal v-if="this.showAutosaveModal" :saveText="'Сохраняем...'"></AutosaveModal>
+    <AutosaveModal v-if="showAutosaveModal" :saveText="'Сохраняем...'"></AutosaveModal>
 
-    <section id="all-images-list" v-if="this.$route.params.name == 'all'">
+    <section id="all-images-list" v-if="$route.params.name == 'all'">
         <div class="profile-container">
             <h2>Все изображения</h2>
             <div class="muted mt-20" style="color:rgba(255,255,255,0.5)">Нажмите на изображение для редактирования</div>
 
             <div class="image-grid">
-                <div class="image-item" v-for="galleryImage in imagesList" v-bind:key="galleryImage.id">
-                    <Image @click="editPicture(galleryImage.id)" imageClass="slide" :imageSrc=galleryImage.picture
+                <div class="image-item" v-for="galleryImage in imagesList" :key="galleryImage.id">
+                    <Image @click="editPicture(galleryImage.id)" imageClass="slide" :imageSrc="galleryImage.picture"
                         :imageTitle="galleryImage.title + ' от ' + galleryImage.userName" imageAlt="">
                     </Image>
                 </div>
@@ -16,18 +16,18 @@
         </div>
     </section>
 
-    <section id="all-images-list" v-if="this.$route.params.name != 'all'">
+    <section id="all-images-list" v-if="$route.params.name != 'all'">
         <div class="profile-container">
-            <h2>Альбом {{ this.$route.params.name }}</h2>
+            <h2>Альбом {{ $route.params.name }}</h2>
             <div class="edit-block">
                 <div class="btn btn--primary mb-10" @click="addImageToFolder">Загрузить работу в папку</div>
                 <div class="btn btn--info mb-10" @click="editFolder">Редактировать папку</div>
             </div>
-            <section id="edit-folder" v-if="this.mode == 'folder'">
+            <section id="edit-folder" v-if="mode == 'folder'">
                 <div class="profile-container d-flex g-20 flex-wrap">
                     <div class="left-block">
-                        <div class="h2">{{ this.folderName }}</div>
-                        <img :src="this.folderImage">
+                        <div class="h2">{{ folderName }}</div>
+                        <img :src="folderImage">
                         <div class="form-group">
                             <label>Загрузить новое изображение</label>
                             <input type="file" name="folderNewImage" @change="newFolderImage">
@@ -42,35 +42,35 @@
                             <label>Описание</label>
                             <textarea v-model="folderDescription"> </textarea>
                         </div>
-                        <div class="form-groupp">
+                        <div class="form-group">
                             <button class="btn btn--update" @click="saveFolder">Сохранить изменения</button>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <section id="addinto-folder" v-if="this.mode == 'newImage'">
+            <section id="addinto-folder" v-if="mode == 'newImage'">
                 <div class="profile-container d-flex g-20 flex-wrap">
                     <div class="left-block">
                         <div @click="$refs.characterImage.click()">
                             <div class="h2" style="cursor:pointer; font-size:18px;">Нажмите чтобы загрузить изображение
                             </div>
-                            <img :src="this.newImageRaw" alt="Нажмите чтобы загрузить фото" class="character-image">
+                            <img :src="newImageRaw" alt="Нажмите чтобы загрузить фото" class="character-image">
                             <input type="file" ref="characterImage" style="display: none" @change="newImageUpload">
                         </div>
                     </div>
                     <div class="right-block">
                         <div class="group">
                             <label>Название</label>
-                            <input type='text' v-model="this.currentImage.title">
+                            <input type='text' v-model="currentImage.title">
                         </div>
                         <div class="group">
                             <label>Описание</label>
-                            <textarea v-model="this.currentImage.description"> </textarea>
+                            <textarea v-model="currentImage.description"> </textarea>
                         </div>
                         <div class="group">
                             <label>Номер страницы</label>
-                            <input type='text' v-model="this.fsort">
+                            <input type='text' v-model="fsort">
                         </div>
                         <div class="group">
                             <label>Теги</label>
@@ -78,7 +78,7 @@
                         </div>
                         <div class="group">
                             <label>Раздел</label>
-                            <div style="color:white">{{ this.$route.params.name }}</div>
+                            <div style="color:white">{{ $route.params.name }}</div>
                         </div>
                         <div class="group mt-20">
                             <div class="btn btn--success" @click="createImage">Сохранить</div>
@@ -93,37 +93,36 @@
                 </div>
             </div>
             <div class="image-grid">
-                <div :style="'order:' + galleryImage.fsort + ';'" class="image-item" v-for="galleryImage in imagesList"
-                    v-bind:key="galleryImage.id">
-                    <Image style="order:{{ this.galleryImage.fsort }}" @click="editPicture(galleryImage.id)"
-                        imageClass="slide" :imageSrc=galleryImage.picture
+                <div v-for="galleryImage in imagesList" :key="galleryImage.id" :style="{ order: galleryImage.fsort }"
+                    class="image-item">
+                    <Image @click="editPicture(galleryImage.id)" imageClass="slide" :imageSrc="galleryImage.picture"
                         :imageTitle="galleryImage.title + ' от ' + galleryImage.userName" imageAlt="">
                     </Image>
                     <div class="form-group">
                         <label>Номер страницы</label>
-                        <input type="text" :data-image-id=galleryImage.id @change="changeOrder($event)"
-                            v-model=galleryImage.fsort>
+                        <input type="text" :data-image-id="galleryImage.id" @change="changeOrder($event)"
+                            v-model="galleryImage.fsort">
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="single-image-edit" v-if="this.currentImage && this.mode != 'newImage'">
+    <section id="single-image-edit" v-if="currentImage && mode != 'newImage'">
         <div class="profile-container d-flex g-20 flex-wrap">
             <div class="left-block">
-                <div class="h2">{{ this.currentImage.title }}</div>
-                <img :src="this.currentImage.picture">
+                <div class="h2">{{ currentImage.title }}</div>
+                <img :src="currentImage.picture">
                 <button class="btn btn--update">Изменить изображение</button>
             </div>
             <div class="right-block">
                 <div class="group">
                     <label>Название</label>
-                    <input type='text' v-model="this.currentImage.title">
+                    <input type='text' v-model="currentImage.title">
                 </div>
                 <div class="group">
                     <label>Описание</label>
-                    <textarea v-model="this.currentImage.description"> </textarea>
+                    <textarea v-model="currentImage.description"> </textarea>
                 </div>
                 <div class="group">
                     <label>Теги</label>
@@ -132,9 +131,9 @@
                 <div class="group">
                     <label>Раздел</label>
                     <select v-model="folder">
-                        <template v-for="userfolder in this.folders" :key="userfolder.id">
-                            <option :value="userfolder.id" v-if="this.currentImage.folder == userfolder.id"
-                                :selected="true">{{ userfolder.name }}</option>
+                        <template v-for="userfolder in folders" :key="userfolder.id">
+                            <option :value="userfolder.id" v-if="currentImage.folder == userfolder.id" :selected="true">
+                                {{ userfolder.name }}</option>
                             <option :value="userfolder.id" v-else>{{ userfolder.name }}</option>
                         </template>
                     </select>
@@ -184,17 +183,15 @@ export default {
         }
     },
     methods: {
-        changeOrder(event) {
-            setTimeout(async function () {
-                let eventVal = event.target.value;
-                let sendChangeOrder = await new axios.get('//furry-world.ru/console/comics/get_change_comic_page_order.php?image=' + event.target.dataset.imageId + '&sort=' + eventVal, {
-                    headers:
-                    {
-                        "Authorization": "Bearer " + localStorage.getItem("token"),
-                    }
-                })
-            }, 500);
-
+        async changeOrder(event) {
+            let eventVal = event.target.value;
+            let imageId = event.target.dataset.imageId;
+            let sendChangeOrder = await axios.get('//furry-world.ru/console/comics/get_change_comic_page_order.php?image=' + imageId + '&sort=' + eventVal, {
+                headers:
+                {
+                    "Authorization": "Bearer " + localStorage.getItem("token"),
+                }
+            });
         },
         addImageToFolder() {
             this.mode = 'newImage';
@@ -323,47 +320,46 @@ export default {
             }, 500);
 
         },
-        validateDelete() {
+        async validateDelete() {
             let result = prompt("Вы точно хотите удалить изображение? Напишите 'delete' для удаления (без кавычек)");
             if (result === 'delete') {
-                const sendDeleteRequest = axios.get('//furry-world.ru/console/comics/get_delete_image.php?image=' + this.currentImage.id,
-                    {
-                        headers: {
-                            "Authorization": "Bearer " + localStorage.getItem("token"),
+                try {
+                    const sendDeleteRequest = await axios.get('//furry-world.ru/console/comics/get_delete_image.php?image=' + this.currentImage.id,
+                        {
+                            headers: {
+                                "Authorization": "Bearer " + localStorage.getItem("token"),
+                            }
                         }
-
-                    }
-                );
-                if (sendDeleteRequest.data && sendDeleteRequest.data.status == 'success') {
-                    let url;
-                    if (this.$route.params.name == 'all') {
-                        url = '//furry-world.ru/console/get_gallery_picture.php?user=' + localStorage.getItem('token');
+                    );
+                    if (sendDeleteRequest.data && sendDeleteRequest.data.status == 'success') {
+                        let url;
+                        if (this.$route.params.name == 'all') {
+                            url = '//furry-world.ru/console/comics/get_images.php?user=' + localStorage.getItem('token');
+                        } else {
+                            url = '//furry-world.ru/console/comics/get_images.php?folder=' + this.$route.params.name;
+                        }
+                        const getImagesList = await axios.get(url, {
+                            headers: {
+                                "Authorization": "Bearer " + localStorage.getItem("token"),
+                            }
+                        });
+                        if (getImagesList.data) {
+                            this.imagesList = getImagesList.data;
+                        }
+                        this.mode = 'all';
                     } else {
-                        url = '//furry-world.ru/console/get_gallery_picture.php?user=y';
+                        let errorText = sendDeleteRequest.data ? sendDeleteRequest.data.text : 'Произошла ошибка удаления файла. Попробуйте еще раз';
+                        notifications.generateNotification('Ошибка', errorText);
                     }
-                    const getImagesList = new axios.get(url, {
-                        headers: {
-                            "Authorization": "Bearer " + localStorage.getItem("token"),
-                        }
-                    });
-                    if (getImagesList.data) {
-                        this.imagesList = getImagesList.data;
-                    }
-                    this.mode = 'all';
-                } else {
-                    let errorText = '';
-                    if (sendDeleteRequest.data) { errorText = sendDeleteRequest.data.text; } else {
-                        errorText = 'Произошла ошибка удаления файла. Попробуйте еще раз';
-                    }
-                    notifications.generateNotification('Ошибка', errorText);
+                } catch (e) {
+                    notifications.generateNotification('Ошибка', 'Сетевая ошибка при удалении');
                 }
             }
-
         }
     },
     async created() {
         let url = '//furry-world.ru/console/comics/get_images.php?user=' + localStorage.getItem('token');
-        const getImagesList = await new axios.get(url, {
+        const getImagesList = await axios.get(url, {
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("token"),
             }
@@ -377,7 +373,7 @@ export default {
             this.folders = getFoldersList.folders;
         }
 
-        const getFolderInfo = await new axios.get('//furry-world.ru/console/comics/get_folder_info.php?code=' + this.$route.params.name,
+        const getFolderInfo = await axios.get('//furry-world.ru/console/comics/get_folder_info.php?code=' + this.$route.params.name,
             {
                 headers: {
                     "Authorization": "Bearer " + localStorage.getItem("token"),
