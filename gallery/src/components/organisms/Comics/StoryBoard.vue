@@ -33,7 +33,7 @@ export default {
         }
     },
     async created() {
-        let getNewComics = await new axios.get('//furry-world.ru/console/get_new_comics.php?offset=1',
+        let getNewComics = await new axios.get('//furry-world.ru/console/comics/get_comics_list.php?offset=1',
             {
                 headers: {
                     "Authorization": "Bearer " + localStorage.getItem("token"),
