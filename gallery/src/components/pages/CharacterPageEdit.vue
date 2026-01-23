@@ -67,7 +67,7 @@ export default {
         newCharacterHeader(e) {
             let avatarFile = e.target.files || e.dataTransfer.files;
             this.characterHeader = avatarFile[0];
-            this.characterHeaderRaw = URL.createObjectURL(new File(avatarFile, avatarFile.name))
+            this.characterHeaderRaw = URL.createObjectURL(this.characterHeader)
             this.charData.header = this.characterHeaderRaw
 
         },
@@ -168,11 +168,10 @@ export default {
             <div class="character-gallery">
                 <div class="section-container" style="display:flex;gap:20px;">
                     <div class="btn btn--success" @click="saveCharacter">Сохранить</div>
-                    <div class="btn btn--danger" @clic="deleteChar">Удалить</div>
+                    <div class="btn btn--danger" @click="deleteChar">Удалить</div>
                 </div>
             </div>
         </div>
     </section>
 
 </template>
-
