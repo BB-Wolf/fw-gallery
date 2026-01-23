@@ -3,6 +3,8 @@ import RatedSlider from '@gallery/components/organisms/RatedSlider.vue';
 import Pallette from '@gallery/components/organisms/Pallette.vue';
 import ComicsPreview from '@gallery/components/organisms/ComicsPreview.vue';
 import ComicsPreviewMobile from '@gallery/components/organisms/ComicsPreviewMobile.vue';
+import UniversalGalleryBlock from '../organisms/UniversalGalleryBlock.vue';
+import StoryBoard from '../organisms/Comics/StoryBoard.vue';
 </script>
 <script>
 import { modalState, mobileDevice } from '@main/state.js';
@@ -11,8 +13,6 @@ import AuthorsOfWeek from '@gallery/components/organisms/AuthorsOfWeek.vue';
 import AuthorsOfWeekMobile from '@gallery/components/organisms/AuthorsOfWeekMobile.vue';
 import Seo from '@main/api/seo/Seo.js';
 import ArtOfDay from '@gallery/components/organisms/ArtOfADay.vue';
-import MasonryGallery from '../organisms/MasonryGallery.vue';
-import StoryBoard from '../organisms/Comics/StoryBoard.vue';
 
 export default
     {
@@ -51,10 +51,8 @@ export default
             <StoryBoard></StoryBoard>
         </section>
         <div class="gallery-container">
-            <MasonryGallery class="section-container" :needInfinity="false" galleryUrl="/gallery/main/"
-                galleryTitle="Последние работы" />
+            <UniversalGalleryBlock class="section-container" needInfinty="n"
+                galleryUrl="https://furry-world.ru/console/get_gallery_picture.php" galleryTitle="Последние работы" />
         </div>
     </div>
 </template>
-
-

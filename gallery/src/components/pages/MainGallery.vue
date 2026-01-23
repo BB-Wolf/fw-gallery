@@ -62,7 +62,7 @@ export default {
         <div class="gallery-container" id="main-gallery">
             <MasonryGalleryInfinite v-if="currentState == 'gallery'" needInfinty="y" galleryType="main"
                 galleryTitle="Новые работы художников" />
-            <UniversalGalleryBlock galleryUrl="https://furry-world.ru/console/get_new_comics.php"
+            <UniversalGalleryBlock galleryUrl="https://furry-world.ru/console/comics/get_comics_list.php"
                 v-if="currentState == 'comics'" needInfinty="y" galleryType="main"
                 galleryTitle="Новые и обновления в комиксах" />
             <UniversalGalleryBlock galleryUrl="https://furry-world.ru/console/characters/get_characters_list.php"

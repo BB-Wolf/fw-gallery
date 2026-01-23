@@ -2995,7 +2995,7 @@ swiper-container {
         position: absolute;
         left: 0;
         transform: translate(-80px, -22px);
-        background: url('../../assets/images/volk.png') 0 0;
+        background: url('@gallery/assets/images/volk.png') 0 0;
         background-size: contain;
         z-index: 10;
         height: 80px;
@@ -3007,7 +3007,7 @@ swiper-container {
         position: absolute;
         left: 0;
         transform: translate(-80px, -22px);
-        background: url('../../assets/images/volk4.png') 0 0;
+        background: url('@gallery/assets/images/volk4.png') 0 0;
         background-size: contain;
         z-index: 10;
         height: 80px;
@@ -3019,7 +3019,7 @@ swiper-container {
         position: absolute;
         left: 0;
         transform: translate(-80px, -22px);
-        background: url('../../assets/images/volk5.png') 0 0;
+        background: url('@gallery/assets/images/volk5.png') 0 0;
         background-size: contain;
         z-index: 0;
         height: 80px;
