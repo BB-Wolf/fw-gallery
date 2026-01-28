@@ -2,12 +2,14 @@
 import { modalState, isUserLogged, mobileDevice, isAgeAgreed } from '@main/state';
 import ModalLogin from '@gallery/components/organisms/ModalLogin.vue';
 import ModalRegister from '@gallery/components/organisms/ModalRegister.vue';
+import ModalSuggestIdea from '@gallery/components/organisms/ModalSuggestIdea.vue';
 import axios from 'axios';
 
 export default {
     components: {
         ModalLogin,
-        ModalRegister
+        ModalRegister,
+        ModalSuggestIdea
     },
     data() {
         return {
@@ -28,6 +30,10 @@ export default {
         showLogin() {
             document.body.style.overflow = 'hidden';
             modalState.isModalLoginVisible = true;
+        },
+        showSuggestIdea() {
+            document.body.style.overflow = 'hidden';
+            modalState.isModalSuggestIdeaVisible = true;
         },
         async switchNSFW() {
             if (isAgeAgreed.agreed != true) {
@@ -84,12 +90,14 @@ export default {
             <a href="/gallery/comics/">Комиксы</a>
             <a href="/novel/">Рассказы</a>
             <!--  <a href="/novel/">Рассказы</a>-->
+            <a @click="showSuggestIdea">Предложить идею</a>
             <a href="#" v-show="!isUser" @click="showLogin">Войти</a>
             <a v-show="isUser" @click="logout">Выйти</a>
         </nav>
     </header>
     <ModalLogin />
     <ModalRegister />
+    <ModalSuggestIdea />
 </template>
 <style>
 .nsfw-state {

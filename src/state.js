@@ -9,7 +9,8 @@ export const modalState = reactive({
   isModalLoginVisible: false,
   isModalRegisterVisible: false,
   isModalUploadVisible: false,
-  isModalMobileUploadVisible: false
+  isModalMobileUploadVisible: false,
+  isModalSuggestIdeaVisible: false
 })
 
 export const siteVersion = reactive({

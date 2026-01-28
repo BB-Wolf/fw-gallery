@@ -5,6 +5,7 @@ import ModalUploadMobile from './ModalUploadMobile.vue';
 import axios from 'axios';
 import { modalState, isUserLogged, mobileDevice, isAgeAgreed, userSettingsStore } from '@main/state.js';
 import NewModalUpload from './NewModalUpload.vue';
+import ModalSuggestIdea from './ModalSuggestIdea.vue';
 const userSettings = userSettingsStore();
 
 export default {
@@ -12,7 +13,8 @@ export default {
         ModalLogin,
         ModalRegister,
         ModalUploadMobile,
-        NewModalUpload
+        NewModalUpload,
+        ModalSuggestIdea
     },
     data() {
         return {
@@ -33,6 +35,10 @@ export default {
         showLogin() {
             document.body.style.overflow = 'hidden';
             modalState.isModalLoginVisible = true;
+        },
+        showSuggestIdea() {
+            document.body.style.overflow = 'hidden';
+            modalState.isModalSuggestIdeaVisible = true;
         },
         showUpload() {
             console.log(mobileDevice.isMobile);
@@ -101,6 +107,7 @@ export default {
             <a href="#" v-show="!isUser" @click="showLogin">Войти</a>
             <a v-if="!userDevice.isMobile" v-show="isUser" @click="showUpload">Загрузить</a>
             <a v-if="userDevice.isMobile" href="/gallery/mupload/">Загрузить</a>
+            <a @click="showSuggestIdea">Предложить идею</a>
             <a href="/gallery/personal/" v-show="isUser">Профиль</a>
             <a v-show="isUser" @click="logout">Выйти</a>
         </nav>
@@ -111,4 +118,5 @@ export default {
     <ModalRegister />
     <ModalUploadMobile v-if="userDevice.isMobile" />
     <NewModalUpload v-if="!userDevice.isMobile"></NewModalUpload>
+    <ModalSuggestIdea />
 </template>
