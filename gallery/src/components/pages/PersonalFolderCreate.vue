@@ -4,8 +4,8 @@
             <div class="h2">{{ folderName }}</div>
             <img style="max-width: 320px;" :src="folderPicturePreview" class="folderImage">
             <div class="form-group">
-                <label>Загрузить изображение</label>
-                <input type="file" name="folderNewImage" @change="newFolderImage">
+                <label @click="$refs.coverImage.click()">Загрузить изображение</label>
+                <input type="file" ref="coverImage" name="folderNewImage" @change="newFolderImage">
             </div>
         </div>
         <div class="right-block">
@@ -18,8 +18,7 @@
                 <textarea v-model="folderDescription"> </textarea>
             </div>
             <div class="group">
-                <SwitchButton :inputLabel='"Является ли комиксом"' :inputName="'comics'" v-model="folderIsComic"
-                    @click="saveStatus('comm')">
+                <SwitchButton :inputLabel='"Является ли комиксом"' :inputName="'comics'" v-model="folderIsComic">
                 </SwitchButton>
             </div>
             <div class="form-group"></div>
@@ -58,13 +57,13 @@ export default {
             this.folderIsComic = !this.folderIsComic;
         },
         newFolderImage(e) {
-            let file = e.target.files || e.dataTransfer.files;
-            if (!file.length) {
+            let files = e.target.files || e.dataTransfer.files;
+            if (!files.length) {
                 notifications.generateNotification('bad', 'Ошибка загрузки изображения');
                 return;
             }
-            this.folderPicture = file[0];
-            this.folderPicturePreview = URL.createObjectURL(new File(file, file.name));
+            this.folderPicture = files[0];
+            this.folderPicturePreview = URL.createObjectURL(this.folderPicture);
 
         },
         async saveFolder() {
@@ -114,3 +113,49 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+h2 {
+    text-align: left;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+.profile-container {
+    max-width: 100%;
+    margin: 50px auto;
+    background-color: #2b2b2b;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+label {
+    color: white;
+    font-weight: 700;
+    font-size: 24px;
+}
+
+.left-block {
+    flex: 1;
+}
+
+.left-block img {
+    max-width: 480px;
+
+}
+
+.right-block {
+    flex: 3;
+}
+
+select {
+    width: 100%;
+    padding: 20px;
+}
+</style>
+<style>
+.toggle-checkbox {
+    width: 350px !important;
+}
+</style>

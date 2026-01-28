@@ -95,7 +95,7 @@
             <div class="image-grid">
                 <div :style="'order:' + galleryImage.fsort + ';'" class="image-item" v-for="galleryImage in imagesList"
                     v-bind:key="galleryImage.id">
-                    <Image style="order:{{ this.galleryImage.fsort }}" @click="editPicture(galleryImage.id)"
+                    <Image :style="{ order: galleryImage.fsort }" @click="editPicture(galleryImage.id)"
                         imageClass="slide" :imageSrc=galleryImage.picture
                         :imageTitle="galleryImage.title + ' от ' + galleryImage.userName" imageAlt="">
                     </Image>
@@ -213,7 +213,7 @@ export default {
                 return;
             }
             this.newImage = file[0];
-            this.newImageRaw = URL.createObjectURL(new File(file, file.name));
+            this.newImageRaw = URL.createObjectURL(this.newImage);
 
         },
         newFolderImage(e) {
@@ -224,6 +224,7 @@ export default {
                 return;
             }
             this.folderPictureNew = file[0];
+            this.folderImage = URL.createObjectURL(this.folderPictureNew);
         },
         async editFolder() {
             this.mode = 'folder';

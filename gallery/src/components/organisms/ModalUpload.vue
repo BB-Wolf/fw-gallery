@@ -200,7 +200,7 @@ export default {
                 return;
             }
             this.rawFile = file[0];
-            this.file = URL.createObjectURL(new File(file, file.name));
+            this.file = URL.createObjectURL(this.rawFile);
             let formData = new FormData();
             formData.append('file', this.rawFile);
             let request = await axios.post('//furry-world.ru/console/tools/post_tags_suggestions.php', formData, {
@@ -235,7 +235,3 @@ export default {
     }
 }
 </script>
-
-
-
-

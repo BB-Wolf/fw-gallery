@@ -158,7 +158,7 @@ export default {
                 return;
             }
             this.imageRaw = file[0];
-            this.image = URL.createObjectURL(new File(file, file.name));
+            this.image = URL.createObjectURL(this.imageRaw);
 
 
         },

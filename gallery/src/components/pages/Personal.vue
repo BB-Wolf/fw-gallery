@@ -228,13 +228,13 @@ export default {
         newCharacterAvatar(e) {
             let avatarFile = e.target.files || e.dataTransfer.files;
             this.charAvatar = avatarFile[0];
-            this.charAvatarRaw = URL.createObjectURL(new File(avatarFile, avatarFile.name))
+            this.charAvatarRaw = URL.createObjectURL(this.charAvatar)
 
         },
         newCharacterHeader(e) {
             let avatarFile = e.target.files || e.dataTransfer.files;
             this.characterHeader = avatarFile[0];
-            this.characterHeaderRaw = URL.createObjectURL(new File(avatarFile, avatarFile.name))
+            this.characterHeaderRaw = URL.createObjectURL(this.characterHeader)
 
         },
         onAvatarUpload(e) {
@@ -260,7 +260,7 @@ export default {
                 if (this.responseData.status == 'success') {
                     let img = document.querySelector('img.profile-avatar');
                     if (img) {
-                        img.src = URL.createObjectURL(new File(this.file, this.file.name));
+                        img.src = URL.createObjectURL(this.rawFile);
                         notifications.generateNotification('Успех', 'Аватар успешно сохранен');
                     }
                 }

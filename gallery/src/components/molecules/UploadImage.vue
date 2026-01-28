@@ -32,7 +32,7 @@ export default {
                 return;
             }
             this.previewFile = file[0];
-            this.previewFileImg = URL.createObjectURL(new File(file, file.name));
+            this.previewFileImg = URL.createObjectURL(this.previewFile);
             this.$emit('update:modelValue', this.previewFile);
         }, dragover(e) {
             e.preventDefault();

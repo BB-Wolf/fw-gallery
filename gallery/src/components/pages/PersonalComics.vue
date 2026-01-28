@@ -210,7 +210,7 @@ export default {
                 return;
             }
             this.newImage = file[0];
-            this.newImageRaw = URL.createObjectURL(new File(file, file.name));
+            this.newImageRaw = URL.createObjectURL(this.newImage);
 
         },
         newFolderImage(e) {
@@ -221,6 +221,7 @@ export default {
                 return;
             }
             this.folderPictureNew = file[0];
+            this.folderImage = URL.createObjectURL(this.folderPictureNew);
         },
         async editFolder() {
             this.mode = 'folder';
