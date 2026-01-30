@@ -484,7 +484,7 @@ export default {
                     <!-- Folders Section -->
                     <div class="folders-section">
                         <h3>Альбомы</h3>
-                        <div class="comics-container mt-20 mb-20 flex-wrap">
+                        <div class="comics-container folders-container mt-20 mb-20 flex-wrap">
                             <div class="card"
                                 style="box-shadow: 0px 0px 4px 1px rgba(255,255,255,0.1);background-color: rgba(0,0,0,0.4);">
                                 <div class="card__face card__face--front"

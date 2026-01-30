@@ -35,7 +35,7 @@
                                 imageData.imageCharacters[0].characterName
                             }}</a></span>
                     <span v-if="imageData.imageCharacters && imageData.imageCharacters.length > 1"><strong>Персонажи:
-                        </strong> <a v-for="char in imageData.imageCharacters" :key="char" class="author-link"
+                        </strong> <a v-for="char in imageData.imageCharacters" :key="char" class="author-link" style="margin-right: 5px;"
                             :href="'/gallery/author/' + imageData.imageAuthor + '/characters/' + char.characterCode">{{
                                 char.characterName
                             }}</a></span>

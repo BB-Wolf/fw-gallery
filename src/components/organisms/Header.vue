@@ -87,7 +87,6 @@ export default {
                 :class="[{ ['nsfw-state--clean']: nswfState == '0+', ['nsfw-state--mild']: nswfState == '16+', ['nsfw-state--notsafe']: nswfState == '18+' }]"
                 @click="switchNSFW">Ценз: {{ this.nswfState }}</div>
             <a href="/gallery/">Галерея</a>
-            <a href="/gallery/comics/">Комиксы</a>
             <a href="/novel/">Рассказы</a>
             <!--  <a href="/novel/">Рассказы</a>-->
             <a @click="showSuggestIdea">Предложить идею</a>

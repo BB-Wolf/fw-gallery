@@ -1,5 +1,5 @@
 <template>
-  <div class="comics-container">
+  <div class="comics-folder-container">
     <div class="comics-title">
       <div class="h2">{{ this.comics.name }}</div>
     </div>
@@ -38,7 +38,7 @@
     </div>
 
   </div>
-  <div class="comics-container">
+  <div class="comics-folder-container">
     <div class="comics-additions mt-20">
       <div class="left-block">
         <div class="comments-section">
@@ -111,3 +111,28 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.comics-folder-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.comics-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.comics-image-preview {
+  width: 100%;
+  max-width: 100%;
+}
+
+.comics-image {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+</style>

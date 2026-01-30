@@ -1,6 +1,6 @@
 <template>
     <div class="section-container">
-        <div class="h2">Последние работы</div>
+        <div class="h2">{{ galleryTitle }}</div>
 
         <div class="masonry-gallery">
             <div v-for="(column, index) in columns" :key="index" class="masonry-column">

@@ -12,8 +12,12 @@
             </div>
             <div class="search-dropdown" v-if="this.searchItems.length > 0">
                 <div v-for="item in searchItems" :key="item" :data-code="item.code" class="search-dropdown-items"
-                    @click="selectItem(item.code, item.usid, $event)">
-                    {{ item.character }}
+                    @click="selectItem(item, $event)">
+                    <div style="display: flex; align-items: center;">
+                        <img v-if="item.picture" :src="item.picture"
+                            style="width: 30px; height: 30px; object-fit: cover; margin-right: 10px; border-radius: 4px;">
+                        <span>{{ item.character }}</span>
+                    </div>
                 </div>
             </div>
             <div class="searchbar-selections mt-20" v-if="this.selectedItems.length > 0 && this.selectedItems !== null">
@@ -103,7 +107,12 @@ export default {
                 textRange.select();
             }
         },
-        selectItem(code) {
+        selectItem(item) {
+            if (item.type === 'image' && item.link) {
+                window.location.href = item.link;
+                return;
+            }
+            let code = item.code;
             this.selectedItems = [...this.selectedItems, ...['@' + code]];
             this.searchItems = [];
             let field = document.querySelector('#searchinput');
@@ -164,14 +173,35 @@ export default {
                         this.debounce = -1;
                     }
                     if (text.startsWith('#') || text.indexOf(' #') != -1) {
-                        let clearedText = text.match(/#[^\s#]+/g);
-                        this.selectedItems = [...this.selectedItems, ...clearedText];
-                        let field = document.querySelector('#searchinput');
-                        field.textContent = field.textContent.replace(clearedText, '');
-                        if (field.textContent.length == 0) {
-                            this.selectActive = false;
+                        // Check for hex color pattern (strict hex chars, 3 or 6 length + #, but allowing typing so just check chars)
+                        let lastWord = text.split(' ').pop();
+                        if (/^#[0-9A-Fa-f]{1,6}$/.test(lastWord)) {
+                            let formData = new FormData();
+                            formData.append('color', lastWord);
+                            let searchQuery = await new axios.post('https://furry-world.ru/console/get_search_by_color.php', formData,
+                                {
+                                    headers:
+                                    {
+                                        "Authorization": "Bearer " + localStorage.getItem("token"),
+                                    }
+                                }
+                            );
+                            if (searchQuery.data && searchQuery.data.length > 0) {
+                                this.searchItems = searchQuery.data;
+                            }
+                            // Do not clear text or debounce yet, let user type or click
+                        } else {
+                            let clearedText = text.match(/#[^\s#]+/g);
+                            if (clearedText) {
+                                this.selectedItems = [...this.selectedItems, ...clearedText];
+                                let field = document.querySelector('#searchinput');
+                                field.textContent = field.textContent.replace(clearedText, '');
+                                if (field.textContent.length == 0) {
+                                    this.selectActive = false;
+                                }
+                                this.debounce = -1;
+                            }
                         }
-                        this.debounce = -1;
 
                     }
                 }

@@ -48,7 +48,7 @@ export default {
         }
     },
     async created() {
-        let getComicsImage = await axios.get('//furry-world.ru/console/get_comics_image.php?code=' + this.$route.params.name + '&page=' + this.$route.params.page)
+        let getComicsImage = await axios.get('//furry-world.ru/console/comics/get_comics_image.php?code=' + this.$route.params.name + '&page=' + this.$route.params.page)
         if (getComicsImage.data && typeof getComicsImage.data.status === 'undefined') {
             this.currentPage = getComicsImage.data;
             let pageTitle = 'Фурри Мир. Комикс ' + getComicsImage.data.comicName;

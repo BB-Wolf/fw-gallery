@@ -2602,6 +2602,7 @@ h2 {
 .comics-container {
     margin: 0 auto;
     padding: 0 25px;
+    flex-direction: column;
 }
 
 .card {
@@ -6498,6 +6499,10 @@ input[type="password"],
 .comics-container {
     display: flex;
     justify-content: space-evenly;
+}
+
+.folders-container {
+    flex-direction: row !important;
 }
 
 /* Folders section */

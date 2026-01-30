@@ -335,9 +335,9 @@ export default {
                     if (sendDeleteRequest.data && sendDeleteRequest.data.status == 'success') {
                         let url;
                         if (this.$route.params.name == 'all') {
-                            url = '//furry-world.ru/console/comics/get_images.php?user=' + localStorage.getItem('token');
+                            url = '//furry-world.ru/console/comics/get_images.php?code=all&user=' + localStorage.getItem('token');
                         } else {
-                            url = '//furry-world.ru/console/comics/get_images.php?folder=' + this.$route.params.name;
+                            url = '//furry-world.ru/console/comics/get_images.php?code=' + this.$route.params.name + '&user=' + localStorage.getItem('token');
                         }
                         const getImagesList = await axios.get(url, {
                             headers: {
@@ -359,7 +359,12 @@ export default {
         }
     },
     async created() {
-        let url = '//furry-world.ru/console/comics/get_images.php?user=' + localStorage.getItem('token');
+        let url;
+        if (this.$route.params.name == 'all') {
+            url = '//furry-world.ru/console/comics/get_images.php?code=all&user=' + localStorage.getItem('token');
+        } else {
+            url = '//furry-world.ru/console/comics/get_images.php?code=' + this.$route.params.name + '&user=' + localStorage.getItem('token');
+        }
         const getImagesList = await axios.get(url, {
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("token"),

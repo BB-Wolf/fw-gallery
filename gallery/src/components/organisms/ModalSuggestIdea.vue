@@ -113,12 +113,121 @@ export default {
 </script>
 
 <style scoped>
-.input-select {
+#suggest-idea {
+    max-width: 800px;
+    /* Smaller than login since less content? Or same? User said "like others". Let's stick to max-width */
+    max-height: 850px;
+    height: 100%;
+    width: 100%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    position: fixed;
+    display: flex;
+    background-color: #2b2b2b;
+    flex-direction: row;
+    box-shadow: 0px 0px 5px 5px rgba(0, 0, 0, 0.3);
+    z-index: 999999;
+}
+
+.modal-left-column {
+    max-width: 300px;
+    /* Reduced width as we don't have a big image */
+    width: 100%;
+    background-color: #2b2b2b;
+    /* Gray background as requested */
+    display: none;
+    /* Hide on small screens via media query usually, but here we can keep it or hide it. User said "gray background". */
+}
+
+@media (min-width: 768px) {
+    .modal-left-column {
+        display: block;
+        background: url('@gallery/assets/images/modal_login.jpg') no-repeat;
+        /* Optional: use same image or just gray? User said "gray background". Let's use gray. */
+        background: #232323;
+    }
+}
+
+.modal-right-column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    padding: 30px;
+    position: relative;
+    /* For close button */
+    overflow-y: auto;
+}
+
+.modal-title .h1 {
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #d8d8d8;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 16px;
+    color: #d8d8d8;
+    font-weight: 600;
+}
+
+.input-select,
+textarea {
     width: 100%;
     padding: 10px;
     border-radius: 5px;
     border: 1px solid #ccc;
-    background-color: #fff;
+    background-color: #bfbfbf;
+    /* Match input style from login */
     color: #000;
+    font-size: 16px;
+}
+
+.button-53 {
+    width: 100%;
+    padding: 12px;
+    background-color: #3DD1E7;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+/* Close button - mimicing main.css global .close but ensuring visibility if scoped issues exist via deep or local */
+.close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.close:before,
+.close:after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 2px;
+    background-color: white;
+    top: 50%;
+    left: 0;
+}
+
+.close:before {
+    transform: rotate(45deg);
+}
+
+.close:after {
+    transform: rotate(-45deg);
 }
 </style>
