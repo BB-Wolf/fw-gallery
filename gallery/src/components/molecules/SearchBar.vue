@@ -40,8 +40,26 @@ export default {
             debounce: -1
         }
     },
+    mounted() {
+        // Persist state from URL
+        const q = this.$route.query.q;
+        const filter = this.$route.query.filter;
+        
+        if (q) {
+            this.$refs.searchbar.textContent = q;
+            this.selectActive = true;
+        }
+        
+        if (filter) {
+            try {
+                this.selectedItems = JSON.parse(filter);
+            } catch (e) {
+                console.error("Failed to parse filter from URL:", e);
+                this.selectedItems = [];
+            }
+        }
+    },
     created() {
-        // let searchbar = document.querySelector('#searchinput');
         window.addEventListener('keydown', (e) => {
             if (e.which === 13) { // enter key
                 e.preventDefault(); // prevents linebreak
@@ -53,8 +71,7 @@ export default {
     methods:
     {
         async createTag() {
-            let textNode = document.querySelector('.msearch');
-            let text = textNode.textContent;
+            let text = this.$refs.searchbar.textContent;
             if (text.startsWith('@') || text.indexOf(' @') != -1) {
                 let searchSub = [];
                 if (text.startsWith('@') || text.indexOf(' @') != -1) {
@@ -77,18 +94,19 @@ export default {
             }
             if (text.startsWith('#') || text.indexOf(' #') != -1) {
                 let clearedText = text.match(/#[^\s#]+/g);
-                this.selectedItems = [...this.selectedItems, ...clearedText];
-                let field = document.querySelector('#searchinput');
-                field.textContent = field.textContent.replace(clearedText, '');
-                if (field.textContent.length == 0) {
-                    this.selectActive = false;
+                if (clearedText) {
+                    this.selectedItems = [...this.selectedItems, ...clearedText];
+                    this.$refs.searchbar.textContent = this.$refs.searchbar.textContent.replace(clearedText[0], '');
+                    if (this.$refs.searchbar.textContent.length == 0) {
+                        this.selectActive = false;
+                    }
+                    this.debounce = -1;
+                    this.goSearch();
                 }
-                this.debounce = -1;
-
             }
         },
         placeCaretAtEnd() {
-            let el = document.querySelector('#searchinput');
+            let el = this.$refs.searchbar;
             if (el.textContent && el.textContent.length == 0) { this.selectActive = false; }
             this.selectActive = true;
             el.focus();
@@ -113,27 +131,34 @@ export default {
                 return;
             }
             let code = item.code;
-            this.selectedItems = [...this.selectedItems, ...['@' + code]];
+            let tag = item.mode === 'color' ? code : '@' + code;
+            this.selectedItems = [...this.selectedItems, tag];
             this.searchItems = [];
-            let field = document.querySelector('#searchinput');
-            field.textContent = field.textContent.replace('@' + code, '');
+            
+            // Clear the trigger word from input
+            let text = this.$refs.searchbar.textContent;
+            let trigger = item.mode === 'color' ? text.split(' ').pop() : '@' + code;
+            this.$refs.searchbar.textContent = text.replace(trigger, '').trim();
+
             this.debounce = -1;
-            this.selectActive = false;
+            this.selectActive = this.$refs.searchbar.textContent.length > 0;
+            this.goSearch();
         },
         removeTag(tag) {
             let index = this.selectedItems.indexOf(tag);
             if (index > -1) {
                 this.selectedItems.splice(index, 1);
+                this.goSearch();
             }
         },
         goSearch() {
-            let searchQuery = document.querySelector('#searchinput');
+            let searchQuery = this.$refs.searchbar.textContent.trim();
             let searchPath = new URLSearchParams({
-                q: searchQuery.textContent,
+                q: searchQuery,
                 filter: JSON.stringify(this.selectedItems)
             });
 
-            if (searchQuery != '' || this.selectedItems != '') {
+            if (searchQuery != '' || (this.selectedItems && this.selectedItems.length > 0)) {
                 location.href = "/gallery/search/?" + searchPath.toString()
             }
         }
@@ -150,8 +175,7 @@ export default {
                 }
 
                 if (value == 0) {
-                    let textNode = document.querySelector('.msearch');
-                    let text = textNode.textContent;
+                    let text = this.$refs.searchbar.textContent;
                     if (text.startsWith('@') || text.indexOf(' @') != -1) {
                         let searchSub = [];
                         if (text.startsWith('@') || text.indexOf(' @') != -1) {
@@ -169,6 +193,8 @@ export default {
                         );
                         if (searchQuery.data) {
                             this.searchItems = searchQuery.data;
+                            // Inject mode if missing to distinguish later
+                            this.searchItems.forEach(item => item.mode = 'character');
                         }
                         this.debounce = -1;
                     }
@@ -188,18 +214,24 @@ export default {
                             );
                             if (searchQuery.data && searchQuery.data.length > 0) {
                                 this.searchItems = searchQuery.data;
+                                // Inject mode and fake code for color items
+                                this.searchItems.forEach(item => {
+                                    item.mode = 'color';
+                                    item.character = item.color; // For display in dropdown
+                                    item.code = item.color; // For selection
+                                });
                             }
                             // Do not clear text or debounce yet, let user type or click
                         } else {
                             let clearedText = text.match(/#[^\s#]+/g);
                             if (clearedText) {
                                 this.selectedItems = [...this.selectedItems, ...clearedText];
-                                let field = document.querySelector('#searchinput');
-                                field.textContent = field.textContent.replace(clearedText, '');
-                                if (field.textContent.length == 0) {
+                                this.$refs.searchbar.textContent = this.$refs.searchbar.textContent.replace(clearedText[0], '');
+                                if (this.$refs.searchbar.textContent.length == 0) {
                                     this.selectActive = false;
                                 }
                                 this.debounce = -1;
+                                this.goSearch();
                             }
                         }
 
