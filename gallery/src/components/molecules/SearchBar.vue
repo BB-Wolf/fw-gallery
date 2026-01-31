@@ -44,12 +44,12 @@ export default {
         // Persist state from URL
         const q = this.$route.query.q;
         const filter = this.$route.query.filter;
-        
+
         if (q) {
             this.$refs.searchbar.textContent = q;
             this.selectActive = true;
         }
-        
+
         if (filter) {
             try {
                 this.selectedItems = JSON.parse(filter);
@@ -101,7 +101,6 @@ export default {
                         this.selectActive = false;
                     }
                     this.debounce = -1;
-                    this.goSearch();
                 }
             }
         },
@@ -134,7 +133,7 @@ export default {
             let tag = item.mode === 'color' ? code : '@' + code;
             this.selectedItems = [...this.selectedItems, tag];
             this.searchItems = [];
-            
+
             // Clear the trigger word from input
             let text = this.$refs.searchbar.textContent;
             let trigger = item.mode === 'color' ? text.split(' ').pop() : '@' + code;
@@ -142,13 +141,11 @@ export default {
 
             this.debounce = -1;
             this.selectActive = this.$refs.searchbar.textContent.length > 0;
-            this.goSearch();
         },
         removeTag(tag) {
             let index = this.selectedItems.indexOf(tag);
             if (index > -1) {
                 this.selectedItems.splice(index, 1);
-                this.goSearch();
             }
         },
         goSearch() {
@@ -231,7 +228,6 @@ export default {
                                     this.selectActive = false;
                                 }
                                 this.debounce = -1;
-                                this.goSearch();
                             }
                         }
 
